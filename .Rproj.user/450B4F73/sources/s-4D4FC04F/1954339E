@@ -1,19 +1,19 @@
 {
-    "id": "5361C01A",
-    "path": "C:/Users/FBE/Desktop/NormalRegPanelMixture/experiment/sizeTest/sizeTestM2.R",
-    "project_path": "experiment/sizeTest/sizeTestM2.R",
+    "id": "1954339E",
+    "path": "C:/Users/FBE/Desktop/NormalRegPanelMixture/experiment/EmpiricalTests/ChileanDescriptive.R",
+    "project_path": "experiment/EmpiricalTests/ChileanDescriptive.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1647676909928.0,
+    "created": 1647682209977.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 2,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "108,0",
-        "scrollLine": "15"
+        "cursorPosition": "0,0",
+        "scrollLine": "0"
     },
     "folds": "",
     "lastKnownWriteTime": 1647682484,

@@ -1,6 +1,5 @@
 library(NormalRegPanelMixture)
 library(doParallel)
-library(Rmpi)
 
 #Generate Data
 M <- 2 #Number of Type
@@ -50,58 +49,53 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
   library(doParallel) # workers might need information
   library(NormalRegPanelMixture)# workers might need information
   
-  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE,cl=cl)$crit
+  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 999 ,parallel = TRUE,cl=cl)$crit
   return(crit)
 }
 
 
 getEstimateDiffAn <- function(Data,nrep,an,cl){
-  lr.crit <- matrix(0.0,nr=nrep,ncol=3)
-  lr.estimate.l <- matrix(0.0,nr=nrep,ncol=1)
-  lr.estimate.h <- matrix(0.0,nr=nrep,ncol=1)
+  lr.crit.l <- matrix(0.0,nr=nrep,ncol=3)
+  lr.crit.m <- matrix(0.0,nr=nrep,ncol=3)
+  lr.crit.h <- matrix(0.0,nr=nrep,ncol=3)
+  lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+  lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  
+
   for (k in 1:nrep){
-    
+
     data <- Data[,k]
     out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.l <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = TRUE,cl=cl)
-    out.h1.h <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = TRUE,cl=cl)
-    lr.estimate.l[k,] <- 2 * max(out.h1.l$penloglik - out.h0$loglik)
-    lr.estimate.h[k,] <- 2 * max(out.h1.h$penloglik - out.h0$loglik)
+    out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an= an ,update.alpha = 1,parallel = TRUE,cl=cl)
+    # out.h1.h <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an= 10 *　an ,update.alpha = 1,parallel = TRUE,cl=cl)
+    lr.estimate[k,] <- 2 * max(out.h1$penloglik - out.h0$loglik)
     # crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE,cl=cl)$crit
     # lr.crit[k,] <- crit
   }
-  
-  crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=cl , parallel = TRUE,nrep=1000)$crit
+  crit.h <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = 10 * an ,parallel = TRUE,cl=cl)$crit
+  crit.m <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = an ,parallel = TRUE,cl=cl)$crit
+  crit.l <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = 0.1 * an ,parallel = TRUE,cl=cl)$crit
   for ( k in 1:nrep){
-    lr.crit[k,] <- crit
+    lr.crit.h[k,] <- crit.h
+    lr.crit.m[k,] <- crit.m
+    lr.crit.l[k,] <- crit.l
   }
   
-  # parallel=FALSE
-  # ldata <- lapply(seq_len(ncol(Data)), function(i) Data[,i])
-  # lr.estimate.l <- cbind(mpi.applyLB(ldata, PerformEMtest, an = 0.1 * an, m=M, z = NULL,
-  #                                  parallel = parallel))
-  # lr.estimate.h <- cbind(mpi.applyLB(ldata, PerformEMtest, an = 10 * an, m=M, z = NULL,
-  #                                    parallel = parallel))
-  # lr.crit <- cbind(mpi.applyLB(ldata, PerformCritBoot, an = an, m=M, z = NULL,
-  #                                    parallel = parallel))
+  for ( k in 1:nrep){
+    lr.size.l[k,] <- 1 * (lr.estimate[k,] > lr.crit.l[k,2])
+    lr.size.m[k,] <- 1 * (lr.estimate[k,] > lr.crit.m[k,2])
+    lr.size.h[k,] <- 1 * (lr.estimate[k,] > lr.crit.h[k,2])
+  }
 
-  for ( k in 1:nrep){
-    
-    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit[k,2])
-    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit[k,2])
-  }
-  
-  return(list(crit = lr.crit,nominal.size.l = apply(lr.size.l,2,mean), nominal.size.h = apply(lr.size.h,2,mean) ))
+  return(list(nominal.size.l = apply(lr.size.l,2,mean), nominal.size.m = apply(lr.size.m,2,mean),  nominal.size.h = apply(lr.size.h,2,mean) ))
 }
 
 
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 1000
+nrep <- 20
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
@@ -114,15 +108,14 @@ result.l <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.l) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.l) <- apply(Parset,1,paste,collapse = ",")
 
+result.m <- matrix(0,nr=(nNT),nc=nPar)
+rownames(result.m) <- apply(NTset,1,paste,collapse = ",")
+colnames(result.m) <- apply(Parset,1,paste,collapse = ",")
+
 result.h <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
 
-print("collecting workers..")
-# mpi.spawn.Rslaves()
-mpi.setup.rngstream()
-mpi.bcast.Robj2slave(PerformEMtest, all=TRUE)
-print("workers loaded.")
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
@@ -147,8 +140,9 @@ for (r in 1:nNT){
       
       result.l[r, count] <- result$nominal.size.l
       result.h[r, count] <- result$nominal.size.h
+      result.m[r, count] <- result$nominal.size.m
       
-      
+        
       print(Sys.time() - t)
     }
   }
@@ -173,8 +167,11 @@ for (r in 1:nNT){
 # }
 result.h <- result.h * 100
 result.l <- result.l * 100
-write.csv(result.h,file="C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/sizeTest/sizeTestM2SimH.csv")
-write.csv(result.l,file="C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/sizeTest/sizeTestM2SimL.csv")
+result.m <- result.m * 100
+
+write.csv(result.h,file="experiment/sizeTest/sizeTestM2BootH.csv")
+write.csv(result.l,file="experiment/sizeTest/sizeTestM2BootM.csv")
+write.csv(result.l,file="experiment/sizeTest/sizeTestM2BootL.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{

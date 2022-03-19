@@ -19,7 +19,7 @@ When you click the **Knit** button a document will be generated that includes bo
   ##Load library
 ```{r eval=TRUE}
 library(normalregMix)
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 #sourceCpp("/Users/Hiro/Dropbox/R/LearningR/src/em_C4.cpp") 
 ```
 

@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 library(doParallel)
 library(Rmpi)
 
@@ -42,7 +42,7 @@ GenerateSample <- function(phi,nrep){
 
 PerformEMPowerTest <- function (data , m, z = NULL) {
   # workers might need information
-  library(normalRegPanelMix)# workers might need information
+  library(NormalRegPanelMixture)# workers might need information
   T <- dim(data$Y)[1]
   N <- dim(data$Y)[2]
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")

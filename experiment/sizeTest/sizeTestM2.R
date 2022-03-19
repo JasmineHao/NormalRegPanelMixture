@@ -129,7 +129,7 @@ write.csv(result.f,file="sizeTestM2.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{
-#   library(normalRegPanelMix)
+#   library(NormalRegPanelMixture)
 #   phi <- phi.data[[i]]$phi
 #   Data = phi.data.pair$Data
 #   an <- anFormula(phi,M,phi$N,phi$T)

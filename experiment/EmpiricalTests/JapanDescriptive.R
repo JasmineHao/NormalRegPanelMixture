@@ -1,7 +1,7 @@
 library(stargazer)
 library(ggplot2)
 library(reshape)
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 library(normalregMix)
 library(foreign)
 

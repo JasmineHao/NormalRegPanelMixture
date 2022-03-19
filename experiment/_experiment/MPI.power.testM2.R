@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 library(doParallel)
 library(Rmpi)
 #Generate Data
@@ -37,7 +37,7 @@ GenerateSample <- function(phi,nrep){
 
 PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
   library(doParallel) # workers might need information
-  library(normalRegPanelMix)# workers might need information
+  library(NormalRegPanelMixture)# workers might need information
   
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)

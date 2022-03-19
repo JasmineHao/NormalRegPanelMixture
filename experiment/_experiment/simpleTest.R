@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 #Generate Data
 N <- 100 #Number of people
 T <- 2 #Time periods, it's important that T > 1

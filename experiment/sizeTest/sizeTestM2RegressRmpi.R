@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 library(foreach)
 library(Rmpi)
 library(stargazer)
@@ -35,7 +35,7 @@ GenerateSample <- function(phi,nrep){
 
 PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
   # workers might need information
-  library(normalRegPanelMix)# workers might need information
+  library(NormalRegPanelMixture)# workers might need information
   # print(data)
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
   out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)

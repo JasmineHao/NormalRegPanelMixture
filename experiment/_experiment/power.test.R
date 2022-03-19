@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 library(doParallel)
 #Generate Data
 M <- 3 #Number of Type

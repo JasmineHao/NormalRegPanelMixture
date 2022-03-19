@@ -3,7 +3,7 @@ library(ggplot2)
 library(reshape)
 library(normalregMix)
 library(foreign)
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 df <- read.dta("C:/Users/Jasmine/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/DataClean/Chilean/ChileanClean.dta")
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries

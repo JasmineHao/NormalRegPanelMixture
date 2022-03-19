@@ -1,4 +1,4 @@
-library(normalRegPanelMix)
+library(NormalRegPanelMixture)
 #Generate Data
 Nset <- c(100,500)
 Tset <- c(2,5,10)
