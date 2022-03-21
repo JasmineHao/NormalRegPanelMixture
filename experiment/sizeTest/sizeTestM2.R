@@ -1,3 +1,5 @@
+# This script is used to replicate table 1.
+
 library(NormalRegPanelMixture)
 library(doParallel)
 #Generate Data
@@ -63,7 +65,7 @@ getEstimate <- function(Data,nrep,an,cl){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 1000
+nrep <- 5000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 

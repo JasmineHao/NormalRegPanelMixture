@@ -1,3 +1,4 @@
+# Generate table 3 and 4
 library(NormalRegPanelMixture)
 library(doParallel)
 
@@ -95,7 +96,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 20
+nrep <- 1000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
