@@ -9,4 +9,7 @@ Then install this package using the following command.
 ```
 library(devtools)
 install_github("JasmineHao/NormalRegPanelMixture")
+install_github("hkasahar/normalregMix")
 ```
+
+
