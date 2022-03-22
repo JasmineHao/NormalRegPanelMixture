@@ -1,0 +1,43 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 22, 2022 - 10:21:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive statistics for Chilean producer revenue share of intermediate material} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Industry & NObs & N & Mean & Sd \\ 
+\hline \\[-1.8ex] 
+Food products & 19375 & 2904 & -0.38 & 0.29 \\ 
+Wearing apparel, except footwear & 4834 & 985 & -0.57 & 0.37 \\ 
+Transport equipment & 1557 & 333 & -0.69 & 0.48 \\ 
+Machinery, except electrical & 2410 & 542 & -0.78 & 0.44 \\ 
+Fabricated metal products & 5943 & 1156 & -0.66 & 0.4 \\ 
+Glass and products & 327 & 52 & -0.81 & 0.38 \\ 
+Manufacture of furniture and fixtures, except primarily of metal & 1990 & 454 & -0.6 & 0.38 \\ 
+Beverages & 1704 & 277 & -0.63 & 0.43 \\ 
+Iron and steel & 562 & 148 & -0.63 & 0.35 \\ 
+Printing and publishing & 3021 & 461 & -0.76 & 0.41 \\ 
+Wood products, except furniture & 5148 & 1056 & -0.5 & 0.36 \\ 
+Non-ferrous metals & 510 & 105 & -0.54 & 0.45 \\ 
+Other non-metallic mineral products & 1824 & 328 & -0.66 & 0.37 \\ 
+Machinery electric & 943 & 207 & -0.73 & 0.44 \\ 
+Other manufactured products & 893 & 198 & -0.78 & 0.45 \\ 
+Other chemicals & 2792 & 376 & -0.68 & 0.41 \\ 
+Industrial chemicals & 1018 & 194 & -0.6 & 0.49 \\ 
+Animal feeds, etc & 1059 & 184 & -0.48 & 0.38 \\ 
+Rubber products & 875 & 136 & -0.67 & 0.36 \\ 
+Textiles & 5593 & 944 & -0.58 & 0.37 \\ 
+Plastic products & 3071 & 560 & -0.61 & 0.36 \\ 
+Petroleum refineries & 80 & 11 & -0.47 & 0.28 \\ 
+Misc. petroleum and coal products & 229 & 37 & -0.52 & 0.3 \\ 
+Paper and products & 1029 & 189 & -0.6 & 0.34 \\ 
+Leather products & 842 & 144 & -0.49 & 0.31 \\ 
+Footwear, except rubber or plastic & 2233 & 373 & -0.45 & 0.3 \\ 
+Tobacco & 60 & 6 & -1.12 & 0.89 \\ 
+Professional and scientific equipment & 287 & 42 & -0.85 & 0.44 \\ 
+Manufacture of pottery, china and earthenware & 206 & 43 & -0.9 & 0.38 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

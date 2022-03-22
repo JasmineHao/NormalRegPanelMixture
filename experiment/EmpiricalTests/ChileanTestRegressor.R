@@ -4,7 +4,7 @@ library(reshape)
 library(normalregMix)
 library(foreign)
 library(NormalRegPanelMixture)
-df <- read.dta("C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/DataClean/Chilean/ChileanClean.dta")
+df <- read_dta("../../data/ChileanClean.dta")
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
@@ -196,7 +196,7 @@ for (each.code in ind.code){
   
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
-  sink("C:/Users/Jasmine/Dropbox/workspace/R/package/normalRegPanelMix/experiment/DataClean/Chilean/regressorCrit.txt",append=TRUE)
+  sink("../../results/Chile/regressorCrit.txt",append=TRUE)
   # stargazer(desc.each,type="text",title=paste("Descriptive data for Chilean Industry: ",ind.name))
   # stargazer(estimate.df,type='text',title = paste("Columbian Producer Data: Estimated LR for ",ind.name))
   # stargazer(result.df,title = ind.name)

@@ -1,3 +1,5 @@
+# This script reproduce table 12 in the appendix
+# Descriptive statistics for Japanses producer revenue share of intermediate material
 library(stargazer)
 library(ggplot2)
 library(reshape)
@@ -5,7 +7,7 @@ library(NormalRegPanelMixture)
 library(normalregMix)
 library(foreign)
 
-ind.code <- unique(df$ciiu_3d)
+
 
 ind_list <- c("food","textile", "wood","paper", "chemical", 
               "petro","plastic","ceramics","steel","othermetal",
@@ -13,7 +15,7 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "transportation equipment","precision instrument",
               "other")
 
-df <- read.csv(file="C:/Users/Jasmine/Dropbox/Dropbox/GNR/R/data_production_function_missing2zero.csv")
+df <- read.csv(file="../../data/data_production_function_missing2zero.csv")
 df[df==0] <- NA
 df$t <- df$year
 df <- df[order(df$id,df$t),]
@@ -45,6 +47,6 @@ for (each.code in ind.code){
 
 colnames(desc.table) <- c("Industry","NObs", "N","Mean","Sd")
 
-sink("C:/Users/Jasmine/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/DataClean/Japan/desc.table.txt")
+sink("../../results/Japan/desc.table.txt")
 stargazer(desc.table,type="latex",title="Descriptive statistics for Japanses producer revenue share of intermediate material")
 sink()

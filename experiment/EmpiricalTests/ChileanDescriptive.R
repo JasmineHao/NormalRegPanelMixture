@@ -1,11 +1,15 @@
+# This script is used to reproduce table 13, the descriptive statistics for Chilean industries
 library(stargazer)
 library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
 library(normalregMix)
 library(foreign)
-df <- read.dta("C:/Users/Jasmine/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/DataClean/Chilean/ChileanClean.dta")
-ind.code <- unique(df$ciiu_3d)
+library(haven)
+
+df <- read_dta("../../data/ChileanClean.dta")
+ind.code <- na.omit(unique(df$ciiu_3d))
+
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 
@@ -36,6 +40,6 @@ for (each.code in ind.code){
 }
 colnames(desc.table) <- c("Industry","NObs", "N","Mean","Sd")
 
-sink("C:/Users/Jasmine/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/DataClean/Chilean/desc.table.txt")
+sink("../../results/Chile/desc.table.txt")
 stargazer(desc.table,type="latex",title="Descriptive statistics for Chilean producer revenue share of intermediate material")
 sink()

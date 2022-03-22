@@ -1,3 +1,4 @@
+# This script replicates table 7 and table 10 in the paper. 
 library(stargazer)
 library(ggplot2)
 library(reshape)
@@ -19,7 +20,7 @@ ind_list <- c("Food","Textile", "Wood","Paper", "Chemical",
               "Other")
 
   
-df <- read.csv(file="C:/Users/Jasmine/Dropbox/GNR/R/data_production_function_missing2zero.csv")
+df <- read.csv(file="../../data/data_production_function_missing2zero.csv")
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
@@ -79,7 +80,28 @@ for (each.code in ind.code){
       estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
     }
-    
+}
+
+for (each.code in ind.code){
+  t <- Sys.time()
+  ind.each <- subset(df,industry_2==each.code)
+  each.name <- ind_list[each.code]
+  # stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
+  m.share <- cast(ind.each,id ~ year,value="lnmY_it")
+  row.names(m.share) <- m.share$id 
+  m.share <- m.share[,!(colnames(m.share)=="id")] 
+  T.cap <- dim(m.share)[2]
+  
+  estimate.df <- matrix(0,nr=5,nc=5)
+  crit.df <- matrix(0,nr=5,nc=5)
+  crit.df.boot <- matrix(0,nr=5,nc=5)
+  
+  ######################################################
+  #For cross-sectional data
+  ######################################################
+  m.share.t <- m.share[,T.cap]
+  m.share.t <- m.share.t[complete.cases(m.share.t)]
+  
     ######################################################
     #For panel data
     ######################################################
@@ -114,7 +136,6 @@ for (each.code in ind.code){
         # 
         # print(lr.estimate)
         # print(lr.crit)
-        
       }
       
   }
@@ -148,7 +169,7 @@ print(Sys.time()-t)
 }
 
 
-sink("C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/DataClean/Japan/result.txt")
+sink("../../results/Japan/result.txt")
 stargazer(estimate.LR.df.1)
 stargazer(estimate.LR.df.2)
 stargazer(estimate.LR.df.3)
