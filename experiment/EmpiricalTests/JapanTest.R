@@ -13,8 +13,7 @@ library(normalregMix)
 #equipment; 15. precision instrument; 16. other;
 ##################################################
 
-ind_list <- c("Food","Textile", "Wood","Paper", "Chemical", 
-              "Petro","Plastic","Ceramics","Steel","Othermetal",
+ind_list <- c("Food","Textile", "Wood","Paper", "Chemical","Plastic","Ceramics","Steel","Othermetal",
               "Metal product","Machine","Electronics",
               "Transportation equipment","Precision instrument",
               "Other")
@@ -33,8 +32,9 @@ ind12 <- ind12[order(ind12$id,ind12$t),]
 #Descriptive data for ind12
 stargazer(ind12,type="text")
 
-ind.code <- c(5 , 8 , 16 , 1 , 10 , 2 , 4 , 6 , 9 , 13 , 14 , 15 , 11 , 7)
+ind.code <- c(5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
 
+# int.code <- c(9 , 13 , 14 , 15 , 11 , 7)
 
 estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.1) <- ind_list[ind.code]
@@ -122,26 +122,27 @@ for (each.code in ind.code){
         
         
         lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
+        
         estimate.df[T,M] <- lr.estimate
-        # lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=cl , parallel = FALSE,nrep=1000)$crit)
-        # if (class(lr.crit) == "try-error"){
-        #   
-        #   lr.crit <- c(0,0,0) 
-        #   
-        # } 
-        # crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-        #regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
-        # lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
-        # crit.df.boot[T,M] <- paste(round(lr.crit,2),collapse = ",")
-        # 
-        # print(lr.estimate)
-        # print(lr.crit)
+        
+        lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=cl , parallel = FALSE,nrep=1000)$crit)
+        if (class(lr.crit) == "try-error"){
+          lr.crit <- c(0,0,0) 
+        } 
+        crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
+        regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
+        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
+        crit.df.boot[T,M] <- paste(round(lr.crit,2),collapse = ",")
+         
+        print(lr.estimate)
+        print(lr.crit)
       }
       
   }
       
 
 
+  
 colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
 rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
