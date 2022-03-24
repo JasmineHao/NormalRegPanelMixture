@@ -118,7 +118,7 @@ for (r in 1:nNT){
 }
 
 
-write.csv(result.f,file="sizeTestM2Regressor.csv")
+write.csv(result.f,file="results/sizeTest/sizeTestM2Regressor.csv")
 
 mpi.bcast.cmd(mpi.quit(),caller.execute=TRUE)
 mpi.close.Rslaves()

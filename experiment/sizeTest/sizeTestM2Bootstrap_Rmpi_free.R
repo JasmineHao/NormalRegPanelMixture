@@ -9,7 +9,7 @@ q <- 0 #Number of X
 
 set.seed(123456)
 Nset <- c(100,500)
-Tset <- c(2,5)
+Tset <- c(2,5,10)
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
 sigma <- c(0.8,1.2)
@@ -170,9 +170,10 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(result.h,file="experiment/sizeTest/sizeTestM2BootH.csv")
-write.csv(result.l,file="experiment/sizeTest/sizeTestM2BootM.csv")
-write.csv(result.l,file="experiment/sizeTest/sizeTestM2BootL.csv")
+
+write.csv(result.h,file="results/sizeTest/sizeTestM2BootH.csv")
+write.csv(result.l,file="results/sizeTest/sizeTestM2BootM.csv")
+write.csv(result.l,file="results/sizeTest/sizeTestM2BootL.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{

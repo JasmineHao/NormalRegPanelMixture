@@ -4,7 +4,6 @@ library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
 # library(normalregMix)
-op <- options(); str(op) # nicer printing
 
 options('nloptr.show.inequality.warning'=FALSE)
 
@@ -16,7 +15,7 @@ options('nloptr.show.inequality.warning'=FALSE)
 #equipment; 15. precision instrument; 16. other;
 ##################################################
 
-ind_list <- c("Food","Textile", "Wood","Paper", "Chemical","Plastic","Ceramics","Steel","Othermetal",
+ind_list <- c("Food","Textile", "Wood","Paper","Petro" , "Chemical","Plastic","Ceramics","Steel","Othermetal",
               "Metal product","Machine","Electronics",
               "Transportation equipment","Precision instrument",
               "Other")
@@ -35,7 +34,7 @@ ind12 <- ind12[order(ind12$id,ind12$t),]
 #Descriptive data for ind12
 stargazer(ind12,type="text")
 
-ind.code <- c(5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
+ind.code <- c(12,  5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
 
 
 estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)
@@ -125,10 +124,10 @@ for (each.code in ind.code){
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit)
       if (class(lr.crit) == "try-error"){
         lr.crit <- c(0,0,0) 
+        
+      }
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
-        
-      } 
       # lr.crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit
       #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
       #crit.df.boot[T,M] <- paste(round(lr.crit.boot ,2),collapse = ",")
@@ -136,18 +135,20 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
     }
-    print("*************************************")
-    print(paste("Finished", each.name))
-    print(paste("Used ", Sys.time() - t, "Seconds"))
-    print("*************************************")
-    
-    sink(paste("results/Japan/crit",each.code,".txt"))
-    stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-    stargazer(estimate.df,title = paste("Estimate LR for ",each.name))
-    stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
-    # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
-    #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
-    sink()
+  }
+
+  print("*************************************")
+  print(paste("Finished", each.name))
+  print(paste("Used ", Sys.time() - t, "Seconds"))
+  print("*************************************")
+  
+  sink(paste("results/Japan/crit",each.name,".txt"))
+  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
+  stargazer(estimate.df,title = paste("Estimate LR for ",each.name))
+  stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
+  # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
+  #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
+  sink()
 }
       
 
@@ -174,7 +175,6 @@ estimate.LR.df.5[count,] <- estimate.df[5,]
 print(paste(count,"/",length(ind.code)))
 print(Sys.time()-t)
 
-}
 
 
 sink("results/Japan/result.txt")

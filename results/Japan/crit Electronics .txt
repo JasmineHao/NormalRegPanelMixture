@@ -1,8 +1,8 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:16:41 PM
+% Date and time: Thu, Mar 24, 2022 - 5:12:25 PM
 \begin{table}[!htbp] \centering 
-  \caption{Descriptive data for  Transportation equipment  industry in Japan} 
+  \caption{Descriptive data for  Electronics  industry in Japan} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}}lccccc} 
 \\[-1.8ex]\hline 
@@ -26,9 +26,9 @@ t & 5,110 & 1,994.817 & 8.050 & 1,980 & 2,008 \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:16:41 PM
+% Date and time: Thu, Mar 24, 2022 - 5:12:25 PM
 \begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Transportation equipment} 
+  \caption{Estimate LR for  Electronics} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}} ccccc} 
 \\[-1.8ex]\hline 
@@ -37,13 +37,13 @@ $0$ & $0$ & $0$ & $0$ & $0$ \\
 $478.769$ & $150.468$ & $64.484$ & $56.972$ & $49.634$ \\ 
 $751.288$ & $254.421$ & $121.482$ & $117.053$ & $73.537$ \\ 
 $1,020.766$ & $369.444$ & $172.214$ & $163.375$ & $99.628$ \\ 
-$1,306.055$ & $487.762$ & $227.775$ & $220.581$ & $131.966$ \\ 
+$1,306.055$ & $487.762$ & $227.775$ & $220.582$ & $131.989$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:16:41 PM
+% Date and time: Thu, Mar 24, 2022 - 5:12:25 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 13} 
   \label{} 
@@ -51,10 +51,10 @@ $1,306.055$ & $487.762$ & $227.775$ & $220.581$ & $131.966$ \\
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
 0 & 0 & 0 & 0 & 0 \\ 
-4.27,5.91,10.02 & 5.61,7.18,10.88 & 6.47,8.06,11.77 & 6.65,8.41,11.98 & 7.37,9.04,12.98 \\ 
-4.1,5.82,9.39 & 5.66,7.17,10.83 & 6.37,7.88,11.44 & 6.88,8.58,11.4 & 7.82,9.97,14.3 \\ 
-4.05,5.58,10.15 & 5.31,7.24,10.96 & 6.13,8.19,12.31 & 6.73,8.29,11.92 & 7.73,9.69,15.54 \\ 
-4.02,5.36,9.95 & 5.23,7.07,10.89 & 6.36,8.21,12.07 & 7.23,8.91,12.9 & 7.58,9.02,12.31 \\ 
+4.27,5.91,10.02 & 5.61,7.18,10.88 & 6.49,8.05,11.55 & 6.68,8.5,11.98 & 7.37,9.03,12.87 \\ 
+4.1,5.82,9.39 & 5.57,7.06,10.83 & 6.2,7.97,11.44 & 6.88,8.58,11.4 & 7.82,9.91,14.16 \\ 
+4.05,5.58,10.15 & 5.26,7.13,10.96 & 6.1,8.19,11.75 & 6.74,8.37,12.11 & 7.69,9.69,15.54 \\ 
+4.02,5.36,9.95 & 5.23,7.12,10.89 & 6.41,8.24,12.07 & 7.21,8.91,12.9 & 7.63,9.02,12.31 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

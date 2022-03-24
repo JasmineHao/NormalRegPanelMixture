@@ -106,5 +106,5 @@ for (r in 1:nNT){
 }
 result.f <- result.f * 100
 
-write.csv(result.f,file="sizeTestM2Regressor.csv")
+write.csv(result.f,file="results/sizeTest/sizeTestM2Regressor.csv")
 

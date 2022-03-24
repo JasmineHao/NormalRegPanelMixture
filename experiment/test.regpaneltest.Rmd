@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r eval=TRUE}
 # library(normalregMix)
 library(NormalRegPanelMixture)
+options('nloptr.show.inequality.warning'=FALSE)
+
 #sourceCpp("/Users/Hiro/Dropbox/R/LearningR/src/em_C4.cpp") 
 ```
 
@@ -36,7 +38,7 @@ nrep = 1000
 ```
 
 ```{r}
-nrep <- 1000
+nrep <- 100
 lr.crit <- matrix(0,nr=nrep,ncol=3)
 lr.estimate <- rep(0,nrep)
 lr.estimate.pen <- rep(0,nrep)
@@ -46,13 +48,20 @@ lr.estimate.pen <- rep(0,nrep)
 ptm <- proc.time()
 Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
 for (k in 1:nrep){
+  print(k)
   data <- Data[,k]
-  lr.crit[k,] <- regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z,parallel = FALSE)$crit
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
   out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
   lr.estimate[k] <- out.h1$loglik - out.h0$loglik
   lr.estimate.pen[k] <- out.h1$penloglik - out.h0$penloglik
 }
+
+tmp = regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z,cl=NULL , parallel = FALSE,nrep=1000)$crit
+
+for (k in 1:nrep){
+  lr.crit[k,] <- tmp
+}
+
 lr.estimate <- 2 * lr.estimate
 lr.estimate.pen <- 2 * lr.estimate.pen
 print(proc.time() - ptm)

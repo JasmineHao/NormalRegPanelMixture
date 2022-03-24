@@ -1,8 +1,8 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Thu, Mar 24, 2022 - 5:19:48 PM
 \begin{table}[!htbp] \centering 
-  \caption{Descriptive data for  Ceramics  industry in Japan} 
+  \caption{Descriptive data for  Plastic  industry in Japan} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}}lccccc} 
 \\[-1.8ex]\hline 
@@ -26,9 +26,9 @@ t & 560 & 1,994.293 & 8.150 & 1,980 & 2,008 \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Thu, Mar 24, 2022 - 5:19:48 PM
 \begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Ceramics} 
+  \caption{Estimate LR for  Plastic} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}} ccccc} 
 \\[-1.8ex]\hline 
@@ -43,7 +43,7 @@ $75.873$ & $69.472$ & $41.838$ & $25.373$ & $11.992$ \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Thu, Mar 24, 2022 - 5:19:48 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 7} 
   \label{} 
@@ -51,10 +51,10 @@ $75.873$ & $69.472$ & $41.838$ & $25.373$ & $11.992$ \\
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
 0 & 0 & 0 & 0 & 0 \\ 
-4.1,5.53,9.54 & 5.28,7.49,12.77 & 6.72,8.41,12.55 & 0,0,0 & 0,0,0 \\ 
-3.84,5.42,9.35 & 5.64,7.7,86.93 & 6.81,9.58,3302.33 & 0,0,0 & 0,0,0 \\ 
-3.8,5.13,9.28 & 6.04,9.27,60.63 & 9.58,32.12,658.73 & 0,0,0 & 0,0,0 \\ 
-3.78,5.29,9.29 & 7.1,17.36,295.6 & 8.45,42.19,744.61 & 0,0,0 & 0,0,0 \\ 
+4.1,5.53,9.54 & 5.26,7.49,13.24 & 6.73,8.36,12.55 & 0,0,0 & 0,0,0 \\ 
+3.84,5.42,9.35 & 5.71,7.8,97.02 & 7.28,13.18,12880.01 & 0,0,0 & 0,0,0 \\ 
+3.8,5.13,9.28 & 6.24,9.94,95.8 & 8.85,25.86,811.34 & 0,0,0 & 0,0,0 \\ 
+3.78,5.29,9.29 & 7.16,17.36,194.96 & 9.1,49.2,744.61 & 0,0,0 & 0,0,0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

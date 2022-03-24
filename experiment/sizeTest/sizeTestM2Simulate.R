@@ -173,8 +173,8 @@ for (r in 1:nNT){
 # }
 result.h <- result.h * 100
 result.l <- result.l * 100
-write.csv(result.h,file="C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/sizeTest/sizeTestM2SimH.csv")
-write.csv(result.l,file="C:/Users/haoja/Dropbox/Dropbox/workspace/R/package/normalRegPanelMix-0.2/experiment/sizeTest/sizeTestM2SimL.csv")
+write.csv(result.h,file="results/sizeTest/sizeTestM2SimH.csv")
+write.csv(result.l,file="results/sizeTest/sizeTestM2SimL.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{

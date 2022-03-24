@@ -1,9 +1,10 @@
+#define ARMA_NO_DEBUG
 #include <RcppArmadillo.h>
 
-
-const double SINGULAR_EPS = 10e-10; // criteria for matrix singularity
+// [[Rcpp::depends(RcppArmadillo)]]
 using namespace Rcpp;
 
+const double SINGULAR_EPS = 10e-10; // criteria for matrix singularity
 
 // [[Rcpp::export]]
 
@@ -35,7 +36,6 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
   arma::vec alpha(m), mu(m), sigma(m);
   arma::vec r(m),r_t(m), l_j(m);
   arma::mat w(m,nt);
-  arma::mat w_n(m,n);
   arma::mat post(m*n,ninits);
   arma::vec notcg(ninits), penloglikset(ninits), loglikset(ninits);
   arma::vec gamma(p);
@@ -92,8 +92,7 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
       } else {
         ytilde = y - z*gamma;
       }
-      // Assign weight to w_n
-      w_n.fill(0);
+
       for (int nn = 0; nn < n; nn++) {
         r.fill(0);
         for (int tt = 0; tt < t; tt++){
@@ -110,7 +109,6 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         sum_l_j = sum( l_j );
         for (int tt = 0; tt < t; tt++){
           w.col(nn*t + tt) = l_j/sum_l_j; /* w(j,i) = alp_j*l_j / sum_j (alp_j*l_j) */
-          w_n.col(nn) += w.col(nn*t + tt) / t ;
         }
 
         /* loglikelihood*/
@@ -191,7 +189,7 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         else
           gamma = solve(zz,ze);
       }
-      
+
       /* Check singularity */
       for (int j=0; j<m; j++) {
         if (alpha(j) < 1e-8 || std::isnan(alpha(j)) || sigma(j) < 1e-8){
@@ -218,12 +216,8 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         b_jn(3*m+j) = gamma(j);
       }
     }
-
-    // Rcout << "The size of b : " << b.n_rows << " " <<b.n_cols << "\n";
-    // Rcout << "The size of post : " << post.n_rows << " "  << post.n_cols << "\n";
-    // Rcout << "The size of w : " << w.n_rows << " "  << w.n_cols << "\n";
     b.col(jn) = b_jn; /* b is updated */
-    post.col(jn) = vectorise(trans(w_n));
+    post.col(jn) = vectorise(trans(w));
 
   } /* end for (jn=0; jn<ninits; jn++) loop */
   // (int i = 0; i++; size(wtilde))
@@ -234,4 +228,3 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
                               Named("post") = wrap(post)
   );
 }
-

@@ -126,7 +126,7 @@ for (r in 1:nNT){
 #   print(Sys.time() - t.out)
 #   
 # }
-write.csv(result.f,file="sizeTestM2.csv")
+write.csv(result.f,file="results/sizeTest/sizeTestM2.csv")
 
 # registerDoParallel(detectCores())
 # t <- Sys.time()

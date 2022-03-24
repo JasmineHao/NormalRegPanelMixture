@@ -2,7 +2,7 @@
 hin <- function(x){
   if(length(x)==3){
     c(x[1],x[1]*x[3] - x[2]^2,x[3])
-  }else if(length(x)==6){
+  }else if(length(x)>=6){
     c(x[1],x[1]*x[3] - x[2]^2,x[3],x[1]*x[6]-x[4]^2,x[3]*x[6]-x[5]^2,x[6]) 
   }
 }
@@ -17,16 +17,25 @@ init.val.t <- function(z,q){
     s_beta_mu <- c()
     s_beta_sigma <- c()
     s_beta <- c()
+    s_beta_beta <- c()
+
     for (qq in 1:q){
       s_beta_qq <- max(z[(3+2*q+qq)],0)
       s_beta <- append(s_beta,s_beta_qq)
       s_beta_mu <- append(s_beta_mu,sqrt(s_beta_qq*s_mu))
       s_beta_sigma <- append(s_beta_sigma,sqrt(s_beta_qq*s_sigma))
+      if (qq < q){
+        for (ii in (qq+1):q){
+          s_beta_ii <- max(z[(3+2*q+ii)],0)
+          s_beta_beta <- append(s_beta_beta,sqrt(s_beta_qq*s_beta_ii))
+        }
+      }
     }
     t_0 <- append(t_0,s_beta_mu)
     t_0 <- append(t_0,s_beta_sigma)
     t_0 <- append(t_0,s_beta)
-  }
+    t_0 <- append(t_0,s_beta_beta) 
+    }
   return(t_0)
 }
 

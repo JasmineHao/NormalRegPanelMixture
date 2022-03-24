@@ -1,8 +1,8 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:12:39 PM
+% Date and time: Thu, Mar 24, 2022 - 5:08:45 PM
 \begin{table}[!htbp] \centering 
-  \caption{Descriptive data for  Othermetal  industry in Japan} 
+  \caption{Descriptive data for  Steel  industry in Japan} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}}lccccc} 
 \\[-1.8ex]\hline 
@@ -26,9 +26,9 @@ t & 1,541 & 1,993.829 & 8.169 & 1,980 & 2,008 \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:12:39 PM
+% Date and time: Thu, Mar 24, 2022 - 5:08:45 PM
 \begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Othermetal} 
+  \caption{Estimate LR for  Steel} 
   \label{} 
 \begin{tabular}{@{\extracolsep{5pt}} ccccc} 
 \\[-1.8ex]\hline 
@@ -43,7 +43,7 @@ $207.507$ & $64.390$ & $28.469$ & $19.816$ & $15.089$ \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:12:39 PM
+% Date and time: Thu, Mar 24, 2022 - 5:08:45 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 9} 
   \label{} 
@@ -51,10 +51,10 @@ $207.507$ & $64.390$ & $28.469$ & $19.816$ & $15.089$ \\
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
 0 & 0 & 0 & 0 & 0 \\ 
-4.37,5.78,10.55 & 5.54,7.5,10.87 & 6.86,8.73,14.19 & 7.47,9.53,15.02 & 0,0,0 \\ 
-4.05,5.65,9.7 & 4.89,6.48,10.77 & 6.21,7.96,10.94 & 6.67,7.97,12.17 & 0,0,0 \\ 
-3.99,5.53,10.07 & 5.02,6.65,10.33 & 6.65,8.67,13.04 & 7.03,9,12.77 & 3091.21,7646.04,16480.06 \\ 
-4.39,5.95,10.71 & 5.15,7.05,10.51 & 6.52,8.39,12.36 & 7.64,9.79,22.97 & 7.87,11.3,38.66 \\ 
+4.37,5.78,10.55 & 5.51,7.5,10.87 & 6.86,8.86,14.08 & 7.51,9.43,15.02 & 0,0,0 \\ 
+4.05,5.65,9.7 & 4.89,6.53,10.77 & 6.25,7.96,10.94 & 6.59,7.84,12.17 & 22893.59,34860.22,76821.33 \\ 
+3.99,5.53,10.07 & 5.06,6.66,10.33 & 6.68,8.77,13.36 & 7.13,9.24,12.91 & 0,0,0 \\ 
+4.39,5.95,10.71 & 5.32,7.19,10.51 & 6.56,8.39,12.36 & 7.64,9.79,22.97 & 7.87,11.43,38.66 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

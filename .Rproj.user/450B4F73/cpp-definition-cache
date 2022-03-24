@@ -15,6 +15,21 @@
         ]
     },
     {
+        "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppNormalpanelmixPMLE.cpp",
+        "file_last_write": 1647675731.0,
+        "definitions": [
+            {
+                "usr": "c:@F@cppnormalpanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "cppnormalpanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int, int)",
+                "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppNormalpanelmixPMLE.cpp",
+                "line": 11,
+                "column": 6
+            }
+        ]
+    },
+    {
         "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppRegPanelmixPMLE.cpp",
         "file_last_write": 1647675731.0,
         "definitions": [
@@ -39,21 +54,6 @@
                 "parent_name": "",
                 "name": "cppRegmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, double, int, int, double, double, int, int, int)",
                 "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppRegmixPMLE.cpp",
-                "line": 10,
-                "column": 6
-            }
-        ]
-    },
-    {
-        "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppnormalpanelmixPMLE.cpp",
-        "file_last_write": 1647674343.0,
-        "definitions": [
-            {
-                "usr": "c:@F@cppnormalpanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "cppnormalpanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int, int)",
-                "file": "C:/Users/FBE/Desktop/NormalRegPanelMixture/src/cppnormalpanelmixPMLE.cpp",
                 "line": 10,
                 "column": 6
             }

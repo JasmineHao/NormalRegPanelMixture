@@ -4,6 +4,7 @@ library(reshape)
 # library(normalregMix)
 library(foreign)
 library(NormalRegPanelMixture)
+options('nloptr.show.inequality.warning'=FALSE)
 
 library(haven)
 
