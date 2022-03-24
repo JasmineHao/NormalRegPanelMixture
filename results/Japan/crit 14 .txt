@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:19:23 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Precision instrument  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 3,269 & 4,980.011 & 10,077.140 & 249 & 45,359 \\ 
+year & 3,269 & 1,994.368 & 8.133 & 1,980 & 2,008 \\ 
+y\_it & 3,269 & 17.847 & 1.222 & 14.559 & 21.584 \\ 
+lnmY\_it & 3,269 & $-$0.596 & 0.310 & $-$3.871 & $-$0.101 \\ 
+l\_it & 3,269 & 7.338 & 1.049 & 4.419 & 10.645 \\ 
+k\_it & 3,269 & 16.914 & 1.185 & 11.274 & 20.429 \\ 
+m\_it & 3,269 & 17.251 & 1.339 & 13.273 & 21.187 \\ 
+industry\_2 & 3,269 & 14.000 & 0.000 & 14 & 14 \\ 
+export & 1,002 & 53,644,330.000 & 129,621,030.000 & 54,157.430 & 1,200,000,000.000 \\ 
+I\_K & 3,269 & 0.109 & 0.093 & $-$0.497 & 1.843 \\ 
+I\_K\_m & 3,265 & 0.133 & 0.159 & $-$0.626 & 7.257 \\ 
+t & 3,269 & 1,994.368 & 8.133 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:19:23 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Precision instrument} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$231.329$ & $74.771$ & $67.901$ & $57.780$ & $43.465$ \\ 
+$410.593$ & $128.019$ & $120.114$ & $96.417$ & $72.642$ \\ 
+$573.390$ & $173.015$ & $151.120$ & $131.210$ & $99.861$ \\ 
+$737.775$ & $211.480$ & $176.277$ & $156.683$ & $109.433$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:19:23 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 14} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4.12,5.57,10.29 & 4.76,6.25,9.53 & 5.88,7.32,11.43 & 6.18,7.94,11.5 & 6.88,8.63,12.02 \\ 
+3.84,5.42,9.29 & 4.83,6.49,10.25 & 6.19,7.67,14.09 & 6.83,8.12,15.04 & 6.92,8.89,16.81 \\ 
+3.63,5.16,8.78 & 4.63,6.34,11.64 & 5.68,7.52,15.47 & 6.07,7.62,11.56 & 7.38,8.98,16.71 \\ 
+3.61,5.25,8.69 & 5.01,7.03,10.73 & 6.08,8.26,19.94 & 7.03,8.82,17.57 & 0,0,0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

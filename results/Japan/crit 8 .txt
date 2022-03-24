@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:59:46 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Steel  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 1,884 & 5,290.159 & 9,188.437 & 10 & 44,468 \\ 
+year & 1,884 & 1,993.896 & 8.119 & 1,980 & 2,008 \\ 
+y\_it & 1,884 & 17.039 & 1.251 & 14.383 & 20.632 \\ 
+lnmY\_it & 1,884 & $-$1.184 & 0.517 & $-$6.504 & $-$0.147 \\ 
+l\_it & 1,884 & 6.503 & 1.083 & 4.317 & 9.353 \\ 
+k\_it & 1,884 & 16.287 & 1.422 & 13.238 & 19.855 \\ 
+m\_it & 1,884 & 15.853 & 1.324 & 10.703 & 18.946 \\ 
+industry\_2 & 1,884 & 8.000 & 0.000 & 8 & 8 \\ 
+export & 597 & 11,787,608.000 & 24,336,150.000 & 3,638.569 & 207,000,000.000 \\ 
+I\_K & 1,884 & 0.092 & 0.118 & $-$0.377 & 2.066 \\ 
+I\_K\_m & 1,883 & 0.117 & 0.135 & $-$0.463 & 2.589 \\ 
+t & 1,884 & 1,993.896 & 8.119 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:59:46 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Steel} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$69.567$ & $31.877$ & $32.853$ & $14.633$ & $9.512$ \\ 
+$132.129$ & $60.527$ & $51.129$ & $23.139$ & $16.260$ \\ 
+$184.346$ & $67.786$ & $62.801$ & $49.913$ & $32.546$ \\ 
+$226.378$ & $99.232$ & $65.648$ & $69.332$ & $27.985$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:59:46 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 8} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4.33,5.78,9.57 & 5.15,6.93,10.52 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
+4.07,5.39,10.18 & 5.26,7.07,10.57 & 6.22,8.27,11.07 & 204.06,328.92,644.65 & 0,0,0 \\ 
+3.94,5.38,9.89 & 5.24,7.2,10.73 & 6.43,8.36,11.84 & 0,0,0 & 0,0,0 \\ 
+3.86,5.28,9.49 & 5.1,7.03,10.68 & 7.26,9.93,15.44 & 0,0,0 & 8.14,10.3,17.73 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

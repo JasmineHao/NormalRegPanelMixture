@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Ceramics  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 560 & 7,102.470 & 10,294.920 & 1,713 & 41,323 \\ 
+year & 560 & 1,994.293 & 8.150 & 1,980 & 2,008 \\ 
+y\_it & 560 & 17.301 & 1.474 & 14.704 & 20.736 \\ 
+lnmY\_it & 560 & $-$1.054 & 0.332 & $-$2.235 & $-$0.245 \\ 
+l\_it & 560 & 6.911 & 1.254 & 4.787 & 9.789 \\ 
+k\_it & 560 & 16.544 & 1.536 & 13.613 & 20.064 \\ 
+m\_it & 560 & 16.246 & 1.484 & 13.630 & 19.594 \\ 
+industry\_2 & 560 & 7.000 & 0.000 & 7 & 7 \\ 
+export & 235 & 26,819,185.000 & 49,718,198.000 & 23,851.860 & 293,000,000.000 \\ 
+I\_K & 560 & 0.091 & 0.101 & $-$0.358 & 1.046 \\ 
+I\_K\_m & 560 & 0.112 & 0.095 & $-$0.336 & 0.824 \\ 
+t & 560 & 1,994.293 & 8.150 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Ceramics} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$13.130$ & $22.756$ & $17.990$ & $14.900$ & $6.207$ \\ 
+$33.159$ & $44.367$ & $24.183$ & $22.687$ & $7.325$ \\ 
+$54.267$ & $60.840$ & $32.442$ & $27.080$ & $9.139$ \\ 
+$75.873$ & $69.472$ & $41.838$ & $25.373$ & $11.992$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 7} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4.1,5.53,9.54 & 5.28,7.49,12.77 & 6.72,8.41,12.55 & 0,0,0 & 0,0,0 \\ 
+3.84,5.42,9.35 & 5.64,7.7,86.93 & 6.81,9.58,3302.33 & 0,0,0 & 0,0,0 \\ 
+3.8,5.13,9.28 & 6.04,9.27,60.63 & 9.58,32.12,658.73 & 0,0,0 & 0,0,0 \\ 
+3.78,5.29,9.29 & 7.1,17.36,295.6 & 8.45,42.19,744.61 & 0,0,0 & 0,0,0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

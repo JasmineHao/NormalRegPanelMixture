@@ -346,7 +346,7 @@ regpanelmixCrit <- function(y, x, parlist, z = NULL, values = NULL, parallel = T
     q1 <- length(values)
     pvals <- rowMeans(t(matrix(rep.int(max_EM_sort,q1),ncol=q1)) >= values)
   }
-  print(count)
+  
   if( (parallel) && (is.null(cl)) ){
   stopCluster(cl)}
   return(list(crit = crit, pvals = pvals,test= max_EM_sort ))

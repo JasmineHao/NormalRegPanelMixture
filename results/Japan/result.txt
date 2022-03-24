@@ -1,0 +1,147 @@
+
+> stargazer(estimate.LR.df.1)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Chemical & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Steel & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+NA. & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Food & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Metal.product & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Textile & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Paper & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Othermetal & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Transportation.equipment & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Precision.instrument & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Other & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Machine & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Ceramics & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.2)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Chemical & $266.339$ & $118.524$ & $103.534$ & $72.901$ & $34.679$ \\ 
+Steel & $69.567$ & $31.877$ & $32.853$ & $14.633$ & $9.512$ \\ 
+NA. & $155.997$ & $49.410$ & $33.828$ & $28.174$ & $8.132$ \\ 
+Food & $176.261$ & $101.437$ & $82.199$ & $48.673$ & $50.384$ \\ 
+Metal.product & $28.427$ & $27.140$ & $13.438$ & $7.664$ & $3.603$ \\ 
+Textile & $80.356$ & $47.274$ & $35.730$ & $31.172$ & $16.699$ \\ 
+Paper & $50.768$ & $37.988$ & $23.871$ & $22.426$ & $20.434$ \\ 
+Othermetal & $73.059$ & $16.834$ & $10.649$ & $6.981$ & $5.221$ \\ 
+Transportation.equipment & $478.769$ & $150.468$ & $64.484$ & $56.972$ & $49.634$ \\ 
+Precision.instrument & $231.329$ & $74.771$ & $67.901$ & $57.780$ & $43.465$ \\ 
+Other & $39.657$ & $27.545$ & $21.251$ & $15.815$ & $9.550$ \\ 
+Machine & $86.668$ & $35.035$ & $31.165$ & $30.831$ & $17.602$ \\ 
+Ceramics & $13.130$ & $22.756$ & $17.990$ & $14.900$ & $6.207$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.3)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Chemical & $461.571$ & $238.785$ & $164.489$ & $130.121$ & $62.802$ \\ 
+Steel & $132.129$ & $60.527$ & $51.129$ & $23.139$ & $16.260$ \\ 
+NA. & $253.111$ & $97.984$ & $61.642$ & $48.592$ & $19.899$ \\ 
+Food & $324.733$ & $168.736$ & $148.522$ & $86.851$ & $79.755$ \\ 
+Metal.product & $60.734$ & $59.072$ & $26.307$ & $13.895$ & $6.928$ \\ 
+Textile & $137.091$ & $91.642$ & $66.630$ & $36.915$ & $37.193$ \\ 
+Paper & $89.055$ & $71.154$ & $47.003$ & $35.893$ & $27.370$ \\ 
+Othermetal & $120.672$ & $36.060$ & $22.412$ & $10.512$ & $5.391$ \\ 
+Transportation.equipment & $751.288$ & $254.421$ & $121.482$ & $117.053$ & $73.537$ \\ 
+Precision.instrument & $410.593$ & $128.019$ & $120.114$ & $96.417$ & $72.642$ \\ 
+Other & $83.142$ & $58.121$ & $43.794$ & $24.141$ & $22.568$ \\ 
+Machine & $166.452$ & $66.209$ & $51.332$ & $47.784$ & $28.021$ \\ 
+Ceramics & $33.159$ & $44.367$ & $24.183$ & $22.687$ & $7.325$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.4)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Chemical & $669.074$ & $312.462$ & $217.914$ & $181.928$ & $97.799$ \\ 
+Steel & $184.346$ & $67.786$ & $62.801$ & $49.913$ & $32.546$ \\ 
+NA. & $329.830$ & $143.093$ & $74.528$ & $60.523$ & $33.637$ \\ 
+Food & $462.103$ & $230.135$ & $208.341$ & $126.460$ & $108.805$ \\ 
+Metal.product & $82.898$ & $63.235$ & $25.706$ & $12.311$ & $8.966$ \\ 
+Textile & $188.057$ & $137.079$ & $80.435$ & $55.043$ & $46.526$ \\ 
+Paper & $132.414$ & $108.886$ & $64.248$ & $52.679$ & $37.087$ \\ 
+Othermetal & $155.585$ & $46.413$ & $18.330$ & $17.099$ & $8.181$ \\ 
+Transportation.equipment & $1,020.766$ & $369.444$ & $172.214$ & $163.375$ & $99.628$ \\ 
+Precision.instrument & $573.390$ & $173.015$ & $151.120$ & $131.210$ & $99.861$ \\ 
+Other & $116.870$ & $84.384$ & $65.864$ & $36.283$ & $29.107$ \\ 
+Machine & $250.879$ & $89.221$ & $77.051$ & $70.313$ & $32.985$ \\ 
+Ceramics & $54.267$ & $60.840$ & $32.442$ & $27.080$ & $9.139$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.5)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Chemical & $863.313$ & $388.067$ & $269.459$ & $213.482$ & $118.016$ \\ 
+Steel & $226.378$ & $99.232$ & $65.648$ & $69.332$ & $27.985$ \\ 
+NA. & $424.842$ & $188.109$ & $85.500$ & $69.125$ & $48.642$ \\ 
+Food & $573.628$ & $269.689$ & $249.691$ & $158.947$ & $134.826$ \\ 
+Metal.product & $95.504$ & $51.260$ & $19.808$ & $18.458$ & $14.592$ \\ 
+Textile & $239.869$ & $166.576$ & $103.170$ & $55.405$ & $55.544$ \\ 
+Paper & $178.279$ & $136.163$ & $78.924$ & $67.273$ & $35.399$ \\ 
+Othermetal & $207.507$ & $64.390$ & $28.469$ & $19.816$ & $15.089$ \\ 
+Transportation.equipment & $1,306.055$ & $487.762$ & $227.775$ & $220.581$ & $131.966$ \\ 
+Precision.instrument & $737.775$ & $211.480$ & $176.277$ & $156.683$ & $109.433$ \\ 
+Other & $161.008$ & $102.156$ & $84.050$ & $44.396$ & $28.967$ \\ 
+Machine & $305.822$ & $107.429$ & $84.086$ & $75.611$ & $35.379$ \\ 
+Ceramics & $75.873$ & $69.472$ & $41.838$ & $25.373$ & $11.992$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> sink()

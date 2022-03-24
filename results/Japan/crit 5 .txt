@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:58:02 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Chemical  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 5,086 & 6,400.798 & 10,976.900 & 6 & 44,548 \\ 
+year & 5,086 & 1,994.599 & 8.151 & 1,980 & 2,008 \\ 
+y\_it & 5,086 & 17.529 & 1.249 & 14.729 & 20.773 \\ 
+lnmY\_it & 5,086 & $-$1.280 & 0.614 & $-$6.250 & $-$0.140 \\ 
+l\_it & 5,086 & 6.774 & 1.119 & 3.401 & 9.774 \\ 
+k\_it & 5,086 & 16.694 & 1.331 & 11.422 & 20.644 \\ 
+m\_it & 5,086 & 16.248 & 1.316 & 11.671 & 20.005 \\ 
+industry\_2 & 5,086 & 5.000 & 0.000 & 5 & 5 \\ 
+export & 1,771 & 15,424,247.000 & 29,175,566.000 & 13,268.050 & 303,000,000.000 \\ 
+I\_K & 5,086 & 0.311 & 14.922 & $-$0.448 & 1,064.236 \\ 
+I\_K\_m & 5,082 & 0.133 & 0.156 & $-$0.562 & 3.493 \\ 
+t & 5,086 & 1,994.599 & 8.151 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:58:02 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Chemical} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$266.339$ & $118.524$ & $103.534$ & $72.901$ & $34.679$ \\ 
+$461.571$ & $238.785$ & $164.489$ & $130.121$ & $62.802$ \\ 
+$669.074$ & $312.462$ & $217.914$ & $181.928$ & $97.799$ \\ 
+$863.313$ & $388.067$ & $269.459$ & $213.482$ & $118.016$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 3:58:02 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 5} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4.15,5.85,9.62 & 5.32,7.2,11.16 & 6.26,7.7,10.73 & 6.8,8.24,11.31 & 7.22,8.95,12.32 \\ 
+3.99,5.62,9.8 & 5.21,7.13,10.59 & 5.98,7.96,11.73 & 7.18,8.87,11.21 & 7.48,9.42,12.18 \\ 
+3.98,5.45,10.04 & 5.26,6.98,10.37 & 6.43,7.54,11 & 6.83,8.55,11.97 & 7.58,8.99,13.64 \\ 
+3.93,5.32,9.89 & 5.43,6.97,10.39 & 6.32,8.18,11.58 & 6.84,8.64,12.22 & 7.61,9.04,13.41 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

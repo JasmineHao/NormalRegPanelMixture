@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:23:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Machine  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 1,982 & 9,361.797 & 13,258.140 & 462 & 42,174 \\ 
+year & 1,982 & 1,994.869 & 7.885 & 1,980 & 2,008 \\ 
+y\_it & 1,982 & 16.940 & 1.001 & 14.424 & 20.207 \\ 
+lnmY\_it & 1,982 & $-$0.828 & 0.475 & $-$5.862 & $-$0.147 \\ 
+l\_it & 1,982 & 6.400 & 0.905 & 3.045 & 9.344 \\ 
+k\_it & 1,982 & 15.785 & 1.036 & 13.233 & 19.610 \\ 
+m\_it & 1,982 & 16.112 & 1.135 & 11.370 & 19.274 \\ 
+industry\_2 & 1,982 & 11.000 & 0.000 & 11 & 11 \\ 
+export & 345 & 2,094,136.000 & 2,447,906.000 & 920.175 & 14,600,000.000 \\ 
+I\_K & 1,982 & 0.096 & 0.153 & $-$0.632 & 2.607 \\ 
+I\_K\_m & 1,981 & 0.121 & 0.273 & $-$0.609 & 10.298 \\ 
+t & 1,982 & 1,994.869 & 7.885 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:23:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Machine} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$86.668$ & $35.035$ & $31.165$ & $30.831$ & $17.602$ \\ 
+$166.452$ & $66.209$ & $51.332$ & $47.784$ & $28.021$ \\ 
+$250.879$ & $89.221$ & $77.051$ & $70.313$ & $32.985$ \\ 
+$305.822$ & $107.429$ & $84.086$ & $75.611$ & $35.379$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:23:05 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 11} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4,5.67,10.25 & 4.87,6.7,10.33 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
+3.91,5.55,9.45 & 4.7,7.04,11.62 & 5.59,7.42,11.19 & 6.82,8.59,11.76 & 7.27,8.81,12.75 \\ 
+3.82,5.44,9.03 & 4.94,7.08,11.69 & 6.33,8.21,13.1 & 8.04,11.13,103.34 & 9.89,15.93,44.41 \\ 
+3.75,5.3,8.98 & 5.54,7.18,10.33 & 5.93,7.94,13.57 & 8.93,12.02,23.91 & 9.59,15.35,78.25 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

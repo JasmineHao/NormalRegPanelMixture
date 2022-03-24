@@ -1,13 +1,13 @@
 library(stargazer)
 library(ggplot2)
 library(reshape)
-library(normalregMix)
+# library(normalregMix)
 library(foreign)
 library(NormalRegPanelMixture)
 
 library(haven)
 
-df <- read_dta("../../data/ChileanClean.dta")
+df <- read_dta("data/ChileanClean.dta")
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
@@ -16,6 +16,59 @@ ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,35
 ind.count <- length(ind.code)
 cl <- makeCluster(7)
 count = 0
+
+# for (each.code in ind.code){
+#   t <- Sys.time()
+#   ind.each <- subset(df,ciiu_3d==each.code)
+#   ind.name <- ind.each$ciiu3d_descr[1]
+#   ind.each$lny <- log(ind.each$GO)
+#   ind.each$lnm <- log(ind.each$WI)
+#   ind.each$lnl <- log(ind.each$L)
+#   ind.each$lnk <- log(ind.each$K)
+#   ######################################################
+#   # Describe the data
+#   ######################################################
+  
+#   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+#   desc.each <- desc.each[complete.cases(desc.each),]
+  
+  
+  
+#   ######################################################
+#   # Select the data out
+#   ######################################################
+#   m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
+#   row.names(m.share) <- m.share$id 
+#   m.share <- m.share[,!(colnames(m.share)=="id")] 
+#   T.cap <- dim(m.share)[2]
+  
+#   estimate.df <- matrix(0,nr=5,nc=5)
+#   crit.df <- matrix(0,nr=5,nc=5)
+#   result.df <- matrix(0,nr=5,nc=5)
+#   # crit.df.boot <- matrix(0,nr=5,nc=5)
+  
+#   ######################################################
+#   #For cross-sectional data
+#   ######################################################
+#   m.share.t <- m.share[,T.cap]
+#   m.share.t <- m.share.t[complete.cases(m.share.t)]
+#   N <- length(m.share.t)
+#   for (M in 1:5){
+    
+#     out.h0 <- normalmixPMLE(y = m.share.t,m=M)
+#     an <- normalregMix::anFormula(out.h0$parlist,M,N)
+#     print(paste("T=",1,"M = ",M,"an=",an))
+#     out.h1 <- normalmixMaxPhi(y=m.share.t,parlist = out.h0$parlist,an=an)
+#     #Obtain critical value
+#     lr.crit <- normalmixCrit(y=m.share.t,parlist = out.h0$parlist)$crit
+#     crit.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
+#     # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
+#     # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
+#     estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+#     result.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
+    
+#   }
+
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -31,8 +84,6 @@ for (each.code in ind.code){
   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
   desc.each <- desc.each[complete.cases(desc.each),]
   
-  
-  
   ######################################################
   # Select the data out
   ######################################################
@@ -44,30 +95,6 @@ for (each.code in ind.code){
   estimate.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
   result.df <- matrix(0,nr=5,nc=5)
-  # crit.df.boot <- matrix(0,nr=5,nc=5)
-  
-  ######################################################
-  #For cross-sectional data
-  ######################################################
-  m.share.t <- m.share[,T.cap]
-  m.share.t <- m.share.t[complete.cases(m.share.t)]
-  N <- length(m.share.t)
-  for (M in 1:5){
-    
-    out.h0 <- normalmixPMLE(y = m.share.t,m=M)
-    an <- normalregMix::anFormula(out.h0$parlist,M,N)
-    print(paste("T=",1,"M = ",M,"an=",an))
-    out.h1 <- normalmixMaxPhi(y=m.share.t,parlist = out.h0$parlist,an=an)
-    #Obtain critical value
-    lr.crit <- normalmixCrit(y=m.share.t,parlist = out.h0$parlist)$crit
-    crit.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
-    # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
-    # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-    estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
-    result.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
-    
-  }
-
   ######################################################
   #For panel data
   ######################################################
@@ -84,7 +111,7 @@ for (each.code in ind.code){
       out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- normalRegPanelMix::anFormula(out.h0$parlist,M,N,T) 
+      an <- anFormula(out.h0$parlist,M,N,T) 
       print(paste("T=",T,"M = ",M,"an=",an))
       
       if (is.na(an)){ 
@@ -118,10 +145,12 @@ for (each.code in ind.code){
   
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
-  sink("../../results/Chile/crit.txt",append=TRUE)
-  # stargazer(desc.each,type="text",title=paste("Descriptive data for Chilean Industry: ",ind.name))
-  # stargazer(estimate.df,type='text',title = paste("Columbian Producer Data: Estimated LR for ",ind.name))
-  # stargazer(result.df,title = ind.name)
+  
+  sink(paste("results/Chile/crit",ind.name,".txt"))
+  
+  stargazer(desc.each,type="text",title=paste("Descriptive data for Chilean Industry: ",ind.name))
+  stargazer(estimate.df,type='text',title = paste("Columbian Producer Data: Estimated LR for ",ind.name))
+  stargazer(result.df,title = ind.name)
   stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
   sink()
 }

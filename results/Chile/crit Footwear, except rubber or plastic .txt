@@ -1,0 +1,44 @@
+
+Descriptive data for Chilean Industry: Footwear, except rubber or plastic
+=================================
+Statistic N Mean St. Dev. Min Max
+=================================
+
+Columbian Producer Data: Estimated LR for Footwear, except rubber or plastic
+=====================================================
+       M=1       M=2       M=3       M=4       M=5   
+-----------------------------------------------------
+T=1     0         0         0         0         0    
+T=2 1,683.750  690.803   690.803   690.803   690.803 
+T=3 2,493.177  895.227   869.366   869.366   869.366 
+T=4 2,726.258 1,183.388 1,147.107 1,147.107 1,147.107
+T=5 3,216.450 1,264.946 1,618.472 1,618.472 1,618.472
+-----------------------------------------------------
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 11:14:26 PM
+\begin{table}[!htbp] \centering 
+  \caption{Footwear, except rubber or plastic} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Footwear, except rubber or plastic 324
+=================================
+     M=1   M=2   M=3   M=4   M=5 
+---------------------------------
+T=1   0     0     0     0     0  
+T=2 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
+T=3 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
+T=4 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
+T=5 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
+---------------------------------

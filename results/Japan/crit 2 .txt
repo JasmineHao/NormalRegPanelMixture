@@ -1,0 +1,60 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:08:52 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  Textile  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 1,833 & 6,465.817 & 10,499.090 & 87 & 43,703 \\ 
+year & 1,833 & 1,993.875 & 8.099 & 1,980 & 2,008 \\ 
+y\_it & 1,833 & 16.955 & 1.218 & 14.008 & 20.381 \\ 
+lnmY\_it & 1,833 & $-$1.104 & 0.676 & $-$5.798 & $-$0.129 \\ 
+l\_it & 1,833 & 6.412 & 1.225 & 2.996 & 9.545 \\ 
+k\_it & 1,833 & 16.001 & 1.268 & 13.417 & 19.940 \\ 
+m\_it & 1,833 & 15.850 & 1.417 & 11.656 & 20.016 \\ 
+industry\_2 & 1,833 & 2.000 & 0.000 & 2 & 2 \\ 
+export & 481 & 12,613,293.000 & 23,623,658.000 & 34,735.950 & 135,000,000.000 \\ 
+I\_K & 1,833 & 0.079 & 0.173 & $-$0.515 & 2.744 \\ 
+I\_K\_m & 1,787 & 0.097 & 0.211 & $-$0.578 & 5.724 \\ 
+t & 1,833 & 1,993.875 & 8.099 & 1,980 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:08:52 PM
+\begin{table}[!htbp] \centering 
+  \caption{Estimate LR for  Textile} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+$80.356$ & $47.274$ & $35.730$ & $31.172$ & $16.699$ \\ 
+$137.091$ & $91.642$ & $66.630$ & $36.915$ & $37.193$ \\ 
+$188.057$ & $137.079$ & $80.435$ & $55.043$ & $46.526$ \\ 
+$239.869$ & $166.576$ & $103.170$ & $55.405$ & $55.544$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 23, 2022 - 4:08:52 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 2} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+0 & 0 & 0 & 0 & 0 \\ 
+4.39,5.87,9.59 & 5.41,6.65,9.97 & 6.44,7.76,11.31 & 6.56,7.99,11.32 & 7.46,8.94,11.36 \\ 
+4.16,5.57,9.6 & 5.34,6.78,10.57 & 6.22,7.77,12.25 & 6.78,8.42,11.68 & 0,0,0 \\ 
+4,5.35,10.25 & 5.33,7.03,10.82 & 6.41,8.29,12.02 & 6.64,8.33,12.1 & 8.14,9.88,13.72 \\ 
+3.95,5.15,9.47 & 5.28,7.1,11.03 & 6.14,8.15,12.52 & 7.1,9.12,14.26 & 0,0,0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
