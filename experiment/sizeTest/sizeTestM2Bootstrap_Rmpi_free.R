@@ -172,7 +172,7 @@ result.m <- result.m * 100
 
 
 write.csv(result.h,file="results/sizeTest/sizeTestM2BootH.csv")
-write.csv(result.l,file="results/sizeTest/sizeTestM2BootM.csv")
+write.csv(result.m,file="results/sizeTest/sizeTestM2BootM.csv")
 write.csv(result.l,file="results/sizeTest/sizeTestM2BootL.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
