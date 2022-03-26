@@ -204,7 +204,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
     b <- c( -0.449134710,-0.732071592,-64.695724301,-0.146629390,-0.007804732 ) # coefficients of -(intercept, tterm,nterm, anterm, misclterm)/atermcoeff
     x <- exp(  ( b[1] + b[2]/t + b[5] * omega.term + b[3] / n) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
-    return(an)
+    
     #   x <- exp(-1.642 - 0.434 * log(omega / (1 - omega)) - 101.80/n)  # maxa=2
     #   an <- 1.8 * x / (1 + x)
   }
@@ -218,7 +218,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
     b <- c(-0.59819577 , 0.56718592 , 30.71245047 ,-0.25715262 ,  0.01242804)
     x <- exp( (- b[1] - b[2]/t - b[5] * omega.term - b[3] / n))
     an <- 0.5 * x / (1 + x)
-    return(an)
+    
     # an <- 0.80 * x / (1 + x)
     #   x <- exp(-1.678 - 0.232 * log(t_omega) - 175.50/n)
     #   an <- 1.5 * x / (1 + x)
@@ -233,8 +233,10 @@ anFormula <- function(parlist, m, n, t, q = 0)
     b <- c( -1.38771380 , 2.32165481  ,2.32446387, -0.31612545, -0.01529121  )
     x <- exp( (- b[1] - b[2]/t - b[5] * omega.term - b[3] / n))
     an <- 0.5 * x / (1 + x)
-    return(an)
+    
   }
+  if (is.nan(an) | an ==0){ an = 1/n}
+  return(an)
 }  # end function anFormula
 
 
