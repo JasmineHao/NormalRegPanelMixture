@@ -4,6 +4,7 @@ library(reshape)
 # library(normalregMix)
 library(foreign)
 library(NormalRegPanelMixture)
+library(haven)
 df <- read_dta("data/ChileanClean.dta")
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
@@ -11,7 +12,7 @@ df <- read_dta("data/ChileanClean.dta")
 
 ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 ind.count <- length(ind.code)
-cl <- makeCluster(7)
+cl <- makeCluster(detectCores())
 count = 0
 # for (each.code in ind.code){
 #   t <- Sys.time()
@@ -158,11 +159,11 @@ for (each.code in ind.code){
       ############################################
       #Estimate with regressor lnM
       ############################################
-      data <- list(Y = t(ind.each.y), X = ind.each.t$lnm,  Z = NULL)
+      data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- normalRegPanelMix::anFormula(out.h0$parlist,M,N,T,q=1) 
+      an <- anFormula(out.h0$parlist,M,N,T,q=1) 
       print(paste("T=",T,"M = ",M,"an=",an))
       
       if (is.na(an)){ 
@@ -183,7 +184,7 @@ for (each.code in ind.code){
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- normalRegPanelMix::anFormula(out.h0$parlist,M,N,T,q=1) 
+      an <- anFormula(out.h0$parlist,M,N,T,q=1) 
       print(paste("T=",T,"M = ",M,"an=",an))
       if (is.na(an)){ 
         an <- 1.0
@@ -203,7 +204,7 @@ for (each.code in ind.code){
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- normalRegPanelMix::anFormula(out.h0$parlist,M,N,T,q=1) 
+      an <- anFormula(out.h0$parlist,M,N,T,q=1) 
       print(paste("T=",T,"M = ",M,"an=",an))
       if (is.na(an)){ 
         an <- 1.0
