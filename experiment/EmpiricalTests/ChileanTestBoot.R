@@ -14,9 +14,10 @@ df <- read_dta("data/ChileanClean.dta")
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 
-ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
+# ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
+ind.code <- c(382)
 ind.count <- length(ind.code)
-cl <- makeCluster(7)
+
 count = 0
 
 # for (each.code in ind.code){
@@ -113,7 +114,7 @@ for (each.code in ind.code){
       out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- anFormula(out.h0$parlist,M,N,T) 
+      an <- anFormula(out.h0$parlist,M,N,T, q=0) 
       print(paste("T=",T,"M = ",M,"an=",an))
       
       if (is.na(an)){ 
@@ -132,7 +133,11 @@ for (each.code in ind.code){
       # } 
       # crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
-      lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=cl, nbtsp = 199 ,parallel = TRUE)$crit
+      lr.crit.boot <- try(regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=NULL, nbtsp = 199 ,parallel = TRUE)$crit)
+      if (class(lr.crit.boot) == "try-error"){
+        lr.crit.boot <- c(0,0,0) 
+      } 
+      
       crit.df.boot[T,M] <- paste(round(lr.crit.boot,2),collapse = ",")
     }
   }
