@@ -5,6 +5,7 @@ library(reshape)
 library(foreign)
 library(NormalRegPanelMixture)
 options('nloptr.show.inequality.warning'=FALSE)
+options(warn = -1)
 
 library(haven)
 
@@ -127,12 +128,12 @@ for (each.code in ind.code){
       if (class(lr.crit) == "try-error"){
         
           lr.crit <- c(0,0,0) 
-        
+      
       } 
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
-      # lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
-      # crit.df.boot[T,M] <- paste(round(lr.crit,2),collapse = ",")
+      #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=cl, nbtsp = 199 ,parallel = TRUE)$crit
+      # crit.df.boot[T,M] <- paste(round(lr.crit.boot,2),collapse = ",")
     }
   }
   ###################################################################
@@ -153,6 +154,7 @@ for (each.code in ind.code){
   stargazer(estimate.df,type='text',title = paste("Columbian Producer Data: Estimated LR for ",ind.name))
   stargazer(result.df,title = ind.name)
   stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
+  # stargazer(crit.df,type="text",title=paste("Bootstrapped crit for ",ind.name,each.code))
   sink()
 }
 
