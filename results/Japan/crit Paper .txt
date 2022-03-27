@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Mar 24, 2022 - 5:06:42 PM
+% Date and time: Sun, Mar 27, 2022 - 7:51:56 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Paper  industry in Japan} 
   \label{} 
@@ -26,35 +26,39 @@ t & 1,372 & 1,994.330 & 8.057 & 1,980 & 2,008 \\
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Mar 24, 2022 - 5:06:42 PM
+% Date and time: Sun, Mar 27, 2022 - 7:51:56 PM
 \begin{table}[!htbp] \centering 
   \caption{Estimate LR for  Paper} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$50.769$ & $37.988$ & $23.871$ & $22.426$ & $20.429$ \\ 
-$89.055$ & $71.154$ & $47.003$ & $35.893$ & $27.370$ \\ 
-$132.414$ & $108.886$ & $64.248$ & $52.679$ & $37.087$ \\ 
-$178.279$ & $136.163$ & $78.924$ & $67.273$ & $35.399$ \\ 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$ 50.7685110267971 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 36.9882784384999 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 22.6098277376673 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.5327776442137 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.558853404863 \textasteriskcentered \textasteriskcentered  \$ \\ 
+T=3 & \$ 89.0547174594448 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 70.4416072509804 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 46.6444387693047 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.7104295891384 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 28.5796027434586 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
+T=4 & \$ 132.413570132467 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 107.631541010065 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 63.9827571587412 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 52.4416097220566 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 38.5768288631439 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
+T=5 & \$ 178.278617086095 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 135.048967612002 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 78.6517455090638 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.1254060398144 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 36.4262885191754 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Mar 24, 2022 - 5:06:42 PM
+% Date and time: Sun, Mar 27, 2022 - 7:51:56 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 4} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-0 & 0 & 0 & 0 & 0 \\ 
-4.3,5.71,9.29 & 5.37,6.73,10.48 & 6.18,7.76,11.27 & 6.65,8.14,11.22 & 7.91,9.9,33.57 \\ 
-3.98,5.44,9.94 & 5.26,6.81,10.95 & 5.81,7.75,11.75 & 6.39,8.08,11.94 & 7.39,9.51,15.07 \\ 
-3.79,5.36,10.19 & 5.3,7.04,9.93 & 6.4,8.4,12.43 & 0,0,0 & 0,0,0 \\ 
-3.76,5.27,9.88 & 5.41,7.22,10.15 & 6.41,8.81,17.01 & 0,0,0 & 0,0,0 \\ 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 4.3,5.71,9.29 & 5.37,6.73,10.48 & 6.18,7.76,11.27 & 6.65,8.14,11.22 & 7.91,9.9,33.57 \\ 
+T=3 & 3.98,5.44,9.94 & 5.26,6.81,10.95 & 5.81,7.75,11.75 & 6.39,8.08,11.94 & 7.39,9.51,15.07 \\ 
+T=4 & 3.79,5.36,10.19 & 5.3,7.04,9.93 & 6.4,8.4,12.43 & 0,0,0 & 0,0,0 \\ 
+T=5 & 3.76,5.27,9.88 & 5.41,7.22,10.15 & 6.41,8.81,17.01 & 0,0,0 & 0,0,0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
