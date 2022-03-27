@@ -58,6 +58,8 @@ for (k in 1:nrep){
 
 tmp = regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z,cl=NULL , parallel = FALSE,nrep=1000)$crit
 
+tmp.boot = regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, z = data$Z,cl=NULL , parallel = TRUE)$crit
+
 for (k in 1:nrep){
   lr.crit[k,] <- tmp
 }
