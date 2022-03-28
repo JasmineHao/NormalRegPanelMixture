@@ -96,7 +96,7 @@ for (each.code in ind.code){
         lr.crit <- c(0,0,0) 
         
       }
-      estimate.df[T,M] <- paste('$',lr.estimate,paste(rep('*',sum(lr.estimate > lr.crit)), collapse = ""),'$', collapse = "")
+      estimate.df[T,M] <-  paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
       # lr.crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit
@@ -129,9 +129,11 @@ for (each.code in ind.code){
   print( Sys.time() - t)
   print("*************************************")
   
-  sink(paste("results/Japan/crit",each.name,".txt"))
+  sink(paste("results/Japan/regressorCrit",each.name,".txt"))
+  
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  stargazer(estimate.df,title = paste("Estimate LR for ",each.name))
+  print(paste("Estimate LR for ",each.name))
+  print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
   # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
   #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
@@ -143,11 +145,10 @@ for (each.code in ind.code){
   
 
 
-
-
-print(paste(count,"/",length(ind.code)))
-print(Sys.time()-t)
-
+rownames(estimate.LR.df.2) <- ind_list[ind.code]
+rownames(estimate.LR.df.3) <- ind_list[ind.code]
+rownames(estimate.LR.df.4) <- ind_list[ind.code]
+rownames(estimate.LR.df.5) <- ind_list[ind.code]
 
 
 sink("results/Japan/result_regressor.txt")

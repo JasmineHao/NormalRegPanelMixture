@@ -13,7 +13,21 @@ df <- read_dta("data/ChileanClean.dta")
 ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 ind.count <- length(ind.code)
 cl <- makeCluster(detectCores())
-count = 0
+
+
+estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.2) <- ind_list[ind.code]
+colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.3) <- ind_list[ind.code]
+colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.4) <- ind_list[ind.code]
+colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.5) <- ind_list[ind.code]
+colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+
 # for (each.code in ind.code){
 #   t <- Sys.time()
 #   ind.each <- subset(df,ciiu_3d==each.code)
@@ -101,6 +115,7 @@ count = 0
   #   result.l.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
     
   # }
+count = 0
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -131,9 +146,13 @@ for (each.code in ind.code){
   crit.k.df <- matrix(0,nr=5,nc=5)
   result.k.df <- matrix(0,nr=5,nc=5)
   
+  desc.each <-matrix(0,nr=5,nc=5)
+  
   estimate.all.df <- matrix(0,nr=5,nc=5)
   crit.all.df <- matrix(0,nr=5,nc=5)
   result.all.df <- matrix(0,nr=5,nc=5)
+  
+  
   # crit.df.boot <- matrix(0,nr=5,nc=5)  
   ######################################################
   #For panel data
@@ -171,60 +190,70 @@ for (each.code in ind.code){
       }
       out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
       lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
-      estimate.m.df[T,M] <- lr.estimate
+      
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
         lr.crit <- c(0,0,0) 
       } 
+      estimate.m.df[T,M] <- paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
+      
       crit.m.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      ############################################
-      #Estimate with regressor lnK
-      ############################################
-      data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnk),  Z = NULL)
-      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
-      # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-      #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- anFormula(out.h0$parlist,M,N,T,q=1) 
-      print(paste("T=",T,"M = ",M,"an=",an))
-      if (is.na(an)){ 
-        an <- 1.0
-      }
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
-      estimate.k.df[T,M] <- lr.estimate
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
-      if (class(lr.crit) == "try-error"){
-        lr.crit <- c(0,0,0) 
-      } 
-      crit.k.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      ############################################
-      #Estimate with regressor lnL
-      ############################################
-      data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnl),  Z = NULL)
-      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
-      # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-      #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <- anFormula(out.h0$parlist,M,N,T,q=1) 
-      print(paste("T=",T,"M = ",M,"an=",an))
-      if (is.na(an)){ 
-        an <- 1.0
-      }
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
-      estimate.l.df[T,M] <- lr.estimate
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
-      if (class(lr.crit) == "try-error"){
-        lr.crit <- c(0,0,0) 
-      } 
-      crit.l.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
+      # ############################################
+      # #Estimate with regressor lnK
+      # ############################################
+      # data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnk),  Z = NULL)
+      # out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
+      # # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
+      # #            beta = beta, N = N, T = T, M = M, p = p, q = q)
+      # an <- anFormula(out.h0$parlist,M,N,T,q=1) 
+      # print(paste("T=",T,"M = ",M,"an=",an))
+      # if (is.na(an)){ 
+      #   an <- 1.0
+      # }
+      # out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
+      # lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      # estimate.k.df[T,M] <- lr.estimate
+      # lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
+      # if (class(lr.crit) == "try-error"){
+      #   lr.crit <- c(0,0,0) 
+      # } 
+      # crit.k.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
+      # ############################################
+      # #Estimate with regressor lnL
+      # ############################################
+      # data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnl),  Z = NULL)
+      # out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
+      # # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
+      # #            beta = beta, N = N, T = T, M = M, p = p, q = q)
+      # an <- anFormula(out.h0$parlist,M,N,T,q=1) 
+      # print(paste("T=",T,"M = ",M,"an=",an))
+      # if (is.na(an)){ 
+      #   an <- 1.0
+      # }
+      # out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
+      # lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      # estimate.l.df[T,M] <- lr.estimate
+      # lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
+      # if (class(lr.crit) == "try-error"){
+      #   lr.crit <- c(0,0,0) 
+      # } 
+      # crit.l.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
     }
+    desc.each[T,] <- c(ind.name,each.code,dim(ind.each.y)[1],round(mean(as.matrix(ind.each.y)),2),round(sd(as.matrix(ind.each.y)),2))
   }
   ###################################################################
   #     Output
   ###################################################################
-  count = count + 1
-  print(Sys.time()-t)
-  print(paste(count,"/",ind.count))
+
+  
+  estimate.LR.df.2[count,] <- estimate.m.df[2,]
+  estimate.LR.df.3[count,] <- estimate.m.df[3,]
+  estimate.LR.df.4[count,] <- estimate.m.df[4,]
+  estimate.LR.df.5[count,] <- estimate.m.df[5,]
+  
+  colnames(desc.each) <- c("Industry Name","code","n","mean","sd") 
+  rownames(desc.each) <- c("T=1","T=2","T=3","T=4","T=5")
+  
   colnames(estimate.l.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.l.df) <- c("T=1","T=2","T=3","T=4","T=5")
   colnames(estimate.m.df) <- c("M=1","M=2","M=3","M=4","M=5")
@@ -241,17 +270,24 @@ for (each.code in ind.code){
   colnames(crit.k.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.k.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
+  count = count + 1
+  print(Sys.time()-t)
+  print(paste(count,"/",ind.count))
+  
   sink(paste("results/Chile/regressorCrit",ind.name,".txt"))
   
+  stargazer(desc.each,type="text",title=paste("Descriptives for ",ind.name,each.code))
   
-  stargazer(estimate.l.df,type='text',title = paste("Chilean Producer Data: Estimated LR(lnL) for ",ind.name))
-  stargazer(crit.l.df,type="text",title=paste("Simulated crit for(lnL)",ind.name,each.code))
-  
-  stargazer(estimate.m.df,type='text',title = paste("Chilean Producer Data: Estimated (lnM) for ",ind.name))
-  stargazer(crit.m.df,type="text",title=paste("Simulated crit for(lnM)",ind.name,each.code))
-  
-  stargazer(estimate.k.df,type='text',title = paste("Chilean Producer Data: Estimated LR(lnK) for ",ind.name))
-  stargazer(crit.k.df,type="text",title=paste("Simulated crit for(lnK)",ind.name,each.code))
+  print(paste("Chilean Producer Data: Estimated (lnM) for ",ind.name))
+  print(estimate.m.df)
+  # stargazer(estimate.m.df,type='latex',title = paste("Chilean Producer Data: Estimated (lnM) for ",ind.name))
+  stargazer(crit.m.df,type="latex",title=paste("Simulated crit for(lnM)",ind.name,each.code))
+
+  # stargazer(estimate.l.df,type='text',title = paste("Chilean Producer Data: Estimated LR(lnL) for ",ind.name))
+  # stargazer(crit.l.df,type="text",title=paste("Simulated crit for(lnL)",ind.name,each.code))
+  # 
+  # stargazer(estimate.k.df,type='text',title = paste("Chilean Producer Data: Estimated LR(lnK) for ",ind.name))
+  # stargazer(crit.k.df,type="text",title=paste("Simulated crit for(lnK)",ind.name,each.code))
   # stargazer(result.df,title = ind.name)
   
   sink()
@@ -264,6 +300,15 @@ for (each.code in ind.code){
 
 
 # stargazer(crit.df,title=paste("estimate",ind.name))
+rownames(estimate.LR.df.2) <- ind.code
+rownames(estimate.LR.df.3) <- ind.code
+rownames(estimate.LR.df.4) <- ind.code
+rownames(estimate.LR.df.5) <- ind.code
 
-
+sink("results/Chile/resultRegressors.txt")
+stargazer(estimate.LR.df.2)
+stargazer(estimate.LR.df.3)
+stargazer(estimate.LR.df.4)
+stargazer(estimate.LR.df.5)
+sink()
 

@@ -71,6 +71,8 @@ count = 0
     
 #   }
 
+
+
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -121,7 +123,7 @@ for (each.code in ind.code){
       }
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
-      estimate.df[T,M] <- lr.estimate
+      
       
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE,nrep=1000)$crit)
       
@@ -129,7 +131,8 @@ for (each.code in ind.code){
         
           lr.crit <- c(0,0,0) 
       
-      } 
+      }
+      estimate.df[T,M] <- paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
       #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=cl, nbtsp = 199 ,parallel = TRUE)$crit
@@ -142,6 +145,13 @@ for (each.code in ind.code){
   count = count + 1
   print(Sys.time()-t)
   print(paste(count,"/",ind.count))
+
+  estimate.LR.df.2[count,] <- estimate.df[2,]
+  estimate.LR.df.3[count,] <- estimate.df[3,]
+  estimate.LR.df.4[count,] <- estimate.df[4,]
+  estimate.LR.df.5[count,] <- estimate.df[5,]
+  
+  
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
@@ -151,8 +161,8 @@ for (each.code in ind.code){
   sink(paste("results/Chile/crit",ind.name,".txt"))
   
   stargazer(desc.each,type="text",title=paste("Descriptive data for Chilean Industry: ",ind.name))
-  stargazer(estimate.df,type='text',title = paste("Columbian Producer Data: Estimated LR for ",ind.name))
-  stargazer(result.df,title = ind.name)
+  print(paste("Columbian Producer Data: Estimated LR for ",ind.name))
+  stargazer(estimate.df)
   stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
   # stargazer(crit.df,type="text",title=paste("Bootstrapped crit for ",ind.name,each.code))
   sink()
@@ -165,6 +175,13 @@ for (each.code in ind.code){
 
 
 # stargazer(crit.df,title=paste("estimate",ind.name))
+
+sink("results/Chile/result.txt")
+stargazer(estimate.LR.df.2)
+stargazer(estimate.LR.df.3)
+stargazer(estimate.LR.df.4)
+stargazer(estimate.LR.df.5)
+sink()
 
 
 
