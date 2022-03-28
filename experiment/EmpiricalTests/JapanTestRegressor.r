@@ -34,7 +34,6 @@ ind12 <- ind12[order(ind12$id,ind12$t),]
 #Descriptive data for ind12
 stargazer(ind12,type="text")
 
-ind.code <- c( 12 )
 ind.code <- c(12,  5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
 
 
@@ -71,14 +70,14 @@ for (each.code in ind.code){
   ######################################################
   # Select the data out
   ######################################################
-  T.cap <- max(year.list)
+  T.cap <- max(year.list) 
   
   m.share <- cast(ind.each,id ~ year,value="lnmY_it")
   
   row.names(m.share) <- m.share$id 
   m.share <- m.share[,!(colnames(m.share)=="id")] 
   
-  
+  desc.each <- matrix(0, nr = 5, nc = 5)
   estimate.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
   crit.df.boot <- matrix(0,nr=5,nc=5)
@@ -86,7 +85,7 @@ for (each.code in ind.code){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
-    ind.each.t <- ind.each[ind.each$year>=t.start,]
+    ind.each.t <- ind.each[ind.each$year > t.start,]
     ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
     ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
     id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
@@ -126,6 +125,7 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
     }
+    desc.each[T, ] <- c(each.name, each.code, dim(ind.each.y)[1], round(mean(as.matrix(ind.each.y)), 2), round(sd(as.matrix(ind.each.y)), 2))
   }
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
@@ -143,13 +143,15 @@ for (each.code in ind.code){
   estimate.LR.df.4[count,] <- estimate.df[4,]
   estimate.LR.df.5[count,] <- estimate.df[5,]
   count = count + 1
-  
+  colnames(desc.each) <- c("Industry Name", "code", "n", "mean", "sd")
+  rownames(desc.each) <- c("T=1", "T=2", "T=3", "T=4", "T=5")
   print("*************************************")
   print(paste("Finished", each.name))
   print( Sys.time() - t)
   print("*************************************")
   
   sink(paste("results/Japan/regressorCrit",each.name,".txt"))
+  stargazer(desc.each, type = "text", title = paste("Descriptives for ", ind.name, each.code))
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
   print(estimate.df)

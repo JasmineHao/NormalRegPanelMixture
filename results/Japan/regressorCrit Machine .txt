@@ -1,61 +1,6 @@
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:08:17 PM
-\begin{table}[!htbp] \centering 
-  \caption{Descriptive data for  Machine  industry in Japan} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
-\hline \\[-1.8ex] 
-id & 2,643 & 4,043.652 & 8,037.842 & 38 & 42,708 \\ 
-year & 2,643 & 1,990.798 & 5.842 & 1,980 & 2,008 \\ 
-y\_it & 2,643 & 17.176 & 1.327 & 14.255 & 21.197 \\ 
-lnmY\_it & 2,643 & $-$0.781 & 0.480 & $-$4.246 & $-$0.167 \\ 
-l\_it & 2,643 & 6.841 & 1.168 & 4.263 & 10.767 \\ 
-k\_it & 2,643 & 16.029 & 1.367 & 13.025 & 20.191 \\ 
-m\_it & 2,643 & 16.395 & 1.409 & 12.828 & 20.822 \\ 
-industry\_2 & 2,643 & 12.000 & 0.000 & 12 & 12 \\ 
-export & 2,643 & 25,620,306.000 & 75,528,530.000 & 968.210 & 1,260,000,000.000 \\ 
-I\_K & 2,643 & 0.108 & 0.139 & $-$0.343 & 2.279 \\ 
-I\_K\_m & 2,643 & 0.127 & 0.142 & $-$0.475 & 2.113 \\ 
-t & 2,643 & 1,990.798 & 5.842 & 1,980 & 2,008 \\ 
-lnm & 2,643 & 2.793 & 0.085 & 2.552 & 3.036 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:08:17 PM
-\begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Machine} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$32.481$ & $7.959$ & $0.156$ & $$-$2.868$ & $2.979$ \\ 
-$54.521$ & $5.785$ & $$-$10.598$ & $$-$21.281$ & $$-$3.497$ \\ 
-$72.729$ & $9.578$ & $$-$16.985$ & $$-$2.936$ & $$-$0.581$ \\ 
-$93.273$ & $13.197$ & $$-$29.754$ & $$-$25.319$ & $$-$5.092$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:08:17 PM
-\begin{table}[!htbp] \centering 
-  \caption{Critical Values Asymptotics 12} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-0 & 0 & 0 & 0 & 0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+    Industry Name code n   mean    sd    
+T=1 "0"           "0"  "0" "0"     "0"   
+T=2 "Machine"     "12" "8" "-0.68" "0.18"
+T=3 "Machine"     "12" "7" "-0.68" "0.19"
+T=4 "Machine"     "12" "7" "-0.68" "0.19"
+T=5 "Machine"     "12" "7" "-0.69" "0.19"

@@ -68,7 +68,7 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,X=NULL,Z=NULL){
       beta_R <- R %*% beta
       y_nn = y_nn + X[(T*(nn-1)+1) : (T*nn),] %*% beta_R[nn,]
      }else if (q == 1){
-       beta_R <- R %*% beta
+       beta_R <- R %*% as.vector(beta)
        y_nn = y_nn + X[(T*(nn-1)+1) : (T*nn),] * beta_R[nn]
      }else{}
 
