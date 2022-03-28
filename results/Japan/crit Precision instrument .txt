@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:01:33 PM
+% Date and time: Mon, Mar 28, 2022 - 3:15:13 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Precision instrument  industry in Japan} 
   \label{} 
@@ -24,28 +24,16 @@ t & 1,130 & 1,995.105 & 7.956 & 1,980 & 2,008 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+[1] "Estimate LR for  Precision instrument"
+    M=1           M=2           M=3          M=4          M=5         
+T=1 "0"           "0"           "0"          "0"          "0"         
+T=2 "$39.66***$"  "$26.34***$"  "$20.57***$" "$15.49***$" "$10.46$"   
+T=3 "$83.14***$"  "$56.86***$"  "$43.22***$" "$23.82***$" "$25.21**$" 
+T=4 "$116.87***$" "$84.32***$"  "$65.09***$" "$34.66***$" "$29.51***$"
+T=5 "$161.01***$" "$100.53***$" "$84.04***$" "$42.82***$" "$29.49***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:01:33 PM
-\begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Precision instrument} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$ 39.6571090785557 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 26.3380514783139 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 20.5691735403003 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 15.4897294316526 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.4561667387553  \$ \\ 
-T=3 & \$ 83.1415580059074 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 56.8550274232678 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 43.21713894253 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 23.8213522288301 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 25.2104092385738 \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=4 & \$ 116.870417576445 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 84.3183023533479 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 65.0866811996922 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.664348766587 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.5078685775028 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=5 & \$ 161.008476977152 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 100.53449821883 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 84.0407900423886 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 42.8221847965029 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.4891145491992 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:01:33 PM
+% Date and time: Mon, Mar 28, 2022 - 3:15:13 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 15} 
   \label{} 

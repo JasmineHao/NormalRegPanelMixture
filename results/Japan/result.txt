@@ -2,7 +2,7 @@
 > stargazer(estimate.LR.df.1)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -11,19 +11,20 @@
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Chemical & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Steel & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-NA. & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Food & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Metal.product & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Textile & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Paper & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Othermetal & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Transportation.equipment & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Precision.instrument & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Other & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Machine & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
-Ceramics & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+Machine & 0 & 0 & 0 & 0 & 0 \\ 
+Petro & 0 & 0 & 0 & 0 & 0 \\ 
+Ceramics & 0 & 0 & 0 & 0 & 0 \\ 
+Other & 0 & 0 & 0 & 0 & 0 \\ 
+Food & 0 & 0 & 0 & 0 & 0 \\ 
+Othermetal & 0 & 0 & 0 & 0 & 0 \\ 
+Textile & 0 & 0 & 0 & 0 & 0 \\ 
+Paper & 0 & 0 & 0 & 0 & 0 \\ 
+Steel & 0 & 0 & 0 & 0 & 0 \\ 
+Electronics & 0 & 0 & 0 & 0 & 0 \\ 
+Transportation equipment & 0 & 0 & 0 & 0 & 0 \\ 
+Precision instrument & 0 & 0 & 0 & 0 & 0 \\ 
+Metal product & 0 & 0 & 0 & 0 & 0 \\ 
+Plastic & 0 & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -31,7 +32,7 @@ Ceramics & $0$ & $0$ & $0$ & $0$ & $0$ \\
 > stargazer(estimate.LR.df.2)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -40,19 +41,20 @@ Ceramics & $0$ & $0$ & $0$ & $0$ & $0$ \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Chemical & $266.339$ & $118.524$ & $103.534$ & $72.901$ & $34.679$ \\ 
-Steel & $69.567$ & $31.877$ & $32.853$ & $14.633$ & $9.512$ \\ 
-NA. & $155.997$ & $49.410$ & $33.828$ & $28.174$ & $8.132$ \\ 
-Food & $176.261$ & $101.437$ & $82.199$ & $48.673$ & $50.384$ \\ 
-Metal.product & $28.427$ & $27.140$ & $13.438$ & $7.664$ & $3.603$ \\ 
-Textile & $80.356$ & $47.274$ & $35.730$ & $31.172$ & $16.699$ \\ 
-Paper & $50.768$ & $37.988$ & $23.871$ & $22.426$ & $20.434$ \\ 
-Othermetal & $73.059$ & $16.834$ & $10.649$ & $6.981$ & $5.221$ \\ 
-Transportation.equipment & $478.769$ & $150.468$ & $64.484$ & $56.972$ & $49.634$ \\ 
-Precision.instrument & $231.329$ & $74.771$ & $67.901$ & $57.780$ & $43.465$ \\ 
-Other & $39.657$ & $27.545$ & $21.251$ & $15.815$ & $9.550$ \\ 
-Machine & $86.668$ & $35.035$ & $31.165$ & $30.831$ & $17.602$ \\ 
-Ceramics & $13.130$ & $22.756$ & $17.990$ & $14.900$ & $6.207$ \\ 
+Machine & \$266.34\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$116.54\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$103.33\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$72.6\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$34.93\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Petro & \$69.57\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$30.74\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$32.22\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$13.66\$ & \$10.67\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Ceramics & \$156\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$48.74\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$33.7\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$27.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$9.27\textasteriskcentered \$ \\ 
+Other & \$176.26\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$101.08\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$81.11\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$48.38\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$53.7\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Food & \$28.43\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$26.16\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$13.01\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$7.06\textasteriskcentered \$ & \$4.65\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Othermetal & \$80.36\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$46.5\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$34.19\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$31.04\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$17.95\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Textile & \$50.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$36.99\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$22.61\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$21.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$21.56\textasteriskcentered \textasteriskcentered \$ \\ 
+Paper & \$73.06\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$16.48\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$10.44\textasteriskcentered \textasteriskcentered \$ & \$6.35\$ & \$6.55\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Steel & \$478.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$150.27\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$63.83\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$56.72\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$49.94\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Electronics & \$231.33\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$74.64\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$67.38\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$56.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$44.85\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Transportation equipment & \$39.66\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$26.34\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$20.57\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$15.49\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$10.46\$ \\ 
+Precision instrument & \$86.67\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$34\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$29.86\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$29.81\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$19.7\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Metal product & \$13.13\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$19.72\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$16.44\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$13.99\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$7.85\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Plastic & 0 & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -60,7 +62,7 @@ Ceramics & $13.130$ & $22.756$ & $17.990$ & $14.900$ & $6.207$ \\
 > stargazer(estimate.LR.df.3)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -69,19 +71,20 @@ Ceramics & $13.130$ & $22.756$ & $17.990$ & $14.900$ & $6.207$ \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Chemical & $461.571$ & $238.785$ & $164.489$ & $130.121$ & $62.802$ \\ 
-Steel & $132.129$ & $60.527$ & $51.129$ & $23.139$ & $16.260$ \\ 
-NA. & $253.111$ & $97.984$ & $61.642$ & $48.592$ & $19.899$ \\ 
-Food & $324.733$ & $168.736$ & $148.522$ & $86.851$ & $79.755$ \\ 
-Metal.product & $60.734$ & $59.072$ & $26.307$ & $13.895$ & $6.928$ \\ 
-Textile & $137.091$ & $91.642$ & $66.630$ & $36.915$ & $37.193$ \\ 
-Paper & $89.055$ & $71.154$ & $47.003$ & $35.893$ & $27.370$ \\ 
-Othermetal & $120.672$ & $36.060$ & $22.412$ & $10.512$ & $5.391$ \\ 
-Transportation.equipment & $751.288$ & $254.421$ & $121.482$ & $117.053$ & $73.537$ \\ 
-Precision.instrument & $410.593$ & $128.019$ & $120.114$ & $96.417$ & $72.642$ \\ 
-Other & $83.142$ & $58.121$ & $43.794$ & $24.141$ & $22.568$ \\ 
-Machine & $166.452$ & $66.209$ & $51.332$ & $47.784$ & $28.021$ \\ 
-Ceramics & $33.159$ & $44.367$ & $24.183$ & $22.687$ & $7.325$ \\ 
+Machine & \$461.57\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$236.66\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$164.38\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$129.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$63.57\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Petro & \$132.13\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$59.19\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$50.78\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$22.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$17.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Ceramics & \$253.11\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$97.25\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$61.36\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$48.1\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$21.27\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Other & \$324.73\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$165.93\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$147.83\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$85.13\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$82.63\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Food & \$60.73\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$57.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$25.56\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$13.35\textasteriskcentered \textasteriskcentered \$ & \$7.7\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Othermetal & \$137.09\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$90.58\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$65.67\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$36.79\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$37.86\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Textile & \$89.05\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$70.44\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$46.64\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$34.71\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$28.58\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Paper & \$120.67\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$35.76\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$21.85\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$10.04\textasteriskcentered \textasteriskcentered \$ & \$6.47\$ \\ 
+Steel & \$751.29\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$254.23\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$121.09\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$116.74\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$74.04\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Electronics & \$410.59\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$127.09\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$119.88\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$95.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$73.55\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Transportation equipment & \$83.14\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$56.86\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$43.22\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$23.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$25.21\textasteriskcentered \textasteriskcentered \$ \\ 
+Precision instrument & \$166.45\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$65.07\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$51.02\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$47.71\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$29.35\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Metal product & \$33.16\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$40.98\textasteriskcentered \textasteriskcentered \$ & \$22.74\textasteriskcentered \textasteriskcentered \$ & \$20.69\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$11.17\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Plastic & 0 & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -89,7 +92,7 @@ Ceramics & $33.159$ & $44.367$ & $24.183$ & $22.687$ & $7.325$ \\
 > stargazer(estimate.LR.df.4)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -98,19 +101,20 @@ Ceramics & $33.159$ & $44.367$ & $24.183$ & $22.687$ & $7.325$ \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Chemical & $669.074$ & $312.462$ & $217.914$ & $181.928$ & $97.799$ \\ 
-Steel & $184.346$ & $67.786$ & $62.801$ & $49.913$ & $32.546$ \\ 
-NA. & $329.830$ & $143.093$ & $74.528$ & $60.523$ & $33.637$ \\ 
-Food & $462.103$ & $230.135$ & $208.341$ & $126.460$ & $108.805$ \\ 
-Metal.product & $82.898$ & $63.235$ & $25.706$ & $12.311$ & $8.966$ \\ 
-Textile & $188.057$ & $137.079$ & $80.435$ & $55.043$ & $46.526$ \\ 
-Paper & $132.414$ & $108.886$ & $64.248$ & $52.679$ & $37.087$ \\ 
-Othermetal & $155.585$ & $46.413$ & $18.330$ & $17.099$ & $8.181$ \\ 
-Transportation.equipment & $1,020.766$ & $369.444$ & $172.214$ & $163.375$ & $99.628$ \\ 
-Precision.instrument & $573.390$ & $173.015$ & $151.120$ & $131.210$ & $99.861$ \\ 
-Other & $116.870$ & $84.384$ & $65.864$ & $36.283$ & $29.107$ \\ 
-Machine & $250.879$ & $89.221$ & $77.051$ & $70.313$ & $32.985$ \\ 
-Ceramics & $54.267$ & $60.840$ & $32.442$ & $27.080$ & $9.139$ \\ 
+Machine & \$669.07\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$311.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$217.8\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$181.65\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$98.31\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Petro & \$184.35\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$67.08\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$62.51\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$49.37\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$32.79\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Ceramics & \$329.83\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$142.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$73.86\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$60.1\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$33.87\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Other & \$462.1\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$227.4\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$207.78\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$125.88\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$110.98\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Food & \$82.9\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$62.93\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$25.47\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$12.11\textasteriskcentered \textasteriskcentered \$ & \$9.2\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Othermetal & \$188.06\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$136.95\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$79.11\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$54.87\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$48.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Textile & \$132.41\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$107.63\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$63.98\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$52.44\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$38.58\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Paper & \$155.59\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$46.12\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$18.28\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$16.33\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$9.94\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Steel & \$1020.77\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$369.37\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$171.97\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$163.19\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$100.52\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Electronics & \$573.39\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$172.41\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$150.95\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$130.65\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$100.97\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Transportation equipment & \$116.87\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$84.32\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$65.09\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$34.66\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$29.51\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Precision instrument & \$250.88\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$89.07\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$76.55\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$69.96\textasteriskcentered \textasteriskcentered \$ & \$35.14\textasteriskcentered \textasteriskcentered \$ \\ 
+Metal product & \$54.27\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$58.11\textasteriskcentered \textasteriskcentered \$ & \$30.62\textasteriskcentered \textasteriskcentered \$ & \$26.1\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$12.21\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Plastic & 0 & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -118,7 +122,7 @@ Ceramics & $54.267$ & $60.840$ & $32.442$ & $27.080$ & $9.139$ \\
 > stargazer(estimate.LR.df.5)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 4:24:05 PM
+% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -127,19 +131,20 @@ Ceramics & $54.267$ & $60.840$ & $32.442$ & $27.080$ & $9.139$ \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Chemical & $863.313$ & $388.067$ & $269.459$ & $213.482$ & $118.016$ \\ 
-Steel & $226.378$ & $99.232$ & $65.648$ & $69.332$ & $27.985$ \\ 
-NA. & $424.842$ & $188.109$ & $85.500$ & $69.125$ & $48.642$ \\ 
-Food & $573.628$ & $269.689$ & $249.691$ & $158.947$ & $134.826$ \\ 
-Metal.product & $95.504$ & $51.260$ & $19.808$ & $18.458$ & $14.592$ \\ 
-Textile & $239.869$ & $166.576$ & $103.170$ & $55.405$ & $55.544$ \\ 
-Paper & $178.279$ & $136.163$ & $78.924$ & $67.273$ & $35.399$ \\ 
-Othermetal & $207.507$ & $64.390$ & $28.469$ & $19.816$ & $15.089$ \\ 
-Transportation.equipment & $1,306.055$ & $487.762$ & $227.775$ & $220.581$ & $131.966$ \\ 
-Precision.instrument & $737.775$ & $211.480$ & $176.277$ & $156.683$ & $109.433$ \\ 
-Other & $161.008$ & $102.156$ & $84.050$ & $44.396$ & $28.967$ \\ 
-Machine & $305.822$ & $107.429$ & $84.086$ & $75.611$ & $35.379$ \\ 
-Ceramics & $75.873$ & $69.472$ & $41.838$ & $25.373$ & $11.992$ \\ 
+Machine & \$863.31\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$387.57\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$269.47\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$213.31\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$118.37\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Petro & \$226.38\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$98.37\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$65.23\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$68.18\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$28.49\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Ceramics & \$424.84\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$187.79\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$85.03\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$69.08\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$49.16\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Other & \$573.63\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$267.21\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$249.27\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$157.55\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$137.21\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Food & \$95.5\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$50.84\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$19.74\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$18.18\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$15.5\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Othermetal & \$239.87\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$166.48\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$102.45\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$55.31\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$55.76\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Textile & \$178.28\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$135.05\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$78.65\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$67.13\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$36.43\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Paper & \$207.51\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$64.11\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$28.08\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$19.51\textasteriskcentered \textasteriskcentered \$ & \$17.21\textasteriskcentered \textasteriskcentered \$ \\ 
+Steel & \$1306.06\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$487.73\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$227.59\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$220.42\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$133.03\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Electronics & \$737.78\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$211.02\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$175.86\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$155.93\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$110.42\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Transportation equipment & \$161.01\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$100.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$84.04\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$42.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$29.49\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Precision instrument & \$305.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$106.36\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$83.53\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$75.34\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$37.7\textasteriskcentered \textasteriskcentered \$ \\ 
+Metal product & \$75.87\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$67.67\textasteriskcentered \textasteriskcentered \$ & \$39.58\textasteriskcentered \$ & \$23.98\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$15.07\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Plastic & 0 & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

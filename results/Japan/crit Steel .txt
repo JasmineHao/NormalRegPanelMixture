@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:53:49 PM
+% Date and time: Mon, Mar 28, 2022 - 3:07:36 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Steel  industry in Japan} 
   \label{} 
@@ -24,28 +24,16 @@ t & 1,541 & 1,993.829 & 8.169 & 1,980 & 2,008 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+[1] "Estimate LR for  Steel"
+    M=1           M=2          M=3          M=4          M=5        
+T=1 "0"           "0"          "0"          "0"          "0"        
+T=2 "$73.06***$"  "$16.48***$" "$10.44**$"  "$6.35$"     "$6.55***$"
+T=3 "$120.67***$" "$35.76***$" "$21.85***$" "$10.04**$"  "$6.47$"   
+T=4 "$155.59***$" "$46.12***$" "$18.28***$" "$16.33***$" "$9.94***$"
+T=5 "$207.51***$" "$64.11***$" "$28.08***$" "$19.51**$"  "$17.21**$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:53:49 PM
-\begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Steel} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$ 73.0585406680347 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 16.4778516572094 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.4382204023106 \textasteriskcentered \textasteriskcentered  \$ & \$ 6.34889291871929  \$ & \$ 6.54885622811675 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=3 & \$ 120.672323645128 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 35.7627124693717 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.8482213368998 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.0399376957399 \textasteriskcentered \textasteriskcentered  \$ & \$ 6.46573658943808  \$ \\ 
-T=4 & \$ 155.585037867321 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 46.1227183533414 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 18.279070096024 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 16.3346527573672 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 9.94191685520786 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=5 & \$ 207.507473141751 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 64.110499710324 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 28.0787388342468 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 19.5086340208204 \textasteriskcentered \textasteriskcentered  \$ & \$ 17.2055640488516 \textasteriskcentered \textasteriskcentered  \$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:53:49 PM
+% Date and time: Mon, Mar 28, 2022 - 3:07:36 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 9} 
   \label{} 

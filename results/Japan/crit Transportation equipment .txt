@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:59:43 PM
+% Date and time: Mon, Mar 28, 2022 - 3:13:27 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Transportation equipment  industry in Japan} 
   \label{} 
@@ -24,28 +24,16 @@ t & 3,269 & 1,994.368 & 8.133 & 1,980 & 2,008 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+[1] "Estimate LR for  Transportation equipment"
+    M=1           M=2           M=3           M=4           M=5          
+T=1 "0"           "0"           "0"           "0"           "0"          
+T=2 "$231.33***$" "$74.64***$"  "$67.38***$"  "$56.53***$"  "$44.85***$" 
+T=3 "$410.59***$" "$127.09***$" "$119.88***$" "$95.77***$"  "$73.55***$" 
+T=4 "$573.39***$" "$172.41***$" "$150.95***$" "$130.65***$" "$100.97***$"
+T=5 "$737.78***$" "$211.02***$" "$175.86***$" "$155.93***$" "$110.42***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:59:43 PM
-\begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Transportation equipment} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$ 231.329123704915 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 74.6433674040056 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.3806305604525 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 56.5293649472391 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 44.8510887160205 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=3 & \$ 410.592607865383 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 127.089861433429 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 119.877449780004 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 95.7744051732735 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 73.5526933700888 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=4 & \$ 573.389997618933 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 172.413222696163 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 150.94726504099 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 130.64514646862 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 100.974294370974 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-T=5 & \$ 737.775290086879 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 211.021692322203 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 175.861136992945 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 155.934088824872 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 110.420559755162 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 7:59:43 PM
+% Date and time: Mon, Mar 28, 2022 - 3:13:27 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 14} 
   \label{} 
