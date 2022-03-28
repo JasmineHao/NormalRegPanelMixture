@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Plastic  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$54.27***$" "$58.11**$"  "$30.62**$"  "$26.1***$"  "$12.21***$"
 T=5 "$75.87***$" "$67.67**$"  "$39.58*$"   "$23.98***$" "$15.07***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 7} 
   \label{} 

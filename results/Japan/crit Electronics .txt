@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:11:02 PM
+% Date and time: Mon, Mar 28, 2022 - 7:37:20 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Electronics  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$1020.77***$" "$369.37***$" "$171.97***$" "$163.19***$" "$100.52***$"
 T=5 "$1306.06***$" "$487.73***$" "$227.59***$" "$220.42***$" "$133.03***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:11:02 PM
+% Date and time: Mon, Mar 28, 2022 - 7:37:20 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 13} 
   \label{} 

@@ -52,7 +52,7 @@ colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.5) <- ind_list[ind.code]
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
-count = 0
+count = 1
 
 ######################################################
 #For panel data
@@ -85,7 +85,7 @@ for (each.code in ind.code){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
-    ind.each.t <- ind.each[ind.each$year > t.start,]
+    ind.each.t <- ind.each[ind.each$year >= t.start,]
     ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
     ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
     id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
@@ -125,7 +125,8 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
     }
-    desc.each[T, ] <- c(each.name, each.code, dim(ind.each.y)[1], round(mean(as.matrix(ind.each.y)), 2), round(sd(as.matrix(ind.each.y)), 2))
+   
+     desc.each[T, ] <- c(each.name, each.code, dim(m.share)[1], round(mean(as.matrix(ind.each.y)), 2), round(sd(as.matrix(ind.each.y)), 2))
   }
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
@@ -151,7 +152,7 @@ for (each.code in ind.code){
   print("*************************************")
   
   sink(paste("results/Japan/regressorCrit",each.name,".txt"))
-  stargazer(desc.each, type = "text", title = paste("Descriptives for ", ind.name, each.code))
+  stargazer(desc.each, type = "text", title = paste("Descriptives for ", each.name, each.code))
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
   print(estimate.df)

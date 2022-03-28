@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:13:27 PM
+% Date and time: Mon, Mar 28, 2022 - 7:39:44 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Transportation equipment  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$573.39***$" "$172.41***$" "$150.95***$" "$130.65***$" "$100.97***$"
 T=5 "$737.78***$" "$211.02***$" "$175.86***$" "$155.93***$" "$110.42***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:13:27 PM
+% Date and time: Mon, Mar 28, 2022 - 7:39:44 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 14} 
   \label{} 

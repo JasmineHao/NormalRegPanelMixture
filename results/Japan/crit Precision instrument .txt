@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:15:13 PM
+% Date and time: Mon, Mar 28, 2022 - 7:41:30 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Precision instrument  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$116.87***$" "$84.32***$"  "$65.09***$" "$34.66***$" "$29.51***$"
 T=5 "$161.01***$" "$100.53***$" "$84.04***$" "$42.82***$" "$29.49***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:15:13 PM
+% Date and time: Mon, Mar 28, 2022 - 7:41:30 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 15} 
   \label{} 

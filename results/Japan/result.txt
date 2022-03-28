@@ -2,7 +2,7 @@
 > stargazer(estimate.LR.df.1)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -32,7 +32,7 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 > stargazer(estimate.LR.df.2)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -62,7 +62,7 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 > stargazer(estimate.LR.df.3)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -92,7 +92,7 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 > stargazer(estimate.LR.df.4)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -122,7 +122,7 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 > stargazer(estimate.LR.df.5)
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:18:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

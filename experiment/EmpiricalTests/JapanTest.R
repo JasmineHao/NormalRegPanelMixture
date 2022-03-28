@@ -52,7 +52,7 @@ colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.5) <- ind_list[ind.code]
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
-count = 0
+count = 1
 
 ######################################################
 #For panel data

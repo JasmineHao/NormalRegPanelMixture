@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:07:36 PM
+% Date and time: Mon, Mar 28, 2022 - 7:33:55 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Steel  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$155.59***$" "$46.12***$" "$18.28***$" "$16.33***$" "$9.94***$"
 T=5 "$207.51***$" "$64.11***$" "$28.08***$" "$19.51**$"  "$17.21**$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:07:36 PM
+% Date and time: Mon, Mar 28, 2022 - 7:33:55 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 9} 
   \label{} 

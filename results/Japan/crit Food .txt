@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:00:27 PM
+% Date and time: Mon, Mar 28, 2022 - 7:26:47 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Food  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$462.1***$"  "$227.4***$"  "$207.78***$" "$125.88***$" "$110.98***$"
 T=5 "$573.63***$" "$267.21***$" "$249.27***$" "$157.55***$" "$137.21***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:00:27 PM
+% Date and time: Mon, Mar 28, 2022 - 7:26:47 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 1} 
   \label{} 

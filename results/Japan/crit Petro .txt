@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 2:53:59 PM
+% Date and time: Mon, Mar 28, 2022 - 7:20:14 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Petro  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$669.07***$" "$311.53***$" "$217.8***$"  "$181.65***$" "$98.31***$"
 T=5 "$863.31***$" "$387.57***$" "$269.47***$" "$213.31***$" "$118.37***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 2:53:59 PM
+% Date and time: Mon, Mar 28, 2022 - 7:20:14 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 5} 
   \label{} 

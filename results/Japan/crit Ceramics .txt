@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 2:55:37 PM
+% Date and time: Mon, Mar 28, 2022 - 7:21:52 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Ceramics  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$184.35***$" "$67.08***$" "$62.51***$" "$49.37***$" "$32.79***$"
 T=5 "$226.38***$" "$98.37***$" "$65.23***$" "$68.18***$" "$28.49***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 2:55:37 PM
+% Date and time: Mon, Mar 28, 2022 - 7:21:52 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 8} 
   \label{} 

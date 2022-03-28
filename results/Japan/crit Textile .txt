@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:04:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:30:21 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Textile  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$188.06***$" "$136.95***$" "$79.11***$"  "$54.87***$" "$48.53***$"
 T=5 "$239.87***$" "$166.48***$" "$102.45***$" "$55.31***$" "$55.76***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:04:00 PM
+% Date and time: Mon, Mar 28, 2022 - 7:30:21 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 2} 
   \label{} 

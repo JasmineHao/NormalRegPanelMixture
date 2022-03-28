@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:05:42 PM
+% Date and time: Mon, Mar 28, 2022 - 7:32:04 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Paper  industry in Japan} 
   \label{} 
@@ -33,7 +33,7 @@ T=4 "$132.41***$" "$107.63***$" "$63.98***$" "$52.44***$" "$38.58***$"
 T=5 "$178.28***$" "$135.05***$" "$78.65***$" "$67.13***$" "$36.43***$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 3:05:42 PM
+% Date and time: Mon, Mar 28, 2022 - 7:32:04 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 4} 
   \label{} 
