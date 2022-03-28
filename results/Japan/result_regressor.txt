@@ -1,8 +1,6 @@
 
-> stargazer(estimate.LR.df.1)
-
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:04:18 PM
+% Date and time: Mon, Mar 28, 2022 - 8:33:56 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -29,10 +27,8 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 \end{tabular} 
 \end{table} 
 
-> stargazer(estimate.LR.df.2)
-
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:04:18 PM
+% Date and time: Mon, Mar 28, 2022 - 8:33:56 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -41,28 +37,18 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Machine & \$ 266.339076353022 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 116.535844273477 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 103.333876041677 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 72.6000978934296 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.9259899474281 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Petro & \$ 69.566986592747 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 30.7405657717104 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 32.2228145369725 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 13.65798684265  \$ & \$ 10.670359591918 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Ceramics & \$ 155.996765887543 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 48.7365404881019 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 33.6961330443347 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 27.7664681870607 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 9.27269155768982 \textasteriskcentered  \$ \\ 
-Other & \$ 176.261040092087 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 101.076211349335 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 81.1077422979099 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 48.3835114003366 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 53.6981269485516 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Food & \$ 28.4269965105375 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 26.1646469855526 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 13.007470474513 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 7.06159723450159 \textasteriskcentered  \$ & \$ 4.65391786771533 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Othermetal & \$ 80.3556063395625 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 46.5007435507586 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.1910347497054 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 31.0356454528823 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 17.9508752229901 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Textile & \$ 50.7685110267971 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 36.9882784384999 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 22.6098277376673 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.5327776442137 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.558853404863 \textasteriskcentered \textasteriskcentered  \$ \\ 
-Paper & \$ 73.0585406680347 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 16.4778516572094 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.4382204023106 \textasteriskcentered \textasteriskcentered  \$ & \$ 6.34889291871929  \$ & \$ 6.54885622811675 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Steel & \$ 478.768595710293 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 150.265800210706 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 63.8306229938047 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 56.7169310406046 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 49.9406686636015 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Electronics & \$ 231.329123704915 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 74.6433674040056 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.3806305604525 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 56.5293649472391 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 44.8510887160205 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Transportation equipment & \$ 39.6571090785557 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 26.3380514783139 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 20.5691735403003 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 15.4897294316526 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.4561667387553  \$ \\ 
-Precision instrument & \$ 86.6678831751613 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 33.9989707444711 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.8568369886432 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.8114178125977 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 19.6983466574415 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Metal product & \$ 13.1300260630827 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 19.7207578929735 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 16.4362311282192 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 13.9864318438792 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 7.85426333993767 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Plastic & 0 & 0 & 0 & 0 & 0 \\ 
+Machine & \$32.48\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$7.96\$ & \$4.28\$ & \$1.07\$ & \$1.7\$ \\ 
+Petro & \$8.25\$ & \$-11.06\$ & \$6.02\$ & \$0.65\$ & \$0.65\$ \\ 
+Food & \$15.35\textasteriskcentered \textasteriskcentered \$ & \$4.47\$ & \$-4.46\$ & \$-1.18\$ & \$25.48\$ \\ 
+Othermetal & \$10.02\$ & \$0\$ & \$-0.16\$ & \$-0.72\$ & \$-3\$ \\ 
+Paper & \$3.7\$ & \$-0.98\$ & \$1.26\$ & \$3.26\$ & \$0.24\$ \\ 
+Plastic & \$11.63\$ & \$-17.78\$ & \$-0.42\$ & \$-0.61\$ & \$6.9\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
-> stargazer(estimate.LR.df.3)
-
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:04:18 PM
+% Date and time: Mon, Mar 28, 2022 - 8:33:56 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -71,28 +57,18 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Machine & \$ 461.571405155869 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 236.663292658651 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 164.375842624977 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 129.820165781354 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 63.5725859954187 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Petro & \$ 132.128645998236 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 59.1899215550308 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 50.778681494267 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 22.7733083304212 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 17.8202139934819 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Ceramics & \$ 253.110896648456 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 97.2469322290357 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 61.3583654400945 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 48.0952236312553 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.2713330841479 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Other & \$ 324.73344558454 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 165.934984789252 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 147.830131505688 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 85.1258356511991 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 82.6288279402067 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Food & \$ 60.734266836466 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 57.8220329754971 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 25.5578231896244 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 13.3455027920886 \textasteriskcentered \textasteriskcentered  \$ & \$ 7.70305367419269 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Othermetal & \$ 137.090521544706 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 90.5754884787128 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 65.667030090643 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 36.7942303049227 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 37.8586527492929 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Textile & \$ 89.0547174594448 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 70.4416072509804 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 46.6444387693047 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.7104295891384 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 28.5796027434586 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Paper & \$ 120.672323645128 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 35.7627124693717 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 21.8482213368998 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 10.0399376957399 \textasteriskcentered \textasteriskcentered  \$ & \$ 6.46573658943808  \$ \\ 
-Steel & \$ 751.288181093798 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 254.232202415086 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 121.089125115913 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 116.743257902677 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 74.0393254142791 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Electronics & \$ 410.592607865383 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 127.089861433429 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 119.877449780004 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 95.7744051732735 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 73.5526933700888 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Transportation equipment & \$ 83.1415580059074 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 56.8550274232678 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 43.21713894253 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 23.8213522288301 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 25.2104092385738 \textasteriskcentered \textasteriskcentered  \$ \\ 
-Precision instrument & \$ 166.452244579362 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 65.0697184244218 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 51.0240928078666 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 47.7095258192521 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.3471796459814 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Metal product & \$ 33.1588965835331 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 40.9758695101649 \textasteriskcentered \textasteriskcentered  \$ & \$ 22.7408044843725 \textasteriskcentered \textasteriskcentered  \$ & \$ 20.6943162026882 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 11.1691832141133 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Plastic & 0 & 0 & 0 & 0 & 0 \\ 
+Machine & \$54.52\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$5.78\$ & \$-39\$ & \$0\$ & \$-3.98\$ \\ 
+Petro & \$15.93\textasteriskcentered \textasteriskcentered \$ & \$2.31\$ & \$2.31\$ & \$2.31\$ & \$2.31\$ \\ 
+Food & \$29.46\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$9.74\$ & \$11.16\$ & \$28.32\$ & \$26.61\$ \\ 
+Othermetal & \$7.34\$ & \$0\$ & \$1.14\$ & \$-1.88\$ & \$-1.49\$ \\ 
+Paper & \$9.46\$ & \$3.91\$ & \$-1.81\$ & \$-1.81\$ & \$-1.81\$ \\ 
+Plastic & \$22.44\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$-33.21\$ & \$-0.69\$ & \$-0.76\$ & \$10.43\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
-> stargazer(estimate.LR.df.4)
-
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:04:18 PM
+% Date and time: Mon, Mar 28, 2022 - 8:33:56 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -101,28 +77,18 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Machine & \$ 669.074281444762 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 311.534475712831 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 217.802566958804 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 181.654270831756 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 98.3104694136834 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Petro & \$ 184.346051260634 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.0797333234445 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 62.5107484257773 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 49.3655120129682 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 32.7924634314223 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Ceramics & \$ 329.830175816377 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 142.526977690699 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 73.8606619655393 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 60.1011303562799 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 33.8697671928311 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Other & \$ 462.102756442003 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 227.398015735824 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 207.778012429466 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 125.882903452396 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 110.978980403684 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Food & \$ 82.8976467595364 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 62.9269222675926 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 25.4660277358772 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 12.1070359921381 \textasteriskcentered \textasteriskcentered  \$ & \$ 9.1971455637502 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Othermetal & \$ 188.057357893738 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 136.950600717889 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 79.1141864634665 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 54.8661813200078 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 48.5337526294735 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Textile & \$ 132.413570132467 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 107.631541010065 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 63.9827571587412 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 52.4416097220566 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 38.5768288631439 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Paper & \$ 155.585037867321 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 46.1227183533414 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 18.279070096024 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 16.3346527573672 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 9.94191685520786 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Steel & \$ 1020.7662477102 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 369.368354841562 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 171.973407937047 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 163.190258379948 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 100.518071698778 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Electronics & \$ 573.389997618933 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 172.413222696163 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 150.94726504099 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 130.64514646862 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 100.974294370974 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Transportation equipment & \$ 116.870417576445 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 84.3183023533479 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 65.0866811996922 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 34.664348766587 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.5078685775028 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Precision instrument & \$ 250.878619274397 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 89.0695597207919 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 76.5495941361943 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 69.9568478701545 \textasteriskcentered \textasteriskcentered  \$ & \$ 35.13813278776 \textasteriskcentered \textasteriskcentered  \$ \\ 
-Metal product & \$ 54.2668231727708 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 58.1101749355164 \textasteriskcentered \textasteriskcentered  \$ & \$ 30.6248256101636 \textasteriskcentered \textasteriskcentered  \$ & \$ 26.1028382028424 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 12.2104896812792 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Plastic & 0 & 0 & 0 & 0 & 0 \\ 
+Machine & \$72.73\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$9.58\$ & \$-41.96\$ & \$-9.23\$ & \$-10.56\$ \\ 
+Petro & \$23.69\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$-32.29\$ & \$2.14\$ & \$2.14\$ & \$2.14\$ \\ 
+Food & \$42.56\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$6.21\$ & \$-18.12\$ & \$-44.35\$ & \$11.69\$ \\ 
+Othermetal & \$8.56\$ & \$0\$ & \$4.61\$ & \$-0.04\$ & \$-1.87\$ \\ 
+Paper & \$15.62\$ & \$5.23\$ & \$-1.85\$ & \$-3.93\$ & \$-4.33\$ \\ 
+Plastic & \$30.13\textasteriskcentered \textasteriskcentered \$ & \$12.26\$ & \$6.33\$ & \$-2.69\$ & \$-7.47\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
-> stargazer(estimate.LR.df.5)
-
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 8:04:18 PM
+% Date and time: Mon, Mar 28, 2022 - 8:33:56 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -131,22 +97,12 @@ Plastic & 0 & 0 & 0 & 0 & 0 \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Machine & \$ 863.312897416596 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 387.565931470467 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 269.466339587011 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 213.312624006137 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 118.373667522216 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Petro & \$ 226.377886900784 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 98.3660000478937 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 65.2343080667183 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 68.1844270032174 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 28.4937733787015 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Ceramics & \$ 424.842303297218 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 187.788790527865 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 85.027899695179 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 69.0818622933499 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 49.1601918965243 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Other & \$ 573.628234597967 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 267.20589810273 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 249.273329261228 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 157.554243421445 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 137.207831271076 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Food & \$ 95.5041061791699 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 50.8372355336851 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 19.7382628235758 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 18.1791510654816 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 15.4963610140774 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Othermetal & \$ 239.869160339866 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 166.480759775608 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 102.453446688704 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 55.3091050386484 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 55.7625237309758 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Textile & \$ 178.278617086095 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 135.048967612002 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 78.6517455090638 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.1254060398144 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 36.4262885191754 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Paper & \$ 207.507473141751 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 64.110499710324 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 28.0787388342468 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 19.5086340208204 \textasteriskcentered \textasteriskcentered  \$ & \$ 17.2055640488516 \textasteriskcentered \textasteriskcentered  \$ \\ 
-Steel & \$ 1306.05518142498 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 487.727587074121 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 227.587842199577 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 220.418783601781 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 133.027909146894 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Electronics & \$ 737.775290086879 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 211.021692322203 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 175.861136992945 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 155.934088824872 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 110.420559755162 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Transportation equipment & \$ 161.008476977152 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 100.53449821883 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 84.0407900423886 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 42.8221847965029 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 29.4891145491992 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Precision instrument & \$ 305.82190342683 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 106.36081955104 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 83.5299314641826 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 75.3363801487251 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 37.7029913213948 \textasteriskcentered \textasteriskcentered  \$ \\ 
-Metal product & \$ 75.8725872621906 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 67.667088781567 \textasteriskcentered \textasteriskcentered  \$ & \$ 39.5771216757307 \textasteriskcentered  \$ & \$ 23.9762879330367 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ & \$ 15.0707107278796 \textasteriskcentered \textasteriskcentered \textasteriskcentered  \$ \\ 
-Plastic & 0 & 0 & 0 & 0 & 0 \\ 
+Machine & \$93.27\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$11.25\$ & \$-21.25\$ & \$31.38\$ & \$-0.01\$ \\ 
+Petro & \$27.23\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$-36.37\$ & \$5.89\$ & \$5.89\$ & \$5.89\$ \\ 
+Food & \$57.93\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ & \$15.27\$ & \$51.24\$ & \$52.44\$ & \$32.82\textasteriskcentered \textasteriskcentered \textasteriskcentered \$ \\ 
+Othermetal & \$12.94\$ & \$0\$ & \$-1.29\$ & \$0\$ & \$-2.59\$ \\ 
+Paper & \$21.23\textasteriskcentered \textasteriskcentered \$ & \$0\$ & \$-5.69\$ & \$9.14\$ & \$27.16\$ \\ 
+Plastic & \$38.22\textasteriskcentered \textasteriskcentered \$ & \$2.94\$ & \$0.19\$ & \$19.65\$ & \$-7.99\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
-
-> sink()

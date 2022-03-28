@@ -3,31 +3,23 @@ Descriptive data for Chilean Industry: Paper and products
 =================================
 Statistic N Mean St. Dev. Min Max
 =================================
-
-Columbian Producer Data: Estimated LR for Paper and products
-====================================
-     M=1    M=2    M=3    M=4   M=5 
-------------------------------------
-T=1   0      0      0      0     0  
-T=2 33.963 10.476 3.936  1.224 1.359
-T=3 54.351 28.462 4.467  3.073 2.201
-T=4 79.210 42.991 10.088 9.013 7.273
-T=5 83.179 55.728 10.364 8.787 2.002
-------------------------------------
+[1] "Columbian Producer Data: Estimated LR for  Paper and products"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 11:13:07 PM
+% Date and time: Mon, Mar 28, 2022 - 8:55:15 PM
 \begin{table}[!htbp] \centering 
-  \caption{Paper and products} 
+  \caption{} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$33.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$3.51$\hat{\mkern6mu}$\{\}\$ & \$1.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1.68$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$54.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$28.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4.43$\hat{\mkern6mu}$\{\}\$ & \$4.57$\hat{\mkern6mu}$\{\}\$ & \$3.37$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$79.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$42.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.73$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$8.89$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$83.18$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$55.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$2.16$\hat{\mkern6mu}$\{\}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

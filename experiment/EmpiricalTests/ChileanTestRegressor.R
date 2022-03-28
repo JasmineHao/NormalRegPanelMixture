@@ -11,6 +11,8 @@ df <- read_dta("data/ChileanClean.dta")
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 
 ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
+ind.names <- c("Wood products, except furniture","Machinery, except electrical","Manufacture of furniture and fixtures, except primarily of metal","Transport equipment","Other chemicals","Printing and publishing","Other non-metallic mineral products","Fabricated metal products","Textiles","Beverages","Paper and products","Wearing apparel, except footwear","Other manufactured products","Food products","Industrial chemicals","Footwear, except rubber or plastic","Plastic products","Animal feeds, etc")
+
 ind.count <- length(ind.code)
 cl <- makeCluster(detectCores())
 
@@ -195,7 +197,7 @@ for (each.code in ind.code){
       if (class(lr.crit) == "try-error"){
         lr.crit <- c(0,0,0) 
       } 
-      estimate.m.df[T,M] <- paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
+      estimate.m.df[T, M] <- paste("$", round(lr.estimate, 2), "^{", paste(rep("*", sum(lr.estimate > lr.crit)), collapse = ""), "}", "$", sep = "")
       
       crit.m.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # ############################################
@@ -300,10 +302,10 @@ for (each.code in ind.code){
 
 
 # stargazer(crit.df,title=paste("estimate",ind.name))
-rownames(estimate.LR.df.2) <- ind.code
-rownames(estimate.LR.df.3) <- ind.code
-rownames(estimate.LR.df.4) <- ind.code
-rownames(estimate.LR.df.5) <- ind.code
+rownames(estimate.LR.df.2) <- ind.names
+rownames(estimate.LR.df.3) <- ind.names
+rownames(estimate.LR.df.4) <- ind.names
+rownames(estimate.LR.df.5) <- ind.names
 
 sink("results/Chile/resultRegressors.txt")
 stargazer(estimate.LR.df.2)

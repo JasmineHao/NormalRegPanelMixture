@@ -96,7 +96,7 @@ for (each.code in ind.code){
         lr.crit <- c(0,0,0) 
         
       }
-      estimate.df[T,M] <-  paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
+      estimate.df[T, M] <- paste("$", round(lr.estimate, 2), "^{", paste(rep("*", sum(lr.estimate > lr.crit)), collapse = ""), "}", "$", sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
       # lr.crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit

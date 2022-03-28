@@ -1,6 +1,17 @@
 
+Descriptives for Petro 5
+=====================================
+    Industry Name code  n  mean   sd 
+-------------------------------------
+T=1       0        0    0    0    0  
+T=2     Petro      5   135 -0.79 0.45
+T=3     Petro      5   135 -0.88 0.42
+T=4     Petro      5   135 -0.89 0.4 
+T=5     Petro      5   135 -0.94 0.44
+-------------------------------------
+
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:07:05 PM
+% Date and time: Mon, Mar 28, 2022 - 8:04:40 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  Petro  industry in Japan} 
   \label{} 
@@ -25,37 +36,29 @@ lnm & 1,770 & 2.810 & 0.080 & 2.571 & 2.996 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+[1] "Estimate LR for  Petro"
+    M=1          M=2        M=3      M=4      M=5     
+T=1 "0"          "0"        "0"      "0"      "0"     
+T=2 "$8.25$"     "$-11.06$" "$6.02$" "$0.65$" "$0.65$"
+T=3 "$15.93**$"  "$2.31$"   "$2.31$" "$2.31$" "$2.31$"
+T=4 "$23.69***$" "$-32.29$" "$2.14$" "$2.14$" "$2.14$"
+T=5 "$27.23***$" "$-36.37$" "$5.89$" "$5.89$" "$5.89$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:07:05 PM
-\begin{table}[!htbp] \centering 
-  \caption{Estimate LR for  Petro} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$8.247$ & $$-$11.056$ & $0.647$ & $0.647$ & $0.647$ \\ 
-$15.932$ & $$-$18.503$ & $2.307$ & $2.307$ & $2.307$ \\ 
-$23.692$ & $$-$32.287$ & $2.138$ & $2.138$ & $2.138$ \\ 
-$27.225$ & $$-$36.371$ & $5.886$ & $5.886$ & $5.886$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Sun, Mar 27, 2022 - 6:07:05 PM
+% Date and time: Mon, Mar 28, 2022 - 8:04:40 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 5} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-0 & 0 & 0 & 0 & 0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
-0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 & 0,0,0 \\ 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 11.4,13.07,19.3 & 36.1,36.74,38.89 & 41.9,44.39,46.42 & 77.68,81.21,82.79 & 70.75,74.87,84.48 \\ 
+T=3 & 10.66,13.26,22.35 & 8.83,10.79,13.84 & 27.68,30.54,36.3 & 83.79,88.03,98.26 & 72.27,82.1,94.37 \\ 
+T=4 & 13.58,16.71,21.26 & 70.65,72.38,74.51 & 22.19,25.11,38.14 & 69.77,75.77,81.78 & 105.68,112.93,125.76 \\ 
+T=5 & 10.5,12.58,19.73 & 75.49,76.76,78.91 & 110.92,113.8,120.7 & 108.5,117.58,126.61 & 73.01,85.25,97.17 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

@@ -15,10 +15,23 @@ df <- read_dta("data/ChileanClean.dta")
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 
 ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
+ind.names <- c("Wood products, except furniture","Machinery, except electrical","Manufacture of furniture and fixtures, except primarily of metal","Transport equipment","Other chemicals","Printing and publishing","Other non-metallic mineral products","Fabricated metal products","Textiles","Beverages","Paper and products","Wearing apparel, except footwear","Other manufactured products","Food products","Industrial chemicals","Footwear, except rubber or plastic","Plastic products","Animal feeds, etc")
 ind.count <- length(ind.code)
 cl <- makeCluster(7)
 count = 0
 
+estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.2) <- ind.names
+colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.3) <- ind.names
+colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.4) <- ind.names
+colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
+estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(estimate.LR.df.5) <- ind.names
+colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 # for (each.code in ind.code){
 #   t <- Sys.time()
 #   ind.each <- subset(df,ciiu_3d==each.code)
@@ -125,14 +138,14 @@ for (each.code in ind.code){
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE,nrep=1000)$crit)
+      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
       
       if (class(lr.crit) == "try-error"){
         
           lr.crit <- c(0,0,0) 
       
       }
-      estimate.df[T,M] <- paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
+      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       
       #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=cl, nbtsp = 199 ,parallel = TRUE)$crit
@@ -169,6 +182,11 @@ for (each.code in ind.code){
 }
 
 
+# stargazer(crit.df,title=paste("estimate",ind.name))
+rownames(estimate.LR.df.2) <- ind.names
+rownames(estimate.LR.df.3) <- ind.names
+rownames(estimate.LR.df.4) <- ind.names
+rownames(estimate.LR.df.5) <- ind.names
 
 # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")

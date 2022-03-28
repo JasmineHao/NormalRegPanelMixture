@@ -3,31 +3,23 @@ Descriptive data for Chilean Industry: Manufacture of furniture and fixtures, ex
 =================================
 Statistic N Mean St. Dev. Min Max
 =================================
-
-Columbian Producer Data: Estimated LR for Manufacture of furniture and fixtures, except primarily of metal
-=====================================================
-       M=1       M=2       M=3       M=4       M=5   
------------------------------------------------------
-T=1     0         0         0         0         0    
-T=2 1,430.667  557.311   568.776   889.305   889.305 
-T=3 1,938.326  809.215  1,380.085 1,380.085 1,380.085
-T=4 2,482.040 1,067.972 1,719.532 1,719.532 1,719.532
-T=5 2,544.552 1,166.449 1,197.315 1,959.438 1,959.438
------------------------------------------------------
+[1] "Columbian Producer Data: Estimated LR for  Manufacture of furniture and fixtures, except primarily of metal"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Mar 23, 2022 - 11:10:42 PM
+% Date and time: Mon, Mar 28, 2022 - 8:52:55 PM
 \begin{table}[!htbp] \centering 
-  \caption{Manufacture of furniture and fixtures, except primarily of metal} 
+  \caption{} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
-$0$ & $0$ & $0$ & $0$ & $0$ \\ 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$1430.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$543.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$557.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$889.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$889.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=3 & \$1938.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$793.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1380.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1380.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1380.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$2482.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1031.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1719.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1719.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1719.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$2544.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1126.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1169.11$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1959.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1959.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
