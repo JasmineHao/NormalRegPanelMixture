@@ -5,15 +5,15 @@ cppregpanelmixMLE <- function(ys, xs, zs, alpha0s, mu0s, sigma0s, beta0s, gamma0
     .Call(`_NormalRegPanelMixture_cppregpanelmixMLE`, ys, xs, zs, alpha0s, mu0s, sigma0s, beta0s, gamma0s, m, q, p, t)
 }
 
-cppnormalpanelmixPMLE <- function(bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit = 2000L, ninits = 10L, tol = 1e-8, tau = 0.5, h = 0L, k = 0L, update_alpha = 1L) {
-    .Call(`_NormalRegPanelMixture_cppnormalpanelmixPMLE`, bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, update_alpha)
-}
-
 cppRegPanelmixPMLE <- function(bs, ys, xs, zs, mu0s, sigma0s, m, p, t, an, maxit = 2000L, ninits = 10L, tol = 1e-8, tau = 0.5, h = 0L, k = 0L, update_alpha = 1L) {
     .Call(`_NormalRegPanelMixture_cppRegPanelmixPMLE`, bs, ys, xs, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, update_alpha)
 }
 
 cppRegmixPMLE <- function(bs, ys, xs, zs, mu0s, sigma0s, m, p, an, maxit = 2000L, ninits = 10L, tol = 1e-8, tau = 0.5, h = 0L, k = 0L, update_alpha = 1L) {
     .Call(`_NormalRegPanelMixture_cppRegmixPMLE`, bs, ys, xs, zs, mu0s, sigma0s, m, p, an, maxit, ninits, tol, tau, h, k, update_alpha)
+}
+
+cppnormalpanelmixPMLE <- function(bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit = 2000L, ninits = 10L, tol = 1e-8, tau = 0.5, h = 0L, k = 0L, update_alpha = 1L) {
+    .Call(`_NormalRegPanelMixture_cppnormalpanelmixPMLE`, bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, update_alpha)
 }
 
