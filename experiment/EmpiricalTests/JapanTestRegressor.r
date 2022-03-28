@@ -34,6 +34,7 @@ ind12 <- ind12[order(ind12$id,ind12$t),]
 #Descriptive data for ind12
 stargazer(ind12,type="text")
 
+ind.code <- c( 12 )
 ind.code <- c(12,  5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
 
 
@@ -60,14 +61,23 @@ count = 0
 
 for (each.code in ind.code){
   t <- Sys.time()
+
   ind.each <- subset(df,industry_2==each.code)
+  ind.each <- ind.each[complete.cases(ind.each),]
+  ind.each$lnm <- log(ind.each$m_it)
   each.name <- ind_list[each.code]
+  
+  year.list <- sort(unique(ind.each$year))
+  ######################################################
+  # Select the data out
+  ######################################################
+  T.cap <- max(year.list)
   
   m.share <- cast(ind.each,id ~ year,value="lnmY_it")
   
   row.names(m.share) <- m.share$id 
   m.share <- m.share[,!(colnames(m.share)=="id")] 
-  T.cap <- dim(m.share)[2]
+  
   
   estimate.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
@@ -75,26 +85,36 @@ for (each.code in ind.code){
   for (T in 2:5){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
-    m.share.t <- m.share[,t.seq]
-    data <- list(Y = t(m.share.t[complete.cases(m.share.t),]), X = NULL,  Z = NULL)
+    
+    ind.each.t <- ind.each[ind.each$year>=t.start,]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
+    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
+    id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
+    #Remove the incomplete data, need balanced panel
+    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
+    ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
+    #Reshape the Y 
+    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
+    ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
+    
+    
+    data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
     N <- dim(data$Y)[2]
     
     for (M in 1:5){
-      out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = NULL,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
       an <-  anFormula(out.h0$parlist,M,N,T) 
-      out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      
+      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)      
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       
       
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit)
+      lr.crit <- try(regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
         lr.crit <- c(0,0,0) 
-        
       }
       estimate.df[T,M] <-  paste('$',round(lr.estimate,2),paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
@@ -130,7 +150,6 @@ for (each.code in ind.code){
   print("*************************************")
   
   sink(paste("results/Japan/regressorCrit",each.name,".txt"))
-  
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
   print(estimate.df)
