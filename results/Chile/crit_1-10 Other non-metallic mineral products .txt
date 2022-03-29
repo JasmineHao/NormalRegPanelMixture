@@ -1,0 +1,36 @@
+
+Descriptive data for Chilean Industry: Other non-metallic mineral products
+=================================
+Statistic N Mean St. Dev. Min Max
+=================================
+[1] "Columbian Producer Data: Estimated LR for  Other non-metallic mineral products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 5:37:17 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$1638.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.21$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$2388.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$765.2$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.79$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$2851.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$837.83$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$3539.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\}\$ & \$1455.19$\hat{\mkern6mu}$\{\}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Other non-metallic mineral products 369
+==========================================================================================================================================================================================================================================
+          M=1                 M=2                     M=3                     M=4                     M=5                     M=6                     M=7                     M=8                    M=9                    M=10          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+T=1        0                   0                       0                       0                       0                       0                       0                       0                      0                       0           
+T=2 4.54,5.96,12.89 1214.98,1261.46,1350.36 1235.86,1277.82,1412.61 1254.66,1292.51,1336.88 1293.01,1317.84,1412.63 1304.15,1361.44,1444.39 1325.12,1361.39,1471.58          0,0,0          1318.8,1343.64,1404.84 1315.67,1358.65,1444.93
+T=3 3.49,5.68,9.15  1768.32,1839.67,1907.62 1698.49,1762.48,1864.42 1749.86,1802.46,1915.81          0,0,0          1800.68,1853.41,1957.58 1790.76,1867.53,2073.15 1803.33,1843.98,2086.65 1842.56,1897.9,2025.59 1812.98,1867.2,1942.59 
+T=4  4.02,5.6,8.49  1924.58,2031.71,2209.23 1962.84,2031.05,2128.51 1980.32,2045.18,2093.13 1962.73,2028.72,2160.19          0,0,0                   0,0,0                   0,0,0                  0,0,0                   0,0,0         
+T=5 3.11,4.48,10.6  2154.13,2248.13,2461.2  2168.57,2292.82,2533.86          0,0,0                   0,0,0                   0,0,0                   0,0,0                   0,0,0                  0,0,0                   0,0,0         
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
