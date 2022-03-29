@@ -91,7 +91,7 @@ for (each.code in ind.code){
       
       
       
-      lr.crit <- try(regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = FALSE)$crit)
+      lr.crit <- try(regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
         lr.crit <- c(0,0,0) 
         
