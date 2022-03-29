@@ -1,0 +1,128 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 7:09:57 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+Wood products, except furniture & \$4196.43$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1100.35$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\}\$ & \$1583.74$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$2392.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$281.45$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.85$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Manufacture of furniture and fixtures, except primarily of metal & \$1430.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$900.73$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.3$\hat{\mkern6mu}$\{\}\$ & \$889.31$\hat{\mkern6mu}$\{\}\$ \\ 
+Transport equipment & \$1099.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$254.57$\hat{\mkern6mu}$\{\}\$ & \$509.55$\hat{\mkern6mu}$\{\}\$ & \$509.55$\hat{\mkern6mu}$\{\}\$ & \$509.55$\hat{\mkern6mu}$\{\}\$ & \$509.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$509.55$\hat{\mkern6mu}$\{\}\$ & \$509.57$\hat{\mkern6mu}$\{\}\$ & \$509.57$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$509.62$\hat{\mkern6mu}$\{\}\$ \\ 
+Other chemicals & \$2016.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$605.29$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\}\$ & \$1042.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1042.55$\hat{\mkern6mu}$\{\}\$ \\ 
+Printing and publishing & \$2315.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$890.18$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.61$\hat{\mkern6mu}$\{\}\$ & \$875.65$\hat{\mkern6mu}$\{\}\$ \\ 
+Other non-metallic mineral products & \$1638.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$908.2$\hat{\mkern6mu}$\{\}\$ & \$908.21$\hat{\mkern6mu}$\{\}\$ \\ 
+Fabricated metal products & \$5408.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1410.45$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ & \$2645.46$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Beverages & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Paper and products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Other manufactured products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Food products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Industrial chemicals & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Plastic products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Animal feeds, etc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 7:09:57 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+Wood products, except furniture & \$5975.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1084.91$\hat{\mkern6mu}$\{\}\$ & \$1546.62$\hat{\mkern6mu}$\{\}\$ & \$1546.62$\hat{\mkern6mu}$\{\}\$ & \$1546.62$\hat{\mkern6mu}$\{\}\$ & \$1546.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1546.62$\hat{\mkern6mu}$\{\}\$ & \$1546.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1546.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1546.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$2781.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\}\$ & \$918.36$\hat{\mkern6mu}$\{\}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Manufacture of furniture and fixtures, except primarily of metal & \$1938.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$793.15$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\}\$ & \$1380.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Transport equipment & \$1399.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$450.85$\hat{\mkern6mu}$\{\}\$ & \$769.27$\hat{\mkern6mu}$\{\}\$ & \$769.27$\hat{\mkern6mu}$\{\}\$ & \$769.27$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$769.27$\hat{\mkern6mu}$\{\}\$ & \$769.27$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$769.28$\hat{\mkern6mu}$\{\}\$ & \$769.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$769.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other chemicals & \$2739.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1277.69$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.49$\hat{\mkern6mu}$\{\}\$ & \$1254.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Printing and publishing & \$3327.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1505.38$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\}\$ & \$1481.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1481.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1481.59$\hat{\mkern6mu}$\{\}\$ \\ 
+Other non-metallic mineral products & \$2388.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$765.2$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.79$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ & \$1254.78$\hat{\mkern6mu}$\{\}\$ \\ 
+Fabricated metal products & \$6763.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2005.89$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ & \$3562.58$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Beverages & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Paper and products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Other manufactured products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Food products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Industrial chemicals & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Plastic products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Animal feeds, etc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 7:09:57 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+Wood products, except furniture & \$7371.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1851.11$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ & \$2827.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2827.36$\hat{\mkern6mu}$\{\}\$ \\ 
+Machinery, except electrical & \$3569.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\}\$ & \$1156.05$\hat{\mkern6mu}$\{\}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Manufacture of furniture and fixtures, except primarily of metal & \$2482.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1031.88$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ & \$1719.53$\hat{\mkern6mu}$\{\}\$ \\ 
+Transport equipment & \$1761.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$664.72$\hat{\mkern6mu}$\{\}\$ & \$1217.14$\hat{\mkern6mu}$\{\}\$ & \$1217.14$\hat{\mkern6mu}$\{\}\$ & \$1217.14$\hat{\mkern6mu}$\{\}\$ & \$1217.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1217.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1217.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1217.18$\hat{\mkern6mu}$\{\}\$ & \$1217.23$\hat{\mkern6mu}$\{\}\$ \\ 
+Other chemicals & \$3428.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1056.8$\hat{\mkern6mu}$\{\}\$ & \$1532.96$\hat{\mkern6mu}$\{\}\$ & \$1532.96$\hat{\mkern6mu}$\{\}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Printing and publishing & \$4298.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1881.64$\hat{\mkern6mu}$\{\}\$ & \$1846.69$\hat{\mkern6mu}$\{\}\$ & \$1846.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1846.69$\hat{\mkern6mu}$\{\}\$ & \$1846.69$\hat{\mkern6mu}$\{\}\$ & \$1846.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1846.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1846.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1846.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$2851.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$837.83$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.22$\hat{\mkern6mu}$\{\}\$ & \$1355.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$8148.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2600.34$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.32$\hat{\mkern6mu}$\{\}\$ & \$4609.5$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Beverages & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Paper and products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Other manufactured products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Food products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Industrial chemicals & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Plastic products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Animal feeds, etc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 7:09:57 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+Wood products, except furniture & \$7594.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1734.17$\hat{\mkern6mu}$\{\}\$ & \$2652.05$\hat{\mkern6mu}$\{\}\$ & \$2652.05$\hat{\mkern6mu}$\{\}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2652.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$3626.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1281.4$\hat{\mkern6mu}$\{\}\$ & \$584.91$\hat{\mkern6mu}$\{\}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Manufacture of furniture and fixtures, except primarily of metal & \$2544.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1126.77$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ & \$1959.44$\hat{\mkern6mu}$\{\}\$ \\ 
+Transport equipment & \$1957.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$703.67$\hat{\mkern6mu}$\{\}\$ & \$1381.96$\hat{\mkern6mu}$\{\}\$ & \$1381.96$\hat{\mkern6mu}$\{\}\$ & \$1381.96$\hat{\mkern6mu}$\{\}\$ & \$1381.96$\hat{\mkern6mu}$\{\}\$ & \$1381.96$\hat{\mkern6mu}$\{\}\$ & \$1381.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1381.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1381.99$\hat{\mkern6mu}$\{\}\$ \\ 
+Other chemicals & \$4004.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.81$\hat{\mkern6mu}$\{\}\$ & \$2036.81$\hat{\mkern6mu}$\{\}\$ & \$2036.81$\hat{\mkern6mu}$\{\}\$ & \$2036.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.81$\hat{\mkern6mu}$\{\}\$ & \$2036.81$\hat{\mkern6mu}$\{\}\$ & \$2036.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2037.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.82$\hat{\mkern6mu}$\{\}\$ \\ 
+Printing and publishing & \$4851.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1605.46$\hat{\mkern6mu}$\{\}\$ & \$2396.06$\hat{\mkern6mu}$\{\}\$ & \$2396.06$\hat{\mkern6mu}$\{\}\$ & \$2396.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2396.06$\hat{\mkern6mu}$\{\}\$ & \$2396.06$\hat{\mkern6mu}$\{\}\$ & \$2396.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2396.06$\hat{\mkern6mu}$\{\}\$ & \$2396.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$3539.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\}\$ & \$1455.19$\hat{\mkern6mu}$\{\}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1455.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$8624.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3058.36$\hat{\mkern6mu}$\{\}\$ & \$3081.47$\hat{\mkern6mu}$\{\}\$ & \$5753.04$\hat{\mkern6mu}$\{\}\$ & \$5753.04$\hat{\mkern6mu}$\{\}\$ & \$5753.04$\hat{\mkern6mu}$\{\}\$ & \$5753.05$\hat{\mkern6mu}$\{\}\$ & \$5753.04$\hat{\mkern6mu}$\{\}\$ & \$5753.05$\hat{\mkern6mu}$\{\}\$ & \$5753.05$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Beverages & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Paper and products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Other manufactured products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Food products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Industrial chemicals & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Plastic products & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+Animal feeds, etc & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

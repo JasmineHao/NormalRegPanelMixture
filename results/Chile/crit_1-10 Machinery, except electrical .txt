@@ -1,0 +1,36 @@
+
+Descriptive data for Chilean Industry: Machinery, except electrical
+=================================
+Statistic N Mean St. Dev. Min Max
+=================================
+[1] "Columbian Producer Data: Estimated LR for  Machinery, except electrical"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Mar 29, 2022 - 12:44:44 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$2392.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$281.45$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.85$\hat{\mkern6mu}$\{\}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$859.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=3 & \$2781.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\}\$ & \$918.36$\hat{\mkern6mu}$\{\}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$918.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$3569.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\}\$ & \$1156.05$\hat{\mkern6mu}$\{\}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1156.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$3626.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1281.4$\hat{\mkern6mu}$\{\}\$ & \$584.91$\hat{\mkern6mu}$\{\}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1279.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Machinery, except electrical 382
+=================================================================================================================================================================
+         M=1                 M=2                     M=3                    M=4                     M=5            M=6   M=7            M=8            M=9  M=10 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+T=1       0                   0                       0                      0                       0              0     0              0              0     0  
+T=2 4.31,5.5,8.38  1231.55,1281.32,1393.56 1219.96,1273.42,1543.26 1199.3,1231.95,1333.68 1300.15,1341.81,1491.67 0,0,0 0,0,0 1283.64,1366.63,1512.44 0,0,0 0,0,0
+T=3 3.87,6.06,10.5 1341.37,1405.61,1696.16  1308.93,1401.6,1510.3          0,0,0                   0,0,0          0,0,0 0,0,0          0,0,0          0,0,0 0,0,0
+T=4 4.11,5.29,10.3 1742.55,1861.74,2131.51  1717.2,1819.43,2000.7          0,0,0                   0,0,0          0,0,0 0,0,0          0,0,0          0,0,0 0,0,0
+T=5 4.38,6.33,8.52  1964.62,2079.58,2224   1884.22,1990.62,2390.04         0,0,0                   0,0,0          0,0,0 0,0,0          0,0,0          0,0,0 0,0,0
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
