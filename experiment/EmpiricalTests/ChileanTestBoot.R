@@ -87,6 +87,7 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6","M=7","M=8",
 
 
 for (each.code in ind.code){
+  
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
@@ -125,6 +126,7 @@ for (each.code in ind.code){
     N <- dim(data$Y)[2]
     
     for (M in 1:10){
+      tryCatch({
       out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
       # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
       #            beta = beta, N = N, T = T, M = M, p = p, q = q)
@@ -147,7 +149,9 @@ for (each.code in ind.code){
       }
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      
+    }
+      ,
+      error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
       #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,cl=cl, nbtsp = 199 ,parallel = TRUE)$crit
       # crit.df.boot[T,M] <- paste(round(lr.crit.boot,2),collapse = ",")
     }
