@@ -1,0 +1,36 @@
+
+Descriptive data for Chilean Industry: Other manufactured products
+=================================
+Statistic N Mean St. Dev. Min Max
+=================================
+[1] "Columbian Producer Data: Estimated LR for  Other manufactured products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Wed, Mar 30, 2022 - 5:44:53 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 & M=6 & M=7 & M=8 & M=9 & M=10 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$468.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$294.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ & \$544.83$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$588.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$392.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ & \$715.23$\hat{\mkern6mu}$\{\}\$ & \$715.21$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$729.45$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$427.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$735.65$\hat{\mkern6mu}$\{\}\$ & \$735.65$\hat{\mkern6mu}$\{\}\$ & \$735.65$\hat{\mkern6mu}$\{\}\$ & \$735.65$\hat{\mkern6mu}$\{\}\$ & \$735.65$\hat{\mkern6mu}$\{\}\$ & \$735.66$\hat{\mkern6mu}$\{\}\$ & \$735.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$735.67$\hat{\mkern6mu}$\{\}\$ \\ 
+T=5 & \$808.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$505.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.11$\hat{\mkern6mu}$\{\}\$ & \$873.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$873.15$\hat{\mkern6mu}$\{\}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Other manufactured products 390
+===================================================================================================================================================================================================================================
+          M=1              M=2                   M=3                     M=4                     M=5                     M=6                     M=7                     M=8                   M=9                   M=10          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+T=1        0                0                     0                       0                       0                       0                       0                       0                     0                      0           
+T=2 3.74,4.89,10.13  46.1,55.18,66.79   628.93,661.35,708.31    706.25,741.84,789.99    734.95,771.21,837.27    737.44,755.32,810.86    741.26,760.54,814.14    738.59,763.34,791.61   733.15,762.64,822.13   755.13,785.77,829.2  
+T=3 3.65,5.2,14.89  58.28,65.49,75.51    855.23,888.6,983.39    947.51,972.18,1062.01   946.35,969.75,1017.29   970.5,992.76,1058.49    968.06,983.99,1024.77   948.32,991.53,1024.68   976.05,993.38,1066    960.6,987.65,1051.9  
+T=4  3.44,4.7,6.65  68.91,80.96,766.65  941.89,980.99,1086.29  1004.27,1024.33,1136.56 1017.14,1046.17,1123.89 1023.52,1067.21,1169.11 1038.12,1068.22,1120.43 1045.62,1106.08,1183.76        0,0,0         1014.67,1047.38,1124.9 
+T=5 3.27,5.31,11.9  78.4,91.85,976.74  1118.46,1169.82,1243.72 1186.2,1225.72,1394.12  1188.35,1236.63,1320.33 1193.78,1243.02,1326.07 1216.37,1264.78,1310.57 1201.83,1257.97,1379.14        0,0,0         1217.98,1256.87,1356.22
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
