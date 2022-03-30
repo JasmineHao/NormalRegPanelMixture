@@ -67,7 +67,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   # long EM
   components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
   b1 <- as.matrix(b0[ ,components]) # b0 has been updated
-  out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = update.alpha)
+  out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
   
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m1,index] # b0 has been updated

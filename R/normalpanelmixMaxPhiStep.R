@@ -61,7 +61,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   }
   # long EM
   b1 <- as.matrix(b0[ ,components])
-  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = update.alpha)
+  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
 
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m1,index]
