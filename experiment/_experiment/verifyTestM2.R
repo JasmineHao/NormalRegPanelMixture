@@ -51,7 +51,7 @@ getEstimate <- function(Data,nrep,an,cl){
     
     out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE,cl=cl)
     
-    lr.estimate[k,] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+    lr.estimate[k,] <- 2 * max(out.h1$loglik - out.h0$loglik)
     }# out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
     
     

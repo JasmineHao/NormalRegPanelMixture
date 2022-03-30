@@ -107,7 +107,7 @@ for (each.code in ind.code){
       an <-  anFormula(out.h0$parlist,M,N,T) 
       out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)      
       
-      lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
+      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
       
       
       

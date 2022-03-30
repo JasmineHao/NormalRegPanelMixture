@@ -38,7 +38,7 @@ for (k in 1:nrep){
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0.1)
   # out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
   
-  lr.estimate[k] <- min(out.h1$penloglik) - out.h0$loglik
+  lr.estimate[k] <- min(out.h1$loglik) - out.h0$loglik
   # lr.estimate[k] <- min(out.h1$loglik - out.h0$loglik)
   # lr.crit[k,] <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,parallel = FALSE)$crit
   

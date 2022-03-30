@@ -50,7 +50,7 @@ for (k in 1:nrep){
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
   out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
   lr.estimate[k] <- out.h1$loglik - out.h0$loglik
-  lr.estimate.pen[k] <- out.h1$penloglik - out.h0$penloglik
+  lr.estimate.pen[k] <- out.h1$loglik - out.h0$penloglik
 }
 lr.estimate <- 2 * lr.estimate
 lr.estimate.pen <- 2 * lr.estimate.pen

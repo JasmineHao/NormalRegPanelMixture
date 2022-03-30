@@ -39,7 +39,7 @@ PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
   # print(data)
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
   out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-  return(2 * max(out.h1$penloglik - out.h0$loglik))
+  return(2 * max(out.h1$loglik - out.h0$loglik))
 }
 
 

@@ -35,8 +35,8 @@ for (k in 1:nrep){
   # rNormalPanelMixMLE(out.h0$parlist$alpha,out.h0$parlist$mu,out.h0$parlist$sigma,out.h0$parlist$beta,out.h0$parlist$gamma,data$Y,data$X,data$Z,M,p,q)
   # out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=1/N)
   out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
-  lr.estimate[k] <- out.h1$penloglik - out.h0$loglik
-  # lr.estimate.pen[k] <- out.h1$penloglik - out.h0$penloglik
+  lr.estimate[k] <- out.h1$loglik - out.h0$loglik
+  # lr.estimate.pen[k] <- out.h1$loglik - out.h0$penloglik
   print(2 * lr.estimate[k])
   print(k)
   print(proc.time()[1] - ptm)

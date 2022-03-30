@@ -43,7 +43,7 @@ PerformEMtest <- function (data, an, m = M, z = NULL, parallel) {
   
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-  return(2 * max(out.h1$penloglik - out.h0$loglik))
+  return(2 * max(out.h1$loglik - out.h0$loglik))
 }
 
 PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
