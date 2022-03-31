@@ -47,10 +47,10 @@ GenerateSample <- function(phi,nrep){
 
 PerformEMtest <- function (data, an, m = 2,  parallel) {
   # workers might need information
-  library(NormalRegPanelMixture)# workers might need information
+  # library(NormalRegPanelMixture)# workers might need information
   # print(data)
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
-  out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
+  out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE)
   return(2 * max(out.h1$loglik - out.h0$loglik))
 }
 
@@ -60,7 +60,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m){
   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  parallel=FALSE
+  parallel=TRUE
   # cl <- makeCluster(7)
   # for (k in 1:nrep){
   #   data <- Data[,k]
@@ -73,14 +73,16 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m){
   
   
   ldata <- lapply(seq_len(ncol(Data)), function(i) Data[,i])
-  lr.estimate <- cbind(mpi.applyLB(ldata, PerformEMtest, an = an, m=M, 
+  # lr.estimate <- cbind(mpi.applyLB(ldata, PerformEMtest, an = an, m=M, 
+                                   # parallel = parallel))
+  lr.estimate <- cbind(lapply(ldata, PerformEMtest, an = an, m=M, 
                                    parallel = parallel))
   data <- ldata[[1]]
   
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
-  crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE,nrep=1000)$crit)
+  crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE,nrep=1000)$crit)
   if (class(crit) == "try-error"){
-    crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
+    crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE)$crit
   } 
   for ( k in 1:nrep){
     lr.crit[k,] <- crit
@@ -98,11 +100,11 @@ nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(
 regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
 
 # Rmpi setup 
-print("collecting workers..")
-mpi.spawn.Rslaves()
-mpi.setup.rngstream()
-mpi.bcast.Robj2slave(PerformEMtest, all=TRUE)
-print("workers loaded.")
+# print("collecting workers..")
+# mpi.spawn.Rslaves()
+# mpi.setup.rngstream()
+# mpi.bcast.Robj2slave(PerformEMtest, all=TRUE)
+# print("workers loaded.")
 
 # ====== BEGIN EXPERIMENT ======
 ## 1. Initialization

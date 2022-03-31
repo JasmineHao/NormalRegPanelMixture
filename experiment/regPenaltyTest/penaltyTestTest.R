@@ -2,54 +2,21 @@ library(NormalRegPanelMixture)
 library(foreach)
 library(Rmpi)
 library(stargazer)
-library(parallel)
-set.seed(123456)
-
-Nset <- c(100,500)
-Tset <- c(2,10)
-
-anset <- c(0.05,0.1,0.15,0.3,0.4)
-
-alphaset <- list(c(0.25, 0.25, 0.25, 0.25))
-muset 		<- list(c(-4,-1,1,4), c(-5,-1,1,5), c(-6,-2,2,6), c(-6,-1,2,5), c(-5,0,2,4), c(-6,0,2,4))
-sigmaset <- list(c(1, 1, 1, 1), c(1, 0.75, 0.5, 0.25))
-
+#Generate Data
+Nset <- c(100)
+Tset <- c(2)
+alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+muset <- list(c(-1,1))
+sigmaset <- list(c(1, 1))
+anset <- c(0.1)
 
 
 #The parameters that are fixed
-M <- 4 #Number of Type
+M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
 gamma <- matrix(0)
 beta <- matrix(0)
-
-#Get the misclassfication
-GetMisclTerm <- function(phi) {
-
-  m <- phi$M
-
-  if (m == 2)
-  {
-    omega.12  <- omega.12(phi)
-    return (log(omega.12 /(0.5-omega.12)))
-  }
-
-  if (m == 3) # ln(omega_12 omega_23 / (0.5-omega_12)(0.5-omega_23))
-  {
-    omega.123 <- omega.123(phi)
-    omega.12 <- omega.123[1]
-    omega.23 <- omega.123[2]
-    return (log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23))))
-  }
-  omega.1234 <- omega.1234(phi)
-  omega.12 <- omega.1234[1]
-  omega.23 <- omega.1234[2]
-  omega.34 <- omega.1234[3]
-  # (m == 4) # ln(omega_12 omega_23 omega_34 / (0.5-omega_12)(0.5-omega_23)(0.5-omega_34))
-  return (log(omega.12 * omega.23 * omega.34 /
-                ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34))))
-
-}
 
 GenerateSample <- function(phi,nrep){
   p = phi$p
@@ -61,28 +28,21 @@ GenerateSample <- function(phi,nrep){
   mu = phi$mu
   gamma = phi$gamma
   beta = phi$beta
-  # if (q != 0){
-  #   parlist <- list('alpha' = alpha,
-  #                   'mubeta' = t(cbind(mu,beta)),
-  #                   'sigma' = sigma, 'gam' = gamma)
-  # }else{
-  #   parlist <- list('alpha' = alpha, 'mubeta' = mu, 'sigma' = sigma, 'gam' = gamma)
-  # }
+
   Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
   return(list(phi=phi,Data=Data))
 }
 
 
 
-PerformEMtest <- function (data, an, m = 4, z = NULL, parallel) {
-  # workers might need information
+PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
+  library(doParallel) # workers might need information
   library(NormalRegPanelMixture)# workers might need information
-  # print(data)
+
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
   return(2 * max(out.h1$loglik - out.h0$loglik))
 }
-
 
 
 MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
@@ -90,7 +50,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   parallel=FALSE
-  cl <- makeCluster(detectCores())
+  cl <- makeCluster(64)
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
@@ -119,12 +79,13 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 500
+nrep <- 50
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
-
-
+print("Number of Cores")
+print(detectCores())
+print(" ====== BEGIN EXPERIMENT ======")
 # ====== BEGIN EXPERIMENT ======
 ## 1. Initialization
 # Case when m = 3
@@ -162,12 +123,13 @@ for (N in Nset){
 }
 
 
+
 colnames(regression.data) <- c("nom.size", "an" ,"N","T", "omega")
 # Begin estimation
 
 stargazer(regression.data)
 #The colnames are nom.size, an, T, N
-write.csv(regression.data,file="/home/haoyu/results/penaltyTestM4.csv",row.names=FALSE)
+write.csv(regression.data,file="/home/haoyu/results/penaltyTestM2.csv",row.names=FALSE)
 
 fit.data <- list(y = log(
   regression.data[,'nom.size'] / (0.1 - regression.data[,'nom.size']) ) ,
