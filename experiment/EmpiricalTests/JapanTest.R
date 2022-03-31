@@ -21,20 +21,17 @@ ind_list <- c("Food","Textile", "Wood","Paper","Petro" , "Chemical","Plastic","C
               "Other")
 
 
-df <- read.csv(file="data/data_production_function_missing2zero.csv")
+df <- readRDS("data/JapanClean.rds")
+
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
 df$t <- df$year
 df <- df[order(df$id,df$t),]
-ind12 <- subset(df,industry_2==12)
-ind12 <- ind12[order(ind12$id,ind12$t),]
 
 
-#Descriptive data for ind12
-stargazer(ind12,type="text")
 
-ind.code <- c(12,  5 , 8 , 16 , 1 , 10 , 2 , 4 ,  9 , 13 , 14 , 15 , 11, 7 )
+ind.code <- c(5,13,12)
 
 
 estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)
@@ -52,12 +49,26 @@ colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.5) <- ind_list[ind.code]
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
-count = 1
+
+crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(crit.LR.df.2) <- ind.names
+colnames(crit.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
+crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(crit.LR.df.3) <- ind.names
+colnames(crit.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
+crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(crit.LR.df.4) <- ind.names
+colnames(crit.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
+crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(crit.LR.df.5) <- ind.names
+colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 
 ######################################################
 #For panel data
 ######################################################
 
+count = 0
+cl <- makeCluster(7)
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
@@ -65,13 +76,22 @@ for (each.code in ind.code){
   
   m.share <- cast(ind.each,id ~ year,value="lnmY_it")
   
+  ######################################################
+  # Select the data out
+  ######################################################
   row.names(m.share) <- m.share$id 
   m.share <- m.share[,!(colnames(m.share)=="id")] 
+  m.share <- m.share[complete.cases(m.share),]
   T.cap <- dim(m.share)[2]
   
   estimate.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
-  crit.df.boot <- matrix(0,nr=5,nc=5)
+  result.df <- matrix(0,nr=5,nc=5)
+  ######################################################
+  #For panel data
+  ######################################################
+  
+  
   for (T in 2:5){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
@@ -79,56 +99,63 @@ for (each.code in ind.code){
     data <- list(Y = t(m.share.t[complete.cases(m.share.t),]), X = NULL,  Z = NULL)
     N <- dim(data$Y)[2]
     
+    h1.coefficient = NULL
     for (M in 1:5){
-      out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-      # phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-      #            beta = beta, N = N, T = T, M = M, p = p, q = q)
-      an <-  anFormula(out.h0$parlist,M,N,T) 
+      # Estimate the null model
+      out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+      an <- anFormula(out.h0$parlist,M,N,T) 
+      print("-----------------------------------------")
+      print(paste("T=",T,"M = ",M,"an=",an))
+      if (is.na(an)){ 
+        an <- 1.0
+      }
+      # Estimate the alternative model
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      
+      h1.parlist = out.h1$parlist
       
       lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
       
-      
-      
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit)
+      # Simulate the asymptotic distribution
+      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
-        lr.crit <- c(0,0,0) 
-        
+        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
       }
-      estimate.df[T, M] <- paste("$", round(lr.estimate, 2), "^{", paste(rep("*", sum(lr.estimate > lr.crit)), collapse = ""), "}", "$", sep = "")
+      # Store the estimation results
+      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      
-      # lr.crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=NULL , parallel = TRUE,nrep=1000)$crit
-      #lr.crit.boot <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = FALSE)$crit
-      #crit.df.boot[T,M] <- paste(round(lr.crit.boot ,2),collapse = ",")
+      # If fail to reject the test, break the loop
+      if (sum(lr.estimate > lr.crit) < 1) break
       
       print(lr.estimate)
       print(lr.crit)
     }
   }
+  ###################################################################
+  #     Output
+  ###################################################################
+  count = count + 1
+  print("*************************************")
+  print(paste("Finished", each.name))
+  print( Sys.time() - t)
+  print("*************************************")
+  
+  estimate.LR.df.2[count,] <- estimate.df[2,]
+  estimate.LR.df.3[count,] <- estimate.df[3,]
+  estimate.LR.df.4[count,] <- estimate.df[4,]
+  estimate.LR.df.5[count,] <- estimate.df[5,]
+  
+  crit.LR.df.2[count,] <- crit.df[2,]
+  crit.LR.df.3[count,] <- crit.df[3,]
+  crit.LR.df.4[count,] <- crit.df[4,]
+  crit.LR.df.5[count,] <- crit.df[5,]
+  
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
-  # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
-  
-  
-  estimate.LR.df.1[count,] <- estimate.df[1,]
-  estimate.LR.df.2[count,] <- estimate.df[2,]
-  estimate.LR.df.3[count,] <- estimate.df[3,]
-  estimate.LR.df.4[count,] <- estimate.df[4,]
-  estimate.LR.df.5[count,] <- estimate.df[5,]
-  count = count + 1
-  
-  print("*************************************")
-  print(paste("Finished", each.name))
-  print( Sys.time() - t)
-  print("*************************************")
-  
+
   sink(paste("results/Japan/Crit",each.name,".txt"))
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
@@ -141,20 +168,24 @@ for (each.code in ind.code){
 }
 
 
-
-
-
-
-rownames(estimate.LR.df.2) <- ind_list[ind.code]
-rownames(estimate.LR.df.3) <- ind_list[ind.code]
-rownames(estimate.LR.df.4) <- ind_list[ind.code]
-rownames(estimate.LR.df.5) <- ind_list[ind.code]
-
+sink("results/Japan/result_text.txt")
+print(estimate.LR.df.2)
+print(crit.LR.df.2)
+print(estimate.LR.df.3)
+print(crit.LR.df.3)
+print(estimate.LR.df.4)
+print(crit.LR.df.4)
+print(estimate.LR.df.5)
+print(crit.LR.df.5)
+sink()
 
 sink("results/Japan/result.txt")
-stargazer(estimate.LR.df.1)
 stargazer(estimate.LR.df.2)
+stargazer(crit.LR.df.2)
 stargazer(estimate.LR.df.3)
+stargazer(crit.LR.df.3)
 stargazer(estimate.LR.df.4)
+stargazer(crit.LR.df.4)
 stargazer(estimate.LR.df.5)
+stargazer(crit.LR.df.5)
 sink()

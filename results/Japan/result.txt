@@ -1,152 +1,136 @@
 
-> stargazer(estimate.LR.df.1)
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Mar 31, 2022 - 11:55:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Petro & $255.89^{* * * }$ & $118.38^{* * * }$ & $92.32^{* * * }$ & $72.67^{* * * }$ & $34.46^{* * * }$ \\ 
+Electronics & $438.15^{* * * }$ & $134.73^{* * * }$ & $63.13^{* * * }$ & $58.14^{* * * }$ & $38.99^{* * * }$ \\ 
+Machine & $298.54^{* * * }$ & $112.62^{* * * }$ & $92.11^{* * * }$ & $35.67^{* * * }$ & $36.05^{* * * }$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
-\begin{table}[!htbp] \centering
-  \caption{}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
- & M=1 & M=2 & M=3 & M=4 & M=5 \\
-\hline \\[-1.8ex]
-Machine & 0 & 0 & 0 & 0 & 0 \\
-Petro & 0 & 0 & 0 & 0 & 0 \\
-Ceramics & 0 & 0 & 0 & 0 & 0 \\
-Other & 0 & 0 & 0 & 0 & 0 \\
-Food & 0 & 0 & 0 & 0 & 0 \\
-Othermetal & 0 & 0 & 0 & 0 & 0 \\
-Textile & 0 & 0 & 0 & 0 & 0 \\
-Paper & 0 & 0 & 0 & 0 & 0 \\
-Steel & 0 & 0 & 0 & 0 & 0 \\
-Electronics & 0 & 0 & 0 & 0 & 0 \\
-Transportation equipment & 0 & 0 & 0 & 0 & 0 \\
-Precision instrument & 0 & 0 & 0 & 0 & 0 \\
-Metal product & 0 & 0 & 0 & 0 & 0 \\
-Plastic & 0 & 0 & 0 & 0 & 0 \\
-\hline \\[-1.8ex]
-\end{tabular}
-\end{table}
-
-> stargazer(estimate.LR.df.2)
+% Date and time: Thu, Mar 31, 2022 - 11:55:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+4.13,5.65,9.8 & 5.18,7.11,10.71 & 6.11,7.47,10.61 & 6.55,8.32,11.33 & 7,8.63,12.91 \\ 
+4.32,5.95,10.02 & 5.62,7.23,10.85 & 6.46,8.06,11.82 & 6.69,8.25,11.89 & 7.66,8.95,12.49 \\ 
+4.16,5.74,10.7 & 5.35,7.27,11.49 & 6.24,7.61,10.61 & 6.39,8.27,11.65 & 7.41,8.89,12.2 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
-\begin{table}[!htbp] \centering
-  \caption{}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
- & M=1 & M=2 & M=3 & M=4 & M=5 \\
-\hline \\[-1.8ex]
-Machine & $266.34^{***}$ & $116.54^{***}$ & $103.33^{***}$ & $72.6^{***}$ & $34.93^{***}$ \\
-Petro & $69.57^{***}$ & $30.74^{***}$ & $32.22^{***}$ & $13.66$ & $10.67^{***}$ \\
-Ceramics & $156^{***}$ & $48.74^{***}$ & $33.7^{***}$ & $27.77^{***}$ & $9.27^{*} $ \\
-Other & $176.26^{***}$ & $101.08^{***}$ & $81.11^{***}$ & $48.38^{***}$ & $53.7^{***}$ \\
-Food & $28.43^{***}$ & $26.16^{***}$ & $13.01^{***}$ & $7.06^{*} $ & $4.65^{***}$ \\
-Othermetal & $80.36^{***}$ & $46.5^{***}$ & $34.19^{***}$ & $31.04^{***}$ & $17.95^{***}$ \\
-Textile & $50.77^{***}$ & $36.99^{***}$ & $22.61^{***}$ & $21.53^{***}$ & $21.56^{**} $ \\
-Paper & $73.06^{***}$ & $16.48^{***}$ & $10.44^{**} $ & $6.35$ & $6.55^{***}$ \\
-Steel & $478.77^{***}$ & $150.27^{***}$ & $63.83^{***}$ & $56.72^{***}$ & $49.94^{***}$ \\
-Electronics & $231.33^{***}$ & $74.64^{***}$ & $67.38^{***}$ & $56.53^{***}$ & $44.85^{***}$ \\
-Transportation equipment & $39.66^{***}$ & $26.34^{***}$ & $20.57^{***}$ & $15.49^{***}$ & $10.46$ \\
-Precision instrument & $86.67^{***}$ & $34^{***}$ & $29.86^{***}$ & $29.81^{***}$ & $19.7^{***}$ \\
-Metal product & $13.13^{***}$ & $19.72^{***}$ & $16.44^{***}$ & $13.99^{***}$ & $7.85^{***}$ \\
-Plastic & 0 & 0 & 0 & 0 & 0 \\
-\hline \\[-1.8ex]
-\end{tabular}
-\end{table}
-
-> stargazer(estimate.LR.df.3)
+% Date and time: Thu, Mar 31, 2022 - 11:55:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Petro & $461.06^{* * * }$ & $238.8^{* * * }$ & $164.72^{* * * }$ & $131.1^{* * * }$ & $64.17^{* * * }$ \\ 
+Electronics & $741.84^{* * * }$ & $254.64^{* * * }$ & $117.58^{* * * }$ & $116.53^{* * * }$ & $74.33^{* * * }$ \\ 
+Machine & $512.01^{* * * }$ & $206.89^{* * * }$ & $124.4^{* * * }$ & $72.63^{* * * }$ & $55.86^{* * * }$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
-\begin{table}[!htbp] \centering
-  \caption{}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
- & M=1 & M=2 & M=3 & M=4 & M=5 \\
-\hline \\[-1.8ex]
-Machine & $461.57^{***}$ & $236.66^{***}$ & $164.38^{***}$ & $129.82^{***}$ & $63.57^{***}$ \\
-Petro & $132.13^{***}$ & $59.19^{***}$ & $50.78^{***}$ & $22.77^{***}$ & $17.82^{***}$ \\
-Ceramics & $253.11^{***}$ & $97.25^{***}$ & $61.36^{***}$ & $48.1^{***}$ & $21.27^{***}$ \\
-Other & $324.73^{***}$ & $165.93^{***}$ & $147.83^{***}$ & $85.13^{***}$ & $82.63^{***}$ \\
-Food & $60.73^{***}$ & $57.82^{***}$ & $25.56^{***}$ & $13.35^{**} $ & $7.7^{***}$ \\
-Othermetal & $137.09^{***}$ & $90.58^{***}$ & $65.67^{***}$ & $36.79^{***}$ & $37.86^{***}$ \\
-Textile & $89.05^{***}$ & $70.44^{***}$ & $46.64^{***}$ & $34.71^{***}$ & $28.58^{***}$ \\
-Paper & $120.67^{***}$ & $35.76^{***}$ & $21.85^{***}$ & $10.04^{**} $ & $6.47$ \\
-Steel & $751.29^{***}$ & $254.23^{***}$ & $121.09^{***}$ & $116.74^{***}$ & $74.04^{***}$ \\
-Electronics & $410.59^{***}$ & $127.09^{***}$ & $119.88^{***}$ & $95.77^{***}$ & $73.55^{***}$ \\
-Transportation equipment & $83.14^{***}$ & $56.86^{***}$ & $43.22^{***}$ & $23.82^{***}$ & $25.21^{**} $ \\
-Precision instrument & $166.45^{***}$ & $65.07^{***}$ & $51.02^{***}$ & $47.71^{***}$ & $29.35^{***}$ \\
-Metal product & $33.16^{***}$ & $40.98^{**} $ & $22.74^{**} $ & $20.69^{***}$ & $11.17^{***}$ \\
-Plastic & 0 & 0 & 0 & 0 & 0 \\
-\hline \\[-1.8ex]
-\end{tabular}
-\end{table}
-
-> stargazer(estimate.LR.df.4)
+% Date and time: Thu, Mar 31, 2022 - 11:55:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+3.99,5.62,9.81 & 5.16,6.93,10.37 & 6.06,7.88,11.66 & 7.14,8.83,12 & 7.12,9.08,11.59 \\ 
+4.1,5.8,9.41 & 5.27,7.01,10.54 & 6.19,7.93,11.38 & 6.81,8.64,11.41 & 7.53,9.43,12.98 \\ 
+4.04,5.58,10.05 & 5.14,7,10.16 & 6.23,8.39,12.34 & 7.23,9.2,13.51 & 7.71,9.07,12.92 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
-\begin{table}[!htbp] \centering
-  \caption{}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
- & M=1 & M=2 & M=3 & M=4 & M=5 \\
-\hline \\[-1.8ex]
-Machine & $669.07^{***}$ & $311.53^{***}$ & $217.8^{***}$ & $181.65^{***}$ & $98.31^{***}$ \\
-Petro & $184.35^{***}$ & $67.08^{***}$ & $62.51^{***}$ & $49.37^{***}$ & $32.79^{***}$ \\
-Ceramics & $329.83^{***}$ & $142.53^{***}$ & $73.86^{***}$ & $60.1^{***}$ & $33.87^{***}$ \\
-Other & $462.1^{***}$ & $227.4^{***}$ & $207.78^{***}$ & $125.88^{***}$ & $110.98^{***}$ \\
-Food & $82.9^{***}$ & $62.93^{***}$ & $25.47^{***}$ & $12.11^{**} $ & $9.2^{***}$ \\
-Othermetal & $188.06^{***}$ & $136.95^{***}$ & $79.11^{***}$ & $54.87^{***}$ & $48.53^{***}$ \\ 
-Textile & $132.41^{***}$ & $107.63^{***}$ & $63.98^{***}$ & $52.44^{***}$ & $38.58^{***}$ \\
-Paper & $155.59^{***}$ & $46.12^{***}$ & $18.28^{***}$ & $16.33^{***}$ & $9.94^{***}$ \\
-Steel & $1020.77^{***}$ & $369.37^{***}$ & $171.97^{***}$ & $163.19^{***}$ & $100.52^{***}$ \\
-Electronics & $573.39^{***}$ & $172.41^{***}$ & $150.95^{***}$ & $130.65^{***}$ & $100.97^{***}$ \\
-Transportation equipment & $116.87^{***}$ & $84.32^{***}$ & $65.09^{***}$ & $34.66^{***}$ & $29.51^{***}$ \\
-Precision instrument & $250.88^{***}$ & $89.07^{***}$ & $76.55^{***}$ & $69.96^{**} $ & $35.14^{**} $ \\
-Metal product & $54.27^{***}$ & $58.11^{**} $ & $30.62^{**} $ & $26.1^{***}$ & $12.21^{***}$ \\
-Plastic & 0 & 0 & 0 & 0 & 0 \\
-\hline \\[-1.8ex]
-\end{tabular}
-\end{table}
-
-> stargazer(estimate.LR.df.5)
+% Date and time: Thu, Mar 31, 2022 - 11:55:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Petro & $666.2^{* * * }$ & $309.73^{* * * }$ & $220.94^{* * * }$ & $181.24^{* * * }$ & $97.27^{* * * }$ \\ 
+Electronics & $1038.41^{* * * }$ & $370.4^{* * * }$ & $172.45^{* * * }$ & $164.2^{* * * }$ & $101.18^{* * * }$ \\ 
+Machine & $722.31^{* * * }$ & $320.45^{* * * }$ & $163.06^{* * * }$ & $119.8^{* * * }$ & $91.5^{* * * }$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 7:44:16 PM
-\begin{table}[!htbp] \centering
-  \caption{}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
-\\[-1.8ex]\hline
-\hline \\[-1.8ex]
- & M=1 & M=2 & M=3 & M=4 & M=5 \\
-\hline \\[-1.8ex]
-Machine & $863.31^{***}$ & $387.57^{***}$ & $269.47^{***}$ & $213.31^{***}$ & $118.37^{***}$ \\
-Petro & $226.38^{***}$ & $98.37^{***}$ & $65.23^{***}$ & $68.18^{***}$ & $28.49^{***}$ \\
-Ceramics & $424.84^{***}$ & $187.79^{***}$ & $85.03^{***}$ & $69.08^{***}$ & $49.16^{***}$ \\
-Other & $573.63^{***}$ & $267.21^{***}$ & $249.27^{***}$ & $157.55^{***}$ & $137.21^{***}$ \\
-Food & $95.5^{***}$ & $50.84^{***}$ & $19.74^{***}$ & $18.18^{***}$ & $15.5^{***}$ \\
-Othermetal & $239.87^{***}$ & $166.48^{***}$ & $102.45^{***}$ & $55.31^{***}$ & $55.76^{***}$ \\
-Textile & $178.28^{***}$ & $135.05^{***}$ & $78.65^{***}$ & $67.13^{***}$ & $36.43^{***}$ \\
-Paper & $207.51^{***}$ & $64.11^{***}$ & $28.08^{***}$ & $19.51^{**} $ & $17.21^{**} $ \\
-Steel & $1306.06^{***}$ & $487.73^{***}$ & $227.59^{***}$ & $220.42^{***}$ & $133.03^{***}$ \\
-Electronics & $737.78^{***}$ & $211.02^{***}$ & $175.86^{***}$ & $155.93^{***}$ & $110.42^{***}$ \\
-Transportation equipment & $161.01^{***}$ & $100.53^{***}$ & $84.04^{***}$ & $42.82^{***}$ & $29.49^{***}$ \\
-Precision instrument & $305.82^{***}$ & $106.36^{***}$ & $83.53^{***}$ & $75.34^{***}$ & $37.7^{**} $ \\
-Metal product & $75.87^{***}$ & $67.67^{**} $ & $39.58^{*} $ & $23.98^{***}$ & $15.07^{***}$ \\
-Plastic & 0 & 0 & 0 & 0 & 0 \\
-\hline \\[-1.8ex]
-\end{tabular}
-\end{table}
+% Date and time: Thu, Mar 31, 2022 - 11:55:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+4,5.45,10.02 & 5.2,6.98,10.36 & 6.31,7.93,11.42 & 6.85,8.48,11.89 & 7.36,8.82,12.93 \\ 
+4.05,5.58,10.15 & 5.26,7.13,10.96 & 6.1,8.19,11.75 & 6.74,8.37,12.11 & 7.69,9.69,15.54 \\ 
+3.94,5.45,10.26 & 5.49,7,10.84 & 6.52,8.09,11.41 & 6.96,8.89,12.29 & 7.22,8.79,11.96 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
-> sink()
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Mar 31, 2022 - 11:55:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Petro & $867.36^{* * * }$ & $388.94^{* * * }$ & $271.74^{* * * }$ & $214.64^{* * * }$ & $118.76^{* * * }$ \\ 
+Electronics & $1324.76^{* * * }$ & $488.82^{* * * }$ & $228.01^{* * * }$ & $221.32^{* * * }$ & $133.94^{* * * }$ \\ 
+Machine & $940.06^{* * * }$ & $419.99^{* * * }$ & $217.68^{* * * }$ & $157.42^{* * * }$ & $128.52^{* * * }$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Mar 31, 2022 - 11:55:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+3.93,5.32,9.89 & 5.35,7.02,10.39 & 6.34,8.18,11.58 & 6.84,8.64,12.22 & 7.59,9.04,13.41 \\ 
+4.02,5.36,9.95 & 5.23,7.12,10.89 & 6.41,8.24,12.07 & 7.21,8.91,12.9 & 7.63,9.02,12.31 \\ 
+3.87,5.54,10.19 & 5.38,7.01,10.19 & 6.54,8.2,11.09 & 7.45,9.64,14.23 & 8,9.81,15.74 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

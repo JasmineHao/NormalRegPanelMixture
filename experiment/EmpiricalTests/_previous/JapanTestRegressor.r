@@ -34,7 +34,7 @@ ind12 <- ind12[order(ind12$id,ind12$t),]
 #Descriptive data for ind12
 stargazer(ind12,type="text")
 
-ind.code <- c(12,  5 ,   1 , 10 ,  4 , 7 )
+ind.code <- c(5,13,12)
 
 
 estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)

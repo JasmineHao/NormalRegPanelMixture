@@ -90,7 +90,7 @@ normalpanelmixMaxPhi <- function (y, parlist, z = NULL, an, tauset = c(0.1,0.3,0
   index <- which.max(loglik.all[ ,3]) # a par (h,m) that gives the highest likelihood at k=3
   coefficient <- as.vector(coefficient.all[index,])
 
-  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik)
+  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik, parlist=result$parlist)
 
   out
 

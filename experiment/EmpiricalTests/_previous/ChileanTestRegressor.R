@@ -4,13 +4,17 @@ library(reshape)
 # library(normalregMix)
 library(foreign)
 library(NormalRegPanelMixture)
-library(haven)
-df <- read_dta("data/ChileanClean.dta")
+options('nloptr.show.inequality.warning'=FALSE)
+options(warn = -1)
+
+
+
+df <- readRDS("data/ChileanClean.rds")
 
 # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # ind.code <- c(352,342,369,381,321,313,341,322,390,311,351,324,356,312)
 
-ind.code <- c(331,382,332,384,352,342,369,381,321,313,341,322,390,311,351,324,356,312)
+ind.code <- c(311,381,321,322,331,356,342,382,352,369,324,332,384,312,313,341,351,383)
 ind.names <- c("Wood products, except furniture","Machinery, except electrical","Manufacture of furniture and fixtures, except primarily of metal","Transport equipment","Other chemicals","Printing and publishing","Other non-metallic mineral products","Fabricated metal products","Textiles","Beverages","Paper and products","Wearing apparel, except footwear","Other manufactured products","Food products","Industrial chemicals","Footwear, except rubber or plastic","Plastic products","Animal feeds, etc")
 
 ind.count <- length(ind.code)

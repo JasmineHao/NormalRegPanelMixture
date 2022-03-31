@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Machinery electric
+================================================
+Statistic  N   Mean   St. Dev.    Min      Max  
+------------------------------------------------
+si        322 -25.576 155.778  -1,000.000 0.294 
+lny       322 11.149   1.527     7.245    14.335
+lnm       314 10.378   1.455     6.129    13.529
+lnl       322  4.032   1.049     1.604    6.918 
+lnk       272  8.137   1.891     1.501    13.524
+------------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Machinery electric"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Mar 31, 2022 - 10:16:38 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$360.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$259.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$485.3$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=3 & \$594.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$361.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$660.46$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=4 & \$843.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$472.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$848.42$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=5 & \$1101.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$568.28$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$580.1$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Machinery electric 383
+======================================================================
+         M=1               M=2                   M=3           M=4 M=5
+----------------------------------------------------------------------
+T=1       0                 0                     0             0   0 
+T=2 3.82,4.72,7.17  34.53,38.6,58.15    551.91,572.96,616.33    0   0 
+T=3 3.13,5.22,6.77  50.84,58.22,83.64   790.87,834.64,903.15    0   0 
+T=4 3.62,4.97,8.78  58.62,69.21,917.2  1034.56,1060.83,1214.41  0   0 
+T=5 4.25,5.94,9.26 70.68,88.47,1270.03 1182.29,1230.65,1353.32  0   0 
+----------------------------------------------------------------------

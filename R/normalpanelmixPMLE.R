@@ -62,7 +62,7 @@
 #' summary(out)
 normalpanelmixPMLE <- function (y, x = NULL, m = 2, z = NULL, vcov.method = c("Hessian", "OPG", "none"),
                            ninits = 25, epsilon = 1e-08, maxit = 2000,
-                           epsilon.short = 1e-02, maxit.short = 500, binit = NULL) {
+                           epsilon.short = 1e-02, maxit.short = 500, binit = NULL,in.coefficient=NULL) {
   t <- dim(y)[1] #Number of year
   n <- dim(y)[2] #Number of firms
   nt <- n * t
@@ -139,6 +139,9 @@ normalpanelmixPMLE <- function (y, x = NULL, m = 2, z = NULL, vcov.method = c("H
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- b0[ ,components] # b0 has been updated
+    if ((! is.null(in.coefficient)) & (dim(b1)[1]==length(in.coefficient)) ){
+      b1[,components] <- in.coefficient
+    }
     out <- cppnormalpanelmixPMLE(b1, y, ztilde, mu0, sigma0, m, p,t, an, maxit, ninits, epsilon)
 
     index     <- which.max(out$penloglikset)

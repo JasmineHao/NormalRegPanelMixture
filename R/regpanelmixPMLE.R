@@ -60,7 +60,7 @@
 #' regpanelmixPMLE(y = eruptions, x = waiting, m = 2)
 regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "OPG", "none"),
                         ninits = 10, epsilon = 1e-08, maxit = 2000,
-                        epsilon.short = 1e-02, maxit.short = 500, binit = NULL) {
+                        epsilon.short = 1e-02, maxit.short = 500, binit = NULL,in.coefficient=NULL) {
   if (is.null(x)){
     return(normalpanelmixPMLE(y = y, x = x, m = m, z = z, vcov.method = vcov.method,
            ninits= ninits, epsilon = epsilon, maxit = maxit,
@@ -136,6 +136,9 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- b0[ ,components] # b0 has been updated
+    if ((! is.null(in.coefficient)) & (dim(b1)[1]==length(in.coefficient)) ){
+      b1[,components] <- in.coefficient
+    }
     out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon)
     index     <- which.max(out$penloglikset)
     alpha <- b1[1:m,index] # b0 has been updated

@@ -3,21 +3,32 @@ library(stargazer)
 library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
-library(normalregMix)
 library(foreign)
 library(haven)
 
-df <- read_dta("../../data/ChileanClean.dta")
+df <- read_dta("data/ChileanClean.dta")
 ind.code <- na.omit(unique(df$ciiu_3d))
 
+T.cap <- max(df$year)
 
-# ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
+T = 5
+t.start <- T.cap-T+1
+t.seq <- seq(from=t.start,to=t.start+T-1)
 
+df = df[df$year >= t.seq[1],]
+# df = df[complete.cases(df),]
+# m.share <- cast(df,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
+# row.names(m.share) <- m.share$id 
+# m.share <- m.share[,!(colnames(m.share)=="id")] 
+# m.share <- m.share[complete.cases(m.share),]
+# id.list <- row.names(m.share)
+# # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
+# df <- df[df$id %in% id.list,]
 
-#ind.code = 2: machinery
-
-desc.table = matrix(nc=5,nr=length(ind.code))
+df <- df[df$si > -999,]
+desc.table = matrix(nc=6,nr=length(ind.code))
 count = 0
+df.include <- data.frame()
 for (each.code in ind.code){
   count = count + 1
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -27,19 +38,25 @@ for (each.code in ind.code){
   ind.each$lnl <- log(ind.each$L)
   ind.each$lnk <- log(ind.each$K)
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
-  desc.each <- desc.each[complete.cases(desc.each),]
   
   m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
   row.names(m.share) <- m.share$id 
   m.share <- m.share[,!(colnames(m.share)=="id")] 
-  
-  
-  desc.table[count, ] <- c(ind.name,dim(desc.each)[1],dim(m.share)[1],round(mean(desc.each$si),2),round(sd(desc.each$si),2))
+  m.share <- m.share[complete.cases(m.share),]
+  id.list <- row.names(m.share)
+  ind.each <- ind.each[ind.each$id %in% id.list,]
+  df.include <- rbind(df.include,ind.each)
+  desc.table[count, ] <- c(each.code, ind.name,dim(ind.each)[1],dim(m.share)[1],round(mean(ind.each$si),2),round(sd(ind.each$si),2))
   
 }
-colnames(desc.table) <- c("Industry","NObs", "N","Mean","Sd")
+colnames(desc.table) <- c("Code","Industry","NObs", "N","Mean","Sd")
 
-sink("../../results/Chile/desc.table.txt")
-stargazer(desc.table,type="latex",title="Descriptive statistics for Chilean producer revenue share of intermediate material")
+desc.table <- transform(desc.table, N = as.numeric(N))
+desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]  
+desc.table <- transform(desc.table, N = as.character(N))
+
+sink("results/Chile/desc.table.txt")
+stargazer(desc.table,type="latex", summary=FALSE, title="Descriptive statistics for Chilean producer revenue share of intermediate material")
 sink()
+
+saveRDS(df.include, file = "data/ChileanClean.rds")
