@@ -50,7 +50,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   parallel=FALSE
-  cl <- makeCluster(detectCores())
+  cl <- makeCluster(64)
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
@@ -73,7 +73,6 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
     lr.crit[k,] <- crit
     lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
   }
-  print("3")
   return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
 }
 

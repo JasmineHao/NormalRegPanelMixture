@@ -3,7 +3,7 @@ library(foreach)
 library(Rmpi)
 library(stargazer)
 #Generate Data
-Nset <- c(100)
+Nset <- c(100,500)
 Tset <- c(2)
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1))
@@ -79,7 +79,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 50
+nrep <- 500
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
