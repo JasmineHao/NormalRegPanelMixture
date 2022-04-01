@@ -128,14 +128,4 @@ stargazer(regression.data)
 #The colnames are nom.size, an, T, N
 write.csv(regression.data,file="/home/haoyu/results/penaltyTestM2.csv",row.names=FALSE)
 
-fit.data <- list(y = log(
-  regression.data$nom.size/ (0.1 - regression.data$nom.size) ) ,
-  x1 = 1 /  regression.data$T,
-  x2 = 1 /  regression.data$N,
-  x3 = log( regression.data$an/ (1 - regression.data$an )),
-  x4 = log(regression.data$omega / (0.5 - regression.data$omega)))
-fit.data$y <- replace(fit.data$y,fit.data$y == -Inf,-5)
-an.model <- lm(y ~ x1 + x2 + x3 + x4 , data=fit.data,na.action = na.omit)
-print(summary(an.model))
-mpi.close.Rslaves()
-mpi.quit()
+

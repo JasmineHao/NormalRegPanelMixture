@@ -35,15 +35,16 @@ getEstimate <- function(Data,nrep,an,cl){
   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  for (k in 1:nrep){
+  
+  registerDoParallel(cl)
+  sim.results <- foreach (k = 1:nrep)%dopar% {
     
     data <- Data[,k]
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    
     out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE,cl=cl)
-    #lr.crit[k,] <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=cl ,an=an, parallel = TRUE)$crit
-    lr.estimate[k,] <- 2 * max(out.h1$loglik - out.h0$loglik)
-  }# out.h1 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M+1,vcov.method = "none")
+    2 * max(out.h1$loglik - out.h0$loglik)
+  }
+  lr.estimate <- t(t(sapply(sim.results, function(x) x[1])))
   crit.no <- order(result$est)[round(nrep/2)]
   data <- Data[,crit.no]
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
@@ -79,7 +80,7 @@ for (r in 1:nNT){
   for (mu in muset){
     for (alpha in alphaset){
       for (beta in betaset){
-        cl <- makeCluster(6)
+        cl <- makeCluster(64)
         
         t <- Sys.time()
         phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
@@ -106,5 +107,5 @@ for (r in 1:nNT){
 }
 result.f <- result.f * 100
 
-write.csv(result.f,file="results/sizeTest/sizeTestM2Regressor.csv")
+write.csv(result.f,file="/home/haoyu/results/sizeTest/sizeTestM2Regressor.csv")
 

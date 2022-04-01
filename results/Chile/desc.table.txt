@@ -1,43 +1,43 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Mar 31, 2022 - 11:04:03 PM
+% Date and time: Fri, Apr 01, 2022 - 2:50:20 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive statistics for Chilean producer revenue share of intermediate material} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} ccccccc} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- & Code & Industry & NObs & N & Mean & Sd \\ 
+Code & Industry & NObs & N & Mean & Sd \\ 
 \hline \\[-1.8ex] 
-1 & 311 & Food products & 4650 & 930 & -0.45 & 0.25 \\ 
-5 & 381 & Fabricated metal products & 1265 & 253 & -0.7 & 0.38 \\ 
-20 & 321 & Textiles & 1145 & 229 & -0.61 & 0.39 \\ 
-11 & 331 & Wood products, except furniture & 1115 & 223 & -0.47 & 0.33 \\ 
-2 & 322 & Wearing apparel, except footwear & 980 & 196 & -0.65 & 0.37 \\ 
-10 & 342 & Printing and publishing & 755 & 151 & -0.77 & 0.34 \\ 
-21 & 356 & Plastic products & 705 & 141 & -0.64 & 0.32 \\ 
-16 & 352 & Other chemicals & 640 & 128 & -0.71 & 0.37 \\ 
-4 & 382 & Machinery, except electrical & 580 & 116 & -0.86 & 0.46 \\ 
-13 & 369 & Other non-metallic mineral products & 570 & 114 & -0.66 & 0.35 \\ 
-26 & 324 & Footwear, except rubber or plastic & 530 & 106 & -0.52 & 0.3 \\ 
-7 & 332 & Manufacture of furniture and fixtures, except primarily of metal & 440 & 88 & -0.59 & 0.34 \\ 
-3 & 384 & Transport equipment & 350 & 70 & -0.7 & 0.44 \\ 
-8 & 313 & Beverages & 315 & 63 & -0.62 & 0.4 \\ 
-18 & 312 & Animal feeds, etc & 250 & 50 & -0.48 & 0.36 \\ 
-24 & 341 & Paper and products & 250 & 50 & -0.62 & 0.31 \\ 
-19 & 355 & Rubber products & 240 & 48 & -0.7 & 0.34 \\ 
-17 & 351 & Industrial chemicals & 200 & 40 & -0.68 & 0.61 \\ 
-14 & 383 & Machinery electric & 185 & 37 & -0.84 & 0.46 \\ 
-25 & 323 & Leather products & 175 & 35 & -0.5 & 0.31 \\ 
-15 & 390 & Other manufactured products & 165 & 33 & -0.81 & 0.37 \\ 
-12 & 372 & Non-ferrous metals & 115 & 23 & -0.52 & 0.42 \\ 
-9 & 371 & Iron and steel & 85 & 17 & -0.7 & 0.33 \\ 
-23 & 354 & Misc. petroleum and coal products & 70 & 14 & -0.52 & 0.29 \\ 
-28 & 385 & Professional and scientific equipment & 65 & 13 & -1 & 0.43 \\ 
-29 & 361 & Manufacture of pottery, china and earthenware & 60 & 12 & -0.83 & 0.36 \\ 
-6 & 362 & Glass and products & 55 & 11 & -0.91 & 0.31 \\ 
-22 & 353 & Petroleum refineries & 10 & 2 & -0.44 & 0.09 \\ 
-27 & 314 & Tobacco & 10 & 2 & -1.28 & 1.14 \\ 
+311 & Food products & 4645 & 929 & -0.45 & 0.25 \\ 
+381 & Fabricated metal products & 1260 & 252 & -0.7 & 0.37 \\ 
+321 & Textiles & 1130 & 226 & -0.61 & 0.37 \\ 
+331 & Wood products, except furniture & 1105 & 221 & -0.48 & 0.31 \\ 
+322 & Wearing apparel, except footwear & 975 & 195 & -0.65 & 0.36 \\ 
+342 & Printing and publishing & 755 & 151 & -0.77 & 0.34 \\ 
+356 & Plastic products & 705 & 141 & -0.64 & 0.32 \\ 
+352 & Other chemicals & 635 & 127 & -0.69 & 0.32 \\ 
+382 & Machinery, except electrical & 580 & 116 & -0.86 & 0.46 \\ 
+369 & Other non-metallic mineral products & 570 & 114 & -0.66 & 0.35 \\ 
+324 & Footwear, except rubber or plastic & 530 & 106 & -0.52 & 0.3 \\ 
+332 & Manufacture of furniture and fixtures, except primarily of metal & 435 & 87 & -0.59 & 0.29 \\ 
+384 & Transport equipment & 350 & 70 & -0.7 & 0.44 \\ 
+313 & Beverages & 310 & 62 & -0.61 & 0.37 \\ 
+312 & Animal feeds, etc & 250 & 50 & -0.48 & 0.36 \\ 
+341 & Paper and products & 250 & 50 & -0.62 & 0.31 \\ 
+355 & Rubber products & 240 & 48 & -0.7 & 0.34 \\ 
+351 & Industrial chemicals & 195 & 39 & -0.6 & 0.4 \\ 
+383 & Machinery electric & 185 & 37 & -0.84 & 0.46 \\ 
+323 & Leather products & 175 & 35 & -0.5 & 0.31 \\ 
+390 & Other manufactured products & 165 & 33 & -0.81 & 0.37 \\ 
+372 & Non-ferrous metals & 115 & 23 & -0.52 & 0.42 \\ 
+371 & Iron and steel & 85 & 17 & -0.7 & 0.33 \\ 
+354 & Misc. petroleum and coal products & 70 & 14 & -0.52 & 0.29 \\ 
+385 & Professional and scientific equipment & 65 & 13 & -1 & 0.43 \\ 
+361 & Manufacture of pottery, china and earthenware & 60 & 12 & -0.83 & 0.36 \\ 
+362 & Glass and products & 55 & 11 & -0.91 & 0.31 \\ 
+353 & Petroleum refineries & 10 & 2 & -0.44 & 0.09 \\ 
+314 & Tobacco & 10 & 2 & -1.28 & 1.14 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 

@@ -25,7 +25,9 @@ df = df[df$year >= t.seq[1],]
 # # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # df <- df[df$id %in% id.list,]
 
-df <- df[df$si > -999,]
+df <- df[df$si > -3,]
+df <- df[df$lnmY_it < log(2),]
+
 desc.table = matrix(nc=6,nr=length(ind.code))
 count = 0
 df.include <- data.frame()
@@ -56,7 +58,7 @@ desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]
 desc.table <- transform(desc.table, N = as.character(N))
 
 sink("results/Chile/desc.table.txt")
-stargazer(desc.table,type="latex", summary=FALSE, title="Descriptive statistics for Chilean producer revenue share of intermediate material")
+stargazer(desc.table,type="latex", summary=FALSE, title="Descriptive statistics for Chilean producer revenue share of intermediate material",rownames=FALSE)
 sink()
 
 saveRDS(df.include, file = "data/ChileanClean.rds")

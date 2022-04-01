@@ -1,4 +1,17 @@
-library(NormalRegPanelMixture)
+library(stargazer)
+df.M2 <- read.csv(file="results/regPenaltyTest/penaltyTestM2.csv")
+fit.data <- list(y = log(
+  df.M2$nom.size/ (0.1 - df.M2$nom.size) ) ,
+  t = 1 /  df.M2$T,
+  n = 1 /  df.M2$N,
+  an = log( df.M2$an/ (1 - df.M2$an )),
+  omega = log(df.M2$omega / (0.5 - df.M2$omega)))
+fit.data$y <- replace(fit.data$y,fit.data$y == Inf,5)
+fit.data$y <- replace(fit.data$y,is.na(fit.data$y),5)
+an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
+print(summary(an.model.M2))
+
+
 M <- 2
 p <- 0
 q <- 0

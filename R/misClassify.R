@@ -200,8 +200,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega <- omega.12(parlist)
     omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
     omega.term <- log(omega /(0.5-omega))
-    #b <- (-0.512341890 , -0.001724039, -41.549714721,  -0.165052772,  -0.104523827)
-    b <- c( -0.449134710,-0.732071592,-64.695724301,-0.146629390,-0.007804732 ) # coefficients of -(intercept, tterm,nterm, anterm, misclterm)/atermcoeff
+    b <- c( 0.08045,  3.33863,134.05208, -0.66050,-0.46468  ) # coefficients of -(intercept, tterm,nterm, anterm, misclterm)/atermcoeff
     x <- exp(  ( b[1] + b[2]/t + b[5] * omega.term + b[3] / n) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
     

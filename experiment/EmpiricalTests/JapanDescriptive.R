@@ -5,7 +5,7 @@ library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
 library(foreign)
-
+library(Hmisc)
 
 
 ind_list <- c("food","textile", "wood","paper", "chemical", 
@@ -15,7 +15,9 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "other")
 
 df <- read.csv(file="data/data_production_function_missing2zero.csv")
-df[df==0] <- NA
+df <- df[df$lnmY_it > -3,]
+df <- df[df$lnmY_it < log(2),]
+
 df$t <- df$year
 df <- df[order(df$id,df$t),]
 df <- df[df$industry_2!=0,]
@@ -44,7 +46,7 @@ df.include <- data.frame()
 for (each.code in ind.code){
   count = count + 1
   ind.each <- subset(df,industry_2==each.code)
-  ind.name <- ind_list[each.code]
+  ind.name <- capitalize(ind_list[each.code])
   
   
   m.share <- cast(ind.each,id ~ year,value="lnmY_it")#Collapse the dataframe into panel form , year against firm id
@@ -67,7 +69,7 @@ desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]
 desc.table <- transform(desc.table, N = as.character(N))
 
 sink("results/Japan/desc.table.txt")
-stargazer(desc.table,type="latex",summary=FALSE, title="Descriptive statistics for Japanses producer revenue share of intermediate material")
+stargazer(desc.table,type="latex",summary=FALSE, title="Descriptive statistics for Japanses producer revenue share of intermediate material",rownames=FALSE)
 sink()
 
 saveRDS(df.include, file = "data/JapanClean.rds")

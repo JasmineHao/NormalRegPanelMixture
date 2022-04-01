@@ -3,6 +3,8 @@ library(stargazer)
 library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
+library(Hmisc)
+
 # library(normalregMix)
 
 options('nloptr.show.inequality.warning'=FALSE)
@@ -31,7 +33,13 @@ df <- df[order(df$id,df$t),]
 
 
 
-ind.code <- c(5,13,12)
+ind.code <- c(5,13,12,14,1)
+ind.names <- c()
+for (each.code in ind.code){
+  ind.name <- ind_list[each.code]
+  ind.names <- append(ind.names,ind.name)
+}
+ind.count <- length(ind.code)
 
 
 estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)
