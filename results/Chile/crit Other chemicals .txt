@@ -1,12 +1,18 @@
 
 Descriptive data for Chilean Industry: Other chemicals
-=================================
-Statistic N Mean St. Dev. Min Max
-=================================
-[1] "Columbian Producer Data: Estimated LR for  Other chemicals"
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        640 -0.706  0.368   -3.024 0.050 
+lny       640 12.184  1.440   9.080  16.589
+lnm       640 11.478  1.433   8.124  15.704
+lnl       640 4.726   1.077   2.243  8.026 
+lnk       590 9.095   1.750   3.299  13.527
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Other chemicals"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 8:53:05 PM
+% Date and time: Fri, Apr 01, 2022 - 3:53:12 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -16,21 +22,21 @@ Statistic N Mean St. Dev. Min Max
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$2016.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$605.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1042.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1042.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1042.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=3 & \$2739.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$898.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1254.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=4 & \$3428.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1056.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1532.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=5 & \$4004.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1355.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2036.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$95.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$64.01$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$39.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$6.15$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
+T=3 & \$170.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$112.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$69.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$246.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$154.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$86.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$321.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$162.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$87.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$52.09$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Other chemicals 352
-=================================
-     M=1   M=2   M=3   M=4   M=5 
----------------------------------
-T=1   0     0     0     0     0  
-T=2 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=3 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=4 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=5 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
----------------------------------
+===================================================================================
+          M=1             M=2             M=3             M=4             M=5      
+-----------------------------------------------------------------------------------
+T=1        0               0               0               0               0       
+T=2 3.94,5.62,9.59  5.18,6.75,10.87 5.32,6.58,11.31 6.3,7.47,15.13  5.35,7.02,10.65
+T=3  3.8,5.53,9.38  5.01,6.31,10.11 5.96,7.71,11.96 5.09,6.41,9.89  5.39,6.42,13.14
+T=4 3.76,5.59,10.01 4.99,6.42,10.55 6.15,7.57,11.68 4.71,7.05,11.54 5.08,6.25,9.42 
+T=5  3.85,5.47,9.2  5.08,6.91,10.56 6.11,7.77,11.6  5.64,7.03,10.53 5.67,7.31,13.09
+-----------------------------------------------------------------------------------

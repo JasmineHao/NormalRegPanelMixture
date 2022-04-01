@@ -1,12 +1,18 @@
 
 Descriptive data for Chilean Industry: Fabricated metal products
-=================================
-Statistic N Mean St. Dev. Min Max
-=================================
-[1] "Columbian Producer Data: Estimated LR for  Fabricated metal products"
+=============================================
+Statistic   N    Mean  St. Dev.  Min    Max  
+---------------------------------------------
+si        1,265 -0.705  0.383   -3.123 0.286 
+lny       1,265 10.988  1.380   8.196  15.101
+lnm       1,265 10.283  1.482   5.348  14.677
+lnl       1,265 3.920   0.976   1.995  6.733 
+lnk       1,130 7.916   1.828   2.780  12.933
+---------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Fabricated metal products"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, Mar 28, 2022 - 8:53:30 PM
+% Date and time: Fri, Apr 01, 2022 - 12:43:52 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -16,21 +22,21 @@ Statistic N Mean St. Dev. Min Max
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$5408.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1410.45$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2645.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2645.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2645.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=3 & \$6763.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2005.89$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3562.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3562.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3562.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=4 & \$8148.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$2600.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4609.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4609.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4609.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=5 & \$8624.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3058.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3081.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5753.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5753.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$130.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=3 & \$263.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$73.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.24$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$27.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$390.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$129.11$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$45.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$37.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$35.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$508.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$186.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.71$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$61.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$38.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Fabricated metal products 381
-=================================
-     M=1   M=2   M=3   M=4   M=5 
----------------------------------
-T=1   0     0     0     0     0  
-T=2 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=3 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=4 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
-T=5 0,0,0 0,0,0 0,0,0 0,0,0 0,0,0
----------------------------------
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 3.93,5.49,9.89 5.24,7.05,11.32 6.33,7.67,10.66 6.84,8.06,11.42 7.22,8.99,12.38
+T=3 3.86,5.38,9.61 5.46,7.2,10.89  6.24,7.77,10.77 6.86,8.22,11.53 7.12,8.73,11.85
+T=4 3.9,5.53,10.05  5.6,7.7,10.76  6.52,8.11,11.39 6.8,8.24,11.58  7.29,9.18,12.52
+T=5 3.84,5.42,9.02 5.38,7.53,10.87  6.3,8.1,11.17  6.82,8.45,11.36 7.43,9.17,11.79
+----------------------------------------------------------------------------------
