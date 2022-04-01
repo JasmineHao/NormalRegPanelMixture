@@ -17,13 +17,14 @@ options('nloptr.show.inequality.warning'=FALSE)
 #equipment; 15. precision instrument; 16. other;
 ##################################################
 
-ind_list <- c("Food","Textile", "Wood","Paper","Petro" , "Chemical","Plastic","Ceramics","Steel","Othermetal",
-              "Metal product","Machine","Electronics",
-              "Transportation equipment","Precision instrument",
-              "Other")
+ind_list <- c("food","textile", "wood","paper", "chemical", 
+              "petro","plastic","ceramics","steel","othermetal",
+              "metal product","machine","electronics",
+              "transportation equipment","precision instrument",
+              "other")
 
 
-df <- readRDS("data/JapanClean.rds")
+df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
 
 df[df==0] <- NA
 #Function
@@ -164,7 +165,7 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
 
-  sink(paste("results/Japan/Crit",each.name,".txt"))
+  sink(paste("/home/haoyu/results/Japan/Crit",each.name,".txt"))
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
@@ -176,7 +177,7 @@ for (each.code in ind.code){
 }
 
 
-sink("results/Japan/result_text.txt")
+sink("/home/haoyu/results/Japan/result_text.txt")
 print(estimate.LR.df.2)
 print(crit.LR.df.2)
 print(estimate.LR.df.3)
@@ -187,7 +188,7 @@ print(estimate.LR.df.5)
 print(crit.LR.df.5)
 sink()
 
-sink("results/Japan/result.txt")
+sink("/home/haoyu/results/Japan/result.txt")
 stargazer(estimate.LR.df.2)
 stargazer(crit.LR.df.2)
 stargazer(estimate.LR.df.3)

@@ -9,7 +9,7 @@ options(warn = -1)
 
 
 
-df <- readRDS("data/ChileanClean.rds")
+df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.names <- c()
@@ -195,7 +195,7 @@ for (each.code in ind.code){
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  sink(paste("results/Chile/crit",ind.name,".txt"))
+  sink(paste("/home/haoyu/results/Chile/crit",ind.name,".txt"))
   
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
@@ -211,7 +211,7 @@ for (each.code in ind.code){
 
 library(xtable)
 # stargazer(crit.df,title=paste("estimate",ind.name))
-sink("results/Chile/result_text.txt")
+sink("/home/haoyu/results/Chile/result_text.txt")
 xtable(estimate.LR.df.2)
 xtable(crit.LR.df.2)
 xtable(estimate.LR.df.3)
@@ -222,7 +222,7 @@ xtable(estimate.LR.df.5)
 xtable(crit.LR.df.5)
 sink()
 
-sink("results/Chile/result.txt")
+sink("/home/haoyu/results/Chile/result.txt")
 stargazer(estimate.LR.df.2)
 stargazer(crit.LR.df.2)
 stargazer(estimate.LR.df.3)

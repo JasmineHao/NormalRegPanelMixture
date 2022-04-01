@@ -26,7 +26,7 @@ df = df[df$year >= t.seq[1],]
 # df <- df[df$id %in% id.list,]
 
 df <- df[df$si > -3,]
-df <- df[df$lnmY_it < log(2),]
+df <- df[df$si < log(2),]
 
 desc.table = matrix(nc=6,nr=length(ind.code))
 count = 0

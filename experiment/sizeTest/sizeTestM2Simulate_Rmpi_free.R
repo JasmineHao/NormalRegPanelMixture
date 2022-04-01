@@ -177,7 +177,7 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(result.h,file="results/sizeTest/sizeTestM2SimH.csv")
-write.csv(result.m,file="results/sizeTest/sizeTestM2SimM.csv")
-write.csv(result.l,file="results/sizeTest/sizeTestM2SimL.csv")
+write.csv(result.h,file="/home/haoyu/results/sizeTest/sizeTestM2SimH.csv")
+write.csv(result.m,file="/home/haoyu/results/sizeTest/sizeTestM2SimM.csv")
+write.csv(result.l,file="/home/haoyu/results/sizeTest/sizeTestM2SimL.csv")
 

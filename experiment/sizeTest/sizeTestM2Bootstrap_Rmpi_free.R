@@ -55,25 +55,44 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
 }
 
 
-getEstimateDiffAn <- function(Data,nrep,an,cl){
+getEstimateDiffAn <- function(Data,nrep,an,cl,M){
   lr.crit.l <- matrix(0.0,nr=nrep,ncol=3)
   lr.crit.m <- matrix(0.0,nr=nrep,ncol=3)
   lr.crit.h <- matrix(0.0,nr=nrep,ncol=3)
-  lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
+  
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
 
-  for (k in 1:nrep){
-
+  registerDoParallel(cl)
+  results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
-    out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an= an ,update.alpha = 1,parallel = TRUE,cl=cl)
-    # out.h1.h <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an= 10 *　an ,update.alpha = 1,parallel = TRUE,cl=cl)
-    lr.estimate[k,] <- 2 * max(out.h1$loglik - out.h0$loglik)
-    # crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE,cl=cl)$crit
-    # lr.crit[k,] <- crit
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
+    2 * max(out.h1.l$loglik - out.h0$loglik)
+    
   }
+  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
+  
+  results <- foreach (k = 1:nrep)%dopar% {
+    data <- Data[,k]
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
+    2 * max(out.h1.m$loglik - out.h0$loglik)
+    
+    
+  }
+  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
+  
+  results <- foreach (k = 1:nrep)%dopar% {
+    data <- Data[,k]
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
+    2 * max(out.h1.h$loglik - out.h0$loglik)
+  }
+  lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
+  
+  
   crit.h <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = 10 * an ,parallel = TRUE,cl=cl)$crit
   crit.m <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = an ,parallel = TRUE,cl=cl)$crit
   crit.l <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199, an = 0.1 * an ,parallel = TRUE,cl=cl)$crit
@@ -84,9 +103,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl){
   }
   
   for ( k in 1:nrep){
-    lr.size.l[k,] <- 1 * (lr.estimate[k,] > lr.crit.l[k,2])
-    lr.size.m[k,] <- 1 * (lr.estimate[k,] > lr.crit.m[k,2])
-    lr.size.h[k,] <- 1 * (lr.estimate[k,] > lr.crit.h[k,2])
+    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit.l[k,2])
+    lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit.m[k,2])
+    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit.h[k,2])
   }
 
   return(list(nominal.size.l = apply(lr.size.l,2,mean), nominal.size.m = apply(lr.size.m,2,mean),  nominal.size.h = apply(lr.size.h,2,mean) ))
@@ -136,7 +155,7 @@ for (r in 1:nNT){
       phi = phi.data.pair$phi
       
       an <- anFormula(phi,M,N,T)  #The an function according the the empirical regression
-      result <- getEstimateDiffAn(Data,nrep,an,cl)
+      result <- getEstimateDiffAn(Data,nrep,an,cl,M)
       
       
       result.l[r, count] <- result$nominal.size.l
@@ -171,9 +190,9 @@ result.l <- result.l * 100
 result.m <- result.m * 100
 
 
-write.csv(result.h,file="results/sizeTest/sizeTestM2BootH.csv")
-write.csv(result.m,file="results/sizeTest/sizeTestM2BootM.csv")
-write.csv(result.l,file="results/sizeTest/sizeTestM2BootL.csv")
+write.csv(result.h,file="/home/haoyu/results/sizeTest/sizeTestM2BootH.csv")
+write.csv(result.m,file="/home/haoyu/results/sizeTest/sizeTestM2BootM.csv")
+write.csv(result.l,file="/home/haoyu/results/sizeTest/sizeTestM2BootL.csv")
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{
