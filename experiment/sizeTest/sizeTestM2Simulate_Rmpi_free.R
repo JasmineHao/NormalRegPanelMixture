@@ -104,7 +104,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 100
+nrep <- 1000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 

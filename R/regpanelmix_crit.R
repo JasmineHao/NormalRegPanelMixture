@@ -445,14 +445,13 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
       registerDoParallel(cl)
 
       out <- foreach (j.btsp = 1:nbtsp) %dopar% {
-      regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an,
-                          z = z, ninits = ninits, crit.method = "none") }
+        NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = z, ninits = ninits, crit.method = "none") }
     on.exit(cl)
   }
   else
     {
       out <- lapply(seq_len(ncol(ybset)), 
-                    function(i) regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m=M,t=T,z=NULL,ninits=10,an=an,crit.method = "none"))
+                    function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m=M,t=T,z=NULL,ninits=10,an=an,crit.method = "none"))
     # out <- apply(ybset, 3, regpanelmixMEMtest, x = x, m = m, t = t, z = z,
                  # ninits = ninits, crit.method = "none")
     }
