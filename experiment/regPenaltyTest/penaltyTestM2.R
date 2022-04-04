@@ -106,7 +106,7 @@ for (N in Nset){
             parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
             result <- MPIgetEstimate(Data,phi,nrep,an,m=M,parlist=parlist)
 
-            omega <- max(min(omega.12(phi),0.5-1e-16),1e-16)
+            omega <- GetMisclTerm(phi)
             print(result$nominal.size)
             regression.data[count, ] <-
               cbind(result$nominal.size,an, phi$N,phi$T,omega)

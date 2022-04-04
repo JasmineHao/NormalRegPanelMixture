@@ -48,7 +48,7 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
 }
 
 
-getEstimateDiffAn <- function(Data,nrep,an,cl,M){
+getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
   lr.estimate.l <- matrix(0.0,nr=nrep,ncol=1)
   lr.estimate.m <- matrix(0.0,nr=nrep,ncol=1)
@@ -84,8 +84,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M){
   }
   lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
   
+  data = Data[,1]
   
-  crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z,cl=cl , parallel = TRUE,nrep=1000)$crit
+  crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z,cl=cl, parallel = TRUE,nrep=1000)$crit
   for ( k in 1:nrep){
     lr.crit[k,] <- crit
   }
@@ -143,7 +144,8 @@ for (r in 1:nNT){
       phi = phi.data.pair$phi
       
       an <- anFormula(phi,M,N,T)  #The an function according the the empirical regression
-      result <- getEstimateDiffAn(Data,nrep,an,cl,M)
+      parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+      result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
       
       
       result.l[r, count] <- result$nominal.size.l
