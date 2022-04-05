@@ -63,7 +63,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-
+  
+  cl <- makeCluster(6)
+  
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
@@ -116,7 +118,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 1000
+nrep <- 10
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
@@ -144,7 +146,6 @@ for (r in 1:nNT){
   count <- 0
   for (mu in muset){
     for (alpha in alphaset){
-      cl <- makeCluster(7)
       
       t <- Sys.time()
       phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
@@ -156,8 +157,9 @@ for (r in 1:nNT){
       phi = phi.data.pair$phi
       
       an <- anFormula(phi,M,N,T)  #The an function according the the empirical regression
+      print(an)
       parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-      result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
+      result <- getEstimateDiffAn(Data,nrep,an,cl=NULL,M, parlist)
       
       
       result.l[r, count] <- result$nominal.size.l

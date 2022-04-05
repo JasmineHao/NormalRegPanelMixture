@@ -446,7 +446,8 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
 
       out <- foreach (j.btsp = 1:nbtsp) %dopar% {
         NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = z, ninits = ninits, crit.method = "none") }
-    on.exit(cl)
+      if( (parallel) && (is.null(cl)) ){
+        stopCluster(cl)}
   }
   else
     {
