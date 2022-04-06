@@ -1,6 +1,6 @@
 # Generate table 3 and 4
 library(NormalRegPanelMixture)
-library(doParallel)
+library(foreach)
 
 #Generate Data
 M <- 2 #Number of Type

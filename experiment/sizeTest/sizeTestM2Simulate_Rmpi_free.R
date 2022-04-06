@@ -1,5 +1,5 @@
 library(NormalRegPanelMixture)
-library(doParallel)
+library(foreach)
 
 #Generate Data
 M <- 2 #Number of Type
