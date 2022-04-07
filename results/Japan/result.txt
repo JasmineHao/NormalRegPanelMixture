@@ -1,152 +1,152 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & \$242.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$119.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$72.65$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-electronics & \$321.71$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$91.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$58.01$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$49.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$27.01$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-machine & \$242.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$106.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-transportation equipment & \$197.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$51.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$48.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$28.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-food & \$135.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$49.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$49.89$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & $242.1^{***}$ & $119.56^{***}$ & $72.65^{***}$ & $62.67^{***}$ & $33.54^{***}$ \\
+electronics & $321.71^{***}$ & $91.36^{***}$ & $58.01^{***}$ & $49.13^{***}$ & $27.01^{***}$ \\
+machine & $242.52^{***}$ & $106.72^{***}$ & $43.49^{***}$ & $33.41^{***}$ & $34.25^{***}$ \\
+transportation equipment & $197.1^{***}$ & $62.42^{***}$ & $51.41^{***}$ & $48.68^{***}$ & $28.21^{***}$ \\
+food & $135.52^{***}$ & $83.53^{***}$ & $49.02^{***}$ & $49.89^{***}$ & $33.58^{***}$ \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & 4.48,5.66,9.6 & 5.08,6.78,10.82 & 6.4,7.82,10.97 & 6.65,8.19,11.44 & 7.17,8.5,12.26 \\ 
-electronics & 4.39,5.97,9.57 & 5.57,7.32,10.88 & 6.56,8.07,12.1 & 7.06,8.42,12.73 & 7.66,8.88,12.99 \\ 
-machine & 4.17,5.69,10.51 & 5.19,6.94,10.74 & 6.25,7.89,10.7 & 6.52,8.54,11.41 & 7.38,8.77,11.55 \\ 
-transportation equipment & 4.31,5.68,9.61 & 5.16,7.07,10.77 & 6.4,8.19,11.68 & 7.23,8.98,16.65 & 7.56,9.16,13.83 \\ 
-food & 4.41,5.58,9.67 & 5.2,6.63,10.46 & 6.16,8.04,12.05 & 6.94,8.39,13.69 & 7.53,9.26,13.48 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & 4.48,5.66,9.6 & 5.08,6.78,10.82 & 6.4,7.82,10.97 & 6.65,8.19,11.44 & 7.17,8.5,12.26 \\
+electronics & 4.39,5.97,9.57 & 5.57,7.32,10.88 & 6.56,8.07,12.1 & 7.06,8.42,12.73 & 7.66,8.88,12.99 \\
+machine & 4.17,5.69,10.51 & 5.19,6.94,10.74 & 6.25,7.89,10.7 & 6.52,8.54,11.41 & 7.38,8.77,11.55 \\
+transportation equipment & 4.31,5.68,9.61 & 5.16,7.07,10.77 & 6.4,8.19,11.68 & 7.23,8.98,16.65 & 7.56,9.16,13.83 \\
+food & 4.41,5.58,9.67 & 5.2,6.63,10.46 & 6.16,8.04,12.05 & 6.94,8.39,13.69 & 7.53,9.26,13.48 \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & \$437.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$240.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$131.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$127.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$59.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-electronics & \$560.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$185.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$116.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$80.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$46.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-machine & \$435.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$191.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$69.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$56.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-transportation equipment & \$362.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$119.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$82.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$60.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-food & \$262.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$144.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$86.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$82.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$72.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & $437.32^{***}$ & $240.67^{***}$ & $131.07^{***}$ & $127.07^{***}$ & $59.1^{***}$ \\
+electronics & $560.66^{***}$ & $185.1^{***}$ & $116.68^{***}$ & $80.33^{***}$ & $46.14^{***}$ \\
+machine & $435.85^{***}$ & $191.33^{***}$ & $69.5^{***}$ & $56.56^{***}$ & $54.3^{***}$ \\
+transportation equipment & $362.05^{***}$ & $119.13^{***}$ & $83.37^{***}$ & $82.72^{***}$ & $60.63^{***}$ \\
+food & $262.82^{***}$ & $144.7^{***}$ & $86.15^{***}$ & $82.73^{***}$ & $72.56^{***}$ \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & 4.1,5.45,9.83 & 5.02,6.67,10 & 6.19,8.31,11.16 & 6.48,7.87,11.41 & 7.06,9.03,13.12 \\ 
-electronics & 4.14,5.62,9.39 & 5.45,7.44,10.34 & 6.54,8.48,11.69 & 7.05,8.74,13.31 & 8.01,9.77,14.32 \\ 
-machine & 4.05,5.57,10.12 & 5.17,7.09,10.35 & 6.33,8.7,12.45 & 7.26,8.8,12.22 & 7.62,9.04,12.27 \\ 
-transportation equipment & 4.04,5.58,9.31 & 5.47,7.4,11.23 & 6.56,8.27,16.29 & 7.08,8.51,14.83 & 7.2,9.15,13.83 \\ 
-food & 4.18,5.44,9.69 & 5.06,7.01,9.87 & 6.26,8.25,11.11 & 6.87,8.28,12.15 & 7.29,9.1,13.1 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & 4.1,5.45,9.83 & 5.02,6.67,10 & 6.19,8.31,11.16 & 6.48,7.87,11.41 & 7.06,9.03,13.12 \\
+electronics & 4.14,5.62,9.39 & 5.45,7.44,10.34 & 6.54,8.48,11.69 & 7.05,8.74,13.31 & 8.01,9.77,14.32 \\
+machine & 4.05,5.57,10.12 & 5.17,7.09,10.35 & 6.33,8.7,12.45 & 7.26,8.8,12.22 & 7.62,9.04,12.27 \\
+transportation equipment & 4.04,5.58,9.31 & 5.47,7.4,11.23 & 6.56,8.27,16.29 & 7.08,8.51,14.83 & 7.2,9.15,13.83 \\
+food & 4.18,5.44,9.69 & 5.06,7.01,9.87 & 6.26,8.25,11.11 & 6.87,8.28,12.15 & 7.29,9.1,13.1 \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & \$629.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$308.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$182.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$177.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$88.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-electronics & \$799.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$279.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$168.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$100.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$88.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-machine & \$621.83$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$288.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$118.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$99.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$74.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-transportation equipment & \$525$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$164.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$129.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$97.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$93.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-food & \$383.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$204.87$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$126.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$115.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$92.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & $629.96^{***}$ & $308.7^{***}$ & $182.32^{***}$ & $177.81^{***}$ & $88.88^{***}$ \\
+electronics & $799.22^{***}$ & $279.76^{***}$ & $168.79^{***}$ & $100.79^{***}$ & $88.13^{***}$ \\
+machine & $621.83^{***}$ & $288.62^{***}$ & $118.77^{***}$ & $99.58^{***}$ & $74.59^{***}$ \\
+transportation equipment & $525^{***}$ & $164.72^{***}$ & $129.25^{***}$ & $97.36^{***}$ & $93.7^{***}$ \\
+food & $383.21^{***}$ & $204.87^{***}$ & $126.25^{***}$ & $115.23^{***}$ & $92.7^{***}$ \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & 3.97,5.36,9.87 & 4.88,7.11,10.16 & 6.47,8.2,11.23 & 6.67,8.35,11.41 & 7.38,9.02,13 \\ 
-electronics & 4.05,5.55,10.09 & 5.21,7.12,10.94 & 6.44,8.05,12.28 & 7.46,8.95,15.43 & 7.82,9.58,15.44 \\ 
-machine & 3.93,5.56,10.06 & 5.25,6.79,10.42 & 6.39,8.26,11.48 & 6.81,8.44,13.28 & 7.52,9.19,11.96 \\ 
-transportation equipment & 3.95,5.57,9.78 & 5.44,7.24,10.71 & 6.89,9.14,15.46 & 7.37,10.39,24.95 & 7.91,10.39,17.83 \\ 
-food & 3.89,5.33,9.97 & 5.02,6.85,10.66 & 6.11,8.01,10.97 & 7.2,8.73,15.11 & 8.03,10.9,18.95 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & 3.97,5.36,9.87 & 4.88,7.11,10.16 & 6.47,8.2,11.23 & 6.67,8.35,11.41 & 7.38,9.02,13 \\
+electronics & 4.05,5.55,10.09 & 5.21,7.12,10.94 & 6.44,8.05,12.28 & 7.46,8.95,15.43 & 7.82,9.58,15.44 \\
+machine & 3.93,5.56,10.06 & 5.25,6.79,10.42 & 6.39,8.26,11.48 & 6.81,8.44,13.28 & 7.52,9.19,11.96 \\
+transportation equipment & 3.95,5.57,9.78 & 5.44,7.24,10.71 & 6.89,9.14,15.46 & 7.37,10.39,24.95 & 7.91,10.39,17.83 \\
+food & 3.89,5.33,9.97 & 5.02,6.85,10.66 & 6.11,8.01,10.97 & 7.2,8.73,15.11 & 8.03,10.9,18.95 \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & \$818.65$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$381.33$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$218.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$206.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$109.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-electronics & \$1021.27$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$372.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$225.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$130.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$125.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-machine & \$819.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$379.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$157.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$149.57$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$94.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-transportation equipment & \$669.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$210.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$164.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$110.24$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$109.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-food & \$489.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$247.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$159.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$144.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$91.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & $818.65^{***}$ & $381.33^{***}$ & $218.59^{***}$ & $206.91^{***}$ & $109.67^{***}$ \\
+electronics & $1021.27^{***}$ & $372.19^{***}$ & $225.63^{***}$ & $130.59^{***}$ & $125.84^{***}$ \\
+machine & $819.95^{***}$ & $379.35^{***}$ & $157.31^{***}$ & $149.57^{***}$ & $94.49^{***}$ \\
+transportation equipment & $669.76^{***}$ & $210.79^{***}$ & $164.66^{***}$ & $110.24^{***}$ & $109.81^{***}$ \\
+food & $489.88^{***}$ & $247.38^{***}$ & $159.93^{***}$ & $144.67^{***}$ & $91.26^{***}$ \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
 % Date and time: Thu, Apr 07, 2022 - 12:24:26 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-chemical & 3.84,5.36,9.61 & 5.11,7.07,10.35 & 6.56,7.98,11.19 & 6.67,8.53,11.85 & 7.1,8.83,12.57 \\ 
-electronics & 3.94,5.28,9.62 & 5.43,7.24,10.41 & 6.43,8.09,12.24 & 6.79,8.46,12.49 & 7.76,9.87,19.47 \\ 
-machine & 3.87,5.54,10.01 & 5.17,6.91,10.09 & 7.04,10.21,18.94 & 7.68,9.55,15.7 & 8.02,9.31,13.57 \\ 
+\begin{table}[!htbp] \centering
+  \caption{}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\
+\hline \\[-1.8ex]
+chemical & 3.84,5.36,9.61 & 5.11,7.07,10.35 & 6.56,7.98,11.19 & 6.67,8.53,11.85 & 7.1,8.83,12.57 \\
+electronics & 3.94,5.28,9.62 & 5.43,7.24,10.41 & 6.43,8.09,12.24 & 6.79,8.46,12.49 & 7.76,9.87,19.47 \\
+machine & 3.87,5.54,10.01 & 5.17,6.91,10.09 & 7.04,10.21,18.94 & 7.68,9.55,15.7 & 8.02,9.31,13.57 \\
 transportation equipment & 3.91,5.42,10.23 & 5.77,7.9,11.1 & 6.43,8.59,13.3 & 6.93,8.6,13.67 & 6.94,8.93,12.58 \\ 
-food & 3.81,5.17,9.74 & 4.95,6.83,10.72 & 6.22,7.96,11.84 & 7.22,8.67,17.02 & 7.83,9.63,14.55 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+food & 3.81,5.17,9.74 & 4.95,6.83,10.72 & 6.22,7.96,11.84 & 7.22,8.67,17.02 & 7.83,9.63,14.55 \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}

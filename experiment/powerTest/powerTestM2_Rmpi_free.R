@@ -1,6 +1,5 @@
 library(NormalRegPanelMixture)
-library(doParallel)
-library(Rmpi)
+library(foreach)
 
 set.seed(123456)
 
@@ -52,41 +51,61 @@ PerformEMPowerTest <- function (data , m, z = NULL) {
 }
 
 
-MPIgetEstimatePower <- function(Data,nrep,m){
-  lr.crit <- matrix(0.0,nr=nrep,ncol=3)
-  lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
-  lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+# MPIgetEstimatePower <- function(Data,nrep,m){
+#   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
+#   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
+#   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   
-  ldata <- lapply(seq_len(ncol(Data)), function(i) Data[,i])
-  lr.estimate <- cbind(mpi.applyLB(ldata, PerformEMPowerTest, m=(M-1), z = NULL))
+#   ldata <- lapply(seq_len(ncol(Data)), function(i) Data[,i])
+#   lr.estimate <- cbind(mpi.applyLB(ldata, PerformEMPowerTest, m=(M-1), z = NULL))
   
+#   #####################################################
+#   data <- ldata[[1]]
+#   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
+#   crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z , parallel = FALSE,nrep=1000)$crit
+#   for ( k in 1:nrep){
+#     lr.crit[k,] <- crit
+#     lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
+#   }
+#   #####################################################
+  
+#   return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
+# }
+getEstimatePower <- function(Data,nrep,an,cl,M, parlist) {
+  lr.crit <- matrix(0.0, nr = nrep, ncol = 3)
+  lr.estimate <- matrix(0.0, nr = nrep, ncol = 1)
+  lr.size <- matrix(0.0, nr = nrep, ncol = 1) # Nomimal size
+
+  results <- foreach(k = 1:nrep) %dopar% {
+  data <- Data[, k]
+  out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y = data$Y, x = data$X, z = data$Z, m = (M-1), vcov.method = "none")
+  out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (an), update.alpha = 1, parallel = FALSE)
+  2 * max(out.h1.m$loglik - out.h0$loglik)
+  }
+  lr.estimate <- t(t(sapply(results, function(x) x[1])))
+
+
   #####################################################
-  data <- ldata[[1]]
-  out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
-  crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z , parallel = FALSE,nrep=1000)$crit
-  for ( k in 1:nrep){
-    lr.crit[k,] <- crit
-    lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
+  data = Data[,1]  
+  crit <- regpanelmixCrit(y = data$Y, x = data$X, parlist = parlist, z = data$Z, cl = cl, parallel = TRUE, nrep = 1000)$crit
+  for (k in 1:nrep) {
+    lr.crit[k, ] <- crit
+    lr.size[k, ] <- 1 * (lr.estimate[k, ] > lr.crit[k, 2])
   }
   #####################################################
-  
-  return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
+
+  return(list(est = lr.estimate, crit = lr.crit, nominal.size = apply(lr.size, 2, mean)))
 }
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 1000
+nrep <- 2000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 power.data <- matrix(0,nr=(nset),nc=6)
 
 
-# Rmpi setup 
-print("collecting workers..")
-mpi.spawn.Rslaves()
-mpi.setup.rngstream()
-mpi.bcast.Robj2slave(PerformEMtest, all=TRUE)
-print("workers loaded.")
+cl <- makeCluster(64)
 
 for (mu in muset){
   for (sigma in sigmaset){
@@ -103,7 +122,10 @@ for (mu in muset){
           Data = phi.data.pair$Data
           phi = phi.data.pair$phi
           
-          result <- MPIgetEstimatePower(Data,nrep,M)
+          an <- anFormula(phi,M,N,T)  #The an function according the the empirical regression
+          
+          parlist = list(alpha = alpha, mubeta = mu, sigma = sigma, gam = NULL)
+          result <- getEstimatePower(Data,nrep,an,cl,M, parlist)
           
           
           power.data[count, 1:3] <- 
@@ -120,7 +142,5 @@ for (mu in muset){
 }
 
 
-write.csv(power.data,file="power.simulate.csv")
+write.csv(power.data,file="/home/haoyu/results/powerTest/power.simulate.csv")
 
-mpi.close.Rslaves()
-mpi.quit()
