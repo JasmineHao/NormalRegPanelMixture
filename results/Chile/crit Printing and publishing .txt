@@ -12,7 +12,7 @@ lnk       625 8.067   1.846   2.667  13.818
 [1] "Chilean Producer Data: Estimated LR for Printing and publishing"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Fri, Apr 01, 2022 - 1:17:39 AM
+% Date and time: Thu, Apr 07, 2022 - 01:45:54 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,21 +22,21 @@ lnk       625 8.067   1.846   2.667  13.818
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$67.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$51.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$21.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3.13$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-T=3 & \$140.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$67.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$47.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$7.89$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
-T=4 & \$218.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$115.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$55.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=5 & \$321.01$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$151.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$79.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$22.89$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$15.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$67.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$50.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3.02$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=3 & \$139.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$66.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$46.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$6.3$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$217.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$112.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$318.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$145.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$78.71$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$21.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$15.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Printing and publishing 342
-===================================================================================
-          M=1             M=2             M=3             M=4             M=5      
------------------------------------------------------------------------------------
-T=1        0               0               0               0               0       
-T=2 3.98,5.59,9.74  4.94,6.63,10.78 6.25,7.74,10.9   6.51,8.28,11          0       
-T=3  3.97,5.74,9.4  5.58,7.43,10.78 6.34,8.02,12.08 6.76,8.33,11.17 7.29,8.84,11.93
-T=4 3.93,5.58,9.04  5.3,7.27,10.87  6.35,8.02,12.09 6.79,8.32,11.9  7.13,8.7,11.88 
-T=5 4.19,5.59,10.27 5.61,7.7,11.02  6.37,8.14,11.9  6.9,8.97,11.81  7.4,9.52,14.32 
------------------------------------------------------------------------------------
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 4.02,5.59,9.74 4.94,6.63,10.78 6.27,7.76,10.81  6.64,8.28,11          0       
+T=3 3.97,5.68,9.4  5.58,7.43,10.78 6.29,7.92,11.24 6.76,8.31,11.14 7.3,8.79,11.66 
+T=4  4,5.58,9.04   5.27,7.13,10.83 6.31,7.96,12.07 6.77,8.38,11.87 7.13,8.68,11.88
+T=5  4,5.55,9.35   5.43,7.3,10.96  6.36,8.13,11.88 6.83,8.9,11.81  7.43,9.52,13.11
+----------------------------------------------------------------------------------

@@ -3,16 +3,16 @@ Descriptive data for Chilean Industry: Wood products, except furniture
 =============================================
 Statistic   N    Mean  St. Dev.  Min    Max  
 ---------------------------------------------
-si        1,115 -0.471  0.328   -1.887 2.472 
-lny       1,115 10.846  1.413   5.901  15.032
-lnm       1,115 10.375  1.462   7.021  14.351
-lnl       1,115 3.934   0.950   1.899  7.330 
-lnk        957  8.062   1.790   3.468  13.469
+si        1,105 -0.477  0.313   -1.887 0.446 
+lny       1,105 10.861  1.402   7.749  15.032
+lnm       1,105 10.384  1.463   7.021  14.351
+lnl       1,105 3.940   0.950   1.899  7.330 
+lnk        947  8.064   1.786   3.468  13.469
 ---------------------------------------------
 [1] "Chilean Producer Data: Estimated LR for Wood products, except furniture"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Fri, Apr 01, 2022 - 1:06:37 AM
+% Date and time: Thu, Apr 07, 2022 - 01:35:51 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,21 +22,21 @@ lnk        957  8.062   1.790   3.468  13.469
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$145.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$63.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$28.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$9.99$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=3 & \$247.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$76.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=4 & \$398.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$94.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$25.74$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=5 & \$526.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$124.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$63.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$22.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$124.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$7.01$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$236.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$50.89$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$10.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$379.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.03$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.18$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$516.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$114.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$39.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Wood products, except furniture 331
-==================================================================================
-         M=1             M=2             M=3             M=4             M=5      
-----------------------------------------------------------------------------------
-T=1       0               0               0               0               0       
-T=2 3.94,5.71,9.32 5.35,6.73,10.18 6.17,7.89,10.54 6.64,8.65,11.11 7.17,8.55,11.48
-T=3 3.73,5.62,9.29 5.23,6.66,10.89 6.39,7.97,10.46 6.84,8.47,12.24 7.39,8.65,12.82
-T=4 3.77,5.57,9.44 5.35,6.88,10.74 6.44,8.13,11.31 7.11,8.81,14.33 7.18,8.67,12.15
-T=5 3.94,5.58,9.75 5.24,6.89,10.63 6.62,8.55,13.89 6.87,8.84,13.59 7.35,9.32,14.63
-----------------------------------------------------------------------------------
+===================================================================================
+          M=1             M=2             M=3             M=4             M=5      
+-----------------------------------------------------------------------------------
+T=1        0               0               0               0               0       
+T=2 4.14,5.61,9.36  5.47,7.06,11.1  6.03,7.58,10.5  6.58,8.1,11.69  7.31,8.73,12.6 
+T=3 3.96,5.57,9.27  5.32,7.19,11.05 6.41,7.9,10.88   7,8.31,12.14   7.57,9.01,12.63
+T=4 3.93,5.56,10.26 5.24,6.93,10.86 6.51,7.93,12.08 6.94,8.71,12.4  7.29,8.72,11.99
+T=5 3.91,5.39,9.83  5.35,6.94,10.84 6.34,8.17,11.83 6.95,8.75,12.86 7.26,8.59,12.37
+-----------------------------------------------------------------------------------
