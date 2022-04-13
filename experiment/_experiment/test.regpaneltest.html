@@ -156,8 +156,8 @@ for (k in 1:ntest){
   lr.crit[k,] &lt;- regpanelmixCrit(y=Data$Y, x=Data$X, parlist=parlist, z = Data$Z,parallel = FALSE)$crit
   out.h0 &lt;- regpanelmixPMLE(y=Data$Y,x=Data$X, z = Data$Z,m=M,vcov.method = &quot;none&quot;)
   out.h1 &lt;- regpanelmixPMLE(y=Data$Y,x=Data$X, z = Data$Z,m=M+1,vcov.method = &quot;none&quot;)
-  lr.estimate[k] &lt;- out.h1$loglik - out.h0$loglik
-  lr.estimate.pen[k] &lt;- out.h1$loglik - out.h0$penloglik
+  lr.estimate[k] &lt;- out.h1$penloglik - out.h0$loglik
+  lr.estimate.pen[k] &lt;- out.h1$penloglik - out.h0$penloglik
 }
 lr.estimate &lt;- 2 * lr.estimate
 lr.estimate.pen &lt;- 2 * lr.estimate.pen

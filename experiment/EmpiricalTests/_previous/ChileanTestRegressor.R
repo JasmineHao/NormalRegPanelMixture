@@ -88,8 +88,8 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
   #   crit.m.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
   #   # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
   #   # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-  #   estimate.m.df[1,M] <- 2 * max(out.h1$loglik - out.h0$loglik)
-  #   result.m.df[1,M] <- (2 * max(out.h1$loglik - out.h0$loglik) > lr.crit[2])
+  #   estimate.m.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+  #   result.m.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
     
   #   ############################################
   #   #Estimate with regressor lnK
@@ -103,8 +103,8 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
   #   crit.k.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
   #   # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
   #   # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-  #   estimate.k.df[1,M] <- 2 * max(out.h1$loglik - out.h0$loglik)
-  #   result.k.df[1,M] <- (2 * max(out.h1$loglik - out.h0$loglik) > lr.crit[2])
+  #   estimate.k.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+  #   result.k.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
   #   ############################################
   #   #Estimate with regressor lnL
   #   ############################################
@@ -117,8 +117,8 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
   #   crit.l.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
   #   # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
   #   # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-  #   estimate.l.df[1,M] <- 2 * max(out.h1$loglik - out.h0$loglik)
-  #   result.l.df[1,M] <- (2 * max(out.h1$loglik - out.h0$loglik) > lr.crit[2])
+  #   estimate.l.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+  #   result.l.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
     
   # }
 count = 0
@@ -195,7 +195,7 @@ for (each.code in ind.code){
         an <- 1.0
       }
       out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
@@ -217,7 +217,7 @@ for (each.code in ind.code){
       #   an <- 1.0
       # }
       # out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      # lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      # lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       # estimate.k.df[T,M] <- lr.estimate
       # lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
       # if (class(lr.crit) == "try-error"){
@@ -237,7 +237,7 @@ for (each.code in ind.code){
       #   an <- 1.0
       # }
       # out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = NULL,parlist=out.h0$parlist,an=an,update.alpha = 1)
-      # lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      # lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       # estimate.l.df[T,M] <- lr.estimate
       # lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist ,parallel = TRUE)$crit)
       # if (class(lr.crit) == "try-error"){
