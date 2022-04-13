@@ -90,13 +90,12 @@ regpanelmixMaxPhi <- function (y, x, parlist, z = NULL, an, tauset = c(0.1,0.3,0
         coefficient.all[rowindex,] <- result$coefficient
       }
   
-  loglik <- apply(loglik.all, 2, max)  # 3 by 1 vector
-  penloglik <- apply(penloglik.all, 2, max)  # 3 by 1 vector
   index <- which.max(loglik.all[ ,3]) # a par (h,m) that gives the highest likelihood at k=3
   coefficient <- as.vector(coefficient.all[index,])
-  
-  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik,parlist=result$parlist)
-  
+  loglik <- loglik.all[index,3]
+  penloglik <- penloglik.all[index,3]
+  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik, parlist=result$parlist)
+
   out
   
 }  # end regpanelmixMaxPhi

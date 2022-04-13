@@ -94,7 +94,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     ninits <- 1
     maxit <- 2
     # Two EM steps
-    out <- cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k,update_alpha = FALSE)
+    out <- cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k,update_alpha = TRUE)
     alpha <- b[1:m1,1] # b0 has been updated
     mubeta <- matrix(b[(1+m1):((q1+1)*m1),1],nrow=q1,ncol=m1)
     sigma <- b[(1+(q1+1)*m1):((q1+2)*m1),1]
