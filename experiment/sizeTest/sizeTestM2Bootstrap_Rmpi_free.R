@@ -6,6 +6,9 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
+nrep <- 2000
+cl <- makeCluster(64)
+
 
 set.seed(123456)
 Nset <- c(100,500)
@@ -94,13 +97,13 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
 
   data = Data[,1]
 
-  crit.h <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, nbtsp = 199, an = 10 * an ,parallel = TRUE,cl=cl)$crit
+  
   crit.m <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, nbtsp = 199, an = an ,parallel = TRUE,cl=cl)$crit
-  crit.l <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, nbtsp = 199, an = 0.1 * an ,parallel = TRUE,cl=cl)$crit
+  
   for ( k in 1:nrep){
-    lr.crit.h[k,] <- crit.h
+    lr.crit.h[k,] <- crit.m
     lr.crit.m[k,] <- crit.m
-    lr.crit.l[k,] <- crit.l
+    lr.crit.l[k,] <- crit.m
   }
 
   for ( k in 1:nrep){
@@ -116,7 +119,6 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 2000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
@@ -137,7 +139,6 @@ result.h <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
 
-cl <- makeCluster(64)
 
 print("Simulation Started!!")
 for (r in 1:nNT){

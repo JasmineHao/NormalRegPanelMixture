@@ -5,6 +5,8 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
+nrep <- 2000
+cl <- makeCluster(64)
 
 set.seed(123456)
 Nset <- c(100,500)
@@ -104,7 +106,6 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 2000
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
@@ -125,7 +126,6 @@ result.h <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
 
-cl <- makeCluster(64)
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
