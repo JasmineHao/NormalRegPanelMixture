@@ -122,7 +122,7 @@ for (each.code in ind.code){
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
 
-      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
 
       # Simulate the asymptotic distribution
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)

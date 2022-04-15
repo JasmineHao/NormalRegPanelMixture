@@ -42,7 +42,7 @@ getEstimate <- function(Data,nrep,an,cl){
     data <- Data[,k]
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE,cl=cl)
-    2 * max(out.h1$loglik - out.h0$loglik)
+    2 * max(out.h1$penloglik - out.h0$loglik)
   }
   lr.estimate <- t(t(sapply(sim.results, function(x) x[1])))
   crit.no <- order(result$est)[round(nrep/2)]

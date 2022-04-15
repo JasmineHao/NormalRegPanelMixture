@@ -79,7 +79,7 @@ PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
 
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-  return(2 * max(out.h1$loglik - out.h0$loglik))
+  return(2 * max(out.h1$penloglik - out.h0$loglik))
 }
 
 
@@ -114,7 +114,7 @@ PerformEMtest <- function (data, an, m = 3, z = NULL, parallel) {
 
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-  return(2 * max(out.h1$loglik - out.h0$loglik))
+  return(2 * max(out.h1$penloglik - out.h0$loglik))
 }
 
 
@@ -129,7 +129,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
     out.h1 <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1$loglik - out.h0$loglik)
+    2 * max(out.h1$penloglik - out.h0$loglik)
 
   }
   lr.estimate <- t(t(sapply(results, function(x) x[1])))

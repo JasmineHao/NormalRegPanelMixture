@@ -93,8 +93,8 @@ colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 #     crit.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
 #     # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
 #     # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-#     estimate.df[1,M] <- 2 * max(out.h1$loglik - out.h0$loglik)
-#     result.df[1,M] <- (2 * max(out.h1$loglik - out.h0$loglik) > lr.crit[2])
+#     estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+#     result.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
 
 #   }
 
@@ -153,7 +153,7 @@ for (each.code in ind.code){
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
 
-      lr.estimate <- 2 * max(out.h1$loglik - out.h0$loglik)
+      lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
 
       # Simulate the asymptotic distribution
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)

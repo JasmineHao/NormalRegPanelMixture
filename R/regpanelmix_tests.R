@@ -249,7 +249,7 @@ regpanelmixMEMtest <- function (y, x, t, m = 2, z = NULL, tauset = c(0.1,0.3,0.5
                           # an=an, tauset = tauset, ninits=ninits,
                           # parallel = parallel, cl = cl)
   # use the penalized log-likelihood.
-  emstat  <- 2*max(regpanelmix.pmle.result.1$loglik-loglik0)
+  emstat  <- 2*max(regpanelmix.pmle.result.1$penloglik-loglik0)
 
   if (crit.method == "asy"){
     result  <- regpanelmixCrit(y=y, x=x, parlist=regpanelmix.pmle.result$parlist, z=z, values=emstat,

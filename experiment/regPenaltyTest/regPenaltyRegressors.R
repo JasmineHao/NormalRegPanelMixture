@@ -34,9 +34,11 @@ df.M3 <- read.csv(file="results/regPenaltyTest/penaltyTestM3.csv")
 df.M4 <- read.csv(file="results/regPenaltyTest/penaltyTestM4.csv")
 
 ###########################################################
+# Specification 1: 1 /T and 1 / N
+###########################################################
 
 fit.data <- list(y = log(
-  df.M2$nom.size/ (0.25 - df.M2$nom.size) ) ,
+  df.M2$nom.size/ (1 - df.M2$nom.size) ) ,
   t = 1 /  df.M2$T,
   n = 1 /  df.M2$N,
   an = log( df.M2$an/ (1 - df.M2$an )),
@@ -44,14 +46,14 @@ fit.data <- list(y = log(
 an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M2))
 coef.M2 <- an.model.M2$coefficients
-an.formula.M2 <- (-1.386294 - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[4]*fit.data$an)/coef.M2[5]
+an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[4]*fit.data$an)/coef.M2[5]
 an.formula.M2 <- exp(an.formula.M2)/(1 + exp(an.formula.M2))   
 m_2.an <- 0.5 * mean(an.formula.M2)
 
-
+# c(-3.75007650, -0.43387385, 18.54754765, -0.13457721, -0.05850536)
 
 fit.data <- list(y = log(
-  df.M3$nom.size/ (0.25 - df.M3$nom.size) ) ,
+  df.M3$nom.size/ (1 - df.M3$nom.size) ) ,
   t = 1 /  df.M3$T,
   n = 1 /  df.M3$N,
   an = log( df.M3$an/ (1 - df.M3$an )),
@@ -59,14 +61,14 @@ fit.data <- list(y = log(
 an.model.M3 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M3))
 coef.M3 <- an.model.M3$coefficients
-an.formula.M3 <- (-1.386394 - coef.M3[1] - coef.M3[2]*fit.data$t - coef.M3[3]*fit.data$n - coef.M3[4]*fit.data$an)/coef.M3[5]
+an.formula.M3 <- (log(5/95) - coef.M3[1] - coef.M3[2]*fit.data$t - coef.M3[3]*fit.data$n - coef.M3[5]*fit.data$omega)/coef.M3[4]
 an.formula.M3 <- exp(an.formula.M3)/(1 + exp(an.formula.M3))   
 m_3.an <- 0.5 * mean(an.formula.M3)
 
 
 
 fit.data <- list(y = log(
-  df.M4$nom.size/ (0.25 - df.M4$nom.size) ) ,
+  df.M4$nom.size/ (1 - df.M4$nom.size) ) ,
   t = 1 /  df.M4$T,
   n = 1 /  df.M4$N,
   an = log( df.M4$an/ (1 - df.M4$an )),
@@ -74,11 +76,49 @@ fit.data <- list(y = log(
 an.model.M4 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M4))
 coef.M4 <- an.model.M4$coefficients
-an.formula.M4 <- (-1.386394 - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[4]*fit.data$an)/coef.M4[5]
+an.formula.M4 <- (log(5/95) - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[4]*fit.data$an)/coef.M4[5]
 an.formula.M4 <- exp(an.formula.M4)/(1 + exp(an.formula.M4))   
 m_4.an <- 0.5 * mean(an.formula.M4)
 
 stargazer(an.model.M2,an.model.M3,an.model.M4)
+
+
+
+###########################################################
+# Specification 2: log(T) and log(N)
+###########################################################
+
+fit.data <- list(y = log(
+  df.M2$nom.size/ (1 - df.M2$nom.size) ) ,
+  t = log(df.M2$T),
+  n = log(df.M2$N),
+  an = log( df.M2$an/ (1 - df.M2$an )),
+  omega = df.M2$omega)
+an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
+print(an.model.M2$coefficients)
+
+c(-3.47934199,  0.14566884, -0.09219391, -0.13457721, -0.05850536)
+
+###########################################################
+# Specification 3: sqrt(T) and sqrt(N)
+###########################################################
+
+fit.data <- list(y = log(
+  df.M2$nom.size/ (1 - df.M2$nom.size) ) ,
+  t = 1 / sqrt(df.M2$T),
+  n = 1/ sqrt(df.M2$N),
+  an = log( df.M2$an/ (1 - df.M2$an )),
+  omega = df.M2$omega)
+an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
+print(an.model.M2$coefficients)
+
+c(-3.69387007, -0.51991487,  2.68422631, -0.13457721, -0.05850536 )
+
+
+# coef.M2 <- an.model.M2$coefficients
+# an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[4]*fit.data$an)/coef.M2[5]
+# an.formula.M2 <- exp(an.formula.M2)/(1 + exp(an.formula.M2))   
+# m_2.an <- 0.5 * mean(an.formula.M2)
 
 # fit.data$y <- replace(fit.data$y,fit.data$y == Inf,5)
 # fit.data$y <- replace(fit.data$y,is.na(fit.data$y),5)
