@@ -89,7 +89,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
     ninits <- 1
     maxit <- 2
     # Two EM steps
-    out <- cppnormalpanelmixPMLE(b, as.vector(y), ztilde, mu0h, sigma0h, m1, p,t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = TRUE)
+    out <- cppnormalpanelmixPMLE(b, as.vector(y), ztilde, mu0h, sigma0h, m1, p,t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
     alpha <- b[1:m1,1] # b has been updated
     mu <- b[(1+m1):(2*m1),1]
     sigma <- b[(1+2*m1):(3*m1),1]
