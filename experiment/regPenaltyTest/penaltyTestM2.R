@@ -5,9 +5,10 @@ library(stargazer)
 #Generate Data
 Nset <- c(100,500)
 Tset <- c(2,5,10)
-alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+
+alphaset <- list(c(0.5,0.5),c(0.2,0.8), c(-0.8,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
-sigmaset <- list(c(1, 1), c(1.5, 0.75))
+sigmaset <- list(c(1, 1), c(1.5, 0.75),c(0.8,1.2))
 anset <- c(0.05,0.1,0.15,0.2,0.3,0.4)
 
 
@@ -110,7 +111,7 @@ regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
 
 # ====== BEGIN EXPERIMENT ======
 ## 1. Initialization
-# Case when m = 3
+# Case when m = 2
 for (N in Nset){
   for (T in Tset){
     for (mu in muset){

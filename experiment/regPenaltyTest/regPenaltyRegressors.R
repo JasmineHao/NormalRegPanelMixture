@@ -46,7 +46,7 @@ fit.data <- list(y = log(
 an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M2))
 coef.M2 <- an.model.M2$coefficients
-an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[4]*fit.data$an)/coef.M2[5]
+an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[5]*fit.data$an)/coef.M2[4]
 an.formula.M2 <- exp(an.formula.M2)/(1 + exp(an.formula.M2))   
 m_2.an <- 0.5 * mean(an.formula.M2)
 
@@ -76,7 +76,7 @@ fit.data <- list(y = log(
 an.model.M4 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M4))
 coef.M4 <- an.model.M4$coefficients
-an.formula.M4 <- (log(5/95) - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[4]*fit.data$an)/coef.M4[5]
+an.formula.M4 <- (log(5/95) - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[5]*fit.data$an)/coef.M4[5]
 an.formula.M4 <- exp(an.formula.M4)/(1 + exp(an.formula.M4))   
 m_4.an <- 0.5 * mean(an.formula.M4)
 
@@ -94,8 +94,8 @@ fit.data <- list(y = log(
   n = log(df.M2$N),
   an = log( df.M2$an/ (1 - df.M2$an )),
   omega = df.M2$omega)
-an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
-print(an.model.M2$coefficients)
+an.model.M2.2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
+print(an.model.M2.2$coefficients)
 
 c(-3.47934199,  0.14566884, -0.09219391, -0.13457721, -0.05850536)
 
@@ -109,11 +109,12 @@ fit.data <- list(y = log(
   n = 1/ sqrt(df.M2$N),
   an = log( df.M2$an/ (1 - df.M2$an )),
   omega = df.M2$omega)
-an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
-print(an.model.M2$coefficients)
+an.model.M2.3 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
+print(an.model.M2.3$coefficients)
 
 c(-3.69387007, -0.51991487,  2.68422631, -0.13457721, -0.05850536 )
 
+stargazer(an.model.M2,an.model.M2.2,an.model.M2.3)
 
 # coef.M2 <- an.model.M2$coefficients
 # an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[4]*fit.data$an)/coef.M2[5]
