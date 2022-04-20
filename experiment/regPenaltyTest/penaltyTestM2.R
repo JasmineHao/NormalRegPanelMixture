@@ -111,7 +111,7 @@ regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
 
 # ====== BEGIN EXPERIMENT ======
 ## 1. Initialization
-# Case when m = 3
+# Case when m = 2
 for (N in Nset){
   for (T in Tset){
     for (mu in muset){
