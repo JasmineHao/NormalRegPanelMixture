@@ -6,9 +6,9 @@ library(stargazer)
 Nset <- c(100,500)
 Tset <- c(2,5,10)
 
-alphaset <- list(c(0.5,0.5),c(0.2,0.8), c(-0.8,0.8))
-muset <- list(c(-1,1),c(-0.5,0.5))
-sigmaset <- list(c(1, 1), c(1.5, 0.75),c(0.8,1.2))
+alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+muset <- list(c(-1,1),c(-0.5,0.5), c(-0.8,0.8))
+sigmaset <- list(c(1, 1), c(1.5, 0.75), c(0.8,1.2))
 anset <- c(0.05,0.1,0.15,0.2,0.3,0.4)
 
 
