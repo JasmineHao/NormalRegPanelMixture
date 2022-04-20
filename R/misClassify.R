@@ -201,8 +201,8 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
     omega.term <- log(omega /(0.5-omega))
     
-    b <- c(-1.2452683,   0.1372538,  22.2261711,  -0.1449786,  -0.2064969) 
-    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term - log(4)) / b[4] )  # maxa=1
+    b <- c(-3.75007650, -0.43387385, 18.54754765, -0.13457721, -0.05850536)
+    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
     
     #   x <- exp(-1.642 - 0.434 * log(omega / (1 - omega)) - 101.80/n)  # maxa=2
@@ -215,8 +215,8 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega.23 <- omega[2]
     omega.term <- log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23)))
     
-    b <- c(-1.360959929, 1.847346656, 28.107232186, -0.210902976, -0.005245072 )
-    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term - log(4)) / b[4] ) 
+    b <- c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
+    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
     
     # an <- 0.80 * x / (1 + x)
@@ -230,8 +230,8 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega.34 <- omega[3]
     omega.term <- log(omega.12 * omega.23 * omega.34 / 
                         ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34)))
-    b <- c( -1.07743383,  1.12320125, -39.08673893,  -0.27590849,  -0.02474967 )
-    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term - log(4)) / b[4] ) 
+    b <- c(-3.62706036,   0.70157325, -19.45147429,  -0.15143196,  -0.01282218)
+    x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
     
   }

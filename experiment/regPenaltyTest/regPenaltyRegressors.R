@@ -61,6 +61,9 @@ fit.data <- list(y = log(
 an.model.M3 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M3))
 coef.M3 <- an.model.M3$coefficients
+print(coef.M3)
+ # c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
+
 an.formula.M3 <- (log(5/95) - coef.M3[1] - coef.M3[2]*fit.data$t - coef.M3[3]*fit.data$n - coef.M3[5]*fit.data$omega)/coef.M3[4]
 an.formula.M3 <- exp(an.formula.M3)/(1 + exp(an.formula.M3))   
 m_3.an <- 0.5 * mean(an.formula.M3)
@@ -76,9 +79,11 @@ fit.data <- list(y = log(
 an.model.M4 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M4))
 coef.M4 <- an.model.M4$coefficients
-an.formula.M4 <- (log(5/95) - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[5]*fit.data$an)/coef.M4[5]
+an.formula.M4 <- (log(5/95) - coef.M4[1] - coef.M4[2]*fit.data$t - coef.M4[3]*fit.data$n - coef.M4[5]*fit.data$omega)/coef.M4[4]
 an.formula.M4 <- exp(an.formula.M4)/(1 + exp(an.formula.M4))   
 m_4.an <- 0.5 * mean(an.formula.M4)
+
+# c(-3.62706036,   0.70157325, -19.45147429,  -0.15143196,  -0.01282218) 
 
 stargazer(an.model.M2,an.model.M3,an.model.M4)
 
