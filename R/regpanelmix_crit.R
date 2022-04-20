@@ -421,9 +421,9 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
     beta  <- NULL
   }
   
-  an    <- anFormula(parlist = parlist, m = m, n = n, t = t, q = q)
-  print("Parallel Bootstrap Crit")
-  print(paste("an=",an,"q=",q))
+  # an    <- anFormula(parlist = parlist, m = m, n = n, t = t, q = q)
+  # print("Parallel Bootstrap Crit")
+  # print(paste("an=",an,"q=",q))
 
   pvals <- NULL
   
