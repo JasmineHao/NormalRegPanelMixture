@@ -75,7 +75,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   parallel=FALSE
-  cl <- makeCluster(64)
+  cl <- makeCluster(6)
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
@@ -103,7 +103,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 500
+nrep <- 50
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)
