@@ -9,7 +9,7 @@ Tset <- c(2,5,10)
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5), c(-0.8,0.8))
 sigmaset <- list(c(1, 1), c(1.5, 0.75), c(0.8,1.2))
-anset <- c(0.05,0.1,0.15,0.2,0.3,0.4)
+anset <- c(0.01,0.02,0.05,0.1,0.2,0.4)
 
 
 #The parameters that are fixed
@@ -75,7 +75,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   parallel=FALSE
-  cl <- makeCluster(6)
+  cl <- makeCluster(64)
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     data <- Data[,k]
@@ -103,7 +103,7 @@ MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
 
 #GeneratePhiDataPairs
 count <- 0
-nrep <- 50
+nrep <- 500
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 regression.data <- matrix(0,nr=(nset*length(anset)),nc=5)

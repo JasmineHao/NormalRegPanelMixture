@@ -51,6 +51,8 @@ an.formula.M2 <- exp(an.formula.M2)/(1 + exp(an.formula.M2))
 m_2.an <- 0.5 * mean(an.formula.M2)
 
 # c(-3.75007650, -0.43387385, 18.54754765, -0.13457721, -0.05850536)
+# No Penalty
+# c(-2.8171633, 0.1052204, 16.0619336, -0.1066912, -0.1597512)
 
 fit.data <- list(y = log(
   df.M3$nom.size/ (1 - df.M3$nom.size) ) ,
@@ -63,6 +65,9 @@ print(summary(an.model.M3))
 coef.M3 <- an.model.M3$coefficients
 print(coef.M3)
  # c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
+# No Penalty
+# c(-2.804192158, 1.142765420, 20.194993567, -0.111791088, -0.003093403)
+
 
 an.formula.M3 <- (log(5/95) - coef.M3[1] - coef.M3[2]*fit.data$t - coef.M3[3]*fit.data$n - coef.M3[5]*fit.data$omega)/coef.M3[4]
 an.formula.M3 <- exp(an.formula.M3)/(1 + exp(an.formula.M3))   
@@ -84,6 +89,9 @@ an.formula.M4 <- exp(an.formula.M4)/(1 + exp(an.formula.M4))
 m_4.an <- 0.5 * mean(an.formula.M4)
 
 # c(-3.62706036,   0.70157325, -19.45147429,  -0.15143196,  -0.01282218) 
+
+# No Penalty 
+# c(-2.56070214, 0.54530103, -25.61109291, -0.15445506, -0.01488349)
 
 stargazer(an.model.M2,an.model.M3,an.model.M4)
 
