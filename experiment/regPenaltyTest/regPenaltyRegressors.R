@@ -36,6 +36,9 @@ df.M4 <- read.csv(file="results/regPenaltyTest/penaltyTestM4.csv")
 ###########################################################
 # Specification 1: 1 /T and 1 / N
 ###########################################################
+# df.M2 <- df.M2[df.M2$an < 0.4,]
+
+ 
 
 fit.data <- list(y = log(
   df.M2$nom.size/ (1 - df.M2$nom.size) ) ,
@@ -46,7 +49,7 @@ fit.data <- list(y = log(
 an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
 print(summary(an.model.M2))
 coef.M2 <- an.model.M2$coefficients
-an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[5]*fit.data$an)/coef.M2[4]
+an.formula.M2 <- (log(5/95) - coef.M2[1] - coef.M2[2]*fit.data$t - coef.M2[3]*fit.data$n - coef.M2[5]*fit.data$omega)/coef.M2[4]
 an.formula.M2 <- exp(an.formula.M2)/(1 + exp(an.formula.M2))   
 m_2.an <- 0.5 * mean(an.formula.M2)
 
@@ -55,6 +58,12 @@ m_2.an <- 0.5 * mean(an.formula.M2)
 # c(-2.8171633, 0.1052204, 16.0619336, -0.1066912, -0.1597512)
 # Updated An set
 # c(-3.663692089, -0.530933177, 13.918584239, -0.135488896, -0.002936244)
+# Updated An set 2
+# c(-4.052714057, 0.806272016, 44.709901488, -0.061124799,  0.001020388) 
+
+
+
+
 
 fit.data <- list(y = log(
   df.M3$nom.size/ (1 - df.M3$nom.size) ) ,
@@ -68,7 +77,7 @@ coef.M3 <- an.model.M3$coefficients
 print(coef.M3)
  # c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
 # No Penalty
-# c(-2.804192158, 1.142765420, 20.194993567, -0.111791088, -0.003093403)
+# c(-2.804192158, 1.142765420, 20.194993567, -0.111791088, -0.003093403)===
 
 
 an.formula.M3 <- (log(5/95) - coef.M3[1] - coef.M3[2]*fit.data$t - coef.M3[3]*fit.data$n - coef.M3[5]*fit.data$omega)/coef.M3[4]
