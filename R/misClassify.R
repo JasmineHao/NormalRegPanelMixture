@@ -188,7 +188,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
   
   if (q != 0) # an when the dimension of X is not zero.
     #return (switch(as.character(q), "1" = 0.5, "2" = 2.0, "3" = 2.4, "4" = 2.4, 0.5))
-    return (switch(as.character(m), "1" =  0.25, "2" = 0.2292904, "3" =  0.25, "4" = 0.24996, 0.25))
+    return (switch(as.character(m), "1" =  0.25, "2" = 0.0004901139, "3" =  0.07389958, "4" = 0.04619528, 0.25))
     # return (0.5)
   if (m == 1) {
     #   an <- 1.0
@@ -201,7 +201,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
     omega.term <- log(omega /(0.5-omega))
     
-    b <- c(-3.75007650, -0.43387385, 18.54754765, -0.13457721, -0.05850536)
+    b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749) 
     x <- exp( ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
     an <- 0.5 * x / (1 + x)
     
