@@ -134,9 +134,8 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
       for (int j = 0; j < m; j++) {
         ssr_j = 0;
         w_j = sum( w.row(j) ); /* w_j(j) = sum_i w(i,j) */
-        if (update_alpha == 1){
         alpha(j) = w_j / nt;
-        }
+        
         mu(j) = sum( trans(w.row(j)) % ytilde ) / w_j;
         ssr_j = sum( trans(w.row(j)) % pow( ytilde - mu(j), 2 ) );
         sigma(j) = sqrt( (ssr_j + 2.0*an*sigma0(j)*sigma0(j))  / (w_j + 2.0*an) );
@@ -156,9 +155,11 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         alphah = (alpha(h-1)+alpha(h));
         alpha(h-1) = alphah*tau;
         alpha(h) = alphah*(1-tau);
-      } else if (k>1 && update_alpha == 1) {
+      } else if (k>1 ) {
+        
         alphah = (alpha(h-1)+alpha(h));
         tauhat = alpha(h-1)/(alpha(h-1)+alpha(h));
+        
         if(tauhat <= 0.5) {
             tau = fmin((alpha(h-1)*n + 1.0)/(alpha(h-1)*n + alpha(h)*n + 1.0), 0.5);
         } else {
@@ -166,6 +167,7 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         }
         alpha(h-1) = alphah*tau;
         alpha(h) = alphah*(1-tau);
+        
       }
 
       if (p>0) { /* update gamma */
