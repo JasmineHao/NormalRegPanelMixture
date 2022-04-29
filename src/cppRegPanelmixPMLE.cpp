@@ -144,9 +144,9 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
     /* update alpha, mu, and sigma */
     for (int j = 0; j < m; j++) {
       w_j = sum( w.row(j) ); /* w_j(j) = sum_i w(i,j) */
-      if (update_alpha == 1){
-        alpha(j) = w_j / nt;
-      }      
+      
+      alpha(j) = w_j / nt;
+            
       wtilde = trans(w.row(j));
       for (int ii = 0; ii < q1; ii++) {
         xtilde.col(ii) = wtilde % x1.col(ii);

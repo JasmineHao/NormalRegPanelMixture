@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Apr 07, 2022 - 12:16:35 PM
+% Date and time: Thu, Apr 28, 2022 - 08:01:21 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  machine  industry in Japan} 
   \label{} 
@@ -27,19 +27,19 @@ t & 790 & 2,006.000 & 1.415 & 2,004 & 2,008 \\
 [1] "Estimate LR for  machine"
     M=1              M=2              M=3              M=4             
 T=1 "0"              "0"              "0"              "0"             
-T=2 "$242.52^{***}$" "$106.72^{***}$" "$43.49^{***}$"  "$33.41^{***}$" 
-T=3 "$435.85^{***}$" "$191.33^{***}$" "$69.5^{***}$"   "$56.56^{***}$" 
-T=4 "$621.83^{***}$" "$288.62^{***}$" "$118.77^{***}$" "$99.58^{***}$" 
-T=5 "$819.95^{***}$" "$379.35^{***}$" "$157.31^{***}$" "$149.57^{***}$"
+T=2 "$239.13^{***}$" "$108.24^{***}$" "$42.78^{***}$"  "$33.87^{***}$" 
+T=3 "$432.21^{***}$" "$194.8^{***}$"  "$72.77^{***}$"  "$56.96^{***}$" 
+T=4 "$618.46^{***}$" "$292.77^{***}$" "$118.47^{***}$" "$102.64^{***}$"
+T=5 "$815.84^{***}$" "$389.78^{***}$" "$156.46^{***}$" "$150.05^{***}$"
     M=5            
 T=1 "0"            
-T=2 "$34.25^{***}$"
-T=3 "$54.3^{***}$" 
-T=4 "$74.59^{***}$"
-T=5 "$94.49^{***}$"
+T=2 "$35.52^{***}$"
+T=3 "$54.79^{***}$"
+T=4 "$75.32^{***}$"
+T=5 "$96.39^{***}$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Apr 07, 2022 - 12:16:35 PM
+% Date and time: Thu, Apr 28, 2022 - 08:01:21 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 12} 
   \label{} 
