@@ -21,8 +21,7 @@ List cppRegmixPMLE(NumericMatrix bs,
                       double tol = 1e-8,
                       double tau = 0.5,
                       int h = 0,
-                      int k = 0,
-                      int update_alpha = 1) {
+                      int k = 0) {
   int n = ys.size();
   int q = xs.ncol();
   int q1 = q + 1;
@@ -137,9 +136,8 @@ List cppRegmixPMLE(NumericMatrix bs,
       /* update alpha, mu, and sigma */
       for (int j = 0; j < m; j++) {
         w_j = sum( w.row(j) ); /* w_j(j) = sum_i w(i,j) */
-        if (update_alpha == 1){
+        
         alpha(j) = w_j / n;
-        }
         
         wtilde = trans(w.row(j));
         for (int ii = 0; ii < q1; ii++) {

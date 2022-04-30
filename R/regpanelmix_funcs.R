@@ -282,11 +282,11 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   # short EM
   b0 <- as.matrix(rbind( tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam ))
   out.short <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit.short,
-                             ninits.short, epsilon.short, tau, h, k, update_alpha = FALSE)
+                             ninits.short, epsilon.short, tau, h, k)
   # long EM
   components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
   b1 <- as.matrix(b0[ ,components]) # b0 has been updated
-  out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
+  out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
   
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m1,index] # b0 has been updated
@@ -311,10 +311,11 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   loglik[1]    <- out$loglikset[[index]]
   for (k in 2:3) {
     ninits <- 1
-    maxit <- 2
+    maxit <- 1
     # Two EM steps
-    out <- cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k,update_alpha = TRUE)
+    out <- cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
     alpha <- b[1:m1,1] # b0 has been updated
+    tau <- alpha[h] / (alpha[h] + alpha[h+1]) 
     mubeta <- matrix(b[(1+m1):((q1+1)*m1),1],nrow=q1,ncol=m1)
     sigma <- b[(1+(q1+1)*m1):((q1+2)*m1),1]
     if (!is.null(z)) {

@@ -21,8 +21,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
                            double tol = 1e-8,
                            double tau = 0.5,
                            int h = 0,
-                           int k = 0,
-                           int update_alpha=1) {
+                           int k = 0) {
   int nt = ys.size();
   int n  = nt / t;
   int q = xs.ncol();
@@ -177,7 +176,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
       alphah = (alpha(h-1)+alpha(h));
       alpha(h-1) = alphah*tau;
       alpha(h) = alphah*(1-tau);
-    } else if (k>1 && update_alpha == 1) {
+    } else if (k>1) {
       alphah = (alpha(h-1)+alpha(h));
       tauhat = alpha(h-1)/(alpha(h-1)+alpha(h));
       if(tauhat <= 0.5) {

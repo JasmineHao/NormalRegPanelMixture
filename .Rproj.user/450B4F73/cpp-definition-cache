@@ -16,13 +16,13 @@
     },
     {
         "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppRegPanelmixPMLE.cpp",
-        "file_last_write": 1651212671.0,
+        "file_last_write": 1651284595.0,
         "definitions": [
             {
-                "usr": "c:@F@cppRegPanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#I#",
+                "usr": "c:@F@cppRegPanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#",
                 "kind": 6,
                 "parent_name": "",
-                "name": "cppRegPanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int, int)",
+                "name": "cppRegPanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int)",
                 "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppRegPanelmixPMLE.cpp",
                 "line": 9,
                 "column": 6
@@ -31,13 +31,13 @@
     },
     {
         "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppRegmixPMLE.cpp",
-        "file_last_write": 1649736200.0,
+        "file_last_write": 1651284802.0,
         "definitions": [
             {
-                "usr": "c:@F@cppRegmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S1_#S1_#I#I#d#I#I#d#d#I#I#I#",
+                "usr": "c:@F@cppRegmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S1_#S1_#I#I#d#I#I#d#d#I#I#",
                 "kind": 6,
                 "parent_name": "",
-                "name": "cppRegmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, double, int, int, double, double, int, int, int)",
+                "name": "cppRegmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, double, int, int, double, double, int, int)",
                 "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppRegmixPMLE.cpp",
                 "line": 10,
                 "column": 6
@@ -46,13 +46,13 @@
     },
     {
         "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppnormalpanelmixPMLE.cpp",
-        "file_last_write": 1649736200.0,
+        "file_last_write": 1651284599.0,
         "definitions": [
             {
-                "usr": "c:@F@cppnormalpanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#I#",
+                "usr": "c:@F@cppnormalpanelmixPMLE#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S1_#S1_#I#I#I#d#I#I#d#d#I#I#",
                 "kind": 6,
                 "parent_name": "",
-                "name": "cppnormalpanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int, int)",
+                "name": "cppnormalpanelmixPMLE(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, int, int, int, double, int, int, double, double, int, int)",
                 "file": "C:/Users/FBE/Documents/GitHub/NormalRegPanelMixture/src/cppnormalpanelmixPMLE.cpp",
                 "line": 11,
                 "column": 6

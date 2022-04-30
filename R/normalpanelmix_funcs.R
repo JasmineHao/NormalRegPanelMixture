@@ -54,7 +54,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   # short EM
   b0 <- as.matrix(rbind(tmp$alpha, tmp$mu, tmp$sigma, tmp$gam))
   out.short <- cppnormalpanelmixPMLE(b0, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit.short, ninits.short,
-                                epsilon.short, tau, h, k, update_alpha = FALSE)
+                                epsilon.short, tau, h, k)
   components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
   if (verb && any(out.short$notcg)) {
     cat(sprintf("non-convergence rate at short-EM = %.3f\n",mean(out.short$notcg)))
@@ -62,7 +62,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   # long EM
   b1 <- as.matrix(b0[ ,components])
   
-  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
+  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
   
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m1,index]
@@ -93,7 +93,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
     alpha <- b[1:m1,1] # b has been updated
     
     tau <- alpha[h] / (alpha[h] + alpha[h+1]) 
-    print(tau)
+    
     mu <- b[(1+m1):(2*m1),1]
     sigma <- b[(1+2*m1):(3*m1),1]
     if (!is.null(z)) {
@@ -277,7 +277,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   # short EM
   b0 <- as.matrix(rbind(tmp$alpha, tmp$mu, tmp$sigma, tmp$gam))
   out.short <- cppnormalpanelmixPMLE(b0, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit.short, ninits.short,
-                                epsilon.short, tau, h, k, update_alpha = FALSE)
+                                epsilon.short, tau, h, k)
   components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
   if (verb && any(out.short$notcg)) {
     cat(sprintf("non-convergence rate at short-EM = %.3f\n",mean(out.short$notcg)))
@@ -285,7 +285,7 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   # long EM
   b1 <- as.matrix(b0[ ,components])
   
-  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = FALSE)
+  out <- cppnormalpanelmixPMLE(b1, as.vector(y), ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
   
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m1,index]
@@ -310,9 +310,9 @@ normalpanelmixMaxPhiStep <- function (htaupair, y, parlist, z = NULL, p,
   loglik[1]    <- out$loglikset[[index]]
   for (k in 2:3) {
     ninits <- 1
-    maxit <- 2
+    maxit <- 1
     # Two EM steps
-    out <- cppnormalpanelmixPMLE(b, as.vector(y), ztilde, mu0h, sigma0h, m1, p,t, an, maxit, ninits, epsilon, tau, h, k, update_alpha = TRUE)
+    out <- cppnormalpanelmixPMLE(b, as.vector(y), ztilde, mu0h, sigma0h, m1, p,t, an, maxit, ninits, epsilon, tau, h, k)
     alpha <- b[1:m1,1] # b has been updated
     mu <- b[(1+m1):(2*m1),1]
     sigma <- b[(1+2*m1):(3*m1),1]

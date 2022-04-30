@@ -34,8 +34,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // cppRegPanelmixPMLE
-List cppRegPanelmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, int t, double an, int maxit, int ninits, double tol, double tau, int h, int k, int update_alpha);
-RcppExport SEXP _NormalRegPanelMixture_cppRegPanelmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP, SEXP update_alphaSEXP) {
+List cppRegPanelmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, int t, double an, int maxit, int ninits, double tol, double tau, int h, int k);
+RcppExport SEXP _NormalRegPanelMixture_cppRegPanelmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,14 +55,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type update_alpha(update_alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppRegPanelmixPMLE(bs, ys, xs, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, update_alpha));
+    rcpp_result_gen = Rcpp::wrap(cppRegPanelmixPMLE(bs, ys, xs, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k));
     return rcpp_result_gen;
 END_RCPP
 }
 // cppRegmixPMLE
-List cppRegmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, double an, int maxit, int ninits, double tol, double tau, int h, int k, int update_alpha);
-RcppExport SEXP _NormalRegPanelMixture_cppRegmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP, SEXP update_alphaSEXP) {
+List cppRegmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, double an, int maxit, int ninits, double tol, double tau, int h, int k);
+RcppExport SEXP _NormalRegPanelMixture_cppRegmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,14 +80,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type update_alpha(update_alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppRegmixPMLE(bs, ys, xs, zs, mu0s, sigma0s, m, p, an, maxit, ninits, tol, tau, h, k, update_alpha));
+    rcpp_result_gen = Rcpp::wrap(cppRegmixPMLE(bs, ys, xs, zs, mu0s, sigma0s, m, p, an, maxit, ninits, tol, tau, h, k));
     return rcpp_result_gen;
 END_RCPP
 }
 // cppnormalpanelmixPMLE
-List cppnormalpanelmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, int t, double an, int maxit, int ninits, double tol, double tau, int h, int k, int update_alpha);
-RcppExport SEXP _NormalRegPanelMixture_cppnormalpanelmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP, SEXP update_alphaSEXP) {
+List cppnormalpanelmixPMLE(NumericMatrix bs, NumericVector ys, NumericMatrix zs, NumericVector mu0s, NumericVector sigma0s, int m, int p, int t, double an, int maxit, int ninits, double tol, double tau, int h, int k);
+RcppExport SEXP _NormalRegPanelMixture_cppnormalpanelmixPMLE(SEXP bsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -107,17 +105,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type update_alpha(update_alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppnormalpanelmixPMLE(bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, update_alpha));
+    rcpp_result_gen = Rcpp::wrap(cppnormalpanelmixPMLE(bs, ys, zs, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_NormalRegPanelMixture_cppregpanelmixMLE", (DL_FUNC) &_NormalRegPanelMixture_cppregpanelmixMLE, 12},
-    {"_NormalRegPanelMixture_cppRegPanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppRegPanelmixPMLE, 17},
-    {"_NormalRegPanelMixture_cppRegmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppRegmixPMLE, 16},
-    {"_NormalRegPanelMixture_cppnormalpanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppnormalpanelmixPMLE, 16},
+    {"_NormalRegPanelMixture_cppRegPanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppRegPanelmixPMLE, 16},
+    {"_NormalRegPanelMixture_cppRegmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppRegmixPMLE, 15},
+    {"_NormalRegPanelMixture_cppnormalpanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppnormalpanelmixPMLE, 15},
     {NULL, NULL, 0}
 };
 

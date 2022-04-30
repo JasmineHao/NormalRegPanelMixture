@@ -22,8 +22,7 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
                       double tol = 1e-8,
                       double tau = 0.5,
                       int h = 0,
-                      int k = 0,
-                      int update_alpha = 1) {
+                      int k = 0) {
   int nt = ys.size();
   int n  = nt / t;
   arma::mat b(bs.begin(), bs.nrow(), bs.ncol(), false);
@@ -48,7 +47,6 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
   double oldpenloglik, s0j, diff, minr, w_j, sum_l_j, ssr_j, alphah, tauhat;
   double ll = 0; // force initilization
   double penloglik = 0; // force initialization
-  // printf("%d",update_alpha); //Check for update_alpha
   /* Lower and upper bound for mu */
   if (k==1) {  // If k==1, compute upper and lower bounds
     mu0(0) = R_NegInf;
