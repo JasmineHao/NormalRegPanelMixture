@@ -444,7 +444,7 @@ normalpanelmixMEMtestSeq <- function (y, x = NULL, z = NULL,  maxm = 3, ninits =
 
       cat(sprintf("Testing the null hypothesis of %d components\n", m))
 
-      an    <- anFormula(parlist = parlist, m = m, n = n)
+      an    <- anFormula(parlist = parlist, m = m, n = n, t = t)
       par1  <- normalpanelmixMaxPhi(y = y, parlist = parlist, z = z, an = an,
                                ninits = ninits, maxit = maxit, parallel = parallel)
       emstat.m  <- 2*(par1$penloglik - loglik0)
@@ -472,8 +472,7 @@ normalpanelmixMEMtestSeq <- function (y, x = NULL, z = NULL,  maxm = 3, ninits =
       cat(sprintf("The number of components selected by AIC = %.i", which.min(aic)), " \n")
       cat(sprintf("The number of components selected by BIC = %.i", which.min(bic)), " \n")
       binit <- as.vector(c(alpha[1:m,m], mu[1:m,m], sigma[1:m,m],  gam[,m]))
-      pmle.result   <- normalpanelmixPMLE(y = y, m = m, z = z,
-                                     ninits = 2, maxit = maxit, binit = binit)
+      pmle.result   <- normalpanelmixPMLE(y = y, m = m, z = z, vcov.method = "none", ninits = 2, maxit = maxit, binit = binit)
       cat(sprintf("\nThe summary of the estimated %.i", m), "component model: \n")
       print(summary(pmle.result))
       break
