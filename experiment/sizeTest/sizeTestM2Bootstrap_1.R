@@ -73,57 +73,34 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
 
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
-  lr.crit.l <- matrix(0.0,nr=nrep,ncol=3)
-  lr.crit.m <- matrix(0.0,nr=nrep,ncol=3)
-  lr.crit.h <- matrix(0.0,nr=nrep,ncol=3)
+  registerDoParallel(cl)
+  results <- foreach (k = 1:nrep)%dopar% {
+    library(NormalRegPanelMixture)
+    data <- Data[,k]
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
+    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, z = data$Z, parallel = FALSE, nbtsp = 199)$crit
+    
+    c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
+    
+  }
+  
+  
+  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
+  lr.estimate.m <- t(t(sapply(results, function(x) x[2])))
+  lr.estimate.h <- t(t(sapply(results, function(x) x[3])))
+  lr.crit <- t(sapply(results, function(x) x[4:length(x)]))
   
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   
-  registerDoParallel(cl)
-  results <- foreach (k = 1:nrep)%dopar% {
-    data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.l$penloglik - out.h0$loglik)
-    
-  }
-  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
-  
-  results <- foreach (k = 1:nrep)%dopar% {
-    data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.m$penloglik - out.h0$loglik)
-    
-    
-  }
-  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
-  
-  results <- foreach (k = 1:nrep)%dopar% {
-    data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.h$penloglik - out.h0$loglik)
-  }
-  lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
-  
-  data = Data[,1]
-  
-  
-  crit.m <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, nbtsp = 199, an = an ,parallel = TRUE,cl=cl)$crit
-  
   for ( k in 1:nrep){
-    lr.crit.h[k,] <- crit.m
-    lr.crit.m[k,] <- crit.m
-    lr.crit.l[k,] <- crit.m
-  }
-  
-  for ( k in 1:nrep){
-    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit.l[k,2])
-    lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit.m[k,2])
-    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit.h[k,2])
+    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit[k,2])
+    lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit[k,2])
+    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit[k,2])
   }
   
   return(list(nominal.size.l = apply(lr.size.l,2,mean), nominal.size.m = apply(lr.size.m,2,mean),  nominal.size.h = apply(lr.size.h,2,mean) ))
