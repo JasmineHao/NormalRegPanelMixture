@@ -22,13 +22,6 @@ anFormula.alt <- function(parlist, m, n, t){
   omega.term <- log(omega /(0.5-omega))
   b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749) 
 
-  # b <-  c(-3.663692089, -0.530933177, 13.918584239, -0.135488896, -0.002936244)
-  # c(-3.75007650, -0.43387385, 18.54754765, -0.13457721, -0.05850536)
-  # No Penalty
-  # c(-2.8171633, 0.1052204, 16.0619336, -0.1066912, -0.1597512)
-  # Updated An set
-  # c(-3.663692089, -0.530933177, 13.918584239, -0.135488896, -0.002936244)
-  
   x <- exp(  ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
   an <- 0.5 * x / (1 + x)
   an
@@ -58,15 +51,6 @@ PerformEMtest <- function (data, an, m = M, z = NULL, parallel) {
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
   return(2 * max(out.h1$penloglik - out.h0$loglik))
 }
-
-PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
-  library(doParallel) # workers might need information
-  library(NormalRegPanelMixture)# workers might need information
-
-  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE,cl=cl)$crit
-  return(crit)
-}
-
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
