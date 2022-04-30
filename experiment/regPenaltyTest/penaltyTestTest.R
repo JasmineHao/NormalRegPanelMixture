@@ -45,7 +45,7 @@ PerformEMtest <- function (data, an, m = 2, z = NULL, parallel) {
 }
 
 
-MPIgetEstimate <- function(Data,phi,nrep,an,m,parlist){
+getEstimate <- function(Data,phi,nrep,an,m,parlist){
   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
@@ -106,7 +106,7 @@ for (N in Nset){
 
             # phi.data[[count]] <- phi.data.pair
             parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-            result <- MPIgetEstimate(Data,phi,nrep,an,m=M,parlist=parlist)
+            result <- getEstimate(Data,phi,nrep,an,m=M,parlist=parlist)
 
             omega <- max(min(omega.12(phi),0.5-1e-16),1e-16)
             print(result$nominal.size)

@@ -191,22 +191,23 @@ normalpanelmixMaxPhi <- function (y, parlist, z = NULL, an, tauset = c(0.1,0.3,0
     penloglik.all <- t(sapply(results, "[[", "penloglik"))
     coefficient.all <- t(sapply(results, "[[", "coefficient"))
   }
-  else
-    for (h in 1:m)
+  else{
+    for (h in 1:m){
       for (t in 1:length(tauset)) {
         rowindex <- (t-1)*m + h
         tau <- tauset[t]
-        result <- normalpanelmixMaxPhiStep(c(h, tau), y, parlist, z, p,
-                                      an,
-                                      ninits, ninits.short,
-                                      epsilon.short, epsilon,
-                                      maxit.short, maxit,
-                                      verb,update.alpha)
+        result <- normalpanelmixMaxPhiStep (c(h, tauset[t]), y, parlist, z, p,
+                                            an,
+                                            ninits, ninits.short,
+                                            epsilon.short, epsilon,
+                                            maxit.short, maxit,
+                                            verb,update.alpha)
         loglik.all[rowindex,] <- result$loglik
         penloglik.all[rowindex,] <- result$penloglik
         coefficient.all[rowindex,] <- result$coefficient
       }
-  
+    }
+  }
   # loglik <- apply(loglik.all, 2, max)  # 3 by 1 vector
   # penloglik <- apply(penloglik.all, 2, max)  # 3 by 1 vector
   index <- which.max(loglik.all[ ,3]) # a par (h,m) that gives the highest likelihood at k=3

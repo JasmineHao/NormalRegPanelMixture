@@ -51,7 +51,7 @@ PerformEMPowerTest <- function (data , m, z = NULL) {
 }
 
 
-# MPIgetEstimatePower <- function(Data,nrep,m){
+# getEstimatePower <- function(Data,nrep,m){
 #   lr.crit <- matrix(0.0,nr=nrep,ncol=3)
 #   lr.estimate <- matrix(0.0,nr=nrep,ncol=1)
 #   lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
