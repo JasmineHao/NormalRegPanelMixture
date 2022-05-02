@@ -75,11 +75,7 @@ getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   }
   lr.estimate <- t(t(sapply(results, function(x) x[1])))
   lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
-  
-  for ( k in 1:nrep){
-    lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
-  }
-  
+  lr.size <- 1 * (lr.estimate > lr.crit[,2])
   return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
 }
 

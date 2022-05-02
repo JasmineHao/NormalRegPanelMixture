@@ -51,31 +51,6 @@ GetMisclTerm <- function(phi) {
 
 }
 
-#The parameters that are not fixed
-# N <- 100 #Number of people
-# T <- 5 #Time periods, it's important that T > 1
-GenerateSample <- function(phi,nrep){
-  p = phi$p
-  q = phi$q
-  N = phi$N
-  T = phi$T
-  M = phi$M
-  alpha = phi$alpha
-  mu = phi$mu
-  gamma = phi$gamma
-  beta = phi$beta
-  # if (q != 0){
-  #   parlist <- list('alpha' = alpha,
-  #                   'mubeta' = t(cbind(mu,beta)),
-  #                   'sigma' = sigma, 'gam' = gamma)
-  # }else{
-  #   parlist <- list('alpha' = alpha, 'mubeta' = mu, 'sigma' = sigma, 'gam' = gamma)
-  # }
-  Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
-  return(list(phi=phi,Data=Data))
-}
-
-
 
 
 GenerateSample <- function(phi,nrep){
@@ -92,7 +67,6 @@ GenerateSample <- function(phi,nrep){
   Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
   return(list(phi=phi,Data=Data))
 }
-
 
 
 getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
@@ -107,11 +81,7 @@ getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   }
   lr.estimate <- t(t(sapply(results, function(x) x[1])))
   lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
-  
-  for ( k in 1:nrep){
-    lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
-  }
-  
+  lr.size <- 1 * (lr.estimate > lr.crit[,2])
   return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
 }
 
