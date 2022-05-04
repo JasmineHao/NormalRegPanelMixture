@@ -129,7 +129,7 @@ normalpanelmixCrit <- function(y, parlist, z = NULL, values = NULL, nrep = 10000
 #' \item{crit}{3 by 3 matrix of (0.1, 0.05, 0.01 critical values), jth row corresponding to k=j}
 #' \item{pvals}{A vector of p-values at k = 1, 2, 3}
 normalpanelmixCritBoot <- function (y, parlist, z = NULL, values = NULL, ninits = 10,
-                               nbtsp = 199, parallel = FALSE, cl = NULL) {
+                               nbtsp = 199, parallel = FALSE, cl = NULL, an = 0.5) {
   # if (normalregMix.test.on) # initial values controlled by normalregMix.test.on
   #   set.seed(normalregMix.test.seed)
 
