@@ -6,7 +6,7 @@ p <- 0 #Number of Z
 q <- 1 #Number of X
 
 nrep <- 2000
-cl <- makeCluster(4)
+cl <- makeCluster(8)
 
 set.seed(123456)
 Nset <- c(100,500)

@@ -339,7 +339,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     sigma0h <- sigma0h[mu.order]
   }
   coefficient <- as.matrix(c(alpha,as.vector(mubeta),sigma,gam)) # at k=3
-  parlist <- list(alpha = alpha, mubeta = mu, sigma = sigma, gam = gam)
+  parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam)
   return (list(coefficient = coefficient, loglik = loglik, penloglik = penloglik, parlist = parlist))
 }
 
