@@ -40,7 +40,11 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M){
     out.h1.l <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
     out.h1.m <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
     out.h1.h <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
-    crit <- NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE,nrep=1000)$crit
+    
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+    if (class(crit) == "try-error"){
+      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE)$crit
+    }
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
   }
@@ -73,9 +77,19 @@ NTset <- expand.grid(Nset,Tset)
 Parset <- expand.grid(muset,alphaset,betaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
-result.f <- matrix(0,nr=(nNT),nc=nPar)
-rownames(result.f) <- apply(NTset,1,paste,collapse = ",")
-colnames(result.f) <- apply(Parset,1,paste,collapse = ",")
+
+result.l <- matrix(0,nr=(nNT),nc=nPar)
+rownames(result.l) <- apply(NTset,1,paste,collapse = ",")
+colnames(result.l) <- apply(Parset,1,paste,collapse = ",")
+
+result.m <- matrix(0,nr=(nNT),nc=nPar)
+rownames(result.m) <- apply(NTset,1,paste,collapse = ",")
+colnames(result.m) <- apply(Parset,1,paste,collapse = ",")
+
+result.h <- matrix(0,nr=(nNT),nc=nPar)
+rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
+colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
+
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
@@ -97,7 +111,12 @@ for (r in 1:nNT){
         an <- anFormula(phi,M,N,T,q=1) #The an function according the the empirical regression
         print(an)
         result <- getEstimateDiffAn(Data,nrep,an,cl,M)
-        result.f[r, count] <- result$nominal.size
+        result.l[r, count] <- result$nominal.size.l
+        result.m[r, count] <- result$nominal.size.m
+        result.h[r, count] <- result$nominal.size.h
+        print(result$nominal.size.m)
+        
+        
         print(Sys.time() - t)
       }  
     }
