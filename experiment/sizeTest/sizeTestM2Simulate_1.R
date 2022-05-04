@@ -20,8 +20,7 @@ anFormula.alt <- function(parlist, m, n, t){
   omega <- omega.12(parlist)
   omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
   omega.term <- log(omega /(0.5-omega))
-  b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749) 
-
+  b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749)  
   x <- exp(  ( log(5/95)  - b[1] - b[2]/t - b[3]/n - b[5] * omega.term ) / b[4] )  # maxa=1
   an <- 0.5 * x / (1 + x)
   an
@@ -53,56 +52,39 @@ PerformEMtest <- function (data, an, m = M, z = NULL, parallel) {
 }
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
-  lr.crit <- matrix(0.0,nr=nrep,ncol=3)
-  lr.estimate.l <- matrix(0.0,nr=nrep,ncol=1)
-  lr.estimate.m <- matrix(0.0,nr=nrep,ncol=1)
-  lr.estimate.h <- matrix(0.0,nr=nrep,ncol=1)
-  lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
+    library(NormalRegPanelMixture)
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.l$penloglik - out.h0$loglik)
-
-  }
-  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
-
-  results <- foreach (k = 1:nrep)%dopar% {
-    data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.m$penloglik - out.h0$loglik)
-
-
-  }
-  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
-
-  results <- foreach (k = 1:nrep)%dopar% {
-    data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
-    2 * max(out.h1.h$penloglik - out.h0$loglik)
+    crit <- NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z, parallel = FALSE,nrep=1000)$crit
+    
+    c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
+    
   }
-  lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
-
-  data = Data[,1]
-
-  crit <- regpanelmixCrit(y=data$Y, x=data$X, parlist=parlist, z = data$Z,cl=cl, parallel = TRUE,nrep=1000)$crit
-  for ( k in 1:nrep){
-    lr.crit[k,] <- crit
-  }
-
+  
+  
+  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
+  lr.estimate.m <- t(t(sapply(results, function(x) x[2])))
+  lr.estimate.h <- t(t(sapply(results, function(x) x[3])))
+  lr.crit <- t(sapply(results, function(x) x[4:length(x)]))
+  
+  lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+  lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+  lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+  
   for ( k in 1:nrep){
     lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit[k,2])
     lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit[k,2])
     lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit[k,2])
   }
-
+  
   return(list(crit = lr.crit,nominal.size.l = apply(lr.size.l,2,mean),nominal.size.m = apply(lr.size.m,2,mean) , nominal.size.h = apply(lr.size.h,2,mean) ))
 }
+
 
 
 
@@ -180,20 +162,6 @@ for (r in 1:nNT){
 
 
 
-
-
-# for(i in 1:count){
-#   t.out <- Sys.time()
-#   phi <- phi.data[[i]]$phi
-#   Data = phi.data.pair$Data
-#   an <- anFormula(phi,M,phi$N,phi$T)
-#   result <- getEstimate(Data,nrep,an)
-#   regression.data[i,] <- cbind(result$nominal.size,phi$N,phi$T)
-#   print(cbind(result$nominal.size,phi$N,phi$T,phi$alpha,phi$mu,phi$sigma))
-#   print(i)
-#   print(Sys.time() - t.out)
-#
-# }
 result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
