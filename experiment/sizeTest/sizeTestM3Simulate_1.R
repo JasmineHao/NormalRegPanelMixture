@@ -45,8 +45,8 @@ GetMisclTerm <- function(phi) {
 anFormula.alt <- function(phi,M,N,T){
   omega.term <- GetMisclTerm(phi)
   b <- c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
-  x <- exp(  ( log(5/95)  - b[1] - b[2]/T - b[3]/N - b[5] * omega.term ) / b[4] )  # maxa=1
-  an <- 0.5 * x / (1 + x)
+  x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
+  an <- 0.5 / (1 + exp(x))
   an
 }
 
