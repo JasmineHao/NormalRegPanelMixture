@@ -12,8 +12,7 @@ Tset <- c(2,10)
 alphaset <- list(c(0.25, 0.25, 0.25, 0.25))
 muset 		<- list(c(-4,-1,1,4), c(-5,-1,1,5), c(-6,-2,2,6), c(-6,-1,2,5), c(-5,0,2,4), c(-6,0,2,4))
 sigmaset <- list(c(1, 1, 1, 1), c(1, 0.75, 0.5, 0.25))
-anset <- c(0.01, 0.05,0.1,0.2, 0.3, 0.4)
-
+anset <- c(0.05,0.1,0.15,0.2,0.3,0.4)
 
 
 #The parameters that are fixed
@@ -75,17 +74,14 @@ GenerateSample <- function(phi,nrep){
 
 getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   registerDoParallel(cl)
-
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
-    
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
     out.h1 <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
-
-    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist,  z = data$Z, parallel = FALSE, nrep=1000)$crit)
     if (class(crit) == "try-error"){
-      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE)$crit
+      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist,an = an, z = data$Z, parallel = FALSE)$crit
     }
     c(2 * max(out.h1$penloglik - out.h0$loglik),crit)
   }
