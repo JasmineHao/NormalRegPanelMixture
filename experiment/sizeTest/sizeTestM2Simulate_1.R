@@ -20,7 +20,7 @@ anFormula.alt <- function(parlist, m, n, t){
   omega <- omega.12(parlist)
   omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
   omega.term <- log(omega /(1-omega))
-  b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749)  
+  b <-   c(-0.8112790,  -0.2882271,   4.6374028,  -0.1012959,  -0.1973225)
   x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
   an <- 1 / (1 + exp(x))
   an
@@ -138,12 +138,12 @@ for (r in 1:nNT){
         T_an <- T
       }
       an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
-      print(anFormula(phi,M,N,T_an))
       # an <- 0.03
       print(N)
       print(T)
       print(mu)
       print(alpha)
+      print(anFormula(phi,M,N,T_an))
       print(an)
       parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
       result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
