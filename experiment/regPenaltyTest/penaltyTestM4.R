@@ -23,22 +23,22 @@ gamma <- matrix(0)
 beta <- matrix(0)
 
 #Get the misclassfication
+
 GetMisclTerm <- function(phi) {
-
   m <- phi$M
-
+  
   if (m == 2)
   {
     omega.12  <- omega.12(phi)
-    return (log(omega.12 /(0.5-omega.12)))
+    return (log(omega.12 /(1-omega.12)))
   }
-
+  
   if (m == 3) # ln(omega_12 omega_23 / (0.5-omega_12)(0.5-omega_23))
   {
     omega.123 <- omega.123(phi)
     omega.12 <- omega.123[1]
     omega.23 <- omega.123[2]
-    return (log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23))))
+    return (log(omega.12 * omega.23 / ((1-omega.12)*(1-omega.23))))
   }
   omega.1234 <- omega.1234(phi)
   omega.12 <- omega.1234[1]
@@ -46,9 +46,11 @@ GetMisclTerm <- function(phi) {
   omega.34 <- omega.1234[3]
   # (m == 4) # ln(omega_12 omega_23 omega_34 / (0.5-omega_12)(0.5-omega_23)(0.5-omega_34))
   return (log(omega.12 * omega.23 * omega.34 /
-                ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34))))
-
+                ((1-omega.12)*(1-omega.23)*(1-omega.34))))
+  
 }
+
+
 
 GenerateSample <- function(phi,nrep){
   p = phi$p

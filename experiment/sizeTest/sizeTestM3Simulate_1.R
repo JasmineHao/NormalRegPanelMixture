@@ -22,7 +22,7 @@ GetMisclTerm <- function(phi) {
   if (m == 2)
   {
     omega.12  <- omega.12(phi)
-    return (log(omega.12 /(0.5-omega.12)))
+    return (log(omega.12 /(1-omega.12)))
   }
   
   if (m == 3) # ln(omega_12 omega_23 / (0.5-omega_12)(0.5-omega_23))
@@ -30,7 +30,7 @@ GetMisclTerm <- function(phi) {
     omega.123 <- omega.123(phi)
     omega.12 <- omega.123[1]
     omega.23 <- omega.123[2]
-    return (log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23))))
+    return (log(omega.12 * omega.23 / ((1-omega.12)*(1-omega.23))))
   }
   omega.1234 <- omega.1234(phi)
   omega.12 <- omega.1234[1]
@@ -38,7 +38,7 @@ GetMisclTerm <- function(phi) {
   omega.34 <- omega.1234[3]
   # (m == 4) # ln(omega_12 omega_23 omega_34 / (0.5-omega_12)(0.5-omega_23)(0.5-omega_34))
   return (log(omega.12 * omega.23 * omega.34 /
-                ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34))))
+                ((1-omega.12)*(1-omega.23)*(1-omega.34))))
   
 }
 
@@ -46,7 +46,7 @@ anFormula.alt <- function(phi,M,N,T){
   omega.term <- GetMisclTerm(phi)
   b <- c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
   x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-  an <- 0.5 / (1 + exp(x))
+  an <- 1 / (1 + exp(x))
   an
 }
 

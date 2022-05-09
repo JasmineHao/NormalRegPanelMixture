@@ -19,10 +19,10 @@ sigmaset <- list(c(0.8,1.2))
 anFormula.alt <- function(parlist, m, n, t){
   omega <- omega.12(parlist)
   omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
-  omega.term <- log(omega /(0.5-omega))
+  omega.term <- log(omega /(1-omega))
   b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749)  
   x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-  an <- 0.5 / (1 + exp(x))
+  an <- 1 / (1 + exp(x))
   an
 }
 

@@ -188,7 +188,7 @@ anFormula <- function(parlist, m, n, t, q = 0)
   
   if (q != 0) # an when the dimension of X is not zero.
     #return (switch(as.character(q), "1" = 0.5, "2" = 2.0, "3" = 2.4, "4" = 2.4, 0.5))
-    return (switch(as.character(m), "1" =  0.25, "2" = 0.0004901139, "3" =  0.07389958, "4" = 0.04619528, 0.25))
+    return (switch(as.character(m), "1" =  0.25, "2" = 0.002509957, "3" =  0.05670169, "4" = 0.4858468, 0.25))
     # return (0.5)
   if (m == 1) {
     #   an <- 1.0
@@ -199,22 +199,22 @@ anFormula <- function(parlist, m, n, t, q = 0)
   else if (m == 2) {
     omega <- omega.12(parlist)
     omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
-    omega.term <- log(omega /(0.5-omega))
+    omega.term <- log(omega /(1-omega))
     
-    b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749) 
+    b <-   c(-0.8112790,  -0.2882271,   4.6374028,  -0.1012959,  -0.1973225)
     x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-    an <- 0.5 / (1 + exp(x))
+    an <- 1 / (1 + exp(x))
   }
   else if (m == 3) {
     omega <- omega.123(parlist)
     omega <- pmin(pmax(omega, 1e-16), 1-1e-16)  # an becomes NaN if omega[j]=0 or 1
     omega.12 <- omega[1]
     omega.23 <- omega[2]
-    omega.term <- log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23)))
+    omega.term <- log(omega.12 * omega.23 / ((1-omega.12)*(1-omega.23)))
     
-    b <- c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
+    b <- c(-0.679611458, 0.611474005, 21.155661588, -0.110969483, 0.002174285)
     x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-    an <- 0.5 / (1 + exp(x))
+    an <- 1 / (1 + exp(x))
     
     # an <- 0.80 * x / (1 + x)
     #   x <- exp(-1.678 - 0.232 * log(t_omega) - 175.50/n)
@@ -226,10 +226,10 @@ anFormula <- function(parlist, m, n, t, q = 0)
     omega.23 <- omega[2]
     omega.34 <- omega[3]
     omega.term <- log(omega.12 * omega.23 * omega.34 / 
-                        ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34)))
+                        ((1-omega.12)*(1-omega.23)*(1-omega.34)))
     b <- c(-3.62706036,   0.70157325, -19.45147429,  -0.15143196,  -0.01282218)
     x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-    an <- 0.5 / (1 + exp(x))
+    an <- 1 / (1 + exp(x))
     
   }
   if (is.nan(an) | an ==0){ an = 1/n}
