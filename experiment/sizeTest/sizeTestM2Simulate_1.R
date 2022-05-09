@@ -19,10 +19,10 @@ sigmaset <- list(c(0.8,1.2))
 anFormula.alt <- function(parlist, m, n, t){
   omega <- omega.12(parlist)
   omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
-  omega.term <- log(omega /(0.5-omega))
-  b <- c(-4.0171723345,  0.6410800569, 41.3622294442, -0.0647872609,  0.0005675749)  
+  omega.term <- log(omega /(1-omega))
+  b <-   c(-0.8112790,  -0.2882271,   4.6374028,  -0.1012959,  -0.1973225)
   x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-  an <- 0.5 / (1 + exp(x))
+  an <- 1 / (1 + exp(x))
   an
 }
 
@@ -61,7 +61,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
-
+    if (class(crit) == "try-error"){
+      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
+    }
     
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
@@ -138,12 +140,12 @@ for (r in 1:nNT){
         T_an <- T
       }
       an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
-      print(anFormula(phi,M,N,T_an))
       # an <- 0.03
       print(N)
       print(T)
       print(mu)
       print(alpha)
+      print(anFormula(phi,M,N,T_an))
       print(an)
       parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
       result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)

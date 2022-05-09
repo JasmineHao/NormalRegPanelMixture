@@ -22,7 +22,7 @@ GetMisclTerm <- function(phi) {
   if (m == 2)
   {
     omega.12  <- omega.12(phi)
-    return (log(omega.12 /(0.5-omega.12)))
+    return (log(omega.12 /(1-omega.12)))
   }
   
   if (m == 3) # ln(omega_12 omega_23 / (0.5-omega_12)(0.5-omega_23))
@@ -30,7 +30,7 @@ GetMisclTerm <- function(phi) {
     omega.123 <- omega.123(phi)
     omega.12 <- omega.123[1]
     omega.23 <- omega.123[2]
-    return (log(omega.12 * omega.23 / ((0.5-omega.12)*(0.5-omega.23))))
+    return (log(omega.12 * omega.23 / ((1-omega.12)*(1-omega.23))))
   }
   omega.1234 <- omega.1234(phi)
   omega.12 <- omega.1234[1]
@@ -38,15 +38,15 @@ GetMisclTerm <- function(phi) {
   omega.34 <- omega.1234[3]
   # (m == 4) # ln(omega_12 omega_23 omega_34 / (0.5-omega_12)(0.5-omega_23)(0.5-omega_34))
   return (log(omega.12 * omega.23 * omega.34 /
-                ((0.5-omega.12)*(0.5-omega.23)*(0.5-omega.34))))
+                ((1-omega.12)*(1-omega.23)*(1-omega.34))))
   
 }
 
 anFormula.alt <- function(phi,M,N,T){
   omega.term <- GetMisclTerm(phi)
-  b <- c(-3.600366153, 0.769200008, 31.078395291, -0.093784340, 0.005334225)
+  b <- c(-0.679611458, 0.611474005, 21.155661588, -0.110969483, 0.002174285)
   x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-  an <- 0.5 / (1 + exp(x))
+  an <- 1 / (1 + exp(x))
   an
 }
 
@@ -94,8 +94,10 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
-    crit <- NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE,nrep=1000)$crit
-    
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+    if (class(crit) == "try-error"){
+      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
+    }
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
   }
