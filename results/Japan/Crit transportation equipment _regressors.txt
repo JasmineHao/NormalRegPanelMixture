@@ -1,0 +1,45 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:53:17 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  transportation equipment  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 490 & 6,193.031 & 11,602.600 & 249 & 44,011 \\ 
+year & 490 & 2,006.000 & 1.416 & 2,004 & 2,008 \\ 
+lnmY\_it & 490 & $-$0.602 & 0.338 & $-$1.839 & $-$0.140 \\ 
+k\_it & 490 & 17.229 & 1.161 & 14.658 & 20.152 \\ 
+ln\_k & 490 & 2.844 & 0.066 & 2.685 & 3.003 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  transportation equipment"
+    M=1              M=2              M=3            M=4 M=5
+T=1 "0"              "0"              "0"            "0" "0"
+T=2 "$139.3^{***}$"  "$72.59^{***}$"  "$-87.65^{}$"  "0" "0"
+T=3 "$246.98^{***}$" "$147.23^{***}$" "$-70.94^{}$"  "0" "0"
+T=4 "$353.49^{***}$" "$202.07^{***}$" "$-479.04^{}$" "0" "0"
+T=5 "$430.34^{***}$" "$262.74^{***}$" "$-103.62^{}$" "0" "0"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:53:17 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 14} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & -37.64,-33.99,-22.33 & 6.91,9.43,13.69 & 10.68,12.96,17 & 0 & 0 \\ 
+T=3 & -90.86,-85.42,-74.75 & 8.45,10.16,17.99 & 9.92,11.8,15.88 & 0 & 0 \\ 
+T=4 & -141.09,-132.73,-117.79 & 7.76,8.66,11.88 & 9.79,11.46,21.31 & 0 & 0 \\ 
+T=5 & -200.95,-186.48,-157.39 & 7.93,9.89,14.45 & 8.42,10.24,13.89 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

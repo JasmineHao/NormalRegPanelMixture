@@ -12,7 +12,7 @@ lnk        947  8.064   1.786   3.468  13.469
 [1] "Chilean Producer Data: Estimated LR for Wood products, except furniture"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Apr 28, 2022 - 09:24:42 PM
+% Date and time: Tue, May 10, 2022 - 8:09:54 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,21 +22,21 @@ lnk        947  8.064   1.786   3.468  13.469
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$124.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.07$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$7.45$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
-T=3 & \$234.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$10.74$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=4 & \$382.43$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$84.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=5 & \$518.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$116.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$40.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$48.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.42$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=3 & \$78.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$55.87$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+T=4 & \$123.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$70.53$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+T=5 & \$145.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$97.77$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Wood products, except furniture 331
-===================================================================================
-          M=1             M=2             M=3             M=4             M=5      
------------------------------------------------------------------------------------
-T=1        0               0               0               0               0       
-T=2 4.14,5.61,9.36  5.47,7.06,11.1  6.03,7.58,10.5  6.58,8.1,11.69  7.31,8.73,12.6 
-T=3 3.96,5.57,9.27  5.32,7.19,11.05 6.41,7.9,10.88   7,8.31,12.14   7.57,9.01,12.63
-T=4 3.93,5.56,10.26 5.24,6.93,10.86 6.51,7.93,12.08 6.94,8.71,12.4  7.29,8.72,11.99
-T=5 3.91,5.39,9.83  5.35,6.94,10.84 6.34,8.17,11.83 6.95,8.75,12.86 7.26,8.59,12.37
------------------------------------------------------------------------------------
+===========================================================================
+            M=1                    M=2                   M=3        M=4 M=5
+---------------------------------------------------------------------------
+T=1          0                      0                     0          0   0 
+T=2  11.76,15.43,42.05      12.16,15.58,74.15      12.9,16.05,52.23  0   0 
+T=3  11.66,15.44,35.97   2347.24,9898.68,73162.89         0          0   0 
+T=4  11.86,16.3,453.66  12942.24,21768.93,84331.03        0          0   0 
+T=5 12.79,26.33,3668.49 7531.01,12398.22,33440.24         0          0   0 
+---------------------------------------------------------------------------
