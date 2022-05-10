@@ -12,6 +12,7 @@ options(warn = -1)
 df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 # df <- readRDS("data/ChileanClean.rds")
+cl <- makeCluster(64)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.names <- c()
@@ -36,6 +37,20 @@ estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.5) <- ind.names
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 
+AIC.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.2) <- ind.names
+colnames(AIC.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.3) <- ind.names
+colnames(AIC.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.4) <- ind.names
+colnames(AIC.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.5) <- ind.names
+colnames(AIC.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+
+
 crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(crit.LR.df.2) <- ind.names
 colnames(crit.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
@@ -48,60 +63,9 @@ colnames(crit.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
-# for (each.code in ind.code){
-#   t <- Sys.time()
-#   ind.each <- subset(df,ciiu_3d==each.code)
-#   ind.name <- ind.each$ciiu3d_descr[1]
-#   ind.each$lny <- log(ind.each$GO)
-#   ind.each$lnm <- log(ind.each$WI)
-#   ind.each$lnl <- log(ind.each$L)
-#   ind.each$lnk <- log(ind.each$K)
-#   ######################################################
-#   # Describe the data
-#   ######################################################
 
-#   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
-#   desc.each <- desc.each[complete.cases(desc.each),]
-
-
-
-#   ######################################################
-#   # Select the data out
-#   ######################################################
-#   m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
-#   row.names(m.share) <- m.share$id
-#   m.share <- m.share[,!(colnames(m.share)=="id")]
-#   T.cap <- dim(m.share)[2]
-
-#   estimate.df <- matrix(0,nr=5,nc=5)
-#   crit.df <- matrix(0,nr=5,nc=5)
-#   result.df <- matrix(0,nr=5,nc=5)
-#   # crit.df.boot <- matrix(0,nr=5,nc=5)
-
-#   ######################################################
-#   #For cross-sectional data
-#   ######################################################
-#   m.share.t <- m.share[,T.cap]
-#   m.share.t <- m.share.t[complete.cases(m.share.t)]
-#   N <- length(m.share.t)
-#   for (M in 1:5){
-
-#     out.h0 <- normalmixPMLE(y = m.share.t,m=M)
-#     an <- normalregMix::anFormula(out.h0$parlist,M,N)
-#     print(paste("T=",1,"M = ",M,"an=",an))
-#     out.h1 <- normalmixMaxPhi(y=m.share.t,parlist = out.h0$parlist,an=an)
-#     #Obtain critical value
-#     lr.crit <- normalmixCrit(y=m.share.t,parlist = out.h0$parlist)$crit
-#     crit.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
-#     # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
-#     # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
-#     estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
-#     result.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
-
-#   }
 
 count = 0
-cl <- makeCluster(64)
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -116,17 +80,11 @@ for (each.code in ind.code){
 
   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
   # desc.each <- desc.each[complete.cases(desc.each),]
-
-  ######################################################
-  # Select the data out
-  ######################################################
-  m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
-  row.names(m.share) <- m.share$id
-  m.share <- m.share[,!(colnames(m.share)=="id")]
-  m.share <- m.share[complete.cases(m.share),]
-  T.cap <- dim(m.share)[2]
+  year.list <- sort(unique(ind.each$year))
+  T.cap <- max(year.list)
 
   estimate.df <- matrix(0,nr=5,nc=5)
+  AIC.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
   result.df <- matrix(0,nr=5,nc=5)
   ######################################################
@@ -136,23 +94,33 @@ for (each.code in ind.code){
 
   for (T in 2:5){
     t.start <- T.cap-T+1
-    t.seq <- seq(from=t.start,to=t.start+T-1)
-    m.share.t <- m.share[,t.seq]
-    data <- list(Y = t(m.share.t[complete.cases(m.share.t),]), X = NULL,  Z = NULL)
-    N <- dim(data$Y)[2]
-
+    #Reshape the data so that I can apply the test
+    ind.each.t <- ind.each[ind.each$year>=t.start,]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
+    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
+    id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
+    #Remove the incomplete data, need balanced panel
+    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
+    ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
+    #Reshape the Y 
+    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
+    ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
+    N <- dim(ind.each.y)[1]
+    
     h1.coefficient = NULL
     for (M in 1:5){
       # Estimate the null model
-      out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
-      an <- anFormula(out.h0$parlist,M,N,T)
+      data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
+      
+      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+      an <- anFormula(out.h0$parlist,M,N,T,q=1)
       print("-----------------------------------------")
       print(paste("T=",T,"M = ",M,"an=",an))
       if (is.na(an)){
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
+      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
 
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
@@ -164,6 +132,7 @@ for (each.code in ind.code){
       }
       # Store the estimation results
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      AIC.df[T,M] <- out.h0$aic
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # If fail to reject the test, break the loop
       if (sum(lr.estimate > lr.crit) < 1) break
@@ -185,7 +154,10 @@ for (each.code in ind.code){
   estimate.LR.df.3[count,] <- estimate.df[3,]
   estimate.LR.df.4[count,] <- estimate.df[4,]
   estimate.LR.df.5[count,] <- estimate.df[5,]
-
+  AIC.df.2[count,] <- AIC.df[2,]
+  AIC.df.3[count,] <- AIC.df[3,]
+  AIC.df.4[count,] <- AIC.df[4,]
+  AIC.df.5[count,] <- AIC.df[5,]
   crit.LR.df.2[count,] <- crit.df[2,]
   crit.LR.df.3[count,] <- crit.df[3,]
   crit.LR.df.4[count,] <- crit.df[4,]
@@ -211,26 +183,21 @@ for (each.code in ind.code){
 # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
-library(xtable)
-# stargazer(crit.df,title=paste("estimate",ind.name))
-sink("/home/haoyu/results/Chile/result_text.txt")
-xtable(estimate.LR.df.2)
-xtable(crit.LR.df.2)
-xtable(estimate.LR.df.3)
-xtable(crit.LR.df.3)
-xtable(estimate.LR.df.4)
-xtable(crit.LR.df.4)
-xtable(estimate.LR.df.5)
-xtable(crit.LR.df.5)
-sink()
 
-sink("/home/haoyu/results/Chile/result.txt")
+sink("/home/haoyu/results/Chile/result_regressor.txt")
 stargazer(estimate.LR.df.2)
+stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)
+
 stargazer(estimate.LR.df.3)
+stargazer(AIC.df.3)
 stargazer(crit.LR.df.3)
+
 stargazer(estimate.LR.df.4)
+stargazer(AIC.df.4)
 stargazer(crit.LR.df.4)
+
 stargazer(estimate.LR.df.5)
+stargazer(AIC.df.5)
 stargazer(crit.LR.df.5)
 sink()

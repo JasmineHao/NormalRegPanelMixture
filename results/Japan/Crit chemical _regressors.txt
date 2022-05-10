@@ -1,0 +1,45 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 3:48:17 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  chemical  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 805 & 8,937.429 & 13,921.610 & 6 & 44,020 \\ 
+year & 805 & 2,006.000 & 1.415 & 2,004 & 2,008 \\ 
+lnmY\_it & 805 & $-$1.204 & 0.550 & $-$2.979 & $-$0.185 \\ 
+k\_it & 805 & 16.730 & 1.315 & 12.647 & 20.496 \\ 
+ln\_k & 805 & 2.814 & 0.079 & 2.537 & 3.020 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  chemical"
+    M=1            M=2 M=3 M=4 M=5
+T=1 "0"            "0" "0" "0" "0"
+T=2 "$-13.85^{}$"  "0" "0" "0" "0"
+T=3 "$-70.37^{}$"  "0" "0" "0" "0"
+T=4 "$-134.57^{}$" "0" "0" "0" "0"
+T=5 "$-202.06^{}$" "0" "0" "0" "0"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 3:48:17 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 5} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 9.29,11.7,15.32 & 0 & 0 & 0 & 0 \\ 
+T=3 & 10.04,11.98,15.84 & 0 & 0 & 0 & 0 \\ 
+T=4 & 10.15,11.97,16.13 & 0 & 0 & 0 & 0 \\ 
+T=5 & 9.85,11.87,16.2 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

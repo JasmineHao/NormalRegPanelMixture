@@ -8,7 +8,7 @@ options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
 
 
-
+cl <- makeCluster(64)
 df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 # df <- readRDS("data/ChileanClean.rds")
@@ -35,6 +35,19 @@ colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(estimate.LR.df.5) <- ind.names
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+
+AIC.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.2) <- ind.names
+colnames(AIC.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.3) <- ind.names
+colnames(AIC.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.4) <- ind.names
+colnames(AIC.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
+AIC.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+rownames(AIC.df.5) <- ind.names
+colnames(AIC.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 
 crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(crit.LR.df.2) <- ind.names
@@ -101,7 +114,7 @@ colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 #   }
 
 count = 0
-cl <- makeCluster(64)
+
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -127,6 +140,7 @@ for (each.code in ind.code){
   T.cap <- dim(m.share)[2]
 
   estimate.df <- matrix(0,nr=5,nc=5)
+  AIC.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
   result.df <- matrix(0,nr=5,nc=5)
   ######################################################
@@ -151,7 +165,7 @@ for (each.code in ind.code){
       if (is.na(an)){
         an <- 1.0
       }
-      # Estimate the alternative model
+      # # Estimate the alternative model
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
 
@@ -162,8 +176,10 @@ for (each.code in ind.code){
       if (class(lr.crit) == "try-error"){
         lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
       }
+
       # Store the estimation results
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      AIC.df[T,M] <- out.h0$aic
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # If fail to reject the test, break the loop
       if (sum(lr.estimate > lr.crit) < 1) break
@@ -185,7 +201,12 @@ for (each.code in ind.code){
   estimate.LR.df.3[count,] <- estimate.df[3,]
   estimate.LR.df.4[count,] <- estimate.df[4,]
   estimate.LR.df.5[count,] <- estimate.df[5,]
-
+  
+  AIC.df.2[count,] <- AIC.df[2,]
+  AIC.df.3[count,] <- AIC.df[3,]
+  AIC.df.4[count,] <- AIC.df[4,]
+  AIC.df.5[count,] <- AIC.df[5,]
+  
   crit.LR.df.2[count,] <- crit.df[2,]
   crit.LR.df.3[count,] <- crit.df[3,]
   crit.LR.df.4[count,] <- crit.df[4,]
@@ -226,11 +247,18 @@ sink()
 
 sink("/home/haoyu/results/Chile/result.txt")
 stargazer(estimate.LR.df.2)
+stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)
+
 stargazer(estimate.LR.df.3)
+stargazer(AIC.df.3)
 stargazer(crit.LR.df.3)
+
 stargazer(estimate.LR.df.4)
+stargazer(AIC.df.4)
 stargazer(crit.LR.df.4)
+
 stargazer(estimate.LR.df.5)
+stargazer(AIC.df.5)
 stargazer(crit.LR.df.5)
 sink()
