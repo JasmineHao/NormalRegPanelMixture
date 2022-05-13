@@ -452,7 +452,7 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
   else
     {
       out <- lapply(seq_len(ncol(ybset)), 
-                    function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m = m,t=T,z=NULL,ninits=10,an=an,crit.method = "none"))
+                    function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m = m,t=T,z=NULL,ninits=ninits,an=an,crit.method = "none"))
     # out <- apply(ybset, 3, regpanelmixMEMtest, x = x, m = m, t = t, z = z,
                  # ninits = ninits, crit.method = "none")
     }

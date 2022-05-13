@@ -72,20 +72,16 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     library(NormalRegPanelMixture)
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),update.alpha = 1,parallel = FALSE)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,update.alpha = 1,parallel = FALSE)
     crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(an), z = data$Z, parallel = FALSE, nbtsp = 199)$crit
     
-    c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
+    c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
     
   }
   
   
-  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
-  lr.estimate.m <- t(t(sapply(results, function(x) x[2])))
-  lr.estimate.h <- t(t(sapply(results, function(x) x[3])))
-  lr.crit <- t(sapply(results, function(x) x[4:length(x)]))
+  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
+  lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
   
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
@@ -134,31 +130,31 @@ for (r in 1:nNT){
   for (mu in muset){
     for (alpha in alphaset){
       for (sigma in sigmaset){
-
-      t <- Sys.time()
-      phi = list(alpha = alpha, mu = mu, sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
-
-      phi.data.pair <- GenerateSample(phi,nrep)
-      count <- count + 1
-      Data = phi.data.pair$Data
-      phi = phi.data.pair$phi
-
-      an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
-      print(N)
-      print(T)
-      print(mu)
-      print(alpha)
-      print(an)
-      parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-      result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-
-
-      result.l[r, count] <- result$nominal.size.l
-      result.m[r, count] <- result$nominal.size.m
-      result.h[r, count] <- result$nominal.size.h
-
-
-      print(Sys.time() - t)
+        
+        t <- Sys.time()
+        phi = list(alpha = alpha, mu = mu, sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
+        
+        phi.data.pair <- GenerateSample(phi,nrep)
+        count <- count + 1
+        Data = phi.data.pair$Data
+        phi = phi.data.pair$phi
+        
+        an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
+        print(N)
+        print(T)
+        print(mu)
+        print(alpha)
+        print(an)
+        parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+        result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
+        
+        
+        result.l[r, count] <- result$nominal.size.l
+        result.m[r, count] <- result$nominal.size.m
+        result.h[r, count] <- result$nominal.size.h
+        
+        
+        print(Sys.time() - t)
       }
     }
   }
