@@ -45,7 +45,7 @@ GetMisclTerm <- function(phi) {
 anFormula.alt <- function(phi,M,N,T){
   omega.term <- GetMisclTerm(phi)
   b <- c(-0.679611458, 0.611474005, 21.155661588, -0.110969483, 0.002174285)
-  x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
+  x <- (  b[1] + b[2]/T + b[3]/N + b[5] * omega.term ) / b[4]   # maxa=1
   an <- 1 / (1 + exp(x))
   an
 }
@@ -171,8 +171,6 @@ for (r in 1:nNT){
       print(an)
       parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
       result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-
-
       result.l[r, count] <- result$nominal.size.l
       result.m[r, count] <- result$nominal.size.m
       result.h[r, count] <- result$nominal.size.h
