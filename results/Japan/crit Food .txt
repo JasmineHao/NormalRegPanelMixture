@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Apr 28, 2022 - 08:09:10 PM
+% Date and time: Tue, May 10, 2022 - 06:47:36 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  food  industry in Japan} 
   \label{} 
@@ -26,19 +26,19 @@ t & 465 & 2,006.000 & 1.416 & 2,004 & 2,008 \\
 [1] "Estimate LR for  food"
     M=1              M=2              M=3              M=4             
 T=1 "0"              "0"              "0"              "0"             
-T=2 "$133.01^{***}$" "$83.96^{***}$"  "$47.79^{***}$"  "$55.75^{***}$" 
-T=3 "$259.86^{***}$" "$146.75^{***}$" "$86.43^{***}$"  "$83.57^{***}$" 
-T=4 "$380.59^{***}$" "$207.61^{***}$" "$126.38^{***}$" "$116.36^{***}$"
-T=5 "$487.9^{***}$"  "$250.52^{***}$" "$159.89^{***}$" "$145.18^{***}$"
+T=2 "$132.89^{***}$" "$83.69^{***}$"  "$48.38^{***}$"  "$55.65^{***}$" 
+T=3 "$259.8^{***}$"  "$146.34^{***}$" "$87.04^{***}$"  "$84.57^{***}$" 
+T=4 "$380.51^{***}$" "$207.34^{***}$" "$126.48^{***}$" "$116.36^{***}$"
+T=5 "$487.66^{***}$" "$250.32^{***}$" "$160.01^{***}$" "$145.08^{***}$"
     M=5            
 T=1 "0"            
-T=2 "$34.55^{***}$"
-T=3 "$72.33^{***}$"
-T=4 "$92.9^{***}$" 
-T=5 "$91.68^{***}$"
+T=2 "$33.83^{***}$"
+T=3 "$72.23^{***}$"
+T=4 "$92.76^{***}$"
+T=5 "$91.57^{***}$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Apr 28, 2022 - 08:09:10 PM
+% Date and time: Tue, May 10, 2022 - 06:47:36 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 1} 
   \label{} 

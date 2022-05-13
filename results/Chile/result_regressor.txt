@@ -9,17 +9,17 @@
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & \$455.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$243$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$121.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$79.59$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$25.9$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
-Fabricated metal products & \$-90.47$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Textiles & \$-65.21$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wearing apparel, except footwear & \$-16.99$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wood products, except furniture & \$48.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.42$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
-Plastic products & \$6.98$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Printing and publishing & \$-10.88$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Machinery, except electrical & \$-73.65$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Other chemicals & \$13.73$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$25.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$18.47$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$28.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.63$\hat{\mkern6mu}$\{\}\$ \\ 
-Other non-metallic mineral products & \$-40.19$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Footwear, except rubber or plastic & \$25.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$17.83$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$16.86$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$7.22$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Food products & $455.73^{***}$ & $243^{**}$ & $121.9^{**}$ & $79.59^{*}$ & $25.9^{*}$ \\ 
+Fabricated metal products & $-90.47^{}$ & 0 & 0 & 0 & 0 \\ 
+Textiles & $-65.21^{}$ & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & $-16.99^{}$ & 0 & 0 & 0 & 0 \\ 
+Wood products, except furniture & $48.73^{***}$ & $36.07^{**}$ & $8.42^{}$ & 0 & 0 \\ 
+Plastic products & $6.98^{}$ & 0 & 0 & 0 & 0 \\ 
+Printing and publishing & $-10.88^{}$ & 0 & 0 & 0 & 0 \\ 
+Machinery, except electrical & $-73.65^{}$ & 0 & 0 & 0 & 0 \\ 
+Other chemicals & $13.73^{*}$ & $25.95^{**}$ & $18.47^{*}$ & $28.64^{***}$ & $12.63^{}$ \\ 
+Other non-metallic mineral products & $-40.19^{}$ & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & $25.93^{**}$ & $17.83^{*}$ & $16.86^{*}$ & $7.22^{}$ & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -34,11 +34,11 @@ Footwear, except rubber or plastic & \$25.93$\hat{\mkern6mu}$\{\textasteriskcent
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $96.013$ & $$-$361.141$ & $$-$596.359$ & $$-$710.347$ & $$-$784.412$ \\ 
+Food products & $96.013$ & $-361.141$ & $-596.359$ & $-710.347$ & $-784.412$ \\ 
 Fabricated metal products & $185.129$ & $0$ & $0$ & $0$ & $0$ \\ 
 Textiles & $159.526$ & $0$ & $0$ & $0$ & $0$ \\ 
 Wearing apparel, except footwear & $131.292$ & $0$ & $0$ & $0$ & $0$ \\ 
-Wood products, except furniture & $60.041$ & $16.848$ & $$-$11.498$ & $0$ & $0$ \\ 
+Wood products, except furniture & $60.041$ & $16.848$ & $-11.498$ & $0$ & $0$ \\ 
 Plastic products & $61.197$ & $0$ & $0$ & $0$ & $0$ \\ 
 Printing and publishing & $83.305$ & $0$ & $0$ & $0$ & $0$ \\ 
 Machinery, except electrical & $134.383$ & $0$ & $0$ & $0$ & $0$ \\ 
@@ -84,17 +84,17 @@ Footwear, except rubber or plastic & 11,13.46,108.67 & 13.65,38.1,3534.5 & 14.4,
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & \$852.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$395.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$161.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$107.2$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-Fabricated metal products & \$-167.94$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Textiles & \$-68.88$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wearing apparel, except footwear & \$-41.75$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wood products, except furniture & \$78.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$55.87$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
-Plastic products & \$4.6$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Printing and publishing & \$-29.17$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Machinery, except electrical & \$-144.98$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Other chemicals & \$27.91$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$50.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$27.92$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$15.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$9.31$\hat{\mkern6mu}$\{\}\$ \\ 
-Other non-metallic mineral products & \$-79.76$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Footwear, except rubber or plastic & \$45.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$50.88$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$30.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.3$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Food products & $852.96^{***}$ & $395.49^{***}$ & $161.64^{**}$ & $107.2^{}$ & 0 \\ 
+Fabricated metal products & $-167.94^{}$ & 0 & 0 & 0 & 0 \\ 
+Textiles & $-68.88^{}$ & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & $-41.75^{}$ & 0 & 0 & 0 & 0 \\ 
+Wood products, except furniture & $78.19^{***}$ & $55.87^{}$ & 0 & 0 & 0 \\ 
+Plastic products & $4.6^{}$ & 0 & 0 & 0 & 0 \\ 
+Printing and publishing & $-29.17^{}$ & 0 & 0 & 0 & 0 \\ 
+Machinery, except electrical & $-144.98^{}$ & 0 & 0 & 0 & 0 \\ 
+Other chemicals & $27.91^{*}$ & $50.14^{**}$ & $27.92^{*}$ & $15.53^{**}$ & $9.31^{}$ \\ 
+Other non-metallic mineral products & $-79.76^{}$ & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & $45.14^{**}$ & $50.88^{*}$ & $30.66^{***}$ & $7.3^{}$ & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -109,17 +109,17 @@ Footwear, except rubber or plastic & \$45.14$\hat{\mkern6mu}$\{\textasteriskcent
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $73.070$ & $$-$777.808$ & $$-$1,165.313$ & $$-$1,320.379$ & $0$ \\ 
+Food products & $73.070$ & $-777.808$ & $-1,165.313$ & $-1,320.379$ & $0$ \\ 
 Fabricated metal products & $184.898$ & $0$ & $0$ & $0$ & $0$ \\ 
 Textiles & $138.866$ & $0$ & $0$ & $0$ & $0$ \\ 
 Wearing apparel, except footwear & $128.508$ & $0$ & $0$ & $0$ & $0$ \\ 
-Wood products, except furniture & $70.391$ & $$-$2.238$ & $0$ & $0$ & $0$ \\ 
+Wood products, except furniture & $70.391$ & $-2.238$ & $0$ & $0$ & $0$ \\ 
 Plastic products & $64.264$ & $0$ & $0$ & $0$ & $0$ \\ 
 Printing and publishing & $89.782$ & $0$ & $0$ & $0$ & $0$ \\ 
 Machinery, except electrical & $132.118$ & $0$ & $0$ & $0$ & $0$ \\ 
-Other chemicals & $84.170$ & $62.766$ & $20.520$ & $$-$1.632$ & $$-$17.990$ \\ 
+Other chemicals & $84.170$ & $62.766$ & $20.520$ & $-1.632$ & $-17.990$ \\ 
 Other non-metallic mineral products & $81.070$ & $0$ & $0$ & $0$ & $0$ \\ 
-Footwear, except rubber or plastic & $49.750$ & $9.331$ & $$-$34.452$ & $$-$62.414$ & $0$ \\ 
+Footwear, except rubber or plastic & $49.750$ & $9.331$ & $-34.452$ & $-62.414$ & $0$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -159,17 +159,17 @@ Footwear, except rubber or plastic & 10.55,12.84,52.85 & 29.56,3617.12,197211.2 
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & \$1246.36$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$507.12$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$231.07$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$138.25$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-Fabricated metal products & \$-218.22$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Textiles & \$-106.74$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wearing apparel, except footwear & \$-67.24$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wood products, except furniture & \$123.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$70.53$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
-Plastic products & \$-3.14$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Printing and publishing & \$-34.13$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Machinery, except electrical & \$-195.4$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Other chemicals & \$42.39$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$81.85$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$43.59$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$18.07$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-Other non-metallic mineral products & \$-109.79$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Footwear, except rubber or plastic & \$59.98$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+Food products & $1246.36^{*}$ & $507.12^{*}$ & $231.07^{*}$ & $138.25^{}$ & 0 \\ 
+Fabricated metal products & $-218.22^{}$ & 0 & 0 & 0 & 0 \\ 
+Textiles & $-106.74^{}$ & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & $-67.24^{}$ & 0 & 0 & 0 & 0 \\ 
+Wood products, except furniture & $123.7^{**}$ & $70.53^{}$ & 0 & 0 & 0 \\ 
+Plastic products & $-3.14^{}$ & 0 & 0 & 0 & 0 \\ 
+Printing and publishing & $-34.13^{}$ & 0 & 0 & 0 & 0 \\ 
+Machinery, except electrical & $-195.4^{}$ & 0 & 0 & 0 & 0 \\ 
+Other chemicals & $42.39^{*}$ & $81.85^{*}$ & $43.59^{*}$ & $18.07^{}$ & 0 \\ 
+Other non-metallic mineral products & $-109.79^{}$ & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & $59.98^{}$ & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -184,15 +184,15 @@ Footwear, except rubber or plastic & \$59.98$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $44.501$ & $$-$1,197.627$ & $$-$1,697.021$ & $$-$1,921.235$ & $0$ \\ 
+Food products & $44.501$ & $-1,197.627$ & $-1,697.021$ & $-1,921.235$ & $0$ \\ 
 Fabricated metal products & $175.068$ & $0$ & $0$ & $0$ & $0$ \\ 
 Textiles & $135.759$ & $0$ & $0$ & $0$ & $0$ \\ 
 Wearing apparel, except footwear & $124.372$ & $0$ & $0$ & $0$ & $0$ \\ 
-Wood products, except furniture & $71.026$ & $$-$47.968$ & $0$ & $0$ & $0$ \\ 
+Wood products, except furniture & $71.026$ & $-47.968$ & $0$ & $0$ & $0$ \\ 
 Plastic products & $71.307$ & $0$ & $0$ & $0$ & $0$ \\ 
 Printing and publishing & $90.085$ & $0$ & $0$ & $0$ & $0$ \\ 
 Machinery, except electrical & $122.718$ & $0$ & $0$ & $0$ & $0$ \\ 
-Other chemicals & $78.779$ & $42.997$ & $$-$30.856$ & $$-$66.648$ & $0$ \\ 
+Other chemicals & $78.779$ & $42.997$ & $-30.856$ & $-66.648$ & $0$ \\ 
 Other non-metallic mineral products & $79.970$ & $0$ & $0$ & $0$ & $0$ \\ 
 Footwear, except rubber or plastic & $40.655$ & $0$ & $0$ & $0$ & $0$ \\ 
 \hline \\[-1.8ex] 
@@ -234,17 +234,17 @@ Footwear, except rubber or plastic & 5843,14339.61,31135.18 & 0 & 0 & 0 & 0 \\
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & \$1573.75$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Fabricated metal products & \$-271.18$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Textiles & \$-80.05$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wearing apparel, except footwear & \$-91.36$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Wood products, except furniture & \$145.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$97.77$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
-Plastic products & \$-18.86$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Printing and publishing & \$-23.67$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Machinery, except electrical & \$-242.81$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Other chemicals & \$48.59$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$91.66$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$51.79$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
-Other non-metallic mineral products & \$-121.22$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-Footwear, except rubber or plastic & \$77.37$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+Food products & $1573.75^{}$ & 0 & 0 & 0 & 0 \\ 
+Fabricated metal products & $-271.18^{}$ & 0 & 0 & 0 & 0 \\ 
+Textiles & $-80.05^{}$ & 0 & 0 & 0 & 0 \\ 
+Wearing apparel, except footwear & $-91.36^{}$ & 0 & 0 & 0 & 0 \\ 
+Wood products, except furniture & $145.78^{**}$ & $97.77^{}$ & 0 & 0 & 0 \\ 
+Plastic products & $-18.86^{}$ & 0 & 0 & 0 & 0 \\ 
+Printing and publishing & $-23.67^{}$ & 0 & 0 & 0 & 0 \\ 
+Machinery, except electrical & $-242.81^{}$ & 0 & 0 & 0 & 0 \\ 
+Other chemicals & $48.59^{*}$ & $91.66^{*}$ & $51.79^{}$ & 0 & 0 \\ 
+Other non-metallic mineral products & $-121.22^{}$ & 0 & 0 & 0 & 0 \\ 
+Footwear, except rubber or plastic & $77.37^{}$ & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
@@ -263,11 +263,11 @@ Food products & $47.221$ & $0$ & $0$ & $0$ & $0$ \\
 Fabricated metal products & $174.596$ & $0$ & $0$ & $0$ & $0$ \\ 
 Textiles & $123.809$ & $0$ & $0$ & $0$ & $0$ \\ 
 Wearing apparel, except footwear & $117.851$ & $0$ & $0$ & $0$ & $0$ \\ 
-Wood products, except furniture & $75.434$ & $$-$64.512$ & $0$ & $0$ & $0$ \\ 
+Wood products, except furniture & $75.434$ & $-64.512$ & $0$ & $0$ & $0$ \\ 
 Plastic products & $72.046$ & $0$ & $0$ & $0$ & $0$ \\ 
 Printing and publishing & $87.952$ & $0$ & $0$ & $0$ & $0$ \\ 
 Machinery, except electrical & $118.569$ & $0$ & $0$ & $0$ & $0$ \\ 
-Other chemicals & $76.732$ & $34.932$ & $$-$49.016$ & $0$ & $0$ \\ 
+Other chemicals & $76.732$ & $34.932$ & $-49.016$ & $0$ & $0$ \\ 
 Other non-metallic mineral products & $77.417$ & $0$ & $0$ & $0$ & $0$ \\ 
 Footwear, except rubber or plastic & $47.133$ & $0$ & $0$ & $0$ & $0$ \\ 
 \hline \\[-1.8ex] 
