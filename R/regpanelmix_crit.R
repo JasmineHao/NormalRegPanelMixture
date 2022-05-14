@@ -427,7 +427,6 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
 
   pvals <- NULL
   
-
   # Generate bootstrap observations
   
   ybset <- replicate(nbtsp, generateData(N = n, T = t,M=m ,alpha = alpha, mu = mu, beta = beta, sigma = sigma,p= p,q=q))
@@ -437,26 +436,41 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
     zgam <- as.matrix(z) %*% gam
     ybset <- ybset + replicate(nbtsp, as.vector(zgam))
   }
-
+  
   if (parallel) {
     if (is.null(cl)){
       cl <- makeCluster(detectCores())}
     
       registerDoParallel(cl)
-
       out <- foreach (j.btsp = 1:nbtsp) %dopar% {
-        NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = z, ninits = ninits, crit.method = "none") }
+        NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = ybset[,j.btsp]$Z, ninits = ninits, crit.method = "none") }
       if( (parallel) && (is.null(cl)) ){
         stopCluster(cl)}
-  }
+      emstat.b <- sapply(out, "[[", "emstat")  # 3 by nbstp matrix
+      emstat.b <- sort(emstat.b)
+      }
   else
     {
-      out <- lapply(seq_len(ncol(ybset)), 
-                    function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m = m,t=T,z=NULL,ninits=ninits,an=an,crit.method = "none"))
-    # out <- apply(ybset, 3, regpanelmixMEMtest, x = x, m = m, t = t, z = z,
-                 # ninits = ninits, crit.method = "none")
+      # out <- lapply(seq_len(ncol(ybset)), 
+      #               function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m = m,t=T,z=NULL,ninits=ninits,an=an,crit.method = "none"))
+      emstat.b <- c()
+      for (j.btsp in 1:nbtsp){
+        if (q == 0){
+          regpanelmix.pmle.result    <- normalpanelmixPMLE(y = ybset[,j.btsp]$Y, m=m, z = ybset[,j.btsp]$Z, vcov.method="none", ninits=ninits)
+        }else{
+          regpanelmix.pmle.result    <- regpanelmixPMLE(y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X, m=m, z = ybset[,j.btsp]$Z, vcov.method="none", ninits=ninits)
+        }
+        loglik0 <- regpanelmix.pmle.result$loglik
+        
+        if (q == 0){
+          regpanelmix.pmle.result.1 <- normalpanelmixMaxPhi(y = ybset[,j.btsp]$Y,  z = ybset[,j.btsp]$Z, parlist = regpanelmix.pmle.result$parlist, update.alpha = 1,an=an)
+        }else{
+          regpanelmix.pmle.result.1  <- regpanelmixMaxPhi(y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X, z = ybset[,j.btsp]$Z, parlist = regpanelmix.pmle.result$parlist, update.alpha = 1,an=an)
+        }
+        
+        emstat.b <- append(emstat.b, 2*max(regpanelmix.pmle.result.1$penloglik-loglik0))
+      }
     }
-  emstat.b <- sapply(out, "[[", "emstat")  # 3 by nbstp matrix
   emstat.b <- sort(emstat.b)
   # emstat.b <- t(apply(emstat.b, 1, sort))
   #####################################
