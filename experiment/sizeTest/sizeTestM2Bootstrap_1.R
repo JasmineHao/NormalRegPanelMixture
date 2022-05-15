@@ -73,7 +73,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
-    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(an), z = data$Z, parallel = FALSE, nbtsp = 199,ninits = 5)$crit
+    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
     
     c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
     
@@ -81,6 +81,8 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   
   
   lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
+  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
+  lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
   lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
   
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
