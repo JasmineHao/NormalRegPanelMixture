@@ -188,13 +188,12 @@ anFormula <- function(parlist, m, n, t, q = 0)
   
   if (q != 0) # an when the dimension of X is not zero.
     #return (switch(as.character(q), "1" = 0.5, "2" = 2.0, "3" = 2.4, "4" = 2.4, 0.5))
-    return (switch(as.character(m), "1" =  0.5, "2" = 0.002509957, "3" =  0.05670169, "4" = 0.4858468, 0.5))
+    return (switch(as.character(m), "1" =  0.1617017, "2" = 0.002509957, "3" =  0.05670169, "4" = 0.4858468, 0.5))
     # return (0.5)
   if (m == 1) {
-    #   an <- 1.0
-    an <- 0.50
-    return(an)
-    #   an <- 0.25
+    b <- c(-0.61551296, 0.77642528, 28.14318354, -0.01554419)
+    x <- (  b[1] + b[2]/t + b[3]/n ) / b[4] 
+    an <- 1 / (1 + exp(x))
   }
   else if (m == 2) {
     omega <- omega.12(parlist)

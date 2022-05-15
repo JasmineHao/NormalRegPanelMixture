@@ -28,7 +28,7 @@ GetMisclTerm <- function(phi) {
 }
 
 ###########################################################
-
+df.M1 <- read.csv(file="results/regPenaltyTest/penaltyTestM1.csv")
 df.M2 <- read.csv(file="results/regPenaltyTest/penaltyTestM2.csv")
 df.M3 <- read.csv(file="results/regPenaltyTest/penaltyTestM3.csv")
 df.M4 <- read.csv(file="results/regPenaltyTest/penaltyTestM4.csv")
@@ -38,7 +38,19 @@ df.M4 <- read.csv(file="results/regPenaltyTest/penaltyTestM4.csv")
 ###########################################################
 # df.M2 <- df.M2[df.M2$an < 0.4,]
 
- 
+fit.data <- list(y = log(
+  df.M1$nom.size/ (1 - df.M1$nom.size)) - log(5/95)  ,
+  t = 1 /  df.M1$T,
+  n = 1 /  df.M1$N,
+  an = log( df.M1$an/ (1 - df.M1$an )))
+
+an.model.M1 <- lm(y ~ t + n + an  , data=fit.data,na.action = na.omit)
+coef.M1 <- an.model.M1$coefficients
+print(coef.M1)
+an.formula.M1 <- (coef.M1[1] +coef.M1[2]*fit.data$t + coef.M1[3]*fit.data$n )/coef.M1[4]
+an.formula.M1 <- 1 /(1 + exp(an.formula.M1))   
+m_1.an <- 1 * mean(an.formula.M1)
+
 
 fit.data <- list(y = log(
   df.M2$nom.size/ (1 - df.M2$nom.size)) - log(5/95)  ,
@@ -48,8 +60,6 @@ fit.data <- list(y = log(
   omega = df.M2$omega)
 
 an.model.M2 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
-
-print(summary(an.model.M2))
 coef.M2 <- an.model.M2$coefficients
 print(coef.M2)
 an.formula.M2 <- (coef.M2[1] +coef.M2[2]*fit.data$t + coef.M2[3]*fit.data$n + coef.M2[5]*fit.data$omega)/coef.M2[4]
@@ -66,11 +76,8 @@ fit.data <- list(y = log(
   an = log( df.M3$an/ (1 - df.M3$an )),
   omega = df.M3$omega)
 an.model.M3 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
-print(summary(an.model.M3))
 coef.M3 <- an.model.M3$coefficients
 print(coef.M3)
-
-
 an.formula.M3 <- (coef.M3[1] +coef.M3[2]*fit.data$t + coef.M3[3]*fit.data$n + coef.M3[5]*fit.data$omega)/coef.M3[4]
 an.formula.M3 <- 1 /(1 + exp(an.formula.M3))   
 m_3.an <- 1 * mean(an.formula.M3)
@@ -83,14 +90,14 @@ fit.data <- list(y = log(
   an = log( df.M4$an/ (1 - df.M4$an )),
   omega = df.M4$omega)
 an.model.M4 <- lm(y ~ t + n + an + omega , data=fit.data,na.action = na.omit)
-print(summary(an.model.M4))
 coef.M4 <- an.model.M4$coefficients
+print(coef.M4)
 an.formula.M4 <- (coef.M4[1] +coef.M4[2]*fit.data$t + coef.M4[3]*fit.data$n + coef.M4[5]*fit.data$omega)/coef.M4[4]
 an.formula.M4 <-  1 /(1 + exp(an.formula.M3))    
 m_4.an <- mean(an.formula.M4)
 
 
-stargazer(an.model.M2,an.model.M3,an.model.M4)
+stargazer(an.model.M1, an.model.M2,an.model.M3,an.model.M4)
 
 
 
