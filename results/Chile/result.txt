@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -9,23 +9,23 @@
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $440.08^{***}$ & $327.59^{***}$ & $130.02^{***}$ & $62.91^{***}$ & $52.08^{***}$ \\ 
-Fabricated metal products & $107.71^{***}$ & $40.01^{***}$ & $13.93^{***}$ & $12.21^{***}$ & $4.11^{}$ \\ 
-Textiles & $122.79^{***}$ & $58.07^{***}$ & $37.46^{***}$ & $16.84^{***}$ & $18.5^{***}$ \\ 
-Wearing apparel, except footwear & $137.48^{***}$ & $54.26^{***}$ & $27.7^{***}$ & $8.85^{**}$ & $4.96^{}$ \\ 
-Wood products, except furniture & $123.73^{***}$ & $38.79^{***}$ & $9.56^{**}$ & $7.63^{*}$ & $7.99^{*}$ \\ 
-Plastic products & $83.13^{***}$ & $33.22^{***}$ & $5.44^{}$ & 0 & 0 \\ 
-Printing and publishing & $65.9^{***}$ & $48.97^{***}$ & $17.84^{***}$ & $3.65^{}$ & 0 \\ 
-Machinery, except electrical & $51.73^{***}$ & $31.93^{***}$ & $7.82^{*}$ & $-0.68^{}$ & 0 \\ 
-Other chemicals & $99.73^{***}$ & $38.26^{***}$ & $7.34^{*}$ & $9.38^{**}$ & $13.2^{***}$ \\ 
-Other non-metallic mineral products & $40.53^{***}$ & $34.92^{***}$ & $4.21^{}$ & 0 & 0 \\ 
-Footwear, except rubber or plastic & $65.47^{***}$ & $25.22^{***}$ & $20.19^{***}$ & $9.63^{**}$ & $-1.65^{}$ \\ 
+Food products & \$440.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$327.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$130.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$52.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$108.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$40.01$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4.11$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & \$123.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$58.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$37.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wearing apparel, except footwear & \$138.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$27.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$4.96$\hat{\mkern6mu}$\{\}\$ \\ 
+Wood products, except furniture & \$125.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$38.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$7.63$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$7.99$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
+Plastic products & \$85.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5.44$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+Printing and publishing & \$66.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$48.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$3.65$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Machinery, except electrical & \$51.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$31.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.82$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$-0.68$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Other chemicals & \$100.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$38.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.34$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$9.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$13.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$40.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$4.21$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+Footwear, except rubber or plastic & \$64.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$25.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$-1.65$\hat{\mkern6mu}$\{\}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -34,7 +34,7 @@ Footwear, except rubber or plastic & $65.47^{***}$ & $25.22^{***}$ & $20.19^{***
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $318.937$ & $-120.587$ & $-447.824$ & $-572.610$ & $-629.692$ \\ 
+Food products & $318.937$ & $$-$120.587$ & $$-$447.824$ & $$-$572.610$ & $$-$629.692$ \\ 
 Fabricated metal products & $455.497$ & $352.230$ & $317.305$ & $309.244$ & $301.828$ \\ 
 Textiles & $454.925$ & $333.811$ & $281.387$ & $246.136$ & $234.624$ \\ 
 Wearing apparel, except footwear & $357.889$ & $224.123$ & $175.859$ & $153.489$ & $149.293$ \\ 
@@ -44,13 +44,13 @@ Printing and publishing & $207.176$ & $145.778$ & $100.041$ & $84.464$ & $0$ \\
 Machinery, except electrical & $320.929$ & $273.754$ & $246.032$ & $241.361$ & $0$ \\ 
 Other chemicals & $189.863$ & $93.856$ & $60.500$ & $57.975$ & $57.868$ \\ 
 Other non-metallic mineral products & $181.716$ & $145.600$ & $116.193$ & $0$ & $0$ \\ 
-Footwear, except rubber or plastic & $103.357$ & $41.888$ & $19.605$ & $5.202$ & $-1.030$ \\ 
+Footwear, except rubber or plastic & $103.357$ & $41.888$ & $19.605$ & $5.202$ & $$-$1.030$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -75,7 +75,7 @@ Footwear, except rubber or plastic & 4.06,5.69,9.35 & 5.37,6.92,10.7 & 6.3,8.04,
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -84,23 +84,23 @@ Footwear, except rubber or plastic & 4.06,5.69,9.35 & 5.37,6.92,10.7 & 6.3,8.04,
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $805.06^{***}$ & $637.77^{***}$ & $204.92^{***}$ & $80.54^{***}$ & $72.41^{***}$ \\ 
-Fabricated metal products & $238.24^{***}$ & $68.91^{***}$ & $26.24^{***}$ & $24.42^{***}$ & $21.82^{***}$ \\ 
-Textiles & $229.36^{***}$ & $146.17^{***}$ & $64.76^{***}$ & $27.06^{***}$ & $29.98^{**}$ \\ 
-Wearing apparel, except footwear & $265.77^{***}$ & $105.98^{***}$ & $45.06^{***}$ & $11.73^{***}$ & $10.4^{**}$ \\ 
-Wood products, except furniture & $234.79^{***}$ & $54.25^{***}$ & $16.32^{***}$ & $10.12^{**}$ & $10.7^{**}$ \\ 
-Plastic products & $151.59^{***}$ & $53.62^{***}$ & $14.34^{***}$ & $10.44^{**}$ & $11.44^{**}$ \\ 
-Printing and publishing & $138.79^{***}$ & $67.5^{***}$ & $46.3^{***}$ & $8.56^{**}$ & $7.87^{*}$ \\ 
-Machinery, except electrical & $104.03^{***}$ & $57.04^{***}$ & $18.52^{***}$ & $8.84^{**}$ & $6.73^{**}$ \\ 
-Other chemicals & $183.86^{***}$ & $71.35^{***}$ & $18.05^{***}$ & $7.39^{*}$ & $8.97^{**}$ \\ 
-Other non-metallic mineral products & $107.63^{***}$ & $62.36^{***}$ & $8.76^{**}$ & $10.07^{**}$ & $6.18^{}$ \\ 
-Footwear, except rubber or plastic & $136.76^{***}$ & $65.83^{***}$ & $29.73^{***}$ & $22.72^{***}$ & $5.96^{}$ \\ 
+Food products & \$805.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$637.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$204.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$80.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$72.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$238.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$68.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$26.24$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$21.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Textiles & \$229.87$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$146.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$64.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$27.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wearing apparel, except footwear & \$266.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$105.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$45.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wood products, except furniture & \$236.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.32$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$10.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Plastic products & \$154.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$53.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$11.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Printing and publishing & \$139.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$67.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$46.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$7.87$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$104.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$57.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$6.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other chemicals & \$185.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$71.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.39$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$8.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$108.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$10.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$6.18$\hat{\mkern6mu}$\{\}\$ \\ 
+Footwear, except rubber or plastic & \$137.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$65.83$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$22.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5.96$\hat{\mkern6mu}$\{\}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -109,23 +109,23 @@ Footwear, except rubber or plastic & $136.76^{***}$ & $65.83^{***}$ & $29.73^{**
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $412.883$ & $-395.296$ & $-1,030.631$ & $-1,229.788$ & $-1,304.495$ \\ 
+Food products & $412.883$ & $$-$395.296$ & $$-$1,030.631$ & $$-$1,229.788$ & $$-$1,304.495$ \\ 
 Fabricated metal products & $712.676$ & $478.844$ & $415.787$ & $394.182$ & $375.590$ \\ 
 Textiles & $628.533$ & $401.181$ & $260.972$ & $199.275$ & $175.451$ \\ 
 Wearing apparel, except footwear & $518.537$ & $256.617$ & $155.008$ & $115.897$ & $106.574$ \\ 
-Wood products, except furniture & $295.079$ & $64.012$ & $14.172$ & $0.031$ & $-5.372$ \\ 
+Wood products, except furniture & $295.079$ & $64.012$ & $14.172$ & $0.031$ & $$-$5.372$ \\ 
 Plastic products & $222.656$ & $72.379$ & $23.694$ & $12.156$ & $4.220$ \\ 
 Printing and publishing & $336.798$ & $202.096$ & $140.514$ & $98.732$ & $94.967$ \\ 
 Machinery, except electrical & $480.011$ & $380.517$ & $328.092$ & $315.312$ & $307.373$ \\ 
-Other chemicals & $241.947$ & $62.505$ & $-3.900$ & $-16.026$ & $-21.204$ \\ 
+Other chemicals & $241.947$ & $62.505$ & $$-$3.900$ & $$-$16.026$ & $$-$21.204$ \\ 
 Other non-metallic mineral products & $279.357$ & $176.412$ & $118.910$ & $112.887$ & $108.783$ \\ 
-Footwear, except rubber or plastic & $150.396$ & $17.680$ & $-43.183$ & $-67.245$ & $-86.842$ \\ 
+Footwear, except rubber or plastic & $150.396$ & $17.680$ & $$-$43.183$ & $$-$67.245$ & $$-$86.842$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -150,7 +150,7 @@ Footwear, except rubber or plastic & 3.94,5.53,10.07 & 5.14,6.95,10.47 & 6.26,8.
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -159,23 +159,23 @@ Footwear, except rubber or plastic & 3.94,5.53,10.07 & 5.14,6.95,10.47 & 6.26,8.
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $1164.59^{***}$ & $874.27^{***}$ & $257.49^{***}$ & $130.61^{***}$ & $139.59^{***}$ \\ 
-Fabricated metal products & $361.48^{***}$ & $120.7^{***}$ & $41.6^{***}$ & $43.68^{***}$ & $20.95^{***}$ \\ 
-Textiles & $324.56^{***}$ & $222.28^{***}$ & $74.19^{***}$ & $47.58^{***}$ & $51.65^{***}$ \\ 
-Wearing apparel, except footwear & $380.35^{***}$ & $138.07^{***}$ & $63.17^{***}$ & $19.86^{***}$ & $23.15^{***}$ \\ 
-Wood products, except furniture & $381.37^{***}$ & $84.22^{***}$ & $24.39^{***}$ & $18.69^{***}$ & $14.41^{***}$ \\ 
-Plastic products & $211.58^{***}$ & $87.02^{***}$ & $32.73^{***}$ & $17.44^{***}$ & $15.51^{***}$ \\ 
-Printing and publishing & $216.99^{***}$ & $115.62^{***}$ & $54.2^{***}$ & $13.36^{***}$ & $12.62^{***}$ \\ 
-Machinery, except electrical & $159.9^{***}$ & $97.12^{***}$ & $20.16^{***}$ & $10.12^{**}$ & $11.58^{**}$ \\ 
-Other chemicals & $257.12^{***}$ & $90.98^{***}$ & $36.17^{***}$ & $13.35^{***}$ & $12.82^{***}$ \\ 
-Other non-metallic mineral products & $168.9^{***}$ & $83.36^{***}$ & $26.45^{***}$ & $15.69^{***}$ & $6.52^{}$ \\ 
-Footwear, except rubber or plastic & $181.78^{***}$ & $71.82^{***}$ & $25.75^{***}$ & $20.19^{***}$ & $11.68^{**}$ \\ 
+Food products & \$1165.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$874.27$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$257.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$130.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$139.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$362.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$120.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$41.6$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Textiles & \$325.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$222.28$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$74.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$47.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$51.65$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wearing apparel, except footwear & \$381.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$138.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$63.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$19.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wood products, except furniture & \$382.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$84.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Plastic products & \$213.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$87.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$32.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$15.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Printing and publishing & \$217.56$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$115.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$160.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$97.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$11.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other chemicals & \$258.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$90.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$170.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.36$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$26.45$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$15.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$6.52$\hat{\mkern6mu}$\{\}\$ \\ 
+Footwear, except rubber or plastic & \$182.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$71.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$25.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -184,23 +184,23 @@ Footwear, except rubber or plastic & $181.78^{***}$ & $71.82^{***}$ & $25.75^{**
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $409.804$ & $-755.002$ & $-1,624.781$ & $-1,879.043$ & $-2,005.703$ \\ 
+Food products & $409.804$ & $$-$755.002$ & $$-$1,624.781$ & $$-$1,879.043$ & $$-$2,005.703$ \\ 
 Fabricated metal products & $898.846$ & $541.649$ & $425.178$ & $388.521$ & $350.405$ \\ 
 Textiles & $814.886$ & $493.875$ & $276.437$ & $205.881$ & $162.879$ \\ 
 Wearing apparel, except footwear & $670.850$ & $294.429$ & $161.281$ & $103.953$ & $87.311$ \\ 
-Wood products, except furniture & $422.914$ & $43.834$ & $-35.151$ & $-54.865$ & $-67.684$ \\ 
-Plastic products & $328.947$ & $119.514$ & $37.367$ & $10.274$ & $-2.807$ \\ 
+Wood products, except furniture & $422.914$ & $43.834$ & $$-$35.151$ & $$-$54.865$ & $$-$67.684$ \\ 
+Plastic products & $328.947$ & $119.514$ & $37.367$ & $10.274$ & $$-$2.807$ \\ 
 Printing and publishing & $435.890$ & $222.545$ & $112.519$ & $63.272$ & $54.797$ \\ 
 Machinery, except electrical & $612.441$ & $457.728$ & $365.735$ & $351.030$ & $343.432$ \\ 
-Other chemicals & $307.580$ & $54.883$ & $-31.215$ & $-61.654$ & $-69.323$ \\ 
+Other chemicals & $307.580$ & $54.883$ & $$-$31.215$ & $$-$61.654$ & $$-$69.323$ \\ 
 Other non-metallic mineral products & $364.575$ & $200.057$ & $121.054$ & $99.469$ & $86.778$ \\ 
-Footwear, except rubber or plastic & $159.434$ & $-18.119$ & $-85.167$ & $-106.130$ & $-122.575$ \\ 
+Footwear, except rubber or plastic & $159.434$ & $$-$18.119$ & $$-$85.167$ & $$-$106.130$ & $$-$122.575$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -225,7 +225,7 @@ Footwear, except rubber or plastic & 3.89,5.62,9.81 & 5.34,7.02,10.55 & 6.37,7.9
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -234,23 +234,23 @@ Footwear, except rubber or plastic & 3.89,5.62,9.81 & 5.34,7.02,10.55 & 6.37,7.9
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $1553.4^{***}$ & $1010.31^{***}$ & $290.02^{***}$ & $172.46^{***}$ & $155.25^{***}$ \\ 
-Fabricated metal products & $478.26^{***}$ & $176.5^{***}$ & $58.96^{***}$ & $59.37^{***}$ & $33.19^{***}$ \\ 
-Textiles & $427.33^{***}$ & $280.46^{***}$ & $103.41^{***}$ & $56.63^{***}$ & $53.57^{***}$ \\ 
-Wearing apparel, except footwear & $472.41^{***}$ & $164.3^{***}$ & $83.66^{***}$ & $30.88^{***}$ & $20.19^{***}$ \\ 
-Wood products, except furniture & $517.61^{***}$ & $115.87^{***}$ & $42.83^{***}$ & $24.82^{***}$ & $9.55^{**}$ \\ 
-Plastic products & $265.66^{***}$ & $99.14^{***}$ & $43.21^{***}$ & $36.47^{***}$ & $29.02^{***}$ \\ 
-Printing and publishing & $319.18^{***}$ & $150.93^{***}$ & $78.07^{***}$ & $21.67^{***}$ & $13.16^{***}$ \\ 
-Machinery, except electrical & $230.27^{***}$ & $128.13^{***}$ & $23.57^{***}$ & $16.79^{***}$ & $14.8^{***}$ \\ 
-Other chemicals & $331.87^{***}$ & $94.34^{***}$ & $50.74^{***}$ & $17.26^{***}$ & $16.16^{***}$ \\ 
-Other non-metallic mineral products & $240.85^{***}$ & $91.16^{***}$ & $34.05^{***}$ & $34.1^{***}$ & $7.99^{*}$ \\ 
-Footwear, except rubber or plastic & $265.9^{***}$ & $83.4^{***}$ & $52.04^{***}$ & $24.41^{***}$ & $12.16^{***}$ \\ 
+Food products & \$1553.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$1010.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$290.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$172.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$155.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Fabricated metal products & \$478.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$176.5$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$58.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$59.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Textiles & \$428.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$280.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$103.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$56.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$53.57$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wearing apparel, except footwear & \$473.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$164.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$30.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Wood products, except furniture & \$518.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$115.87$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$42.83$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+Plastic products & \$267.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$99.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Printing and publishing & \$319.81$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$150.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$78.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$21.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Machinery, except electrical & \$230.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$128.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.57$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other chemicals & \$332.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$94.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$50.74$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+Other non-metallic mineral products & \$242.11$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$91.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$34.1$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.99$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
+Footwear, except rubber or plastic & \$266.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$52.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -259,23 +259,23 @@ Footwear, except rubber or plastic & $265.9^{***}$ & $83.4^{***}$ & $52.04^{***}
 \hline \\[-1.8ex] 
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
-Food products & $461.992$ & $-1,090.879$ & $-2,096.382$ & $-2,382.553$ & $-2,552.502$ \\ 
+Food products & $461.992$ & $$-$1,090.879$ & $$-$2,096.382$ & $$-$2,382.553$ & $$-$2,552.502$ \\ 
 Fabricated metal products & $1,094.051$ & $619.562$ & $448.866$ & $394.801$ & $340.127$ \\ 
 Textiles & $961.319$ & $538.909$ & $262.188$ & $163.782$ & $112.110$ \\ 
 Wearing apparel, except footwear & $795.619$ & $327.234$ & $167.230$ & $89.428$ & $63.883$ \\ 
-Wood products, except furniture & $571.399$ & $57.160$ & $-53.926$ & $-91.030$ & $-109.998$ \\ 
-Plastic products & $411.559$ & $149.571$ & $54.998$ & $17.709$ & $-13.355$ \\ 
-Printing and publishing & $526.614$ & $211.318$ & $65.697$ & $-7.795$ & $-25.868$ \\ 
+Wood products, except furniture & $571.399$ & $57.160$ & $$-$53.926$ & $$-$91.030$ & $$-$109.998$ \\ 
+Plastic products & $411.559$ & $149.571$ & $54.998$ & $17.709$ & $$-$13.355$ \\ 
+Printing and publishing & $526.614$ & $211.318$ & $65.697$ & $$-$7.795$ & $$-$25.868$ \\ 
 Machinery, except electrical & $753.317$ & $528.192$ & $405.247$ & $386.711$ & $375.866$ \\ 
-Other chemicals & $376.617$ & $49.500$ & $-39.173$ & $-85.354$ & $-99.779$ \\ 
+Other chemicals & $376.617$ & $49.500$ & $$-$39.173$ & $$-$85.354$ & $$-$99.779$ \\ 
 Other non-metallic mineral products & $429.050$ & $192.756$ & $104.564$ & $75.515$ & $46.515$ \\ 
-Footwear, except rubber or plastic & $223.486$ & $-38.416$ & $-117.204$ & $-166.846$ & $-185.859$ \\ 
+Footwear, except rubber or plastic & $223.486$ & $$-$38.416$ & $$-$117.204$ & $$-$166.846$ & $$-$185.859$ \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 09:03:20 PM
+% Date and time: Mon, May 16, 2022 - 12:17:48 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

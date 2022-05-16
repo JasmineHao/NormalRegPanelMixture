@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Textiles
+=============================================
+Statistic   N    Mean  St. Dev.  Min    Max  
+---------------------------------------------
+si        1,130 -0.611  0.370   -2.892 0.532 
+lny       1,130 11.011  1.325   7.554  14.733
+lnm       1,130 10.400  1.417   5.696  14.216
+lnl       1,130 3.922   1.076   2.220  7.485 
+lnk        982  8.232   1.898   0.843  13.424
+---------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Textiles"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, May 16, 2022 - 10:29:31 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$-64.91$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$-68.45$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-106.29$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-79.53$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Textiles 321
+=======================================
+            M=1         M=2 M=3 M=4 M=5
+---------------------------------------
+T=1          0           0   0   0   0 
+T=2  9.92,12.28,21.27    0   0   0   0 
+T=3 11.46,15.97,3887.83  0   0   0   0 
+T=4 11.74,18.2,8099.85   0   0   0   0 
+T=5 12.9,124.28,25170.4  0   0   0   0 
+---------------------------------------

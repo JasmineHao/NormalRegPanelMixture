@@ -232,6 +232,10 @@ for (each.code in ind.code){
 # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
+write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Chile/resultLR3.csv")
+write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Chile/resultLR4.csv")
+write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Chile/resultLR5.csv")
+
 library(xtable)
 # stargazer(crit.df,title=paste("estimate",ind.name))
 sink("/home/haoyu/results/Chile/result_text.txt")

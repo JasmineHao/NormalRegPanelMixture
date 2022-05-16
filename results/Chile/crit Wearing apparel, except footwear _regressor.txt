@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Wearing apparel, except footwear
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        975 -0.650  0.363   -2.526 0.156 
+lny       975 10.470  1.328   6.736  15.682
+lnm       975 9.820   1.422   5.369  14.891
+lnl       975 3.776   0.971   1.962  8.494 
+lnk       832 6.899   1.609   1.585  12.967
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Wearing apparel, except footwear"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, May 16, 2022 - 10:29:46 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$-16.61$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$-41.3$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-66.83$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-90.88$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Wearing apparel, except footwear 322
+======================================
+           M=1         M=2 M=3 M=4 M=5
+--------------------------------------
+T=1         0           0   0   0   0 
+T=2  9.03,11.54,19.12   0   0   0   0 
+T=3 11.4,17.37,216.33   0   0   0   0 
+T=4 14.36,30.56,891.2   0   0   0   0 
+T=5 14.89,34.31,616.54  0   0   0   0 
+--------------------------------------

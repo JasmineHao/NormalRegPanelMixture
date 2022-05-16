@@ -1,27 +1,27 @@
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
   \hline
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
   \hline
-Food products & \$441.22\verb|^|\{***\}\$ & \$328.44\verb|^|\{***\}\$ & \$115.51\verb|^|\{***\}\$ & \$56.88\verb|^|\{***\}\$ & \$36.38\verb|^|\{***\}\$ \\ 
-  Fabricated metal products & \$107.71\verb|^|\{***\}\$ & \$39.28\verb|^|\{***\}\$ & \$13.79\verb|^|\{***\}\$ & \$11.35\verb|^|\{***\}\$ & \$3.04\verb|^|\{\}\$ \\ 
-  Textiles & \$123.59\verb|^|\{***\}\$ & \$58.07\verb|^|\{***\}\$ & \$37.31\verb|^|\{***\}\$ & \$16.67\verb|^|\{***\}\$ & \$18.36\verb|^|\{***\}\$ \\ 
-  Wearing apparel, except footwear & \$137.6\verb|^|\{***\}\$ & \$51.5\verb|^|\{***\}\$ & \$25.75\verb|^|\{***\}\$ & \$8.7\verb|^|\{**\}\$ & \$3.49\verb|^|\{\}\$ \\ 
-  Wood products, except furniture & \$124.29\verb|^|\{***\}\$ & \$37\verb|^|\{***\}\$ & \$7.9\verb|^|\{**\}\$ & \$8.07\verb|^|\{*\}\$ & \$7.45\verb|^|\{*\}\$ \\ 
-  Plastic products & \$82.38\verb|^|\{***\}\$ & \$33.86\verb|^|\{***\}\$ & \$0.53\verb|^|\{\}\$ & 0 & 0 \\ 
-  Printing and publishing & \$65.9\verb|^|\{***\}\$ & \$49.15\verb|^|\{***\}\$ & \$18.16\verb|^|\{***\}\$ & \$3.92\verb|^|\{\}\$ & 0 \\ 
-  Machinery, except electrical & \$51.75\verb|^|\{***\}\$ & \$32.07\verb|^|\{***\}\$ & \$8.1\verb|^|\{**\}\$ & \$-0.2\verb|^|\{\}\$ & 0 \\ 
-  Other chemicals & \$99.77\verb|^|\{***\}\$ & \$38.21\verb|^|\{***\}\$ & \$7.47\verb|^|\{*\}\$ & \$6.63\verb|^|\{*\}\$ & \$11.74\verb|^|\{**\}\$ \\ 
-  Other non-metallic mineral products & \$40.57\verb|^|\{***\}\$ & \$34.57\verb|^|\{***\}\$ & \$4.38\verb|^|\{\}\$ & 0 & 0 \\ 
-  Footwear, except rubber or plastic & \$65.47\verb|^|\{***\}\$ & \$25.35\verb|^|\{***\}\$ & \$19.77\verb|^|\{***\}\$ & \$10.17\verb|^|\{**\}\$ & \$-1.26\verb|^|\{\}\$ \\ 
+Food products & \$440.52\verb|^|\{***\}\$ & \$327.59\verb|^|\{***\}\$ & \$130.02\verb|^|\{***\}\$ & \$62.91\verb|^|\{***\}\$ & \$52.08\verb|^|\{***\}\$ \\ 
+  Fabricated metal products & \$108.21\verb|^|\{***\}\$ & \$40.01\verb|^|\{***\}\$ & \$13.93\verb|^|\{***\}\$ & \$12.21\verb|^|\{***\}\$ & \$4.11\verb|^|\{\}\$ \\ 
+  Textiles & \$123.13\verb|^|\{***\}\$ & \$58.07\verb|^|\{***\}\$ & \$37.46\verb|^|\{***\}\$ & \$16.84\verb|^|\{***\}\$ & \$18.5\verb|^|\{***\}\$ \\ 
+  Wearing apparel, except footwear & \$138.31\verb|^|\{***\}\$ & \$54.26\verb|^|\{***\}\$ & \$27.7\verb|^|\{***\}\$ & \$8.85\verb|^|\{**\}\$ & \$4.96\verb|^|\{\}\$ \\ 
+  Wood products, except furniture & \$125.29\verb|^|\{***\}\$ & \$38.79\verb|^|\{***\}\$ & \$9.56\verb|^|\{**\}\$ & \$7.63\verb|^|\{*\}\$ & \$7.99\verb|^|\{*\}\$ \\ 
+  Plastic products & \$85.14\verb|^|\{***\}\$ & \$33.22\verb|^|\{***\}\$ & \$5.44\verb|^|\{\}\$ & 0 & 0 \\ 
+  Printing and publishing & \$66.32\verb|^|\{***\}\$ & \$48.97\verb|^|\{***\}\$ & \$17.84\verb|^|\{***\}\$ & \$3.65\verb|^|\{\}\$ & 0 \\ 
+  Machinery, except electrical & \$51.53\verb|^|\{***\}\$ & \$31.93\verb|^|\{***\}\$ & \$7.82\verb|^|\{*\}\$ & \$-0.68\verb|^|\{\}\$ & 0 \\ 
+  Other chemicals & \$100.08\verb|^|\{***\}\$ & \$38.26\verb|^|\{***\}\$ & \$7.34\verb|^|\{*\}\$ & \$9.38\verb|^|\{**\}\$ & \$13.2\verb|^|\{***\}\$ \\ 
+  Other non-metallic mineral products & \$40.32\verb|^|\{***\}\$ & \$34.92\verb|^|\{***\}\$ & \$4.21\verb|^|\{\}\$ & 0 & 0 \\ 
+  Footwear, except rubber or plastic & \$64.78\verb|^|\{***\}\$ & \$25.22\verb|^|\{***\}\$ & \$20.19\verb|^|\{***\}\$ & \$9.63\verb|^|\{**\}\$ & \$-1.65\verb|^|\{\}\$ \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
@@ -43,29 +43,29 @@ Food products & 4.02,5.72,9.69 & 5.17,7.1,10.83 & 6.09,7.61,10.84 & 6.68,8.21,11
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
   \hline
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
   \hline
-Food products & \$808.64\verb|^|\{***\}\$ & \$638.93\verb|^|\{***\}\$ & \$185.68\verb|^|\{***\}\$ & \$73.11\verb|^|\{***\}\$ & \$58.79\verb|^|\{***\}\$ \\ 
-  Fabricated metal products & \$238.26\verb|^|\{***\}\$ & \$68.83\verb|^|\{***\}\$ & \$26.46\verb|^|\{***\}\$ & \$20.22\verb|^|\{***\}\$ & \$18.98\verb|^|\{***\}\$ \\ 
-  Textiles & \$229.31\verb|^|\{***\}\$ & \$144.92\verb|^|\{***\}\$ & \$64.71\verb|^|\{***\}\$ & \$26.96\verb|^|\{***\}\$ & \$28.12\verb|^|\{**\}\$ \\ 
-  Wearing apparel, except footwear & \$265.89\verb|^|\{***\}\$ & \$104.1\verb|^|\{***\}\$ & \$43.84\verb|^|\{***\}\$ & \$11.52\verb|^|\{***\}\$ & \$10.38\verb|^|\{**\}\$ \\ 
-  Wood products, except furniture & \$234.91\verb|^|\{***\}\$ & \$54.41\verb|^|\{***\}\$ & \$16.26\verb|^|\{***\}\$ & \$10.13\verb|^|\{**\}\$ & \$10.74\verb|^|\{**\}\$ \\ 
-  Plastic products & \$152.42\verb|^|\{***\}\$ & \$53.55\verb|^|\{***\}\$ & \$14.36\verb|^|\{***\}\$ & \$12.83\verb|^|\{***\}\$ & \$10.92\verb|^|\{**\}\$ \\ 
-  Printing and publishing & \$139.18\verb|^|\{***\}\$ & \$67.29\verb|^|\{***\}\$ & \$46.21\verb|^|\{***\}\$ & \$8.44\verb|^|\{**\}\$ & \$7.29\verb|^|\{\}\$ \\ 
-  Machinery, except electrical & \$104.15\verb|^|\{***\}\$ & \$56.78\verb|^|\{***\}\$ & \$18.41\verb|^|\{***\}\$ & \$9.04\verb|^|\{**\}\$ & \$7\verb|^|\{**\}\$ \\ 
-  Other chemicals & \$183.89\verb|^|\{***\}\$ & \$71.51\verb|^|\{***\}\$ & \$16.69\verb|^|\{***\}\$ & \$7.55\verb|^|\{*\}\$ & \$7.68\verb|^|\{**\}\$ \\ 
-  Other non-metallic mineral products & \$107.69\verb|^|\{***\}\$ & \$62.44\verb|^|\{***\}\$ & \$8.81\verb|^|\{**\}\$ & \$9.96\verb|^|\{**\}\$ & \$3.71\verb|^|\{\}\$ \\ 
-  Footwear, except rubber or plastic & \$136.76\verb|^|\{***\}\$ & \$65.83\verb|^|\{***\}\$ & \$28.67\verb|^|\{***\}\$ & \$24.29\verb|^|\{***\}\$ & \$7.1\verb|^|\{\}\$ \\ 
+Food products & \$805.51\verb|^|\{***\}\$ & \$637.77\verb|^|\{***\}\$ & \$204.92\verb|^|\{***\}\$ & \$80.54\verb|^|\{***\}\$ & \$72.41\verb|^|\{***\}\$ \\ 
+  Fabricated metal products & \$238.84\verb|^|\{***\}\$ & \$68.91\verb|^|\{***\}\$ & \$26.24\verb|^|\{***\}\$ & \$24.42\verb|^|\{***\}\$ & \$21.82\verb|^|\{***\}\$ \\ 
+  Textiles & \$229.87\verb|^|\{***\}\$ & \$146.17\verb|^|\{***\}\$ & \$64.76\verb|^|\{***\}\$ & \$27.06\verb|^|\{***\}\$ & \$29.98\verb|^|\{**\}\$ \\ 
+  Wearing apparel, except footwear & \$266.92\verb|^|\{***\}\$ & \$105.98\verb|^|\{***\}\$ & \$45.06\verb|^|\{***\}\$ & \$11.73\verb|^|\{***\}\$ & \$10.4\verb|^|\{**\}\$ \\ 
+  Wood products, except furniture & \$236.76\verb|^|\{***\}\$ & \$54.25\verb|^|\{***\}\$ & \$16.32\verb|^|\{***\}\$ & \$10.12\verb|^|\{**\}\$ & \$10.7\verb|^|\{**\}\$ \\ 
+  Plastic products & \$154.85\verb|^|\{***\}\$ & \$53.62\verb|^|\{***\}\$ & \$14.34\verb|^|\{***\}\$ & \$10.44\verb|^|\{**\}\$ & \$11.44\verb|^|\{**\}\$ \\ 
+  Printing and publishing & \$139.37\verb|^|\{***\}\$ & \$67.5\verb|^|\{***\}\$ & \$46.3\verb|^|\{***\}\$ & \$8.56\verb|^|\{**\}\$ & \$7.87\verb|^|\{*\}\$ \\ 
+  Machinery, except electrical & \$104.47\verb|^|\{***\}\$ & \$57.04\verb|^|\{***\}\$ & \$18.52\verb|^|\{***\}\$ & \$8.84\verb|^|\{**\}\$ & \$6.73\verb|^|\{**\}\$ \\ 
+  Other chemicals & \$185.26\verb|^|\{***\}\$ & \$71.35\verb|^|\{***\}\$ & \$18.05\verb|^|\{***\}\$ & \$7.39\verb|^|\{*\}\$ & \$8.97\verb|^|\{**\}\$ \\ 
+  Other non-metallic mineral products & \$108.69\verb|^|\{***\}\$ & \$62.36\verb|^|\{***\}\$ & \$8.76\verb|^|\{**\}\$ & \$10.07\verb|^|\{**\}\$ & \$6.18\verb|^|\{\}\$ \\ 
+  Footwear, except rubber or plastic & \$137.72\verb|^|\{***\}\$ & \$65.83\verb|^|\{***\}\$ & \$29.73\verb|^|\{***\}\$ & \$22.72\verb|^|\{***\}\$ & \$5.96\verb|^|\{\}\$ \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
@@ -79,37 +79,37 @@ Food products & 4.32,6.33,11.15 & 5.3,6.69,10.73 & 6.27,7.82,11.08 & 6.75,8.37,1
   Wood products, except furniture & 3.96,5.57,9.27 & 5.32,7.19,11.05 & 6.41,7.9,10.88 & 7,8.31,12.14 & 7.57,9.01,12.63 \\ 
   Plastic products & 4.15,5.49,9.47 & 5.59,7.38,11.11 & 6.34,7.99,12.26 & 6.8,8.59,11.8 & 6.78,8.1,11.92 \\ 
   Printing and publishing & 3.97,5.68,9.4 & 5.58,7.43,10.78 & 6.29,7.92,11.24 & 6.76,8.31,11.14 & 7.3,8.79,11.66 \\ 
-  Machinery, except electrical & 3.94,5.37,9.68 & 5.23,6.9,10.24 & 6.08,7.42,11.58 & 6.77,8.32,11.49 & 5.25,6.63,7.87 \\ 
-  Other chemicals & 4.1,5.48,9.31 & 5.15,6.87,10.41 & 6,7.97,11.49 & 6.6,9.2,13.22 & 5.61,6.89,11.95 \\ 
+  Machinery, except electrical & 3.94,5.37,9.68 & 5.23,6.9,10.24 & 6.08,7.42,11.58 & 6.77,8.32,11.49 & 5.46,6.6,8.04 \\ 
+  Other chemicals & 4.1,5.48,9.31 & 5.15,6.87,10.41 & 6,7.97,11.49 & 6.6,9.2,13.22 & 6.02,7.39,12.1 \\ 
   Other non-metallic mineral products & 4,5.41,9.29 & 4.9,6.8,10.94 & 6.24,7.83,11.42 & 6.56,8.72,11.84 & 7.17,8.65,12.14 \\ 
   Footwear, except rubber or plastic & 3.94,5.53,10.07 & 5.14,6.95,10.47 & 6.26,8.01,10.89 & 6.67,8.49,11.68 & 7.36,8.57,11.85 \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
   \hline
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
   \hline
-Food products & \$1165.5\verb|^|\{***\}\$ & \$873.95\verb|^|\{***\}\$ & \$248.74\verb|^|\{***\}\$ & \$128.73\verb|^|\{***\}\$ & \$132.83\verb|^|\{***\}\$ \\ 
-  Fabricated metal products & \$361.66\verb|^|\{***\}\$ & \$120.92\verb|^|\{***\}\$ & \$41.87\verb|^|\{***\}\$ & \$41.41\verb|^|\{***\}\$ & \$20.24\verb|^|\{***\}\$ \\ 
-  Textiles & \$324.98\verb|^|\{***\}\$ & \$215.13\verb|^|\{***\}\$ & \$74.51\verb|^|\{***\}\$ & \$47.23\verb|^|\{***\}\$ & \$50.5\verb|^|\{***\}\$ \\ 
-  Wearing apparel, except footwear & \$380.36\verb|^|\{***\}\$ & \$131.56\verb|^|\{***\}\$ & \$62.41\verb|^|\{***\}\$ & \$18.58\verb|^|\{***\}\$ & \$18.8\verb|^|\{***\}\$ \\ 
-  Wood products, except furniture & \$382.43\verb|^|\{***\}\$ & \$84.4\verb|^|\{***\}\$ & \$23.64\verb|^|\{***\}\$ & \$17.16\verb|^|\{***\}\$ & \$13.61\verb|^|\{***\}\$ \\ 
-  Plastic products & \$212.51\verb|^|\{***\}\$ & \$86.25\verb|^|\{***\}\$ & \$32.58\verb|^|\{***\}\$ & \$17.45\verb|^|\{***\}\$ & \$15.83\verb|^|\{***\}\$ \\ 
-  Printing and publishing & \$217.58\verb|^|\{***\}\$ & \$115.54\verb|^|\{***\}\$ & \$54.18\verb|^|\{***\}\$ & \$13.43\verb|^|\{***\}\$ & \$12.47\verb|^|\{***\}\$ \\ 
-  Machinery, except electrical & \$159.94\verb|^|\{***\}\$ & \$95.56\verb|^|\{***\}\$ & \$19.45\verb|^|\{***\}\$ & \$10.95\verb|^|\{**\}\$ & \$10.8\verb|^|\{**\}\$ \\ 
-  Other chemicals & \$257.2\verb|^|\{***\}\$ & \$91.24\verb|^|\{***\}\$ & \$36.17\verb|^|\{***\}\$ & \$10.02\verb|^|\{**\}\$ & \$12.92\verb|^|\{***\}\$ \\ 
-  Other non-metallic mineral products & \$168.91\verb|^|\{***\}\$ & \$83.47\verb|^|\{***\}\$ & \$26.74\verb|^|\{***\}\$ & \$15.7\verb|^|\{***\}\$ & \$3.39\verb|^|\{\}\$ \\ 
-  Footwear, except rubber or plastic & \$181.82\verb|^|\{***\}\$ & \$72.21\verb|^|\{***\}\$ & \$25.62\verb|^|\{***\}\$ & \$19.71\verb|^|\{***\}\$ & \$10.47\verb|^|\{**\}\$ \\ 
+Food products & \$1165.08\verb|^|\{***\}\$ & \$874.27\verb|^|\{***\}\$ & \$257.49\verb|^|\{***\}\$ & \$130.61\verb|^|\{***\}\$ & \$139.59\verb|^|\{***\}\$ \\ 
+  Fabricated metal products & \$362.1\verb|^|\{***\}\$ & \$120.7\verb|^|\{***\}\$ & \$41.6\verb|^|\{***\}\$ & \$43.68\verb|^|\{***\}\$ & \$20.95\verb|^|\{***\}\$ \\ 
+  Textiles & \$325.17\verb|^|\{***\}\$ & \$222.28\verb|^|\{***\}\$ & \$74.19\verb|^|\{***\}\$ & \$47.58\verb|^|\{***\}\$ & \$51.65\verb|^|\{***\}\$ \\ 
+  Wearing apparel, except footwear & \$381.31\verb|^|\{***\}\$ & \$138.07\verb|^|\{***\}\$ & \$63.17\verb|^|\{***\}\$ & \$19.86\verb|^|\{***\}\$ & \$23.15\verb|^|\{***\}\$ \\ 
+  Wood products, except furniture & \$382.88\verb|^|\{***\}\$ & \$84.22\verb|^|\{***\}\$ & \$24.39\verb|^|\{***\}\$ & \$18.69\verb|^|\{***\}\$ & \$14.41\verb|^|\{***\}\$ \\ 
+  Plastic products & \$213.86\verb|^|\{***\}\$ & \$87.02\verb|^|\{***\}\$ & \$32.73\verb|^|\{***\}\$ & \$17.44\verb|^|\{***\}\$ & \$15.51\verb|^|\{***\}\$ \\ 
+  Printing and publishing & \$217.56\verb|^|\{***\}\$ & \$115.62\verb|^|\{***\}\$ & \$54.2\verb|^|\{***\}\$ & \$13.36\verb|^|\{***\}\$ & \$12.62\verb|^|\{***\}\$ \\ 
+  Machinery, except electrical & \$160.51\verb|^|\{***\}\$ & \$97.12\verb|^|\{***\}\$ & \$20.16\verb|^|\{***\}\$ & \$10.12\verb|^|\{**\}\$ & \$11.58\verb|^|\{**\}\$ \\ 
+  Other chemicals & \$258.39\verb|^|\{***\}\$ & \$90.98\verb|^|\{***\}\$ & \$36.17\verb|^|\{***\}\$ & \$13.35\verb|^|\{***\}\$ & \$12.82\verb|^|\{***\}\$ \\ 
+  Other non-metallic mineral products & \$170.06\verb|^|\{***\}\$ & \$83.36\verb|^|\{***\}\$ & \$26.45\verb|^|\{***\}\$ & \$15.69\verb|^|\{***\}\$ & \$6.52\verb|^|\{\}\$ \\ 
+  Footwear, except rubber or plastic & \$182.63\verb|^|\{***\}\$ & \$71.82\verb|^|\{***\}\$ & \$25.75\verb|^|\{***\}\$ & \$20.19\verb|^|\{***\}\$ & \$11.68\verb|^|\{**\}\$ \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
@@ -131,29 +131,29 @@ Food products & 5.29,7.21,12.83 & 5.47,7.07,10.68 & 6.39,7.73,11.58 & 6.81,8.42,
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
   \hline
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
   \hline
-Food products & \$1554.42\verb|^|\{***\}\$ & \$1010.19\verb|^|\{***\}\$ & \$276.32\verb|^|\{***\}\$ & \$174.09\verb|^|\{***\}\$ & \$149.1\verb|^|\{***\}\$ \\ 
-  Fabricated metal products & \$478.81\verb|^|\{***\}\$ & \$175.77\verb|^|\{***\}\$ & \$53.06\verb|^|\{***\}\$ & \$59.18\verb|^|\{***\}\$ & \$32.74\verb|^|\{***\}\$ \\ 
-  Textiles & \$427.36\verb|^|\{***\}\$ & \$279.42\verb|^|\{***\}\$ & \$102.89\verb|^|\{***\}\$ & \$55.8\verb|^|\{***\}\$ & \$52.85\verb|^|\{***\}\$ \\ 
-  Wearing apparel, except footwear & \$472.43\verb|^|\{***\}\$ & \$159.05\verb|^|\{***\}\$ & \$83.13\verb|^|\{***\}\$ & \$31.09\verb|^|\{***\}\$ & \$19.64\verb|^|\{***\}\$ \\ 
-  Wood products, except furniture & \$518.12\verb|^|\{***\}\$ & \$116.04\verb|^|\{***\}\$ & \$40.85\verb|^|\{***\}\$ & \$24.78\verb|^|\{***\}\$ & \$9.53\verb|^|\{**\}\$ \\ 
-  Plastic products & \$265.95\verb|^|\{***\}\$ & \$94.77\verb|^|\{***\}\$ & \$41.38\verb|^|\{***\}\$ & \$36.34\verb|^|\{***\}\$ & \$26.78\verb|^|\{***\}\$ \\ 
-  Printing and publishing & \$319.8\verb|^|\{***\}\$ & \$150.97\verb|^|\{***\}\$ & \$78.08\verb|^|\{***\}\$ & \$23.45\verb|^|\{***\}\$ & \$13.22\verb|^|\{***\}\$ \\ 
-  Machinery, except electrical & \$230.31\verb|^|\{***\}\$ & \$127.64\verb|^|\{***\}\$ & \$23.48\verb|^|\{***\}\$ & \$16.78\verb|^|\{***\}\$ & \$14.69\verb|^|\{***\}\$ \\ 
-  Other chemicals & \$331.89\verb|^|\{***\}\$ & \$94.42\verb|^|\{***\}\$ & \$50.75\verb|^|\{***\}\$ & \$17.53\verb|^|\{***\}\$ & \$16.19\verb|^|\{***\}\$ \\ 
-  Other non-metallic mineral products & \$240.89\verb|^|\{***\}\$ & \$92.26\verb|^|\{***\}\$ & \$34.1\verb|^|\{***\}\$ & \$34.18\verb|^|\{***\}\$ & \$9.33\verb|^|\{**\}\$ \\ 
-  Footwear, except rubber or plastic & \$265.92\verb|^|\{***\}\$ & \$84.27\verb|^|\{***\}\$ & \$51.86\verb|^|\{***\}\$ & \$22.57\verb|^|\{***\}\$ & \$11.97\verb|^|\{**\}\$ \\ 
+Food products & \$1553.9\verb|^|\{***\}\$ & \$1010.31\verb|^|\{***\}\$ & \$290.02\verb|^|\{***\}\$ & \$172.46\verb|^|\{***\}\$ & \$155.25\verb|^|\{***\}\$ \\ 
+  Fabricated metal products & \$478.94\verb|^|\{***\}\$ & \$176.5\verb|^|\{***\}\$ & \$58.96\verb|^|\{***\}\$ & \$59.37\verb|^|\{***\}\$ & \$33.19\verb|^|\{***\}\$ \\ 
+  Textiles & \$428.29\verb|^|\{***\}\$ & \$280.46\verb|^|\{***\}\$ & \$103.41\verb|^|\{***\}\$ & \$56.63\verb|^|\{***\}\$ & \$53.57\verb|^|\{***\}\$ \\ 
+  Wearing apparel, except footwear & \$473.41\verb|^|\{***\}\$ & \$164.3\verb|^|\{***\}\$ & \$83.66\verb|^|\{***\}\$ & \$30.88\verb|^|\{***\}\$ & \$20.19\verb|^|\{***\}\$ \\ 
+  Wood products, except furniture & \$518.94\verb|^|\{***\}\$ & \$115.87\verb|^|\{***\}\$ & \$42.83\verb|^|\{***\}\$ & \$24.82\verb|^|\{***\}\$ & \$9.55\verb|^|\{**\}\$ \\ 
+  Plastic products & \$267.21\verb|^|\{***\}\$ & \$99.14\verb|^|\{***\}\$ & \$43.21\verb|^|\{***\}\$ & \$36.47\verb|^|\{***\}\$ & \$29.02\verb|^|\{***\}\$ \\ 
+  Printing and publishing & \$319.81\verb|^|\{***\}\$ & \$150.93\verb|^|\{***\}\$ & \$78.07\verb|^|\{***\}\$ & \$21.67\verb|^|\{***\}\$ & \$13.16\verb|^|\{***\}\$ \\ 
+  Machinery, except electrical & \$230.94\verb|^|\{***\}\$ & \$128.13\verb|^|\{***\}\$ & \$23.57\verb|^|\{***\}\$ & \$16.79\verb|^|\{***\}\$ & \$14.8\verb|^|\{***\}\$ \\ 
+  Other chemicals & \$332.97\verb|^|\{***\}\$ & \$94.34\verb|^|\{***\}\$ & \$50.74\verb|^|\{***\}\$ & \$17.26\verb|^|\{***\}\$ & \$16.16\verb|^|\{***\}\$ \\ 
+  Other non-metallic mineral products & \$242.11\verb|^|\{***\}\$ & \$91.16\verb|^|\{***\}\$ & \$34.05\verb|^|\{***\}\$ & \$34.1\verb|^|\{***\}\$ & \$7.99\verb|^|\{*\}\$ \\ 
+  Footwear, except rubber or plastic & \$266.95\verb|^|\{***\}\$ & \$83.4\verb|^|\{***\}\$ & \$52.04\verb|^|\{***\}\$ & \$24.41\verb|^|\{***\}\$ & \$12.16\verb|^|\{***\}\$ \\ 
    \hline
 \end{tabular}
 \end{table}
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Thu Apr 28 22:05:01 2022
+% Mon May 16 00:17:48 2022
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllll}
@@ -168,7 +168,7 @@ Food products & 5.25,7.21,13.76 & 5.39,7,10.55 & 6.02,7.6,11.03 & 6.78,8.32,11.8
   Plastic products & 3.81,5.44,9.87 & 5.5,7.35,10.62 & 6.4,7.92,10.93 & 6.81,8.67,11.08 & 7.22,8.66,11.78 \\ 
   Printing and publishing & 4,5.55,9.35 & 5.43,7.3,10.96 & 6.36,8.13,11.88 & 6.83,8.9,11.81 & 7.43,9.52,13.11 \\ 
   Machinery, except electrical & 3.82,5.32,9.31 & 5.31,7.19,10.61 & 6.3,7.89,11.48 & 6.83,8.46,11.65 & 7.04,8.76,11.65 \\ 
-  Other chemicals & 3.9,5.28,9.35 & 5.43,6.97,10.73 & 6.32,8.13,11.19 & 6.9,8.6,12.14 & 5.47,6.9,12.83 \\ 
+  Other chemicals & 3.9,5.28,9.35 & 5.43,6.97,10.73 & 6.32,8.13,11.19 & 6.9,8.6,12.14 & 5.7,6.85,12.74 \\ 
   Other non-metallic mineral products & 3.94,5.42,9.29 & 5.08,7.29,12.04 & 6.37,7.97,12.19 & 6.62,8.41,11.47 & 7.33,8.74,12.17 \\ 
   Footwear, except rubber or plastic & 4.29,5.73,10.45 & 5.26,6.9,11.76 & 5.97,8.12,12.27 & 6.62,8.48,11.66 & 7.1,8.73,11.98 \\ 
    \hline

@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Fabricated metal products
+=============================================
+Statistic   N    Mean  St. Dev.  Min    Max  
+---------------------------------------------
+si        1,260 -0.700  0.373   -2.980 0.286 
+lny       1,260 10.998  1.373   8.246  15.101
+lnm       1,260 10.299  1.463   6.895  14.677
+lnl       1,260 3.925   0.975   1.995  6.733 
+lnk       1,125 7.922   1.830   2.780  12.933
+---------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Fabricated metal products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, May 16, 2022 - 10:29:16 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$-90.22$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$-167.61$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-217.81$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-270.73$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Fabricated metal products 381
+=====================================
+           M=1        M=2 M=3 M=4 M=5
+-------------------------------------
+T=1         0          0   0   0   0 
+T=2 9.18,11.77,15.31   0   0   0   0 
+T=3 10.52,13.07,29.48  0   0   0   0 
+T=4  11,13.99,101.43   0   0   0   0 
+T=5 11.12,14.87,152.7  0   0   0   0 
+-------------------------------------

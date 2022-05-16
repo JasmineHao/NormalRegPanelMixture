@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 06:24:05 PM
+% Date and time: Sun, May 15, 2022 - 10:04:35 PM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  chemical  industry in Japan} 
   \label{} 
@@ -27,10 +27,10 @@ t & 805 & 2,006.000 & 1.415 & 2,004 & 2,008 \\
 [1] "Estimate LR for  chemical"
     M=1              M=2              M=3              M=4             
 T=1 "0"              "0"              "0"              "0"             
-T=2 "$238.95^{***}$" "$119.64^{***}$" "$71.46^{***}$"  "$61.77^{***}$" 
-T=3 "$433.97^{***}$" "$239.83^{***}$" "$130.1^{***}$"  "$126.4^{***}$" 
-T=4 "$626.79^{***}$" "$308.6^{***}$"  "$181.39^{***}$" "$177.38^{***}$"
-T=5 "$815.87^{***}$" "$386.08^{***}$" "$219.13^{***}$" "$209.42^{***}$"
+T=2 "$241.44^{***}$" "$119.64^{***}$" "$71.46^{***}$"  "$61.77^{***}$" 
+T=3 "$436.37^{***}$" "$239.83^{***}$" "$130.1^{***}$"  "$126.4^{***}$" 
+T=4 "$629.22^{***}$" "$308.6^{***}$"  "$181.39^{***}$" "$177.38^{***}$"
+T=5 "$818.38^{***}$" "$386.08^{***}$" "$219.13^{***}$" "$209.42^{***}$"
     M=5             
 T=1 "0"             
 T=2 "$33.38^{***}$" 
@@ -39,7 +39,7 @@ T=4 "$96.35^{***}$"
 T=5 "$118.25^{***}$"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Tue, May 10, 2022 - 06:24:05 PM
+% Date and time: Sun, May 15, 2022 - 10:04:35 PM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 5} 
   \label{} 

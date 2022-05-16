@@ -8,7 +8,7 @@ library(NormalRegPanelMixture)
 # library(normalregMix)
 
 options('nloptr.show.inequality.warning'=FALSE)
-cl <- makeCluster(15)
+cl <- makeCluster(64)
 ##################################################
 #1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
 #7.plastic; 8. ceramics; 9. steel; 10. othermetal;
@@ -24,8 +24,8 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "other")
 
 
-# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
-df <- readRDS("data/JapanClean.rds")
+df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+#df <- readRDS("data/JapanClean.rds")
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
@@ -200,8 +200,8 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
 
-  # sink(paste("/home/haoyu/results/Japan/Crit",each.name,".txt"))
-  sink(paste("results/Japan/Crit",each.name,"_regressors.txt"))
+  sink(paste("/home/haoyu/results/Japan/Crit",each.name,"_regressor.txt"))
+  #sink(paste("results/Japan/Crit",each.name,"_regressors.txt"))
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
@@ -211,6 +211,10 @@ for (each.code in ind.code){
   #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
   sink()
 }
+
+write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
+write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
+write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
 
 # sink("/home/haoyu/results/Japan/result.txt")
 sink("results/Japan/result_regressors.txt")

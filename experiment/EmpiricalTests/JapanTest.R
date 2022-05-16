@@ -6,6 +6,7 @@ library(NormalRegPanelMixture)
 # library(Hmisc)
 
 # library(normalregMix)
+cl <- makeCluster(64)
 
 options('nloptr.show.inequality.warning'=FALSE)
 
@@ -91,7 +92,6 @@ colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 ######################################################
 
 count = 0
-cl <- makeCluster(64)
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
@@ -196,6 +196,10 @@ for (each.code in ind.code){
   #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
   sink()
 }
+
+write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3.csv")
+write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4.csv")
+write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5.csv")
 
 
 sink("/home/haoyu/results/Japan/result_text.txt")
