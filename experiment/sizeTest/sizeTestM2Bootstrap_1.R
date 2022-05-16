@@ -33,6 +33,7 @@ GenerateSample <- function(phi,nrep){
   T = phi$T
   M = phi$M
   alpha = phi$alpha
+  sigma = phi$sigma
   mu = phi$mu
   gamma = phi$gamma
   beta = phi$beta

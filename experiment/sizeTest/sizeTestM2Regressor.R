@@ -23,9 +23,11 @@ GenerateSample <- function(phi,nrep){
   T = phi$T
   M = phi$M
   alpha = phi$alpha 
+  sigma = phi$sigma
   mu = phi$mu
   gamma = phi$gamma
   beta = phi$beta
+  X = phi$X
   Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
   return(list(phi=phi,Data=Data))
 }
@@ -102,7 +104,7 @@ for (r in 1:nNT){
         
         t <- Sys.time()
         phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-                   beta = beta, N = N, T = T, M = M, p = p, q = q)
+                   beta = beta, N = N, T = T, M = M, p = p, q = q, X=data$X)
         
         phi.data.pair <- GenerateSample(phi,nrep)
         count <- count + 1
