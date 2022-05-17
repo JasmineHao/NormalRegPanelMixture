@@ -5,7 +5,7 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
-nrep <- 200
+nrep <- 500
 cl <- makeCluster(64)
 
 set.seed(123456)
@@ -33,7 +33,6 @@ GenerateSample <- function(phi,nrep){
   T = phi$T
   M = phi$M
   alpha = phi$alpha
-  sigma = phi$sigma
   mu = phi$mu
   gamma = phi$gamma
   beta = phi$beta
@@ -150,7 +149,9 @@ for (r in 1:nNT){
         print(an)
         parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
         result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-        
+        print(r)
+        print(count)
+        print(result$nominal.size.m)
         
         result.l[r, count] <- result$nominal.size.l
         result.m[r, count] <- result$nominal.size.m
