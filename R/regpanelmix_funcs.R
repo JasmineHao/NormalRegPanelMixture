@@ -192,7 +192,7 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
       for (t in 1:length(tauset)) {
         rowindex <- (t - 1) * m + h
         tau <- tauset[t]
-        result <- regpanelmixPhiStep(
+        results <- regpanelmixPhiStep(
           c(h, tau), y, x, parlist, z, p,
           an,
           ninits, ninits.short,
@@ -211,7 +211,7 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
   coefficient <- as.vector(coefficient.all[index, ])
   loglik <- loglik.all[index, 3]
   penloglik <- penloglik.all[index, 3]
-  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik, parlist = result$parlist)
+  out <- list(coefficient = coefficient, loglik = loglik, penloglik = penloglik, parlist = results$parlist)
 
   out
 } # end regpanelmixMaxPhi

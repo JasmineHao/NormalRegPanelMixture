@@ -7,10 +7,10 @@ library(NormalRegPanelMixture)
 options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
-# df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(64)
+df <- readRDS("data/ChileanClean.rds")
+cl <- makeCluster(7)
 nrep <- 500
 M <- 2 #Number of Type
 p <- 0 #Number of Z
@@ -42,31 +42,40 @@ GenerateSample <- function(phi,nrep){
   return(list(phi=phi,Data=Data))
 }
 
-getEstimate <- function(Data,nrep,an,cl,M){
+getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   registerDoParallel(cl)
-  results <- foreach (k = 1:nrep)%dopar% {
-    library(NormalRegPanelMixture)
+  # results <- foreach (k = 1:nrep)%dopar% {
+  #   library(NormalRegPanelMixture)
+  #   data <- Data[,k]
+  #   out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
+  #   out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = FALSE)
+  #   
+  #   crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+  #   if (class(crit) == "try-error"){
+  #     crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
+  #   }
+  #   c(2 * max(out.h1$penloglik - out.h0$loglik),crit)
+  # }
+  # lr.estimate <- t(t(sapply(results, function(x) x[1])))
+  # 
+  # lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
+  # return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
+  lr.estimate <- rep(0,nrep)
+  lr.crit <- matrix(0,nrow=nrep,ncol=3)
+  for (k in 1:nrep){
     data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an),update.alpha = 1,parallel = FALSE)
-    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
-    if (class(crit) == "try-error"){
-      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE)$crit
-    }
-    c(2 * max(out.h1$penloglik - out.h0$loglik), crit)
+    out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
+    out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE, cl=cl)
     
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl=cl)$crit)
+    if (class(crit) == "try-error"){
+      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = TRUE, cl=cl)$crit
+    }
+    lr.estimate[k] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+    lr.crit[k,] <- crit
   }
-  
-  lr.estimate <- t(t(sapply(results, function(x) x[1])))
-  lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
-  
-  lr.size <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  
-  for ( k in 1:nrep){
-    lr.size[k,] <- 1 * (lr.estimate[k,] > lr.crit[k,2])
-  }
-  
-  return(list(crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
+  lr.size <- 1 * (lr.estimate > lr.crit[,2])
+  return(list(est = lr.estimate , crit = lr.crit,nominal.size = mean(lr.size)))
 }
 
 # estimate.LR.df <- matrix(0,nr=(2*length(ind.code)),nc=5)
@@ -107,13 +116,13 @@ for (each.code in ind.code){
     data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
     
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    an <- anFormula(out.h0$parlist,M,N,T,q=1)
+    an <- 0.001 * anFormula(out.h0$parlist,M,N,T,q=1)
     print("-----------------------------------------")
     print(paste("T=",T,"M = ",M,"an=",an))
     
     phi = list(alpha = out.h0$parlist$alpha,mu = out.h0$parlist$mubeta[1,],sigma = out.h0$parlist$sigma, gamma = out.h0$parlist$gam,  beta = out.h0$parlist$mubeta[2:(q+1),], N = N, T = T, M = M, p = p, q = q, X=data$X)
     phi.data.pair <- GenerateSample(phi,nrep)
-    result <- getEstimate(phi.data.pair$Data,nrep,an,cl,M)
+    result <- getEstimate(phi.data.pair$Data,phi,nrep,an,M,parlist,cl)
     nominal.size <- result$nominal.size
     print(Sys.time() - t)
     
