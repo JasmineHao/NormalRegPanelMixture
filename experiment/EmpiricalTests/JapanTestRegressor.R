@@ -4,6 +4,7 @@ library(ggplot2)
 library(reshape)
 library(NormalRegPanelMixture)
 # library(Hmisc)
+set.seed(123)
 
 # library(normalregMix)
 
@@ -97,7 +98,7 @@ for (each.code in ind.code){
   ind.each <- subset(df,industry_2==each.code)
   ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['ln_k'] <- log(ind.each['k_it'])
+  ind.each['ln_k'] <- ind.each['k_it']
   each.name <- ind_list[each.code]
   
   year.list <- sort(unique(ind.each$year))
@@ -200,8 +201,8 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
 
-  sink(paste("/home/haoyu/results/Japan/Crit",each.name,"_regressor.txt"))
-  #sink(paste("results/Japan/Crit",each.name,"_regressors.txt"))
+  # sink(paste("/home/haoyu/results/Japan/Crit",each.name,"_regressor.txt"))
+  sink(paste("results/Japan/Crit",each.name,"_regressor.txt"))
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
@@ -212,9 +213,13 @@ for (each.code in ind.code){
   sink()
 }
 
-write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
-write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
-write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
+# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
+# write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
+# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
+
+write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="results/Japan/resultLR3_regressor.csv")
+write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="results/Japan/resultLR4_regressor.csv")
+write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="results/Japan/resultLR5_regressor.csv")
 
 # sink("/home/haoyu/results/Japan/result.txt")
 sink("results/Japan/result_regressors.txt")

@@ -7,12 +7,12 @@ library(NormalRegPanelMixture)
 options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
 
+set.seed(123)
 
+#df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
-
-# df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(64)
+df <- readRDS("data/ChileanClean.rds")
+cl <- makeCluster(6)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.names <- c()
@@ -170,8 +170,8 @@ for (each.code in ind.code){
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
-  sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
-  #sink(paste("results/Chile/crit",ind.name,".txt"))
+  #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Chile/crit",ind.name,"_regressor.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   stargazer(estimate.df)
