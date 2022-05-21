@@ -1,9 +1,11 @@
 library(NormalRegPanelMixture)
 library(foreach)
 set.seed(123456)
-
-nrep <- 500
-cl <- makeCluster(64)
+# 
+# nrep <- 500
+# cl <- makeCluster(64)
+nrep <- 20
+cl <- makeCluster(6)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X

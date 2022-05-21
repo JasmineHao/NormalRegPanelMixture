@@ -200,9 +200,9 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
           maxit.short, maxit,
           verb, update.alpha
         )
-        loglik.all[rowindex, ] <- result$loglik
-        penloglik.all[rowindex, ] <- result$penloglik
-        coefficient.all[rowindex, ] <- result$coefficient
+        loglik.all[rowindex, ] <- results$loglik
+        penloglik.all[rowindex, ] <- results$penloglik
+        coefficient.all[rowindex, ] <- results$coefficient
       }
     }
   }

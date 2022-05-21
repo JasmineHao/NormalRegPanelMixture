@@ -443,10 +443,25 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
     
       registerDoParallel(cl)
       out <- foreach (j.btsp = 1:nbtsp) %dopar% {
-        NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = ybset[,j.btsp]$Z, ninits = ninits, crit.method = "none") }
+        # NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = ybset[,j.btsp]$Z, ninits = ninits, crit.method = "none") 
+          if (q == 0){
+            regpanelmix.pmle.result    <- NormalRegPanelMixture::normalpanelmixPMLE(y = ybset[,j.btsp]$Y, m=m, z = ybset[,j.btsp]$Z, vcov.method="none", ninits=ninits)
+          }else{
+            regpanelmix.pmle.result    <- NormalRegPanelMixture::regpanelmixPMLE(y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X, m=m, z = ybset[,j.btsp]$Z, vcov.method="none", ninits=ninits)
+          }
+          loglik0 <- regpanelmix.pmle.result$loglik
+          
+          if (q == 0){
+            regpanelmix.pmle.result.1 <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = ybset[,j.btsp]$Y,  z = ybset[,j.btsp]$Z, parlist = regpanelmix.pmle.result$parlist, update.alpha = 1,an=an)
+          }else{
+            regpanelmix.pmle.result.1  <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X, z = ybset[,j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), update.alpha = 1,an=an, parallel = FALSE)
+          }
+          c(2 * max(regpanelmix.pmle.result.1$penloglik - regpanelmix.pmle.result$loglik))
+        }
       if( (parallel) && (is.null(cl)) ){
         stopCluster(cl)}
-      emstat.b <- sapply(out, "[[", "emstat")  # 3 by nbstp matrix
+      # emstat.b <- sapply(out, "[[", "emstat")  # 3 by nbstp matrix
+      emstat.b <- t(t(sapply(out, function(x) x[1])))
       emstat.b <- sort(emstat.b)
       }
   else
