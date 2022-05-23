@@ -1,22 +1,22 @@
 library(NormalRegPanelMixture)
 library(foreach)
 set.seed(123456)
-# 
+options(warn = -1)
 # nrep <- 500
 # cl <- makeCluster(64)
-nrep <- 20
-cl <- makeCluster(6)
+nrep <- 500
+cl <- makeCluster(16)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 
 Nset <- c(100,500)
-Tset <- c(2,10)
-alphaset <- list(c(0.5,0.5),c(0.2,0.8))
-muset <- list(c(-0.1,0.1),c(-0.5,0.5), c(-0.8,0.8))
-sigmaset <- list(c(0.5,0.5), c(0.8,1.2))
-betaset <- list(c(0,0))
-anset <- c(1e-6, 1e-4, 1e-2)
+Tset <- c(2,5)
+alphaset <- list(c(0.2,0.8))
+muset <- list(c(-0.1,0.1),c(-0.5,0.5))
+sigmaset <- list(c(0.3,0.1),c(0.5,0.5))
+betaset <- list(c(1,1),c(-1,1))
+anset <- c(1e-5,1e-3,1e-1)
 
 
 GenerateSample <- function(phi,nrep){ 
@@ -83,15 +83,15 @@ getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   lr.crit <- matrix(0,nrow=nrep,ncol=3)
   for (k in 1:nrep){
     data <- Data[,k]
-      out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
-      out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE, cl=cl)
-
-      crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl=cl)$crit)
-      if (class(crit) == "try-error"){
+    print(k)
+    out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
+    out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE, cl=cl)
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl=cl)$crit)
+    if (class(crit) == "try-error"){
         crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = TRUE, cl=cl)$crit
-      }
-      lr.estimate[k] <- 2 * max(out.h1$penloglik - out.h0$loglik)
-      lr.crit[k,] <- crit
+    }
+    lr.estimate[k] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+    lr.crit[k,] <- crit
   }
   lr.size <- 1 * (lr.estimate > lr.crit[,2])
   return(list(est = lr.estimate , crit = lr.crit,nominal.size = mean(lr.size)))

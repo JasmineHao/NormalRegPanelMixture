@@ -10,7 +10,7 @@ options(warn = -1)
 # df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(7)
+cl <- makeCluster(8)
 nrep <- 500
 M <- 2 #Number of Type
 p <- 0 #Number of Z
@@ -64,6 +64,7 @@ getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   lr.crit <- matrix(0,nrow=nrep,ncol=3)
   for (k in 1:nrep){
     data <- Data[,k]
+    print(k)
     out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
     out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE, cl=cl)
     
@@ -98,7 +99,7 @@ for (each.code in ind.code){
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
   count <- count+ 1
-  for (T in 2:5){
+  for (T in 2:2){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
     ind.each.t <- ind.each[ind.each$year>=t.start,]
@@ -116,11 +117,12 @@ for (each.code in ind.code){
     data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
     
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    an <- 0.001 * anFormula(out.h0$parlist,M,N,T,q=1)
+    an <- 0.0001 * anFormula(out.h0$parlist,M,N,T,q=1)
     print("-----------------------------------------")
     print(paste("T=",T,"M = ",M,"an=",an))
     
-    phi = list(alpha = out.h0$parlist$alpha,mu = out.h0$parlist$mubeta[1,],sigma = out.h0$parlist$sigma, gamma = out.h0$parlist$gam,  beta = out.h0$parlist$mubeta[2:(q+1),], N = N, T = T, M = M, p = p, q = q, X=data$X)
+    phi = list(alpha = out.h0$parlist$alpha,mu = out.h0$parlist$mubeta[1,],sigma = out.h0$parlist$sigma, gamma = out.h0$parlist$gam,  beta = out.h0$parlist$mubeta[2:(q+1),], N = N, T = T, M = M, p = p, q = q, X=NULL)
+    GetMisclTerm(phi)
     phi.data.pair <- GenerateSample(phi,nrep)
     result <- getEstimate(phi.data.pair$Data,phi,nrep,an,M,parlist,cl)
     nominal.size <- result$nominal.size
