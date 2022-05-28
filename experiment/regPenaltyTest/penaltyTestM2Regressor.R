@@ -5,7 +5,7 @@ options(warn = -1)
 # nrep <- 500
 # cl <- makeCluster(64)
 nrep <- 500
-cl <- makeCluster(16)
+cl <- makeCluster(15)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
@@ -16,7 +16,7 @@ alphaset <- list(c(0.2,0.8))
 muset <- list(c(-0.1,0.1),c(-0.5,0.5))
 sigmaset <- list(c(0.3,0.1),c(0.5,0.5))
 betaset <- list(c(1,1),c(-1,1))
-anset <- c(1e-5,1e-3,1e-1)
+anset <- c(1e-3,1e-2,1e-1)
 
 
 GenerateSample <- function(phi,nrep){ 
@@ -83,7 +83,7 @@ getEstimate <- function(Data,phi,nrep,an,m,parlist,cl){
   lr.crit <- matrix(0,nrow=nrep,ncol=3)
   for (k in 1:nrep){
     data <- Data[,k]
-    print(k)
+    # print(k)
     out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
     out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=an,update.alpha = 1,parallel = TRUE, cl=cl)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl=cl)$crit)
@@ -141,4 +141,6 @@ for (N in Nset){
 
 
 colnames(regression.data) <- c("nom.size", "an" ,"N","T", "omega")
-write.csv(regression.data,file="/home/haoyu/results/penaltyTestM2Regressor.csv",row.names=FALSE)
+
+write.csv(regression.data,file="penaltyTestM2Regressor.csv",row.names=FALSE)
+# write.csv(regression.data,file="/home/haoyu/results/penaltyTestM2Regressor.csv",row.names=FALSE)
