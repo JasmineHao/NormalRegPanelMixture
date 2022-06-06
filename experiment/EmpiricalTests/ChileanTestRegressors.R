@@ -184,9 +184,10 @@ for (each.code in ind.code){
 # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
-write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Chile/resultLR3_regressor.csv")
-write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Chile/resultLR4_regressor.csv")
-write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Chile/resultLR5_regressor.csv")
+write.csv(cbind(estimate.LR.df.2,AIC.df.2),file="results/Chile/resultLR2_regressor.csv")
+write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="results/Chile/resultLR3_regressor.csv")
+write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="results/Chile/resultLR4_regressor.csv")
+write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="results/Chile/resultLR5_regressor.csv")
 
 
 # sink("/home/haoyu/results/Chile/result_regressor.txt")

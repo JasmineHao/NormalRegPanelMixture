@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Printing and publishing
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        755 -0.766  0.342   -2.943 -0.047
+lny       755 10.611  1.419   8.142  16.076
+lnm       755 9.845   1.448   5.943  14.998
+lnl       755 3.710   1.065   2.050  8.259 
+lnk       625 8.067   1.846   2.667  13.818
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Printing and publishing"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 02, 2022 - 6:12:54 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$-10.51$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$-28.65$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-33.62$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-23.15$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Printing and publishing 342
+======================================
+           M=1         M=2 M=3 M=4 M=5
+--------------------------------------
+T=1         0           0   0   0   0 
+T=2 29.15,50.98,113.32  0   0   0   0 
+T=3 34.68,58.55,142.75  0   0   0   0 
+T=4 23.07,41.09,125.56  0   0   0   0 
+T=5 18.77,44.48,297.62  0   0   0   0 
+--------------------------------------

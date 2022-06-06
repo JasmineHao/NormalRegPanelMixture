@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Plastic products
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        705 -0.644  0.323   -2.039 0.460 
+lny       705 11.198  1.273   7.914  14.910
+lnm       705 10.555  1.336   7.408  14.381
+lnl       705 4.058   0.944   1.997  6.840 
+lnk       635 8.485   1.784   3.456  12.712
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Plastic products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 02, 2022 - 6:12:37 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$9.29$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$4.9$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-2.8$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-18.54$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Plastic products 356
+==========================================
+             M=1           M=2 M=3 M=4 M=5
+------------------------------------------
+T=1           0             0   0   0   0 
+T=2  11.39,15.44,4825.24    0   0   0   0 
+T=3  13.46,41.87,33260.49   0   0   0   0 
+T=4   12.9,24.48,6622.54    0   0   0   0 
+T=5 15.31,1610.47,82104.66  0   0   0   0 
+------------------------------------------

@@ -1,0 +1,51 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Fri, Jun 03, 2022 - 12:37:52 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  transportation equipment  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 490 & 6,193.031 & 11,602.600 & 249 & 44,011 \\ 
+year & 490 & 2,006.000 & 1.416 & 2,004 & 2,008 \\ 
+lnmY\_it & 490 & $-$0.602 & 0.338 & $-$1.839 & $-$0.140 \\ 
+k\_it & 490 & 17.229 & 1.161 & 14.658 & 20.152 \\ 
+ln\_k & 490 & 17.229 & 1.161 & 14.658 & 20.152 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  transportation equipment"
+    M=1              M=2              M=3              M=4            
+T=1 "0"              "0"              "0"              "0"            
+T=2 "$142.6^{***}$"  "$83.89^{**}$"   "$53.81^{}$"     "0"            
+T=3 "$250.57^{***}$" "$147.87^{}$"    "0"              "0"            
+T=4 "$357.05^{***}$" "$202.48^{}$"    "0"              "0"            
+T=5 "$433.5^{***}$"  "$268.25^{***}$" "$135.76^{***}$" "$93.98^{***}$"
+    M=5           
+T=1 "0"           
+T=2 "0"           
+T=3 "0"           
+T=4 "0"           
+T=5 "$-112.39^{}$"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Fri, Jun 03, 2022 - 12:37:52 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 14} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 11.66,15.11,74.96 & 14.56,57.37,138807.71 & 266903.41,592621.77,1269718.9 & 0 & 0 \\ 
+T=3 & -90.74,-85.3,-74.63 & 352236.17,694163.41,1371384.27 & 0 & 0 & 0 \\ 
+T=4 & -140.9,-132.54,-117.6 & 232160.57,427176.83,1217156.09 & 0 & 0 & 0 \\ 
+T=5 & -200.66,-186.19,-157.1 & 7.89,9.89,14.45 & 9.89,11.16,14.75 & 10.19,13.08,15.71 & 15.76,18.58,28.31 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Machinery, except electrical
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        580 -0.855  0.462   -2.516 0.366 
+lny       580 10.863  1.356   8.288  15.663
+lnm       580 10.008  1.509   6.416  15.233
+lnl       580 3.809   0.977   2.144  7.699 
+lnk       520 8.240   1.641   4.670  13.310
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Machinery, except electrical"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 02, 2022 - 6:13:09 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$-73.27$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=3 & \$-144.65$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=4 & \$-195.11$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=5 & \$-242.48$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Machinery, except electrical 382
+=======================================
+            M=1         M=2 M=3 M=4 M=5
+---------------------------------------
+T=1          0           0   0   0   0 
+T=2  10.49,12.53,17.71   0   0   0   0 
+T=3 11.23,15.44,3636.96  0   0   0   0 
+T=4 12.46,38.7,11436.66  0   0   0   0 
+T=5 12.28,35.28,7189.83  0   0   0   0 
+---------------------------------------
