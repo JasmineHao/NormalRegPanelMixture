@@ -25,8 +25,8 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "other")
 
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
-#df <- readRDS("data/JapanClean.rds")
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+df <- readRDS("data/JapanClean.rds")
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
@@ -217,6 +217,7 @@ for (each.code in ind.code){
 # write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
 # write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
 
+write.csv(cbind(estimate.LR.df.2,AIC.df.3),file="results/Japan/resultLR2_regressor.csv")
 write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="results/Japan/resultLR3_regressor.csv")
 write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="results/Japan/resultLR4_regressor.csv")
 write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="results/Japan/resultLR5_regressor.csv")
