@@ -110,6 +110,11 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
       for (int tt = 0; tt < t; tt++){
         /* standardized squared residual */
         r_t = (1.0/sigma) % (ytilde(nn*t + tt) - trans(x1.row(nn*t + tt)*mubeta));
+        if (nn == n-1 && tt == t-1){
+          Rcout << "The value of y - x" << (ytilde(nn*t+tt) - mu)<< "\n";
+          Rcout << "The value of sigma" << sigma << "\n";
+          Rcout << "The value of r_t"<< r_t << "\n";
+        }
         r_t = 0.5 * (r_t % r_t); /* This is faster than r = pow( r, 2.0 ) */
         r = r + r_t; //sum the residual for each time period
       }
