@@ -37,8 +37,8 @@ N <- 200
 T <- 5
 gamma <- NULL
 mu <- c(-1,1)
-sigma <- c(1, 1)
-beta <- c(1,1)
+sigma <- c(0.5, 0.5)
+beta <- c(0,0)
 alpha <- c(0.5,0.5)
 q <- 1
 p <- 0
@@ -65,28 +65,54 @@ y <- data$Y
 theta <- out.h0$coefficients
 nt <- N * T
 # compare the M_0 = 1 direct optimization
+yrep <- cbind(y,y)
+x1 <- cbind(1,x)
 obj_0 <- function(theta){
-  a  <- theta[1:2]
+  a  <- c(theta[1], 1- theta[1])
   b  <- matrix(theta[3:6],ncol=2,nrow=2)
   c  <- theta[7:8]
   ll <- -nt * M_LN_SQRT_2PI
-  eps <- t(t(as.vector(y) - x %*% b[2,] - b[1,])/ c)
+  
+  eps <- t(t(yrep - x1 %*% b)/ c)
   r_t <- 0.5 * eps^2
   r <- matrix(0,nrow=N,ncol=M)
   for (nn in 1:N){
     r[nn,] = colSums(r_t[((nn-1) * T + 1):(nn*T),])
   }
-  r   <- r + T * log(c)
+  r   <- t(t(r) + T * log(c))
+  
   minr <- apply(r,1,min)
-  l_j <- a * exp(minr-r)
+  l_j <- t( a * t(exp( minr-r)) )
   l_j_sum <- apply(l_j,1,sum)
-  ll <- ll + sum( log(l_j) - minr)
-  ll
+  ll <- ll + sum( log(l_j_sum) - minr)
+  -ll
 }
+
+
+density_check <- function(theta){
+  a  <- c(theta[1], 1- theta[1])
+  b  <- matrix(theta[3:6],ncol=2,nrow=2)
+  c  <- theta[7:8]
+  
+  eps <- t(t(yrep - x1 %*% b)/ c)
+  
+  
+  eps1 <- apply(dnorm(matrix(eps[,1],nrow=T)),2,prod)
+  eps2 <- apply(dnorm(matrix(eps[,2],nrow=T)),2,prod)
+  
+  ll <- sum(log(a[1] * eps1 + a[2] * eps2))
+}
+
+tmp <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0, sigma0, M, p, t, an, maxit.short,
+                   ninits.short, epsilon.short)
 
 print(out.h0$loglik)
 obj_0(theta)
-print(optim(theta <- out.h0$coefficients, obj_0, hessian=TRUE))
+
+optim_2 <- slsqp(theta,obj_0)
+print(optim_2$par)
+print(optim_2$value)
+# print(optim(theta <- out.h0$coefficients, obj_0, hessian=TRUE)) cannot be solved
 
 print(out.h0$coefficients)
 
@@ -151,6 +177,7 @@ loglik    <- out$loglikset[index]
 
 N <- 200
 T <- 5
+M <- 1
 gamma <- NULL
 alpha <- c(1)
 mu <- c(0)
