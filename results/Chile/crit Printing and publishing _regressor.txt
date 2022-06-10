@@ -12,7 +12,7 @@ lnk       625 8.067   1.846   2.667  13.818
 [1] "Chilean Producer Data: Estimated LR for Printing and publishing"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Jun 08, 2022 - 11:46:59 PM
+% Date and time: Thu, Jun 09, 2022 - 1:17:25 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

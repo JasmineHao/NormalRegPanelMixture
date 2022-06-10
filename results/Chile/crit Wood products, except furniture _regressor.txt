@@ -12,7 +12,7 @@ lnk        947  8.064   1.786   3.468  13.469
 [1] "Chilean Producer Data: Estimated LR for Wood products, except furniture"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Jun 08, 2022 - 11:26:51 PM
+% Date and time: Thu, Jun 09, 2022 - 12:57:18 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

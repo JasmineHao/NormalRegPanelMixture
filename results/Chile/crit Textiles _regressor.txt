@@ -12,7 +12,7 @@ lnk        982  8.232   1.898   0.843  13.424
 [1] "Chilean Producer Data: Estimated LR for Textiles"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Wed, Jun 08, 2022 - 11:09:36 PM
+% Date and time: Thu, Jun 09, 2022 - 12:40:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

@@ -12,7 +12,7 @@ lnk       520 8.240   1.641   4.670  13.310
 [1] "Chilean Producer Data: Estimated LR for Machinery, except electrical"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Jun 09, 2022 - 12:22:01 AM
+% Date and time: Thu, Jun 09, 2022 - 1:52:35 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,7 +22,7 @@ lnk       520 8.240   1.641   4.670  13.310
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$55.11$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$31.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.18$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$148.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$132.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=2 & \$55.11$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$31.61$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.18$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$148.77$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$132.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 T=3 & \$107.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$58.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$26.75$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$179.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$154.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
 T=4 & \$155.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$90.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$32.38$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$186.49$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$161.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
 T=5 & \$207.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$125.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$41.18$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
@@ -35,8 +35,8 @@ Simulated crit for Machinery, except electrical 382
             M=1                 M=2                    M=3                     M=4                    M=5          
 -------------------------------------------------------------------------------------------------------------------
 T=1          0                   0                      0                       0                      0           
-T=2  10.49,12.53,17.71    11.94,14.2,25.56       12.94,16.3,62.79       10.79,12.32,18.95      15.35,17.61,207.66  
-T=3 11.23,15.44,3636.96  12.91,17.14,502.44   16.45,73.15,128038.34     13.33,17.26,152.82     39.62,77.09,118.54  
+T=2  10.49,12.53,17.71    11.94,14.2,25.56       12.94,16.3,62.79       10.59,12.11,17.71        15,17.57,24.61    
+T=3 11.23,15.44,3636.96  12.91,17.14,502.44   16.45,73.15,128038.34     13.17,16.56,152.82     40.48,81.1,118.54   
 T=4 12.46,38.7,11436.66 14.77,32.02,5758.78   18.89,135.68,49255.19   50.38,1276.78,57212.49 23.05,150.86,176814.27
 T=5 12.28,35.28,7189.83 17.49,59.92,14938.91 74.93,16721.05,158582.05           0                      0           
 -------------------------------------------------------------------------------------------------------------------

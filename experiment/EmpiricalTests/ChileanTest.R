@@ -232,27 +232,28 @@ for (each.code in ind.code){
 # colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
+
 df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.2[ 2* 1:count -1,] <- estimate.LR.df.2
 df.2[ 2* 1:count,] <- AIC.df.2
 rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
 colnames(df.2) <- colnames(estimate.LR.df.2)
 
-df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=5))
-df.3[ 3* 1:count -1,] <- estimate.LR.df.3
-df.3[ 3* 1:count,] <- AIC.df.3
+df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.3[ 2* 1:count -1,] <- estimate.LR.df.3
+df.3[ 2* 1:count,] <- AIC.df.3
 rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=4*length(ind.names),ncol=5))
-df.4[ 4* 1:count -1,] <- estimate.LR.df.4
-df.4[ 4* 1:count,] <- AIC.df.4
+df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.4[ 2* 1:count -1,] <- estimate.LR.df.4
+df.4[ 2* 1:count,] <- AIC.df.4
 rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
-df.5 <- data.frame(matrix('-',nrow=5*length(ind.names),ncol=5))
-df.5[ 5* 1:count -1,] <- estimate.LR.df.5
-df.5[ 5* 1:count,] <- AIC.df.5
+df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.5[ 2* 1:count -1,] <- estimate.LR.df.5
+df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
