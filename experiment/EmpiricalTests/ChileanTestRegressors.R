@@ -12,9 +12,11 @@ set.seed(123)
 #df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(6)
+cl <- makeCluster(8)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
+ind.code <- c(382)
+
 ind.names <- c()
 for (each.code in ind.code){
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -82,7 +84,8 @@ for (each.code in ind.code){
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
-
+  
+  coef.df <- matrix(0,nr=5,nc=5)
   estimate.df <- matrix(0,nr=5,nc=5)
   AIC.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
@@ -131,6 +134,8 @@ for (each.code in ind.code){
         lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
       }
       # Store the estimation results
+      coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","))
+      
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       AIC.df[T,M] <- out.h0$aic
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
@@ -174,7 +179,8 @@ for (each.code in ind.code){
   sink(paste("results/Chile/crit",ind.name,"_regressor.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
-  stargazer(estimate.df)
+  print(coef.df)
+  print(estimate.df)
   stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
   sink()
 }
