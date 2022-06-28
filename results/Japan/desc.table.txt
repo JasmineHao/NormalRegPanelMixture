@@ -1,0 +1,30 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Jun 28, 2022 - 11:03:32 AM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive statistics for Japanses producer revenue share of intermediate material} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+code & Industry & NObs & N & Mean\_m\_share & Sd\_m\_share & Mean\_lnY & Sd\_lnY \\ 
+\hline \\[-1.8ex] 
+5 & Chemical & 805 & 161 & 0.34 & 0.15 & 17.52 & 1.24 \\ 
+12 & Machine & 790 & 158 & 0.5 & 0.16 & 17.31 & 1.35 \\ 
+13 & Electronics & 775 & 155 & 0.45 & 0.18 & 17.54 & 1.27 \\ 
+14 & Transportation equipment & 490 & 98 & 0.58 & 0.16 & 18.19 & 1.28 \\ 
+1 & Food & 465 & 93 & 0.4 & 0.19 & 17.73 & 1.28 \\ 
+16 & Other & 350 & 70 & 0.41 & 0.15 & 17.2 & 1.01 \\ 
+11 & Metal product & 265 & 53 & 0.48 & 0.16 & 16.84 & 0.99 \\ 
+8 & Ceramics & 250 & 50 & 0.32 & 0.14 & 17.15 & 1.34 \\ 
+9 & Steel & 215 & 43 & 0.57 & 0.14 & 17.78 & 1.28 \\ 
+2 & Textile & 200 & 40 & 0.39 & 0.17 & 17.02 & 1.27 \\ 
+4 & Paper & 195 & 39 & 0.47 & 0.16 & 17.61 & 1.37 \\ 
+15 & Precision instrument & 175 & 35 & 0.44 & 0.19 & 17.5 & 1.11 \\ 
+10 & Othermetal & 140 & 28 & 0.54 & 0.17 & 17.94 & 1.59 \\ 
+7 & Plastic & 90 & 18 & 0.39 & 0.13 & 17.57 & 1.5 \\ 
+3 & Wood & 30 & 6 & 0.46 & 0.12 & 16.98 & 0.68 \\ 
+6 & Petro & 15 & 3 & 0.58 & 0.17 & 20.25 & 2.08 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

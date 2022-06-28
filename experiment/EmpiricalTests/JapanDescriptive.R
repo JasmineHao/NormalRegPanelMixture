@@ -39,7 +39,7 @@ df = df[df$year >= t.seq[1],]
 # # ind.code <- ind.code[1:3] #For test purpose, only use the first three industries
 # df <- df[df$id %in% id.list,]
 
-desc.table = matrix(nc=6,nr=length(ind.code))
+desc.table = matrix(nc=8,nr=length(ind.code))
 count = 0
 df.include <- data.frame()
 
@@ -57,11 +57,11 @@ for (each.code in ind.code){
   ind.each <- ind.each[ind.each$id %in% id.list,]
   df.include <- rbind(df.include,ind.each)
   
-  desc.table[count, ] <- c(each.code, ind.name,dim(ind.each)[1],dim(m.share)[1],round(mean(ind.each$lnmY_it),2),round(sd(ind.each$lnmY_it),2))
+  desc.table[count, ] <- c(each.code, ind.name,dim(ind.each)[1],dim(m.share)[1],round(mean(exp(ind.each$lnmY_it)),2),round(sd(exp(ind.each$lnmY_it)),2),round(mean(ind.each$y_it),2),round(sd(ind.each$y_it),2))
   
 }
 
-colnames(desc.table) <- c("code","Industry","NObs","N","Mean","Sd")
+colnames(desc.table) <- c("code","Industry","NObs","N","Mean_m_share","Sd_m_share","Mean_lnY","Sd_lnY")
 
 
 desc.table <- transform(desc.table, N = as.numeric(N))

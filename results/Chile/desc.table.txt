@@ -1,0 +1,43 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Jun 28, 2022 - 10:48:30 AM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive statistics for Chilean producer revenue share of intermediate material} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Code & Industry & NObs & N & Mean\_m\_share & Sd\_m\_share & Mean\_lnY & Sd\_lnY \\ 
+\hline \\[-1.8ex] 
+311 & Food products & 4645 & 929 & 0.65 & 0.15 & 10.62 & 1.66 \\ 
+381 & Fabricated metal products & 1260 & 252 & 0.53 & 0.18 & 11 & 1.37 \\ 
+321 & Textiles & 1130 & 226 & 0.58 & 0.19 & 11.01 & 1.32 \\ 
+331 & Wood products, except furniture & 1105 & 221 & 0.65 & 0.17 & 10.86 & 1.4 \\ 
+322 & Wearing apparel, except footwear & 975 & 195 & 0.55 & 0.17 & 10.47 & 1.33 \\ 
+342 & Printing and publishing & 755 & 151 & 0.49 & 0.15 & 10.61 & 1.42 \\ 
+356 & Plastic products & 705 & 141 & 0.55 & 0.17 & 11.2 & 1.27 \\ 
+352 & Other chemicals & 635 & 127 & 0.53 & 0.16 & 12.19 & 1.44 \\ 
+382 & Machinery, except electrical & 580 & 116 & 0.47 & 0.2 & 10.86 & 1.36 \\ 
+369 & Other non-metallic mineral products & 570 & 114 & 0.55 & 0.18 & 11.02 & 1.7 \\ 
+324 & Footwear, except rubber or plastic & 530 & 106 & 0.62 & 0.16 & 10.61 & 1.4 \\ 
+332 & Manufacture of furniture and fixtures, except primarily of metal & 435 & 87 & 0.57 & 0.16 & 10.34 & 1.31 \\ 
+384 & Transport equipment & 350 & 70 & 0.54 & 0.2 & 11.17 & 1.71 \\ 
+313 & Beverages & 310 & 62 & 0.58 & 0.21 & 12.29 & 1.87 \\ 
+312 & Animal feeds, etc & 250 & 50 & 0.66 & 0.2 & 12.18 & 1.83 \\ 
+341 & Paper and products & 250 & 50 & 0.56 & 0.16 & 12.61 & 2.02 \\ 
+355 & Rubber products & 240 & 48 & 0.52 & 0.17 & 10.7 & 1.39 \\ 
+351 & Industrial chemicals & 195 & 39 & 0.59 & 0.21 & 12.57 & 1.5 \\ 
+383 & Machinery electric & 185 & 37 & 0.48 & 0.2 & 11.56 & 1.44 \\ 
+323 & Leather products & 175 & 35 & 0.63 & 0.17 & 11.16 & 1.26 \\ 
+390 & Other manufactured products & 165 & 33 & 0.47 & 0.16 & 10.44 & 0.93 \\ 
+372 & Non-ferrous metals & 115 & 23 & 0.64 & 0.21 & 14.7 & 1.96 \\ 
+371 & Iron and steel & 85 & 17 & 0.53 & 0.17 & 12.82 & 1.8 \\ 
+354 & Misc. petroleum and coal products & 70 & 14 & 0.62 & 0.17 & 12.29 & 1.5 \\ 
+385 & Professional and scientific equipment & 65 & 13 & 0.4 & 0.15 & 11.02 & 1.2 \\ 
+361 & Manufacture of pottery, china and earthenware & 60 & 12 & 0.46 & 0.16 & 10.09 & 1.72 \\ 
+362 & Glass and products & 55 & 11 & 0.42 & 0.14 & 11.9 & 1.42 \\ 
+353 & Petroleum refineries & 10 & 2 & 0.65 & 0.06 & 17.58 & 0.17 \\ 
+314 & Tobacco & 10 & 2 & 0.46 & 0.41 & 15.33 & 1.68 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
