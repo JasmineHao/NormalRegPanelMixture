@@ -8,7 +8,7 @@ options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
 
 
-cl <- makeCluster(8)
+cl <- makeCluster(7)
 # df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
@@ -149,7 +149,7 @@ for (each.code in ind.code){
   ######################################################
 
 
-  for (T in 2:5){
+  for (T in 3:5){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     m.share.t <- m.share[,t.seq]
@@ -224,37 +224,37 @@ for (each.code in ind.code){
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 
-df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.2[ 2* 1:count -1,] <- estimate.LR.df.2
-df.2[ 2* 1:count,] <- AIC.df.2
-rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
-colnames(df.2) <- colnames(estimate.LR.df.2)
+# df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.2[ 2* 1:count -1,] <- estimate.LR.df.2
+# df.2[ 2* 1:count,] <- AIC.df.2
+# rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
+# colnames(df.2) <- colnames(estimate.LR.df.2)
+# 
+# df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.3[ 2* 1:count -1,] <- estimate.LR.df.3
+# df.3[ 2* 1:count,] <- AIC.df.3
+# rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+# colnames(df.3) <- colnames(estimate.LR.df.3)
+# 
+# df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.4[ 2* 1:count -1,] <- estimate.LR.df.4
+# df.4[ 2* 1:count,] <- AIC.df.4
+# rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+# colnames(df.4) <- colnames(estimate.LR.df.4)
+# 
+# df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.5[ 2* 1:count -1,] <- estimate.LR.df.5
+# df.5[ 2* 1:count,] <- AIC.df.5
+# rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+# colnames(df.5) <- colnames(estimate.LR.df.5)
+# 
+# write.csv(df.2,file="/home/haoyu/results/Chile/resultLR2Boot.csv")
+# write.csv(df.3,file="/home/haoyu/results/Chile/resultLR3Boot.csv")
+# write.csv(df.4,file="/home/haoyu/results/Chile/resultLR4Boot.csv")
+# write.csv(df.5,file="/home/haoyu/results/Chile/resultLR5Boot.csv")
 
-df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.3[ 2* 1:count -1,] <- estimate.LR.df.3
-df.3[ 2* 1:count,] <- AIC.df.3
-rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
-colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.4[ 2* 1:count -1,] <- estimate.LR.df.4
-df.4[ 2* 1:count,] <- AIC.df.4
-rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
-colnames(df.4) <- colnames(estimate.LR.df.4)
-
-df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.5[ 2* 1:count -1,] <- estimate.LR.df.5
-df.5[ 2* 1:count,] <- AIC.df.5
-rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
-colnames(df.5) <- colnames(estimate.LR.df.5)
-
-write.csv(df.2,file="/home/haoyu/results/Chile/resultLR2Boot.csv")
-write.csv(df.3,file="/home/haoyu/results/Chile/resultLR3Boot.csv")
-write.csv(df.4,file="/home/haoyu/results/Chile/resultLR4Boot.csv")
-write.csv(df.5,file="/home/haoyu/results/Chile/resultLR5Boot.csv")
-
-
-sink("/home/haoyu/results/Chile/result_boot.txt")
+sink("results/Chile/result_boot.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)

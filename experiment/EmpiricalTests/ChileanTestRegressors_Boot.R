@@ -95,7 +95,7 @@ for (each.code in ind.code){
   ######################################################
 
 
-  for (T in 2:5){
+  for (T in 3:5){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
     ind.each.t <- ind.each[ind.each$year>=t.start,]

@@ -8,10 +8,10 @@ options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
 
 
-cl <- makeCluster(64)
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
+cl <- makeCluster(6)
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
-# df <- readRDS("data/ChileanClean.rds")
+df <- readRDS("data/ChileanClean.rds")
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.names <- c()

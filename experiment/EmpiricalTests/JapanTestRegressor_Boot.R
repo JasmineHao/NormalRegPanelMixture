@@ -121,7 +121,7 @@ for (each.code in ind.code){
   ######################################################
 
 
-  for (T in 2:5){
+  for (T in 3:5){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
