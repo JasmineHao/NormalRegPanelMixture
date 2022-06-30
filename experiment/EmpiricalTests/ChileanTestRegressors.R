@@ -12,10 +12,10 @@ set.seed(123)
 #df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(8)
+cl <- makeCluster(16)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
-ind.code <- c(382)
+ind.code <- c(311,381,321)
 
 ind.names <- c()
 for (each.code in ind.code){
