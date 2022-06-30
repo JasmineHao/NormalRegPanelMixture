@@ -26,45 +26,46 @@ for (each.code in ind.code){
 ind.count <- length(ind.code)
 
 
-estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(estimate.LR.df.2) <- ind.names
-colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
-estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(estimate.LR.df.3) <- ind.names
-colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
-estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(estimate.LR.df.4) <- ind.names
-colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
-estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(estimate.LR.df.5) <- ind.names
-colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
 
-AIC.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+AIC.df.2 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(AIC.df.2) <- ind.names
-colnames(AIC.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
-AIC.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(AIC.df.2) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+AIC.df.3 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(AIC.df.3) <- ind.names
-colnames(AIC.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
-AIC.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(AIC.df.3) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+
+AIC.df.4 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(AIC.df.4) <- ind.names
-colnames(AIC.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
-AIC.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(AIC.df.4) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+AIC.df.5 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(AIC.df.5) <- ind.names
-colnames(AIC.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+colnames(AIC.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
 
 
-crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
+crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(crit.LR.df.2) <- ind.names
-colnames(crit.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
-crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(crit.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(crit.LR.df.3) <- ind.names
-colnames(crit.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
-crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(crit.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(crit.LR.df.4) <- ind.names
-colnames(crit.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
-crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
+colnames(crit.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
+crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=6)
 rownames(crit.LR.df.5) <- ind.names
-colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
 
 
 count = 0
@@ -79,22 +80,22 @@ for (each.code in ind.code){
   ######################################################
   # Describe the data
   ######################################################
-
+  
   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
   
-  coef.df <- matrix(0,nr=5,nc=5)
-  estimate.df <- matrix(0,nr=5,nc=5)
-  AIC.df <- matrix(0,nr=5,nc=5)
-  crit.df <- matrix(0,nr=5,nc=5)
-  result.df <- matrix(0,nr=5,nc=5)
+  coef.df <- matrix(0,nr=5,nc=6)
+  estimate.df <- matrix(0,nr=5,nc=6)
+  AIC.df <- matrix(0,nr=5,nc=6)
+  crit.df <- matrix(0,nr=5,nc=6)
+  result.df <- matrix(0,nr=5,nc=6)
   ######################################################
   #For panel data
   ######################################################
-
-
+  
+  
   for (T in 2:5){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
@@ -111,7 +112,7 @@ for (each.code in ind.code){
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
-    for (M in 1:5){
+    for (M in 1:6){
       # Estimate the null model
       data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnm),  Z = NULL)
       
@@ -125,26 +126,23 @@ for (each.code in ind.code){
       # Estimate the alternative model
       out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
-
+      
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
-
+      
       # Simulate the asymptotic distribution
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
-      if (class(lr.crit) == "try-error"){
-        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
-      }
+      lr.crit <- c(0,0,0)
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","))
       
-      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-      AIC.df[T,M] <- paste(round(out.h0$aic,2),round(out.h0$bic,2))
+      estimate.df[T,M] <- paste(round(out.h0$penloglik,2), round(out.h1$penloglik,2),sep=",")
+      AIC.df[T,M] <- paste(round(out.h0$aic,2),round(out.h0$bic,2),sep=",")
+      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # If fail to reject the test, break the loop
       print(lr.estimate)
       print(lr.crit)
-      if (sum(lr.estimate > lr.crit) < 1) break
-
-
+      
+      
     }
   }
   ###################################################################
@@ -155,7 +153,7 @@ for (each.code in ind.code){
   print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
-
+  
   estimate.LR.df.2[count,] <- estimate.df[2,]
   estimate.LR.df.3[count,] <- estimate.df[3,]
   estimate.LR.df.4[count,] <- estimate.df[4,]
@@ -168,13 +166,13 @@ for (each.code in ind.code){
   crit.LR.df.3[count,] <- crit.df[3,]
   crit.LR.df.4[count,] <- crit.df[4,]
   crit.LR.df.5[count,] <- crit.df[5,]
-
-  colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
+  
+  colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
-
-  colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
+  
+  colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
-
+  
   #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
   sink(paste("results/Chile/crit",ind.name,"_regressor.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
@@ -187,55 +185,37 @@ for (each.code in ind.code){
 
 
 
-# colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
+# colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5","M=6")
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
-df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=6))
 df.2[ 2* 1:count -1,] <- estimate.LR.df.2
 df.2[ 2* 1:count,] <- AIC.df.2
 rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
 colnames(df.2) <- colnames(estimate.LR.df.2)
 
-df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=6))
 df.3[ 2* 1:count -1,] <- estimate.LR.df.3
 df.3[ 2* 1:count,] <- AIC.df.3
 rownames(df.3)[ 2* 1:count -1] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=6))
 df.4[ 2* 1:count -1,] <- estimate.LR.df.4
 df.4[ 2* 1:count,] <- AIC.df.4
 rownames(df.4)[ 2* 1:count -1] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
-df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=6))
 df.5[ 2* 1:count -1,] <- estimate.LR.df.5
 df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="results/Chile/resultLR2_regressor.csv")
-write.csv(df.3,file="results/Chile/resultLR3_regressor.csv")
-write.csv(df.4,file="results/Chile/resultLR4_regressor.csv")
-write.csv(df.5,file="results/Chile/resultLR5_regressor.csv")
+write.csv(df.2,file="results/Chile/estim2_regressor.csv")
+write.csv(df.3,file="results/Chile/estim3_regressor.csv")
+write.csv(df.4,file="results/Chile/estim4_regressor.csv")
+write.csv(df.5,file="results/Chile/estim5_regressor.csv")
 
 
-# sink("/home/haoyu/results/Chile/result_regressor.txt")
-sink("results/Chile/result_regressor.txt")
-stargazer(estimate.LR.df.2)
-stargazer(AIC.df.2)
-stargazer(crit.LR.df.2)
-
-stargazer(estimate.LR.df.3)
-stargazer(AIC.df.3)
-stargazer(crit.LR.df.3)
-
-stargazer(estimate.LR.df.4)
-stargazer(AIC.df.4)
-stargazer(crit.LR.df.4)
-
-stargazer(estimate.LR.df.5)
-stargazer(AIC.df.5)
-stargazer(crit.LR.df.5)
-sink()
