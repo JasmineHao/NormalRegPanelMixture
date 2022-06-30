@@ -12,7 +12,7 @@ lnk        982  8.232   1.898   0.843  13.424
 [1] "Chilean Producer Data: Estimated LR for Textiles"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, May 16, 2022 - 10:29:31 AM
+% Date and time: Thu, Jun 09, 2022 - 12:40:16 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,21 +22,21 @@ lnk        982  8.232   1.898   0.843  13.424
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$-64.91$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-T=3 & \$-68.45$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-T=4 & \$-106.29$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
-T=5 & \$-79.53$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
+T=2 & \$88.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$40.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$33.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$-17.28$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=3 & \$197.28$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$73.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$67.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$54.05$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$10.76$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$282.99$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$108.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.38$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$51.18$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$19.79$\hat{\mkern6mu}$\{\}\$ \\ 
+T=5 & \$391.71$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$138.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$83.26$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Textiles 321
-=======================================
-            M=1         M=2 M=3 M=4 M=5
----------------------------------------
-T=1          0           0   0   0   0 
-T=2  9.92,12.28,21.27    0   0   0   0 
-T=3 11.46,15.97,3887.83  0   0   0   0 
-T=4 11.74,18.2,8099.85   0   0   0   0 
-T=5 12.9,124.28,25170.4  0   0   0   0 
----------------------------------------
+=================================================================================================================
+             M=1                 M=2                   M=3                     M=4                   M=5         
+-----------------------------------------------------------------------------------------------------------------
+T=1           0                   0                     0                       0                     0          
+T=2    10.8,13.36,53.2    13.78,19.51,45.28      12.95,16.7,55.24     19.26,963.65,59354.05           0          
+T=3  11.4,16.06,4359.23   15.47,21.53,61.28     23.65,48.53,227.6     21.07,65.71,20631.96  25.28,175.35,15395.01
+T=4  11.97,21.44,8099.85  14.51,20.03,60.95  49.32,15587.88,188995.58 23.45,110.29,1571.22  80.26,582.04,8150.13 
+T=5 42.71,605.66,22600.39 19.51,45.41,513.14  318.04,1735.3,47937.02            0                     0          
+-----------------------------------------------------------------------------------------------------------------

@@ -186,9 +186,11 @@ anFormula <- function(parlist, m, n, t, q = 0)
   # against H_1 of m+1 components
 {
   
-  if (q != 0) # an when the dimension of X is not zero.
-    #return (switch(as.character(q), "1" = 0.5, "2" = 2.0, "3" = 2.4, "4" = 2.4, 0.5))
+  if (q != 0){ # an when the dimension of X is not zero.
     return (switch(as.character(m), "1" =  0.1617017, "2" = 0.002509957, "3" =  0.05670169, "4" = 0.4858468, 0.5))
+    #parlist$mu = parlist$mubeta[1,]
+  }
+  
     # return (0.5)
   if (m == 1) {
     b <- c(-0.61551296, 0.77642528, 28.14318354, -0.01554419)

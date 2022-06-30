@@ -589,7 +589,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     if (!is.null(z)) {gam <- unname(ls.out$coeff[(q1+1):(q1+p)])}
     res     <- ls.out$residuals
     sigma   <- sqrt(mean(res*res))
-    loglik  <- - (n/2)*(1 + log(2*pi) + 2*log(sigma))
+    loglik  <- - (nt/2)*(1 + log(2*pi) + 2*log(sigma))
     aic     <- -2*loglik + 2*npar
     bic     <- -2*loglik + log(n)*npar
     penloglik <- loglik
@@ -599,78 +599,77 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     postprobs <- rep(1, n)
 
   } else {  # m >= 2
+  # generate initial values
+  tmp <- regpanelmixPMLEinit(y = y, x = x, z = z, ninits = ninits.short, m = m)
 
-    # generate initial values
-    tmp <- regpanelmixPMLEinit(y = y, x = x, z = z, ninits = ninits.short, m = m)
+  h       <- 0    # setting h=0 gives PMLE
+  tau     <- 0.5  # setting tau=0.5 gives PMLE
+  k <- 0 # setting k=0 gives PMLE
 
-    h       <- 0    # setting h=0 gives PMLE
-    tau     <- 0.5  # setting tau=0.5 gives PMLE
-    k <- 0 # setting k=0 gives PMLE
+  sigma0  <- rep(sd0, m)
+  mu0     <- double(m)    # dummy
+  an      <- 1/n  # penalty term for variance
 
-    sigma0  <- rep(sd0, m)
-    mu0     <- double(m)    # dummy
-    an      <- 1/n  # penalty term for variance
+  if (is.null(z))
+    ztilde <- matrix(0) # dummy
+  else
+    ztilde <- z
 
-    if (is.null(z))
-      ztilde <- matrix(0) # dummy
-    else
-      ztilde <- z
+  # short EM
+  b0 <- rbind( tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam )
+  if (!is.null(binit)) {
+    b0[ , 1] <- binit
+  }
+  out.short <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0, sigma0, m, p, t, an, maxit.short,
+                              ninits.short, epsilon.short)
+  # long EM
+  components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
+  b1 <- b0[ ,components] # b0 has been updated
+  if ((! is.null(in.coefficient)) & (dim(b1)[1]==length(in.coefficient)) ){
+    b1[,components] <- in.coefficient
+  }
+  out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon)
+  index     <- which.max(out$penloglikset)
+  alpha <- b1[1:m,index] # b0 has been updated
 
-    # short EM
-    b0 <- rbind( tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam )
-    if (!is.null(binit)) {
-      b0[ , 1] <- binit
-    }
-    out.short <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0, sigma0, m, p, t, an, maxit.short,
-                               ninits.short, epsilon.short)
-    # long EM
-    components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
-    b1 <- b0[ ,components] # b0 has been updated
-    if ((! is.null(in.coefficient)) & (dim(b1)[1]==length(in.coefficient)) ){
-      b1[,components] <- in.coefficient
-    }
-    out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon)
-    index     <- which.max(out$penloglikset)
-    alpha <- b1[1:m,index] # b0 has been updated
+  mubeta <- matrix(b1[(1+m):((q1+1)*m),index],nrow=q1,ncol=m)
+  # mubeta <- matrix(b1[3:10,index],nrow=q1,ncol=m)
+  sigma <- b1[(1+(q1+1)*m):((q1+2)*m),index]
+  if (!is.null(z)) {
+    gam     <- b1[((q1+2)*m+1):((q1+2)*m+p),index]
+  }
+  penloglik <- out$penloglikset[index]
+  loglik    <- out$loglikset[index]
 
-    mubeta <- matrix(b1[(1+m):((q1+1)*m),index],nrow=q1,ncol=m)
-    # mubeta <- matrix(b1[3:10,index],nrow=q1,ncol=m)
-    sigma <- b1[(1+(q1+1)*m):((q1+2)*m),index]
-    if (!is.null(z)) {
-      gam     <- b1[((q1+2)*m+1):((q1+2)*m+p),index]
-    }
-    penloglik <- out$penloglikset[index]
-    loglik    <- out$loglikset[index]
+  postprobs <- matrix(out$post[,index], nrow=n)
 
-    postprobs <- matrix(out$post[,index], nrow=n)
+  aic <- -2*loglik + 2*npar
+  bic <- -2*loglik + log(n)*npar
 
-    aic <- -2*loglik + 2*npar
-    bic <- -2*loglik + log(n)*npar
+  mu.order  <- order(mubeta[1,])
+  alpha     <- alpha[mu.order]
+  mubeta    <- mubeta[,mu.order]
+  sigma     <- sigma[mu.order]
 
-    mu.order  <- order(mubeta[1,])
-    alpha     <- alpha[mu.order]
-    mubeta    <- mubeta[,mu.order]
-    sigma     <- sigma[mu.order]
+  postprobs <- postprobs[, mu.order]
+  colnames(postprobs) <- c(paste("comp", ".", 1:m, sep = ""))
 
-    postprobs <- postprobs[, mu.order]
-    colnames(postprobs) <- c(paste("comp", ".", 1:m, sep = ""))
+  mubeta.name <- matrix(0,nrow = q1, ncol = m)
+  mubeta.name[1,] <- paste("mu", 1:m, sep = "")
 
-    mubeta.name <- matrix(0,nrow = q1, ncol = m)
-    mubeta.name[1,] <- paste("mu", 1:m, sep = "")
-
-    if (q1 == 2) {
-      mubeta.name[2,] <- paste("beta", 1:m,  sep = "")
-    } else {
-      for (i in 1:(q1-1)) {
-        for (j in 1:m) {
-          mubeta.name[i+1,j] <- paste("beta", j, i, sep = "")
-        }
+  if (q1 == 2) {
+    mubeta.name[2,] <- paste("beta", 1:m,  sep = "")
+  } else {
+    for (i in 1:(q1-1)) {
+      for (j in 1:m) {
+        mubeta.name[i+1,j] <- paste("beta", j, i, sep = "")
       }
     }
+  }
 
-    parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam)
-    coefficients <- unlist(parlist)
-    names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
+  parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam)
+  coefficients <- unlist(parlist)
+  names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
   }  # end m >= 2
 
   if (vcov.method == "none") {

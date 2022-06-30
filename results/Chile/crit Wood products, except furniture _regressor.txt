@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Wood products, except furniture
+=============================================
+Statistic   N    Mean  St. Dev.  Min    Max  
+---------------------------------------------
+si        1,105 -0.477  0.313   -1.887 0.446 
+lny       1,105 10.861  1.402   7.749  15.032
+lnm       1,105 10.384  1.463   7.021  14.351
+lnl       1,105 3.940   0.950   1.899  7.330 
+lnk        947  8.064   1.786   3.468  13.469
+---------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Wood products, except furniture"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 09, 2022 - 12:57:18 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$103.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$8.42$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=3 & \$208.6$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$55.87$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+T=4 & \$319.71$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$70.53$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+T=5 & \$424.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$97.77$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Wood products, except furniture 331
+===========================================================================
+            M=1                    M=2                   M=3        M=4 M=5
+---------------------------------------------------------------------------
+T=1          0                      0                     0          0   0 
+T=2  11.76,15.43,42.05      12.16,15.58,74.15      12.9,16.05,52.23  0   0 
+T=3  11.66,15.44,35.97   2347.24,9898.68,73162.89         0          0   0 
+T=4  11.86,16.3,453.66  12942.24,21768.93,84331.03        0          0   0 
+T=5 12.79,26.33,3668.49 7531.01,12398.22,33440.24         0          0   0 
+---------------------------------------------------------------------------

@@ -12,7 +12,7 @@ lnk       3,965 7.368   2.283   -1.738 13.903
 [1] "Chilean Producer Data: Estimated LR for Food products"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Mon, May 16, 2022 - 10:28:58 AM
+% Date and time: Thu, Jun 09, 2022 - 12:35:39 PM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -22,21 +22,21 @@ lnk       3,965 7.368   2.283   -1.738 13.903
  & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
 \hline \\[-1.8ex] 
 T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$456.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$243$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$121.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$79.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$25.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
-T=3 & \$853.59$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$395.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$161.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$107.2$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-T=4 & \$1246.95$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$507.12$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$231.07$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$138.25$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
-T=5 & \$1574.29$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$597.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$260.81$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=2 & \$546.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$243$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$121.9$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$79.59$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$25.9$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
+T=3 & \$987.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$395.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$161.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$107.2$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=4 & \$1362.45$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$507.12$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$231.07$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$138.25$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=5 & \$1739.17$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 & 0 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
 
 Simulated crit for Food products 311
-===================================================================================================================
-             M=1                    M=2                    M=3                     M=4                   M=5       
--------------------------------------------------------------------------------------------------------------------
-T=1           0                      0                      0                       0                     0        
-T=2   16.13,29.81,101.12     11.37,13.47,23.34      16.26,27.37,78.57      15.07,20.39,1663.38    15.37,18.26,85.52
-T=3  17.81,34.14,1355.45     14.87,23.85,98.14     15.01,32.55,9640.85    486.42,8991.1,41293.47          0        
-T=4 35.39,2942.69,15336.17 33.22,822.33,32203.17 17.71,1039.39,28674.82  739.61,12124.18,39655.54         0        
-T=5  15.01,36.46,2023.43    18.23,37.63,5668.29  358.67,6564.85,31802.14            0                     0        
--------------------------------------------------------------------------------------------------------------------
+======================================================================================================================
+              M=1                    M=2                    M=3                      M=4                   M=5        
+----------------------------------------------------------------------------------------------------------------------
+T=1            0                      0                      0                        0                     0         
+T=2   16.61,32.07,117.71      73.15,117.1,278.98     52.43,87.31,219.25      77.6,154.98,990.01     18.17,42.35,472.35
+T=3   19.08,36.75,262.68      21.51,42.25,151.33     28.4,78.27,6237.92   5148.86,11025.64,42133.16         0         
+T=4 212.64,2861.34,15562.57 58.17,1431.51,26865.48 94.38,1641.31,32415.77 6461.62,13793.58,39571.91         0         
+T=5 2046.73,3615.79,8776.28           0                      0                        0                     0         
+----------------------------------------------------------------------------------------------------------------------

@@ -5,16 +5,16 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 
-nrep <- 2000
+nrep <- 500
 cl <- makeCluster(8)
 
 set.seed(123456)
-Nset <- c(100,500)
-Tset <- c(2,10)
-alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+Nset <- c(200,500)
+Tset <- c(5)
+alphaset <- list(c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
-sigma <- c(0.8,1.2)
-betaset <- list(c(0,0),c(-1,1))
+sigmaset <- list(c(0.3,0.1),c(0.1,0.1))
+betaset <- list(c(1,1),c(-1,1))
 
 GenerateSample <- function(phi,nrep){ 
   p = phi$p
@@ -76,7 +76,7 @@ phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(betaset)
 
 NTset <- expand.grid(Nset,Tset)
-Parset <- expand.grid(muset,alphaset,betaset)
+Parset <- expand.grid(muset,alphaset,betaset,sigmaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
 
@@ -101,32 +101,31 @@ for (r in 1:nNT){
   for (mu in muset){
     for (alpha in alphaset){
       for (beta in betaset){
-        
-        t <- Sys.time()
-        phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-                   beta = beta, N = N, T = T, M = M, p = p, q = q, X=data$X)
-        
-        phi.data.pair <- GenerateSample(phi,nrep)
-        count <- count + 1
-        Data = phi.data.pair$Data
-        phi = phi.data.pair$phi
-        an <- anFormula(phi,M,N,T,q=1) #The an function according the the empirical regression
-        print(an)
-        result <- getEstimateDiffAn(Data,nrep,an,cl,M)
-        result.l[r, count] <- result$nominal.size.l
-        result.m[r, count] <- result$nominal.size.m
-        result.h[r, count] <- result$nominal.size.h
-        print(result$nominal.size.m)
-        
-        
-        print(Sys.time() - t)
-      }  
+        for (sigma in sigmaset){
+          t <- Sys.time()
+          phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
+                     beta = beta, N = N, T = T, M = M, p = p, q = q, X=NULL)
+          
+          phi.data.pair <- GenerateSample(phi,nrep)
+          count <- count + 1
+          Data = phi.data.pair$Data
+          phi = phi.data.pair$phi
+          an <- anFormula(phi,M,N,T,q=1) #The an function according the the empirical regression
+          print(an)
+          result <- getEstimateDiffAn(Data,nrep,an,cl,M)
+          result.l[r, count] <- result$nominal.size.l
+          result.m[r, count] <- result$nominal.size.m
+          result.h[r, count] <- result$nominal.size.h
+          print(result$nominal.size.m)
+          print(Sys.time() - t)
+        }  
+      }
     }
     
   }
   
 }
-result.f <- result.f * 100
+result.m <- result.m * 100
 
-write.csv(result.f,file="/home/haoyu/results/sizeTest/sizeTestM2Regressor.csv")
+write.csv(result.m,file="results/sizeTest/sizeTestM2Regressor.csv")
 

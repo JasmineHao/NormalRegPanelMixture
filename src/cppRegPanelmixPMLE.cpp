@@ -114,10 +114,12 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
         r = r + r_t; //sum the residual for each time period
       }
       r = r + t*log(sigma);
+      
       /* normalizing with minr avoids the problem of dividing by zero */
       minr = min(r);
       l_j =  alpha % exp( minr-r );
       sum_l_j = sum( l_j );
+
       for (int tt= 0; tt<t;tt++){
         w.col(nn*t + tt) = l_j/sum_l_j; /* w(j,i) = alp_j*l_j / sum_j (alp_j*l_j) */
       }

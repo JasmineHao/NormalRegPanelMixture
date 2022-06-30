@@ -9,7 +9,7 @@ set.seed(123)
 # library(normalregMix)
 
 options('nloptr.show.inequality.warning'=FALSE)
-cl <- makeCluster(64)
+cl <- makeCluster(8)
 ##################################################
 #1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
 #7.plastic; 8. ceramics; 9. steel; 10. othermetal;
@@ -25,8 +25,8 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "other")
 
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
-#df <- readRDS("data/JapanClean.rds")
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+df <- readRDS("data/JapanClean.rds")
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
@@ -36,6 +36,7 @@ df <- df[order(df$id,df$t),]
 
 
 ind.code <- c(5,13,12,14,1)
+ind.code <- c(12)
 ind.names <- c()
 for (each.code in ind.code){
   ind.name <- ind_list[each.code]
@@ -111,7 +112,7 @@ for (each.code in ind.code){
   ######################################################
   # Select the data out
   ######################################################
-  
+  coef.df  <- matrix(0,nr=5,nc=5)
   estimate.df <- matrix(0,nr=5,nc=5)
   AIC.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
@@ -159,6 +160,7 @@ for (each.code in ind.code){
         lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
       }
       # Store the estimation results
+      coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       AIC.df[T,M] <- out.h0$aic
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
@@ -206,6 +208,7 @@ for (each.code in ind.code){
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
+  print(coef.df)
   print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
   # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
@@ -213,13 +216,38 @@ for (each.code in ind.code){
   sink()
 }
 
-# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
-# write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
+  # write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
+#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
 # write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
 
-write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="results/Japan/resultLR3_regressor.csv")
-write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="results/Japan/resultLR4_regressor.csv")
-write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="results/Japan/resultLR5_regressor.csv")
+df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.2[ 2* 1:count -1,] <- estimate.LR.df.2
+df.2[ 2* 1:count,] <- AIC.df.2
+rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
+colnames(df.2) <- colnames(estimate.LR.df.2)
+
+df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.3[ 2* 1:count -1,] <- estimate.LR.df.3
+df.3[ 2* 1:count,] <- AIC.df.3
+rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+colnames(df.3) <- colnames(estimate.LR.df.3)
+
+df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.4[ 2* 1:count -1,] <- estimate.LR.df.4
+df.4[ 2* 1:count,] <- AIC.df.4
+rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+colnames(df.4) <- colnames(estimate.LR.df.4)
+
+df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+df.5[ 2* 1:count -1,] <- estimate.LR.df.5
+df.5[ 2* 1:count,] <- AIC.df.5
+rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+colnames(df.5) <- colnames(estimate.LR.df.5)
+
+write.csv(df.2,file="results/Japan/resultLR2_regressor.csv")
+write.csv(df.3,file="results/Japan/resultLR3_regressor.csv")
+write.csv(df.4,file="results/Japan/resultLR4_regressor.csv")
+write.csv(df.5,file="results/Japan/resultLR5_regressor.csv")
 
 # sink("/home/haoyu/results/Japan/result.txt")
 sink("results/Japan/result_regressors.txt")

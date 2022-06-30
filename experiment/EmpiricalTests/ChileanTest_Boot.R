@@ -1,63 +1,40 @@
-# This script replicates table 7, 10, 11 - 14 in the paper.
 library(stargazer)
 library(ggplot2)
 library(reshape)
-library(NormalRegPanelMixture)
-# library(Hmisc)
-
 # library(normalregMix)
-cl <- makeCluster(64)
-
+library(foreign)
+library(NormalRegPanelMixture)
 options('nloptr.show.inequality.warning'=FALSE)
-
-##################################################
-#1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
-#7.plastic; 8. ceramics; 9. steel; 10. othermetal;
-#11. metal product; 12. machine; 13. electronics;
-#14. transportation
-#equipment; 15. precision instrument; 16. other;
-##################################################
-
-ind_list <- c("food","textile", "wood","paper", "chemical",
-              "petro","plastic","ceramics","steel","othermetal",
-              "metal product","machine","electronics",
-              "transportation equipment","precision instrument",
-              "other")
+options(warn = -1)
 
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+cl <- makeCluster(7)
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
-df[df==0] <- NA
-#Function
-#source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
-df$t <- df$year
-df <- df[order(df$id,df$t),]
+df <- readRDS("data/ChileanClean.rds")
 
-
-
-ind.code <- c(5,13,12,14,1)
+ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
+ind.code <- c(311,381,321)
 ind.names <- c()
 for (each.code in ind.code){
-  ind.name <- ind_list[each.code]
+  ind.each <- subset(df,ciiu_3d==each.code)
+  ind.name <- ind.each$ciiu3d_descr[1]
   ind.names <- append(ind.names,ind.name)
 }
 ind.count <- length(ind.code)
 
 
-estimate.LR.df.1 <- matrix(0,nr=length(ind.code),nc=5)
-rownames(estimate.LR.df.1) <- ind_list[ind.code]
-colnames(estimate.LR.df.1) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
-rownames(estimate.LR.df.2) <- ind_list[ind.code]
+rownames(estimate.LR.df.2) <- ind.names
 colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=5)
-rownames(estimate.LR.df.3) <- ind_list[ind.code]
+rownames(estimate.LR.df.3) <- ind.names
 colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=5)
-rownames(estimate.LR.df.4) <- ind_list[ind.code]
+rownames(estimate.LR.df.4) <- ind.names
 colnames(estimate.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
-rownames(estimate.LR.df.5) <- ind_list[ind.code]
+rownames(estimate.LR.df.5) <- ind.names
 colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 
 AIC.df.2 <- matrix(0,nr=length(ind.code),nc=5)
@@ -73,7 +50,6 @@ AIC.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(AIC.df.5) <- ind.names
 colnames(AIC.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
 
-
 crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(crit.LR.df.2) <- ind.names
 colnames(crit.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5")
@@ -86,22 +62,79 @@ colnames(crit.LR.df.4) <- c("M=1","M=2","M=3","M=4","M=5")
 crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=5)
 rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5")
+# for (each.code in ind.code){
+#   t <- Sys.time()
+#   ind.each <- subset(df,ciiu_3d==each.code)
+#   ind.name <- ind.each$ciiu3d_descr[1]
+#   ind.each$lny <- log(ind.each$GO)
+#   ind.each$lnm <- log(ind.each$WI)
+#   ind.each$lnl <- log(ind.each$L)
+#   ind.each$lnk <- log(ind.each$K)
+#   ######################################################
+#   # Describe the data
+#   ######################################################
 
-######################################################
-#For panel data
-######################################################
+#   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+#   desc.each <- desc.each[complete.cases(desc.each),]
+
+
+
+#   ######################################################
+#   # Select the data out
+#   ######################################################
+#   m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
+#   row.names(m.share) <- m.share$id
+#   m.share <- m.share[,!(colnames(m.share)=="id")]
+#   T.cap <- dim(m.share)[2]
+
+#   estimate.df <- matrix(0,nr=5,nc=5)
+#   crit.df <- matrix(0,nr=5,nc=5)
+#   result.df <- matrix(0,nr=5,nc=5)
+#   # crit.df.boot <- matrix(0,nr=5,nc=5)
+
+#   ######################################################
+#   #For cross-sectional data
+#   ######################################################
+#   m.share.t <- m.share[,T.cap]
+#   m.share.t <- m.share.t[complete.cases(m.share.t)]
+#   N <- length(m.share.t)
+#   for (M in 1:5){
+
+#     out.h0 <- normalmixPMLE(y = m.share.t,m=M)
+#     an <- normalregMix::anFormula(out.h0$parlist,M,N)
+#     print(paste("T=",1,"M = ",M,"an=",an))
+#     out.h1 <- normalmixMaxPhi(y=m.share.t,parlist = out.h0$parlist,an=an)
+#     #Obtain critical value
+#     lr.crit <- normalmixCrit(y=m.share.t,parlist = out.h0$parlist)$crit
+#     crit.df[1,M] <- paste(round(lr.crit,2),collapse = ",")
+#     # lr.crit.boot <- normalmixCritBoot(y=m.share.t,parlist = out.h0$parlist,parallel = FALSE,nbtsp = 200)$crit
+#     # crif.df.boot[1,M] <- paste(round(lr.crit.boot,2),collapse = ",")
+#     estimate.df[1,M] <- 2 * max(out.h1$penloglik - out.h0$loglik)
+#     result.df[1,M] <- (2 * max(out.h1$penloglik - out.h0$loglik) > lr.crit[2])
+
+#   }
 
 count = 0
+
 for (each.code in ind.code){
   t <- Sys.time()
-  ind.each <- subset(df,industry_2==each.code)
-  each.name <- ind_list[each.code]
+  ind.each <- subset(df,ciiu_3d==each.code)
+  ind.name <- ind.each$ciiu3d_descr[1]
+  ind.each$lny <- log(ind.each$GO)
+  ind.each$lnm <- log(ind.each$WI)
+  ind.each$lnl <- log(ind.each$L)
+  ind.each$lnk <- log(ind.each$K)
+  ######################################################
+  # Describe the data
+  ######################################################
 
-  m.share <- cast(ind.each,id ~ year,value="lnmY_it")
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+  # desc.each <- desc.each[complete.cases(desc.each),]
 
   ######################################################
   # Select the data out
   ######################################################
+  m.share <- cast(ind.each,id ~ year,value="si")#Collapse the dataframe into panel form , year against firm id
   row.names(m.share) <- m.share$id
   m.share <- m.share[,!(colnames(m.share)=="id")]
   m.share <- m.share[complete.cases(m.share),]
@@ -116,7 +149,7 @@ for (each.code in ind.code){
   ######################################################
 
 
-  for (T in 2:5){
+  for (T in 3:5){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     m.share.t <- m.share[,t.seq]
@@ -133,17 +166,15 @@ for (each.code in ind.code){
       if (is.na(an)){
         an <- 1.0
       }
-      # Estimate the alternative model
+      # # Estimate the alternative model
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
 
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
 
       # Simulate the asymptotic distribution
-      lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
-      if (class(lr.crit) == "try-error"){
-        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
-      }
+      lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+
       # Store the estimation results
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       AIC.df[T,M] <- out.h0$aic
@@ -160,7 +191,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
 
@@ -185,62 +216,45 @@ for (each.code in ind.code){
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
-
-  sink(paste("/home/haoyu/results/Japan/Crit",each.name,".txt"))
-
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
-  print(estimate.df)
-  stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
-  # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
-  #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
-  sink()
 }
 
 
 
-df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.2[ 2* 1:count -1,] <- estimate.LR.df.2
-df.2[ 2* 1:count,] <- AIC.df.2
-rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
-colnames(df.2) <- colnames(estimate.LR.df.2)
-
-df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.3[ 2* 1:count -1,] <- estimate.LR.df.3
-df.3[ 2* 1:count,] <- AIC.df.3
-rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
-colnames(df.3) <- colnames(estimate.LR.df.3)
-
-df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.4[ 2* 1:count -1,] <- estimate.LR.df.4
-df.4[ 2* 1:count,] <- AIC.df.4
-rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
-colnames(df.4) <- colnames(estimate.LR.df.4)
-
-df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
-df.5[ 2* 1:count -1,] <- estimate.LR.df.5
-df.5[ 2* 1:count,] <- AIC.df.5
-rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
-colnames(df.5) <- colnames(estimate.LR.df.5)
-
-write.csv(df.2,file="/home/haoyu/results/Japan/resultLR2.csv")
-write.csv(df.3,file="/home/haoyu/results/Japan/resultLR3.csv")
-write.csv(df.4,file="/home/haoyu/results/Japan/resultLR4.csv")
-write.csv(df.5,file="/home/haoyu/results/Japan/resultLR5.csv")
+# colnames(crit.df.boot) <- c("M=1","M=2","M=3","M=4","M=5")
+# rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 
-sink("/home/haoyu/results/Japan/result_text.txt")
-print(estimate.LR.df.2)
-print(crit.LR.df.2)
-print(estimate.LR.df.3)
-print(crit.LR.df.3)
-print(estimate.LR.df.4)
-print(crit.LR.df.4)
-print(estimate.LR.df.5)
-print(crit.LR.df.5)
-sink()
+# df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.2[ 2* 1:count -1,] <- estimate.LR.df.2
+# df.2[ 2* 1:count,] <- AIC.df.2
+# rownames(df.2)[ 2* 1:count -1] <- rownames(estimate.LR.df.2)
+# colnames(df.2) <- colnames(estimate.LR.df.2)
+# 
+# df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.3[ 2* 1:count -1,] <- estimate.LR.df.3
+# df.3[ 2* 1:count,] <- AIC.df.3
+# rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+# colnames(df.3) <- colnames(estimate.LR.df.3)
+# 
+# df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.4[ 2* 1:count -1,] <- estimate.LR.df.4
+# df.4[ 2* 1:count,] <- AIC.df.4
+# rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+# colnames(df.4) <- colnames(estimate.LR.df.4)
+# 
+# df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
+# df.5[ 2* 1:count -1,] <- estimate.LR.df.5
+# df.5[ 2* 1:count,] <- AIC.df.5
+# rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+# colnames(df.5) <- colnames(estimate.LR.df.5)
+# 
+# write.csv(df.2,file="/home/haoyu/results/Chile/resultLR2Boot.csv")
+# write.csv(df.3,file="/home/haoyu/results/Chile/resultLR3Boot.csv")
+# write.csv(df.4,file="/home/haoyu/results/Chile/resultLR4Boot.csv")
+# write.csv(df.5,file="/home/haoyu/results/Chile/resultLR5Boot.csv")
 
-sink("/home/haoyu/results/Japan/result.txt")
+
+sink("results/Chile/result_boot.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)
