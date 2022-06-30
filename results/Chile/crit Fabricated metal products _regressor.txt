@@ -10,33 +10,32 @@ lnl       1,260 3.925   0.975   1.995  6.733
 lnk       1,125 7.922   1.830   2.780  12.933
 ---------------------------------------------
 [1] "Chilean Producer Data: Estimated LR for Fabricated metal products"
-
-% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Jun 09, 2022 - 12:38:13 PM
-\begin{table}[!htbp] \centering 
-  \caption{} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
-\hline \\[-1.8ex] 
-T=1 & 0 & 0 & 0 & 0 & 0 \\ 
-T=2 & \$88.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$49.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$18.98$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$193.97$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$2.22$\hat{\mkern6mu}$\{\}\$ \\ 
-T=3 & \$190.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$65.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$32.36$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$39.42$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$194.15$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ \\ 
-T=4 & \$289.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$104.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$50.18$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$58.3$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$162.59$\hat{\mkern6mu}$\{\}\$ \\ 
-T=5 & \$403.65$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$141.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$83.31$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
+     [,1]                                                                                  
+[1,] "0"                                                                                   
+[2,] "alpha,mubeta1,mubeta2,sigma 1,-1.64556676714105,0.088574203004299,0.360280145666562" 
+[3,] "alpha,mubeta1,mubeta2,sigma 1,-1.755582253758,0.0985813266332965,0.36009495148356"   
+[4,] "alpha,mubeta1,mubeta2,sigma 1,-1.72628401989117,0.0964616293160722,0.352313919360624"
+[5,] "alpha,mubeta1,mubeta2,sigma 1,-1.65814058375449,0.0914157671363817,0.351945163768633"
+     [,2] [,3] [,4] [,5]
+[1,] "0"  "0"  "0"  "0" 
+[2,] "0"  "0"  "0"  "0" 
+[3,] "0"  "0"  "0"  "0" 
+[4,] "0"  "0"  "0"  "0" 
+[5,] "0"  "0"  "0"  "0" 
+    M=1            M=2 M=3 M=4 M=5
+T=1 "0"            "0" "0" "0" "0"
+T=2 "$-90.22^{}$"  "0" "0" "0" "0"
+T=3 "$-167.61^{}$" "0" "0" "0" "0"
+T=4 "$-217.81^{}$" "0" "0" "0" "0"
+T=5 "$-270.73^{}$" "0" "0" "0" "0"
 
 Simulated crit for Fabricated metal products 381
-========================================================================================================================
-            M=1                 M=2                    M=3                      M=4                      M=5            
-------------------------------------------------------------------------------------------------------------------------
-T=1          0                   0                      0                        0                        0             
-T=2  11.66,15.05,32.61   14.38,19.32,51.87      14.44,19.36,105.37     22.68,671.82,35487.62     15.3,22.05,22587.47    
-T=3  11.13,13.74,29.48   13.82,19.96,85.01     17.4,34.12,27351.51     32.89,1736.37,37603.09    119.66,7339.5,42665    
-T=4 11.57,15.31,1881.29 13.98,18.75,172.48     17.44,37.16,81042.96    20.03,139.09,179976.69 18641.82,66356.16,368834.9
-T=5 11.41,16.86,319.64  13.45,22.94,2807.94 2071.53,43515.72,166697.27           0                        0             
-------------------------------------------------------------------------------------------------------------------------
+=======================================
+            M=1         M=2 M=3 M=4 M=5
+---------------------------------------
+T=1          0           0   0   0   0 
+T=2  11.66,15.05,32.61   0   0   0   0 
+T=3  11.13,13.74,29.48   0   0   0   0 
+T=4 11.57,15.31,1881.29  0   0   0   0 
+T=5 11.41,16.86,319.64   0   0   0   0 
+---------------------------------------
