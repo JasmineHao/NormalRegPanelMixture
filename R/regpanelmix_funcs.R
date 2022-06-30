@@ -591,7 +591,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     sigma   <- sqrt(mean(res*res))
     loglik  <- - (nt/2)*(1 + log(2*pi) + 2*log(sigma))
     aic     <- -2*loglik + 2*npar
-    bic     <- -2*loglik + log(n)*npar
+    bic     <- -2*loglik + log(nt)*npar
     penloglik <- loglik
 
     parlist <- list(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam)
@@ -644,7 +644,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   postprobs <- matrix(out$post[,index], nrow=n)
 
   aic <- -2*loglik + 2*npar
-  bic <- -2*loglik + log(n)*npar
+  bic <- -2*loglik + log(nt)*npar
 
   mu.order  <- order(mubeta[1,])
   alpha     <- alpha[mu.order]

@@ -714,7 +714,7 @@ normalpanelmixPMLE <- function(y, x = NULL, m = 2, z = NULL, vcov.method = c("He
   postprobs <- matrix(out$post[, index], nrow = n)
 
   aic <- -2 * loglik + 2 * (m - 1 + 2 * m + p)
-  bic <- -2 * loglik + log(n) * (m - 1 + 2 * m + p)
+  bic <- -2 * loglik + log(nt) * (m - 1 + 2 * m + p)
 
   mu.order <- order(mu)
   alpha <- alpha[mu.order]
