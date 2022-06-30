@@ -14,6 +14,7 @@ cl <- makeCluster(6)
 df <- readRDS("data/ChileanClean.rds")
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
+ind.code <- c(311,381,321)
 ind.names <- c()
 for (each.code in ind.code){
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -179,7 +180,7 @@ for (each.code in ind.code){
 
       # Store the estimation results
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-      AIC.df[T,M] <- out.h0$aic
+      AIC.df[T,M] <- paste(round(out.h0$aic,2),round(out.h0$bic,2))
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # If fail to reject the test, break the loop
       if (sum(lr.estimate > lr.crit) < 1) break
@@ -218,13 +219,6 @@ for (each.code in ind.code){
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
-  sink(paste("/home/haoyu/results/Chile/crit",ind.name,".txt"))
-
-  stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
-  print(paste("Chilean Producer Data: Estimated LR for",ind.name))
-  stargazer(estimate.df)
-  stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
-  sink()
 }
 
 
@@ -242,25 +236,30 @@ colnames(df.2) <- colnames(estimate.LR.df.2)
 df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.3[ 2* 1:count -1,] <- estimate.LR.df.3
 df.3[ 2* 1:count,] <- AIC.df.3
-rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+rownames(df.3)[ 2* 1:count -1] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
 df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.4[ 2* 1:count -1,] <- estimate.LR.df.4
 df.4[ 2* 1:count,] <- AIC.df.4
-rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+rownames(df.4)[ 2* 1:count -1] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
 df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.5[ 2* 1:count -1,] <- estimate.LR.df.5
 df.5[ 2* 1:count,] <- AIC.df.5
-rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="/home/haoyu/results/Chile/resultLR2.csv")
-write.csv(df.3,file="/home/haoyu/results/Chile/resultLR3.csv")
-write.csv(df.4,file="/home/haoyu/results/Chile/resultLR4.csv")
-write.csv(df.5,file="/home/haoyu/results/Chile/resultLR5.csv")
+write.csv(df.2,file="results/Chile/resultLR2.csv")
+write.csv(df.3,file="results/Chile/resultLR3.csv")
+write.csv(df.4,file="results/Chile/resultLR4.csv")
+write.csv(df.5,file="results/Chile/resultLR5.csv")
+
+# write.csv(df.2,file="/home/haoyu/results/Chile/resultLR2.csv")
+# write.csv(df.3,file="/home/haoyu/results/Chile/resultLR3.csv")
+# write.csv(df.4,file="/home/haoyu/results/Chile/resultLR4.csv")
+# write.csv(df.5,file="/home/haoyu/results/Chile/resultLR5.csv")
 
 library(xtable)
 # stargazer(crit.df,title=paste("estimate",ind.name))
@@ -276,6 +275,7 @@ xtable(crit.LR.df.5)
 sink()
 
 sink("/home/haoyu/results/Chile/result.txt")
+sink("results/Chile/result.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)
@@ -292,3 +292,4 @@ stargazer(estimate.LR.df.5)
 stargazer(AIC.df.5)
 stargazer(crit.LR.df.5)
 sink()
+

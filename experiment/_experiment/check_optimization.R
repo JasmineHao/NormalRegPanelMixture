@@ -107,6 +107,7 @@ tmp <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0, sigma0, M, p, t, an, maxit.shor
                    ninits.short, epsilon.short)
 
 print(out.h0$loglik)
+
 obj_0(theta)
 
 optim_2 <- slsqp(theta,obj_0)

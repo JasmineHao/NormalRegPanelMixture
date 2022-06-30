@@ -36,7 +36,7 @@ df <- df[order(df$id,df$t),]
 
 
 ind.code <- c(5,13,12,14,1)
-ind.code <- c(12)
+ind.code <- c(5,13,12)
 ind.names <- c()
 for (each.code in ind.code){
   ind.name <- ind_list[each.code]
@@ -162,7 +162,8 @@ for (each.code in ind.code){
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-      AIC.df[T,M] <- out.h0$aic
+      AIC.df[T,M] <- paste(round(out.h0$aic,2),round(out.h0$bic,2))
+      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
       # If fail to reject the test, break the loop
       print(lr.estimate)
