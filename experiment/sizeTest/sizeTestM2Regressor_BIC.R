@@ -6,7 +6,7 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 nrep <- 500
-cl <- makeCluster(64)
+cl <- makeCluster(16)
 
 set.seed(123456)
 Nset <- c(200,500)
@@ -14,7 +14,7 @@ Tset <- c(5)
 
 alphaset <- list(c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
-sigmaset <- list(c(0.3,0.1),c(0.1,0.1))
+sigmaset <- list(c(0.1,0.1))
 betaset <- list(c(1,1),c(-1,1))
 
 GenerateSample <- function(phi,nrep){ 
@@ -93,7 +93,7 @@ nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset)
 
 
 NTset <- expand.grid(Nset,Tset)
-Parset <- expand.grid(muset,alphaset)
+Parset <- expand.grid(muset,alphaset,betaset,sigmaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
 aic_table <- matrix(0,nr=(nNT),nc=nPar)
@@ -113,45 +113,39 @@ colnames(mem_table) <- apply(Parset,1,paste,collapse = ",")
 for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
-  count <- 0
-  for (mu in muset){
-    for (alpha in alphaset){
-      for (beta in betaset){
-        for (sigma in sigmaset){
-        
-        t <- Sys.time()
-        phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-                   beta = beta, N = N, T = T, M = M, p = p, q = q, X=NULL)
-        
-        phi.data.pair <- GenerateSample(phi,nrep)
-        count <- count + 1
-        Data = phi.data.pair$Data
-        phi = phi.data.pair$phi
-        
-        an <- anFormula(phi,M,N,T, q = 1)  #The an function according the the empirical regression
-        # an <- 0.03
-        print(N)
-        print(T)
-        print(mu)
-        print(alpha)
-        print(an)
-        parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-        result <- getResult(Data,nrep,an,cl,M, parlist)
-        
-        aic_freq <- result$aic
-        bic_freq <- result$bic
-        mem_seq  <- result$mem_seq
-        aic_table[r, count] <- paste(count_freq(aic_freq),collapse=",")
-        bic_table[r, count] <- paste(count_freq(bic_freq),collapse=",")
-        mem_table[r, count] <- paste(count_freq(mem_seq),collapse=",")
-        print(aic_table[r, count])
-        
-        print(Sys.time() - t)
-        }
-        
-      }
-    }
-  }
+  for (count in 1:nPar){
+    mu <- Parset[count,1][[1]]
+    alpha <- Parset[count,2][[1]]
+    beta <- Parset[count,3][[1]]
+    sigma <- Parset[count,4][[1]]
+    t <- Sys.time()
+    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
+               beta = beta, N = N, T = T, M = M, p = p, q = q, X=NULL)
+    
+    phi.data.pair <- GenerateSample(phi,nrep)
+    Data = phi.data.pair$Data
+    phi = phi.data.pair$phi
+    
+    an <- anFormula(phi,M,N,T, q = 1)  #The an function according the the empirical regression
+    # an <- 0.03
+    print(N)
+    print(T)
+    print(mu)
+    print(alpha)
+    print(an)
+    parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+    result <- getResult(Data,nrep,an,cl,M, parlist)
+    
+    aic_freq <- result$aic
+    bic_freq <- result$bic
+    mem_seq  <- result$mem_seq
+    aic_table[r, count] <- paste(count_freq(aic_freq),collapse=",")
+    bic_table[r, count] <- paste(count_freq(bic_freq),collapse=",")
+    mem_table[r, count] <- paste(count_freq(mem_seq),collapse=",")
+    print(aic_table[r, count])
+    
+    print(Sys.time() - t)
+}
 }
 
 
