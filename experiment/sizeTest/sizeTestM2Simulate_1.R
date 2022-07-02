@@ -117,49 +117,50 @@ colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
 
 
 
+
 for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
-  count <- 0
-  for (mu in muset){
-    for (alpha in alphaset){
-      for (sigma in sigmaset){
+  
+  
+  for (count in 1:nPar){
+    mu <- Parset[count,1][[1]]
+    alpha <- Parset[count,2][[1]]
+    sigma <- sigmaset[[1]]
 
-      t <- Sys.time()
-      phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
+    t <- Sys.time()
+    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
 
-      phi.data.pair <- GenerateSample(phi,nrep)
-      count <- count + 1
-      Data = phi.data.pair$Data
-      phi = phi.data.pair$phi
-      
-      if (T > 5) {
-        T_an <- T 
-      } else if ( T < 5) {
-        T_an <- T 
-      } else {
-        T_an <- T
-      }
-      an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
-      # an <- 0.03
-      print(N)
-      print(T)
-      print(mu)
-      print(alpha)
-      print(anFormula(phi,M,N,T_an))
-      print(an)
-      parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-      result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-
-
-      result.l[r, count] <- result$nominal.size.l
-      result.m[r, count] <- result$nominal.size.m
-      result.h[r, count] <- result$nominal.size.h
-      print(result$nominal.size.m)
-
-      print(Sys.time() - t)
-      }
+    phi.data.pair <- GenerateSample(phi,nrep)
+    Data = phi.data.pair$Data
+    phi = phi.data.pair$phi
+    
+    if (T > 5) {
+      T_an <- T 
+    } else if ( T < 5) {
+      T_an <- T 
+    } else {
+      T_an <- T
     }
+    an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
+    # an <- 0.03
+    print(N)
+    print(T)
+    print(mu)
+    print(alpha)
+    print(anFormula(phi,M,N,T_an))
+    print(an)
+    parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+    result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
+
+
+    result.l[r, count] <- result$nominal.size.l
+    result.m[r, count] <- result$nominal.size.m
+    result.h[r, count] <- result$nominal.size.h
+    print(result$nominal.size.m)
+
+    print(Sys.time() - t)
+    
   }
 }
 

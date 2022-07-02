@@ -98,29 +98,27 @@ for (r in 1:nNT){
   T <-  NTset[r,2]
   print(paste(r,"/",nNT))
   count <- 0
-  for (mu in muset){
-    for (alpha in alphaset){
-      for (beta in betaset){
-        for (sigma in sigmaset){
-          t <- Sys.time()
-          phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
-                     beta = beta, N = N, T = T, M = M, p = p, q = q, X=NULL)
-          
-          phi.data.pair <- GenerateSample(phi,nrep)
-          count <- count + 1
-          Data = phi.data.pair$Data
-          phi = phi.data.pair$phi
-          an <- anFormula(phi,M,N,T,q=1) #The an function according the the empirical regression
-          print(an)
-          result <- getEstimateDiffAn(Data,nrep,an,cl,M)
-          result.l[r, count] <- result$nominal.size.l
-          result.m[r, count] <- result$nominal.size.m
-          result.h[r, count] <- result$nominal.size.h
-          print(result$nominal.size.m)
-          print(Sys.time() - t)
-        }  
-      }
-    }
+  for (count in 1:nPar){
+    mu <- Parset[count,1][[1]]
+    alpha <- Parset[count,2][[1]]
+    beta <- Parset[count,3][[1]]
+    sigma <- Parset[count,4][[1]]
+    
+    t <- Sys.time()
+    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = gamma,
+               beta = beta, N = N, T = T, M = M, p = p, q = q, X=NULL)
+    
+    phi.data.pair <- GenerateSample(phi,nrep)
+    Data = phi.data.pair$Data
+    phi = phi.data.pair$phi
+    an <- anFormula(phi,M,N,T,q=1) #The an function according the the empirical regression
+    print(an)
+    result <- getEstimateDiffAn(Data,nrep,an,cl,M)
+    result.l[r, count] <- result$nominal.size.l
+    result.m[r, count] <- result$nominal.size.m
+    result.h[r, count] <- result$nominal.size.h
+    print(result$nominal.size.m)
+    print(Sys.time() - t)
     
   }
   

@@ -128,39 +128,38 @@ print("Simulation Started!!")
 for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
-  count <- 0
-  for (mu in muset){
-    for (alpha in alphaset){
-      for (sigma in sigmaset){
-        
-        t <- Sys.time()
-        phi = list(alpha = alpha, mu = mu, sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
-        
-        phi.data.pair <- GenerateSample(phi,nrep)
-        count <- count + 1
-        Data = phi.data.pair$Data
-        phi = phi.data.pair$phi
-        
-        an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
-        print(N)
-        print(T)
-        print(mu)
-        print(alpha)
-        print(an)
-        parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-        result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-        print(r)
-        print(count)
-        print(result$nominal.size.m)
-        
-        result.l[r, count] <- result$nominal.size.l
-        result.m[r, count] <- result$nominal.size.m
-        result.h[r, count] <- result$nominal.size.h
-        
-        
-        print(Sys.time() - t)
-      }
-    }
+  
+  
+  for (count in 1:nPar){
+    mu <- Parset[count,1][[1]]
+    alpha <- Parset[count,2][[1]]
+    sigma <- sigmaset[[1]]
+    t <- Sys.time()
+    phi = list(alpha = alpha, mu = mu, sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
+    
+    phi.data.pair <- GenerateSample(phi,nrep)
+    
+    Data = phi.data.pair$Data
+    phi = phi.data.pair$phi
+    
+    an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
+    print(N)
+    print(T)
+    print(mu)
+    print(alpha)
+    print(an)
+    parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+    result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
+    print(r)
+    print(count)
+    print(result$nominal.size.m)
+    
+    result.l[r, count] <- result$nominal.size.l
+    result.m[r, count] <- result$nominal.size.m
+    result.h[r, count] <- result$nominal.size.h
+    
+    
+    print(Sys.time() - t)
   }
 }
 
