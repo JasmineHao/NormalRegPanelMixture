@@ -195,19 +195,19 @@ colnames(df.2) <- colnames(estimate.LR.df.2)
 df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.3[ 2* 1:count -1,] <- estimate.LR.df.3
 df.3[ 2* 1:count,] <- AIC.df.3
-rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+rownames(df.3)[ 2* 1:count -1] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
 df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.4[ 2* 1:count -1,] <- estimate.LR.df.4
 df.4[ 2* 1:count,] <- AIC.df.4
-rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+rownames(df.4)[ 2* 1:count -1] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
 df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.5[ 2* 1:count -1,] <- estimate.LR.df.5
 df.5[ 2* 1:count,] <- AIC.df.5
-rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
 
