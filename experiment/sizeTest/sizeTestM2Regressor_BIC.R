@@ -151,6 +151,10 @@ for (r in 1:nNT){
 
 
 
-write.csv(mem_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_mem_table_regressor.csv")
-write.csv(aic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_aic_table_regressor.csv")
-write.csv(bic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_bic_table_regressor.csv")
+# write.csv(mem_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_mem_table_regressor.csv")
+# write.csv(aic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_aic_table_regressor.csv")
+# write.csv(bic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_bic_table_regressor.csv")
+
+write.csv(mem_table, file = "results/sizeTestM2_mem_table_regressor.csv")
+write.csv(aic_table, file = "results/sizeTestM2_aic_table_regressor.csv")
+write.csv(bic_table, file = "results/sizeTestM2_bic_table_regressor.csv")
