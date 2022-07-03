@@ -210,8 +210,12 @@ df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
+write.csv(df.2,file="results/Japan/resultLR2Boot.csv")
+write.csv(df.3,file="results/Japan/resultLR3Boot.csv")
+write.csv(df.4,file="results/Japan/resultLR4Boot.csv")
+write.csv(df.5,file="results/Japan/resultLR5Boot.csv")
 
-sink("/home/haoyu/results/Japan/result_boot.txt")
+sink("results/Japan/result_boot.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)

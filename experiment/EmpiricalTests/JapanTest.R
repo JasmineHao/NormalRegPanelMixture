@@ -25,8 +25,8 @@ ind_list <- c("food","textile", "wood","paper", "chemical",
               "other")
 
 
-df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
-
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+df <- readRDS("data/JapanClean.rds")
 df[df==0] <- NA
 #Function
 #source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
@@ -36,6 +36,7 @@ df <- df[order(df$id,df$t),]
 
 
 ind.code <- c(5,13,12,14,1)
+ind.code <- c(5,13,12)
 ind.names <- c()
 for (each.code in ind.code){
   ind.name <- ind_list[each.code]
@@ -187,15 +188,15 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 
 
-  sink(paste("/home/haoyu/results/Japan/Crit",each.name,".txt"))
-
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
-  print(estimate.df)
-  stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
-  # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
-  #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
-  sink()
+  # sink(paste("/home/haoyu/results/Japan/Crit",each.name,".txt"))
+  # 
+  # stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
+  # print(paste("Estimate LR for ",each.name))
+  # print(estimate.df)
+  # stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
+  # # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
+  # #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
+  # sink()
 }
 
 
@@ -209,25 +210,30 @@ colnames(df.2) <- colnames(estimate.LR.df.2)
 df.3 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.3[ 2* 1:count -1,] <- estimate.LR.df.3
 df.3[ 2* 1:count,] <- AIC.df.3
-rownames(df.3)[ 3* 1:count -1] <- rownames(estimate.LR.df.3)
+rownames(df.3)[ 2* 1:count -1] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
 df.4 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.4[ 2* 1:count -1,] <- estimate.LR.df.4
 df.4[ 2* 1:count,] <- AIC.df.4
-rownames(df.4)[ 4* 1:count -1] <- rownames(estimate.LR.df.4)
+rownames(df.4)[ 2* 1:count -1] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
 df.5 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.5[ 2* 1:count -1,] <- estimate.LR.df.5
 df.5[ 2* 1:count,] <- AIC.df.5
-rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
+rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="/home/haoyu/results/Japan/resultLR2.csv")
-write.csv(df.3,file="/home/haoyu/results/Japan/resultLR3.csv")
-write.csv(df.4,file="/home/haoyu/results/Japan/resultLR4.csv")
-write.csv(df.5,file="/home/haoyu/results/Japan/resultLR5.csv")
+write.csv(df.2,file="results/Japan/resultLR2.csv")
+write.csv(df.3,file="results/Japan/resultLR3.csv")
+write.csv(df.4,file="results/Japan/resultLR4.csv")
+write.csv(df.5,file="results/Japan/resultLR5.csv")
+
+# write.csv(df.2,file="/home/haoyu/results/Japan/resultLR2.csv")
+# write.csv(df.3,file="/home/haoyu/results/Japan/resultLR3.csv")
+# write.csv(df.4,file="/home/haoyu/results/Japan/resultLR4.csv")
+# write.csv(df.5,file="/home/haoyu/results/Japan/resultLR5.csv")
 
 
 sink("/home/haoyu/results/Japan/result_text.txt")

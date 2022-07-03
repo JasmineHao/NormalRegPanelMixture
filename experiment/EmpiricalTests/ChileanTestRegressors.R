@@ -219,6 +219,10 @@ write.csv(df.2,file="results/Chile/resultLR2_regressor.csv")
 write.csv(df.3,file="results/Chile/resultLR3_regressor.csv")
 write.csv(df.4,file="results/Chile/resultLR4_regressor.csv")
 write.csv(df.5,file="results/Chile/resultLR5_regressor.csv")
+# write.csv(df.2,file="results/Chile/resultLR2_regressor.csv")
+# write.csv(df.3,file="results/Chile/resultLR3_regressor.csv")
+# write.csv(df.4,file="results/Chile/resultLR4_regressor.csv")
+# write.csv(df.5,file="results/Chile/resultLR5_regressor.csv")
 
 
 # sink("/home/haoyu/results/Chile/result_regressor.txt")
