@@ -1,6 +1,6 @@
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Jun 30, 2022 - 8:41:24 PM
+% Date and time: Sun, Jul 03, 2022 - 1:26:59 AM
 \begin{table}[!htbp] \centering 
   \caption{Descriptive data for  machine  industry in Japan} 
   \label{} 
@@ -50,7 +50,7 @@ T=4 "$619.23^{**}$"  "$296.23^{}$"  "0"          "0" "0"
 T=5 "$825.08^{*}$"   "$384.66^{}$"  "0"          "0" "0"
 
 % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-% Date and time: Thu, Jun 30, 2022 - 8:41:24 PM
+% Date and time: Sun, Jul 03, 2022 - 1:26:59 AM
 \begin{table}[!htbp] \centering 
   \caption{Critical Values Asymptotics 12} 
   \label{} 
