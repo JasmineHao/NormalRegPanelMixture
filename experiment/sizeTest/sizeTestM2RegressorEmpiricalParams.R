@@ -83,7 +83,6 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M){
 count <- 0
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(Parset)
-
 NTset <- expand.grid(Nset,Tset)
 # Parset <- expand.grid(muset,alphaset,betaset,sigmaset)
 nNT <- dim(NTset)[1]
