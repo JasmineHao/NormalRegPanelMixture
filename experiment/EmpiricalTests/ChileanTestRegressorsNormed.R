@@ -79,7 +79,7 @@ for (each.code in ind.code){
   ######################################################
   # Describe the data
   ######################################################
-
+  
   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
@@ -93,8 +93,8 @@ for (each.code in ind.code){
   ######################################################
   #For panel data
   ######################################################
-
-
+  
+  
   for (T in 2:5){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
@@ -108,13 +108,18 @@ for (each.code in ind.code){
     #Reshape the Y 
     ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
     ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
+    
+    ind.each.y <- (ind.each.y - mean(ind.each.t$si))/(sd(ind.each.t$si))
+    ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
+    
+    data <- list(Y = t(ind.each.y), X = matrix(ind.each.x),  Z = NULL)
+    
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
     for (M in 1:5){
       # Estimate the null model
-      data <- list(Y = t(ind.each.y), X = matrix(ind.each.t$lnk),  Z = NULL)
-      
+
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       print("-----------------------------------------")
@@ -125,9 +130,9 @@ for (each.code in ind.code){
       # Estimate the alternative model
       out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X,parlist=out.h0$parlist,an=an,update.alpha = 1)
       h1.parlist = out.h1$parlist
-
+      
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
-
+      
       # Simulate the asymptotic distribution
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
@@ -143,8 +148,8 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
       if (sum(lr.estimate > lr.crit) < 1) break
-
-
+      
+      
     }
   }
   ###################################################################
@@ -155,7 +160,7 @@ for (each.code in ind.code){
   print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
-
+  
   estimate.LR.df.2[count,] <- estimate.df[2,]
   estimate.LR.df.3[count,] <- estimate.df[3,]
   estimate.LR.df.4[count,] <- estimate.df[4,]
@@ -168,15 +173,15 @@ for (each.code in ind.code){
   crit.LR.df.3[count,] <- crit.df[3,]
   crit.LR.df.4[count,] <- crit.df[4,]
   crit.LR.df.5[count,] <- crit.df[5,]
-
+  
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
-
+  
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
-
+  
   #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Chile/crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Chile/crit",ind.name,"_regressor_normed.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   print(coef.df)
@@ -215,31 +220,8 @@ df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="results/Chile/resultLR2_regressor.csv")
-write.csv(df.3,file="results/Chile/resultLR3_regressor.csv")
-write.csv(df.4,file="results/Chile/resultLR4_regressor.csv")
-write.csv(df.5,file="results/Chile/resultLR5_regressor.csv")
-# write.csv(df.2,file="results/Chile/resultLR2_regressor.csv")
-# write.csv(df.3,file="results/Chile/resultLR3_regressor.csv")
-# write.csv(df.4,file="results/Chile/resultLR4_regressor.csv")
-# write.csv(df.5,file="results/Chile/resultLR5_regressor.csv")
+write.csv(df.2,file="results/Chile/resultLR2_regressor_normed.csv")
+write.csv(df.3,file="results/Chile/resultLR3_regressor_normed.csv")
+write.csv(df.4,file="results/Chile/resultLR4_regressor_normed.csv")
+write.csv(df.5,file="results/Chile/resultLR5_regressor_normed.csv")
 
-
-# sink("/home/haoyu/results/Chile/result_regressor.txt")
-sink("results/Chile/result_regressor.txt")
-stargazer(estimate.LR.df.2)
-stargazer(AIC.df.2)
-stargazer(crit.LR.df.2)
-
-stargazer(estimate.LR.df.3)
-stargazer(AIC.df.3)
-stargazer(crit.LR.df.3)
-
-stargazer(estimate.LR.df.4)
-stargazer(AIC.df.4)
-stargazer(crit.LR.df.4)
-
-stargazer(estimate.LR.df.5)
-stargazer(AIC.df.5)
-stargazer(crit.LR.df.5)
-sink()
