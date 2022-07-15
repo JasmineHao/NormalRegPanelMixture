@@ -5,8 +5,8 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
-nrep <- 500
-cl <- makeCluster(8)
+nrep <- 100
+cl <- makeCluster(16)
 
 set.seed(123456)
 Nset <- c(200,500)
@@ -51,10 +51,10 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       if (test == 1){
         mem_result <- m
-        # crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
-        # if (class(crit) == "try-error"){
+        crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+        if (class(crit) == "try-error"){
           crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE)$crit
-        # }
+        }
         if (2 * max(out.h1$penloglik - out.h0$loglik) < crit[2]){
           test = 0
         }
