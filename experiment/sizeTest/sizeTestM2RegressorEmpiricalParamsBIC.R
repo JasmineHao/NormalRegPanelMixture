@@ -51,10 +51,10 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       if (test == 1){
         mem_result <- m
-        crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
-        if (class(crit) == "try-error"){
+        # crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+        # if (class(crit) == "try-error"){
           crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE)$crit
-        }
+        # }
         if (2 * max(out.h1$penloglik - out.h0$loglik) < crit[2]){
           test = 0
         }
@@ -157,6 +157,6 @@ for (r in 1:nNT){
 # write.csv(aic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_aic_table_regressor.csv")
 # write.csv(bic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_bic_table_regressor.csv")
 
-write.csv(mem_table, file = "results/sizeTestM2_mem_table_regressor_empirical_param.csv")
-write.csv(aic_table, file = "results/sizeTestM2_aic_table_regressor_empirical_param.csv")
-write.csv(bic_table, file = "results/sizeTestM2_bic_table_regressor_empirical_param.csv")
+write.csv(mem_table, file = "results/sizeTestM2_mem_table_regressor_empirical_param_boot.csv")
+write.csv(aic_table, file = "results/sizeTestM2_aic_table_regressor_empirical_param_boot.csv")
+write.csv(bic_table, file = "results/sizeTestM2_bic_table_regressor_empirical_param_boot.csv")
