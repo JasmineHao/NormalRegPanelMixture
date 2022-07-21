@@ -221,8 +221,8 @@ df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="results/Chile/resultLR2_regressor_normed_2.csv")
-write.csv(df.3,file="results/Chile/resultLR3_regressor_normed_2.csv")
-write.csv(df.4,file="results/Chile/resultLR4_regressor_normed_2.csv")
-write.csv(df.5,file="results/Chile/resultLR5_regressor_normed_2.csv")
+write.csv(df.2,file="results/Chile/resultLR2_regressor_normed_kl.csv")
+write.csv(df.3,file="results/Chile/resultLR3_regressor_normed_kl.csv")
+write.csv(df.4,file="results/Chile/resultLR4_regressor_normed_kl.csv")
+write.csv(df.5,file="results/Chile/resultLR5_regressor_normed_kl.csv")
 
