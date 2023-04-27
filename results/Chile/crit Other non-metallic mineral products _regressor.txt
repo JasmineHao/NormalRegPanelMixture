@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Other non-metallic mineral products
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        570 -0.658  0.352   -2.436 0.364 
+lny       570 11.024  1.702   6.778  15.897
+lnm       570 10.366  1.708   5.994  15.250
+lnl       570 3.934   1.097   2.125  7.064 
+lnk       460 8.207   2.474   2.957  14.007
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Other non-metallic mineral products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 09, 2022 - 2:31:21 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$32.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$24.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$82.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$62.48$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$50.6$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=3 & \$71.43$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$57.66$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$37.47$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=4 & \$113.25$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$76.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$102.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$56.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$165.64$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$82.43$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Other non-metallic mineral products 369
+========================================================================================================
+             M=1                   M=2                   M=3                M=4               M=5       
+--------------------------------------------------------------------------------------------------------
+T=1           0                     0                     0                  0                 0        
+T=2  13.53,21.5,6102.22     12.21,15.32,419.1      9.93,11.18,14.4   10.68,11.71,18.48 23.65,30.24,44.6 
+T=3 14.44,64.48,11405.21  18.66,1092.56,17724.93 131,877.54,13659.37         0                 0        
+T=4 18.87,784.33,17925.22  17.67,46.16,11789.09   9.02,10.41,13.55   9.97,11.97,18.86  11.71,13.15,17.57
+T=5 15.44,157.47,17176.84 128.07,1060.21,28869.5          0                  0                 0        
+--------------------------------------------------------------------------------------------------------

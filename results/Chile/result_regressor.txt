@@ -1,0 +1,230 @@
+
+> stargazer(estimate.LR.df.2)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & \$452.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$265.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$122.67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$68.83$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Fabricated metal products & \$92.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$49.83$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.89$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$8.78$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Textiles & \$103.55$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$44.24$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$31.01$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(AIC.df.2)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 281.22 295.26 & -170.53 -137.79 & -430.35 -378.89 & -546.31 -476.13 & 0 \\ 
+Fabricated metal products & 415.79 426.03 & 330.58 354.49 & 287.67 325.25 & 273.95 325.2 & 0 \\ 
+Textiles & 354.39 364.22 & 256.62 279.57 & 216.65 252.71 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(crit.LR.df.2)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 58.66,102.85,253.29 & 49.16,94.3,326.37 & 26.6,47.32,151.94 & 90.57,251.08,979.62 & 0 \\ 
+Fabricated metal products & 11.11,14.65,33.14 & 11.74,14.64,22.87 & 13.85,21.52,720.67 & 26.68,167.13,3132.98 & 0 \\ 
+Textiles & 10.61,12.79,32.06 & 12.76,16.91,49.7 & 83.12,185.72,2756.4 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.3)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & \$816.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$489.37$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$169.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$80.76$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Fabricated metal products & \$199.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$63.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$45.35$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$30.45$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$17.94$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & \$201.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$95.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$61.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$29.27$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(AIC.df.3)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 366.86 380.89 & -448.51 -415.77 & -930.65 -879.2 & -1092.19 -1022.03 & 0 \\ 
+Fabricated metal products & 637.38 647.63 & 444.8 468.71 & 386.38 423.96 & 343.68 394.92 & 320.12 385.02 \\ 
+Textiles & 472.67 482.5 & 277.64 300.58 & 189.46 225.52 & 132.35 181.52 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(crit.LR.df.3)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 56.81,126.05,420.54 & 24.26,48.27,196.37 & 42.76,139.68,815.77 & 440.94,929.95,2966.41 & 0 \\ 
+Fabricated metal products & 11.59,15.44,64.52 & 12.84,16.9,55.93 & 28.82,279,1610.78 & 30.42,343.92,4383.91 & 23.79,114.03,2805.86 \\ 
+Textiles & 11.23,16.08,279.7 & 14.66,20.06,72.33 & 15.85,25.9,166.56 & 65.36,254.43,10969.71 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.4)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & \$1151.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$636.65$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$225.68$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$149.66$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Fabricated metal products & \$304.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$112.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$51.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$37.83$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$30.76$\hat{\mkern6mu}$\{\}\$ \\ 
+Textiles & \$275.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$145.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$67$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$44.75$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(AIC.df.4)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:05 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 360.86 374.88 & -786.19 -753.47 & -1415.81 -1364.4 & -1634.59 -1564.49 & 0 \\ 
+Fabricated metal products & 809.93 820.18 & 512.21 536.12 & 406.28 443.85 & 362.17 413.41 & 328.45 393.36 \\ 
+Textiles & 613.18 623.01 & 344.01 366.96 & 205.54 241.6 & 142.92 192.1 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(crit.LR.df.4)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:06 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 157.82,304.27,817.57 & 44.8,89.52,345.91 & 110.31,236.12,1552 & 258.5,442.96,3818.42 & 0 \\ 
+Fabricated metal products & 13.07,21,153.8 & 15.83,39.26,274.01 & 15.04,25.19,154.8 & 31.56,382.47,5337.24 & 2135.07,6172.47,39211.92 \\ 
+Textiles & 12.74,32.42,727.45 & 15.3,23.14,73.18 & 15.07,25.96,1428.5 & 141.36,1713.64,11410.06 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(estimate.LR.df.5)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:06 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & \$1528.24$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$728.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$247.29$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+Fabricated metal products & \$413.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$169.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$55.04$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$58.71$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+Textiles & \$367.49$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$184.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$90.34$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(AIC.df.5)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:06 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 413.84 427.85 & -1110.36 -1077.68 & -1830.99 -1779.64 & 0 & 0 \\ 
+Fabricated metal products & 994.21 1004.46 & 586.77 610.68 & 423.85 461.43 & 375.5 426.74 & 0 \\ 
+Textiles & 700.92 710.74 & 340.95 363.86 & 162.87 198.87 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> stargazer(crit.LR.df.5)
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jul 14, 2022 - 10:12:06 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+Food products & 400.24,692.41,1447.58 & 186.29,331.39,804.62 & 276.24,745.04,2340.89 & 0 & 0 \\ 
+Fabricated metal products & 41.31,78.45,182.97 & 30.05,105.38,1747.16 & 29.71,279.59,8332.44 & 66.3,463.24,4943.73 & 0 \\ 
+Textiles & 59.8,358.8,2844.02 & 17.26,37.6,139.27 & 92.83,267.36,1536.07 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+> sink()

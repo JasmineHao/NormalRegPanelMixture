@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Wearing apparel, except footwear
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        975 -0.650  0.363   -2.526 0.156 
+lny       975 10.470  1.328   6.736  15.682
+lnm       975 9.820   1.422   5.369  14.891
+lnl       975 3.776   0.971   1.962  8.494 
+lnk       832 6.899   1.609   1.585  12.967
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Wearing apparel, except footwear"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, May 15, 2022 - 11:10:58 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$138.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$54.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$27.7$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$4.96$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$266.92$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$105.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$45.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$381.31$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$138.07$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$63.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$19.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.15$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$473.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$164.3$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$30.88$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Wearing apparel, except footwear 322
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 4.09,5.8,9.39  5.5,7.37,11.28  6.17,8.26,11.98 6.65,8.43,12.01 7.32,8.71,12.74
+T=3 3.97,5.58,9.8  5.65,7.86,10.46 6.42,8.22,12.19 6.66,8.39,11.01 7.39,9.3,12.26 
+T=4 3.8,5.41,9.94  5.54,7.39,10.6  6.51,8.24,11.87 6.67,8.3,11.19  7.2,9.21,12.56 
+T=5 3.79,5.27,9.44 5.58,7.5,10.83  6.36,8.14,11.39 6.6,8.74,11.99  7.35,8.86,12.32
+----------------------------------------------------------------------------------

@@ -1,0 +1,57 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, May 15, 2022 - 10:27:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  food  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 465 & 13,919.900 & 16,917.240 & 18 & 43,971 \\ 
+year & 465 & 2,006.000 & 1.416 & 2,004 & 2,008 \\ 
+y\_it & 465 & 17.728 & 1.277 & 14.867 & 21.725 \\ 
+lnmY\_it & 465 & $-$1.066 & 0.567 & $-$2.659 & $-$0.152 \\ 
+l\_it & 465 & 6.328 & 1.115 & 3.761 & 9.698 \\ 
+k\_it & 465 & 16.565 & 1.264 & 12.381 & 20.392 \\ 
+m\_it & 465 & 16.661 & 1.157 & 13.483 & 19.546 \\ 
+industry\_2 & 465 & 1.000 & 0.000 & 1 & 1 \\ 
+I\_K & 465 & 0.364 & 6.187 & $-$0.350 & 133.451 \\ 
+I\_K\_m & 463 & 0.121 & 0.176 & $-$0.385 & 2.571 \\ 
+t & 465 & 2,006.000 & 1.416 & 2,004 & 2,008 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  food"
+    M=1              M=2              M=3              M=4             
+T=1 "0"              "0"              "0"              "0"             
+T=2 "$130.45^{***}$" "$83.69^{***}$"  "$48.38^{***}$"  "$55.65^{***}$" 
+T=3 "$262.4^{***}$"  "$146.34^{***}$" "$87.04^{***}$"  "$84.57^{***}$" 
+T=4 "$383.42^{***}$" "$207.34^{***}$" "$126.48^{***}$" "$116.36^{***}$"
+T=5 "$490.47^{***}$" "$250.32^{***}$" "$160.01^{***}$" "$145.08^{***}$"
+    M=5            
+T=1 "0"            
+T=2 "$33.83^{***}$"
+T=3 "$72.23^{***}$"
+T=4 "$92.76^{***}$"
+T=5 "$91.57^{***}$"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, May 15, 2022 - 10:27:39 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 1} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 4.41,5.58,9.67 & 5.2,6.63,10.46 & 6.16,8.04,12.05 & 6.94,8.39,13.69 & 7.53,9.26,13.48 \\ 
+T=3 & 4.18,5.44,9.69 & 5.06,7.01,9.87 & 6.26,8.25,11.11 & 6.87,8.28,12.15 & 7.29,9.1,13.1 \\ 
+T=4 & 3.89,5.33,9.97 & 5.02,6.85,10.66 & 6.11,8.01,10.97 & 7.2,8.73,15.11 & 8.03,10.9,18.95 \\ 
+T=5 & 3.81,5.17,9.74 & 4.95,6.83,10.72 & 6.22,7.96,11.84 & 7.22,8.67,17.02 & 7.83,9.63,14.55 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

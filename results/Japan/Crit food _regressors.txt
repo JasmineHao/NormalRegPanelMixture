@@ -1,0 +1,45 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:53:22 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  food  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 465 & 13,919.900 & 16,917.240 & 18 & 43,971 \\ 
+year & 465 & 2,006.000 & 1.416 & 2,004 & 2,008 \\ 
+lnmY\_it & 465 & $-$1.066 & 0.567 & $-$2.659 & $-$0.152 \\ 
+k\_it & 465 & 16.565 & 1.264 & 12.381 & 20.392 \\ 
+ln\_k & 465 & 2.804 & 0.076 & 2.516 & 3.015 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  food"
+    M=1            M=2 M=3 M=4 M=5
+T=1 "0"            "0" "0" "0" "0"
+T=2 "$-27.74^{}$"  "0" "0" "0" "0"
+T=3 "$-52.58^{}$"  "0" "0" "0" "0"
+T=4 "$-78.35^{}$"  "0" "0" "0" "0"
+T=5 "$-115.81^{}$" "0" "0" "0" "0"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:53:22 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 1} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 9.53,11.89,15.4 & 0 & 0 & 0 & 0 \\ 
+T=3 & 9.73,11.85,15.44 & 0 & 0 & 0 & 0 \\ 
+T=4 & 9.91,12.18,16.2 & 0 & 0 & 0 & 0 \\ 
+T=5 & 9.92,12.46,17.37 & 0 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

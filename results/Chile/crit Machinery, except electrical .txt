@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Machinery, except electrical
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        580 -0.855  0.462   -2.516 0.366 
+lny       580 10.863  1.356   8.288  15.663
+lnm       580 10.008  1.509   6.416  15.233
+lnl       580 3.809   0.977   2.144  7.699 
+lnk       520 8.240   1.641   4.670  13.310
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Machinery, except electrical"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, May 15, 2022 - 11:50:11 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$51.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$31.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.82$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$-0.68$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=3 & \$104.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$57.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.52$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$8.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$6.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$160.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$97.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.12$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$11.58$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$230.94$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$128.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$23.57$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.8$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Machinery, except electrical 382
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 4.13,5.44,9.66 5.46,7.2,10.75  6.27,7.98,12.55 7.01,8.6,11.86         0       
+T=3 3.94,5.37,9.68 5.23,6.9,10.24  6.08,7.42,11.58 6.77,8.32,11.49  5.46,6.6,8.04 
+T=4 3.89,5.33,9.65 5.29,7.36,10.51 6.18,7.75,12.4  6.72,8.43,12.04 6.97,8.54,12.66
+T=5 3.82,5.32,9.31 5.31,7.19,10.61 6.3,7.89,11.48  6.83,8.46,11.65 7.04,8.76,11.65
+----------------------------------------------------------------------------------

@@ -1,0 +1,204 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:24 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & \$256.76$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$117.84$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$68.53$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$57.26$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$34.69$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+electronics & \$320.13$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$104.42$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$58.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$52.46$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.93$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+machine & \$239.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$116.32$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$43.09$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 545.92 555.17 & 294.82 316.39 & 184.25 218.15 & 120.77 166.99 & 67.38 125.93 \\ 
+electronics & 548.31 557.44 & 232.44 253.74 & 134.49 167.97 & 82.46 128.11 & 40.98 98.81 \\ 
+machine & 296.97 306.16 & 63.43 84.87 & -45.83 -12.14 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 10.04,12.67,106.96 & 16.34,100.07,58682.63 & 9.43,11.83,17.25 & 35,1326.62,855984.35 & 10.92,12.14,17.17 \\ 
+electronics & 10.67,13.71,140.34 & 13.42,36.34,14164.4 & 15.57,40.35,184356.99 & 10.52,12,13.59 & 9.97,10.9,16.1 \\ 
+machine & 14.46,24.47,238.78 & 32.13,506.98,65980.56 & 117.52,1671.36,887069.79 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & \$459.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$237$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$125.94$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$118.36$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+electronics & \$560.06$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$214.86$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+machine & \$433.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$202.92$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 801.2 810.45 & 347.73 369.3 & 118.33 152.22 & -0.21 46.01 & 0 \\ 
+electronics & 808.32 817.45 & 252.2 273.5 & 0 & 0 & 0 \\ 
+machine & 450.85 460.04 & 23.49 44.92 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 11.66,17.62,5447.3 & 20.69,1424.58,84260.36 & 110.46,124203.68,424170.72 & 56011.45,275154.96,1028688.96 & 0 \\ 
+electronics & 12.9,28.57,368.04 & 8485.49,64112.81,556784.63 & 0 & 0 & 0 \\ 
+machine & 14.44,32.54,354.66 & 234.6,175911.11,1232783.1 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & \$660.25$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$316.47$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+electronics & \$801.96$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$318.1$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+machine & \$619.23$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$296.23$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 1066.94 1076.18 & 412.7 434.27 & 0 & 0 & 0 \\ 
+electronics & 1075.46 1084.6 & 277.71 299.01 & 0 & 0 & 0 \\ 
+machine & 600.38 609.57 & -12.95 8.48 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 13.82,24.77,1556.67 & 736.95,23666.09,273687.94 & 0 & 0 & 0 \\ 
+electronics & 16.13,47.58,941.19 & 16179.62,50476.53,236611.64 & 0 & 0 & 0 \\ 
+machine & 19.25,60.15,189539.03 & 149807.35,367991.43,812466.81 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & \$854.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$413.39$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+electronics & \$1026.54$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$407.79$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+machine & \$825.08$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$384.66$\hat{\mkern6mu}$\{\}\$ & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 1326.66 1335.91 & 478.6 500.17 & 0 & 0 & 0 \\ 
+electronics & 1336.95 1346.08 & 314.89 336.19 & 0 & 0 & 0 \\ 
+machine & 766.04 775.23 & -53.21 -31.78 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 30, 2022 - 8:41:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+chemical & 15.31,52.35,189194.15 & 50433.39,191179.71,425944.09 & 0 & 0 & 0 \\ 
+electronics & 19.23,84.16,8999.34 & 121992.38,244251.6,453004.96 & 0 & 0 & 0 \\ 
+machine & 30.85,945.5,222496.86 & 262260.53,480236.57,935932.91 & 0 & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

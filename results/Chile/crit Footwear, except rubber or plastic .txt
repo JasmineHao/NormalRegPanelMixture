@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Footwear, except rubber or plastic
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        530 -0.524  0.298   -2.714 0.280 
+lny       530 10.613  1.396   7.928  14.901
+lnm       530 10.089  1.369   7.000  14.312
+lnl       530 3.819   1.091   1.877  6.919 
+lnk       461 7.199   2.071   -2.780 12.075
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Footwear, except rubber or plastic"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, May 16, 2022 - 12:17:47 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$64.78$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$25.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$9.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$-1.65$\hat{\mkern6mu}$\{\}\$ \\ 
+T=3 & \$137.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$65.83$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$22.72$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5.96$\hat{\mkern6mu}$\{\}\$ \\ 
+T=4 & \$182.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$71.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$25.75$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$20.19$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$11.68$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$266.95$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$83.4$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$52.04$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$24.41$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Footwear, except rubber or plastic 324
+===================================================================================
+          M=1             M=2             M=3             M=4             M=5      
+-----------------------------------------------------------------------------------
+T=1        0               0               0               0               0       
+T=2 4.06,5.69,9.35  5.37,6.92,10.7   6.3,8.04,10.9  7.11,8.76,11.4  6.99,8.22,11.89
+T=3 3.94,5.53,10.07 5.14,6.95,10.47 6.26,8.01,10.89 6.67,8.49,11.68 7.36,8.57,11.85
+T=4 3.89,5.62,9.81  5.34,7.02,10.55 6.37,7.91,11.52 6.78,8.27,11.51 7.11,8.79,11.93
+T=5 4.29,5.73,10.45 5.26,6.9,11.76  5.97,8.12,12.27 6.62,8.48,11.66 7.1,8.73,11.98 
+-----------------------------------------------------------------------------------

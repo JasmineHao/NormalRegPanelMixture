@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Other chemicals
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        635 -0.691  0.325   -1.945 0.050 
+lny       635 12.192  1.443   9.080  16.589
+lnm       635 11.501  1.414   8.158  15.704
+lnl       635 4.724   1.081   2.243  8.026 
+lnk       585 9.104   1.754   3.299  13.527
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Other chemicals"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, May 16, 2022 - 12:06:33 AM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$100.08$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$38.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.34$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$9.38$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$13.2$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=3 & \$185.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$71.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$18.05$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$7.39$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$8.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$258.39$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$90.98$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.17$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$13.35$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$12.82$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$332.97$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$94.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$50.74$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.26$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$16.16$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Other chemicals 352
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 4.45,5.58,9.59 5.35,7.27,10.79 6.1,8.04,12.06  6.58,8.37,11.57 6.79,8.83,12.89
+T=3 4.1,5.48,9.31  5.15,6.87,10.41  6,7.97,11.49    6.6,9.2,13.22  6.02,7.39,12.1 
+T=4 3.91,5.36,9.25 5.23,6.83,10.48 6.29,8.16,11.83 6.47,8.53,12.04 7.15,9.06,12.05
+T=5 3.9,5.28,9.35  5.43,6.97,10.73 6.32,8.13,11.19  6.9,8.6,12.14  5.7,6.85,12.74 
+----------------------------------------------------------------------------------

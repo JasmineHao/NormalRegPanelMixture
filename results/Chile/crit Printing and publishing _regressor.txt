@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Printing and publishing
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        755 -0.766  0.342   -2.943 -0.047
+lny       755 10.611  1.419   8.142  16.076
+lnm       755 9.845   1.448   5.943  14.998
+lnl       755 3.710   1.065   2.050  8.259 
+lnk       625 8.067   1.846   2.667  13.818
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Printing and publishing"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Thu, Jun 09, 2022 - 1:17:25 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$66.79$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$44.03$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$18.82$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=3 & \$138.91$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$76.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$48.52$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$16.95$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=4 & \$218.63$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$96.7$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$40.77$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$15.38$\hat{\mkern6mu}$\{\}\$ & 0 \\ 
+T=5 & \$304.66$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$150.18$\hat{\mkern6mu}$\{\textasteriskcentered \}\$ & \$59.84$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Printing and publishing 342
+============================================================================================
+           M=1                  M=2                   M=3                   M=4          M=5
+--------------------------------------------------------------------------------------------
+T=1         0                    0                     0                     0            0 
+T=2 29.15,50.98,113.32  14.01,29.28,552.74   30.97,132.3,529227.33           0            0 
+T=3 34.68,58.55,142.75  39.77,70.69,582.31     16.6,53.23,3124.36   19.13,98.24,20623.09  0 
+T=4 23.07,41.09,125.56 60.42,300.12,13637.07   29.55,53.32,771.32   27.1,268.33,14294.33  0 
+T=5 18.77,44.48,297.62 57.54,338.54,4879.47  158.14,425.58,24236.55          0            0 
+--------------------------------------------------------------------------------------------

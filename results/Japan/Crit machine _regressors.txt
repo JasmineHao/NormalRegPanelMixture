@@ -1,0 +1,45 @@
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:42:40 PM
+\begin{table}[!htbp] \centering 
+  \caption{Descriptive data for  machine  industry in Japan} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+id & 790 & 10,529.670 & 15,347.170 & 38 & 42,845 \\ 
+year & 790 & 2,006.000 & 1.415 & 2,004 & 2,008 \\ 
+lnmY\_it & 790 & $-$0.748 & 0.393 & $-$2.797 & $-$0.136 \\ 
+k\_it & 790 & 16.032 & 1.376 & 12.382 & 19.395 \\ 
+ln\_k & 790 & 2.771 & 0.085 & 2.516 & 2.965 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+[1] "Estimate LR for  machine"
+    M=1              M=2              M=3              M=4            M=5
+T=1 "0"              "0"              "0"              "0"            "0"
+T=2 "$92.17^{***}$"  "$115.8^{***}$"  "$31.36^{***}$"  "$-26.18^{}$"  "0"
+T=3 "$135.02^{***}$" "$201.96^{***}$" "$79^{***}$"     "$-81.4^{}$"   "0"
+T=4 "$171.72^{***}$" "$295.44^{***}$" "$114.08^{***}$" "$-258.75^{}$" "0"
+T=5 "$213.91^{**}$"  "$372.39^{***}$" "$148.4^{***}$"  "$-16.01^{}$"  "0"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, May 10, 2022 - 4:42:40 PM
+\begin{table}[!htbp] \centering 
+  \caption{Critical Values Asymptotics 12} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & 12.71,18.59,42.82 & 7.61,8.62,14.45 & 9.54,11.3,13.58 & 11,12.21,15.4 & 0 \\ 
+T=3 & 11.96,14.86,35.78 & 8.25,10,17.94 & 8.67,10.84,16.79 & 9.84,11.23,18.8 & 0 \\ 
+T=4 & 11.9,15.13,162.83 & 7.58,9.64,14.31 & 9.8,12.2,17.28 & 10.1,11.44,14.56 & 0 \\ 
+T=5 & 11.77,15.39,1486.01 & 8.55,10.99,17.98 & 9.05,10.73,14 & 9.83,11.8,16.91 & 0 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 

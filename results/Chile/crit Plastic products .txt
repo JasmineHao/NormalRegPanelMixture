@@ -1,0 +1,42 @@
+
+Descriptive data for Chilean Industry: Plastic products
+===========================================
+Statistic  N   Mean  St. Dev.  Min    Max  
+-------------------------------------------
+si        705 -0.644  0.323   -2.039 0.460 
+lny       705 11.198  1.273   7.914  14.910
+lnm       705 10.555  1.336   7.408  14.381
+lnl       705 4.058   0.944   1.997  6.840 
+lnk       635 8.485   1.784   3.456  12.712
+-------------------------------------------
+[1] "Chilean Producer Data: Estimated LR for Plastic products"
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, May 15, 2022 - 11:34:10 PM
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & M=1 & M=2 & M=3 & M=4 & M=5 \\ 
+\hline \\[-1.8ex] 
+T=1 & 0 & 0 & 0 & 0 & 0 \\ 
+T=2 & \$85.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$33.22$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$5.44$\hat{\mkern6mu}$\{\}\$ & 0 & 0 \\ 
+T=3 & \$154.85$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$53.62$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$14.34$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$10.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ & \$11.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=4 & \$213.86$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$87.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$32.73$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$17.44$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$15.51$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+T=5 & \$267.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$99.14$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$43.21$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$36.47$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ & \$29.02$\hat{\mkern6mu}$\{\textasteriskcentered \textasteriskcentered \textasteriskcentered \}\$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+Simulated crit for Plastic products 356
+==================================================================================
+         M=1             M=2             M=3             M=4             M=5      
+----------------------------------------------------------------------------------
+T=1       0               0               0               0               0       
+T=2 4.24,5.61,9.46 5.46,7.36,11.49 6.25,8.05,10.55        0               0       
+T=3 4.15,5.49,9.47 5.59,7.38,11.11 6.34,7.99,12.26  6.8,8.59,11.8  6.78,8.1,11.92 
+T=4 4.1,5.46,9.43  5.63,7.44,10.79 6.43,7.77,11.21 6.86,8.65,11.12 7.34,9.12,12.52
+T=5 3.81,5.44,9.87 5.5,7.35,10.62  6.4,7.92,10.93  6.81,8.67,11.08 7.22,8.66,11.78
+----------------------------------------------------------------------------------

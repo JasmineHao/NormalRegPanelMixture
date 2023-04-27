@@ -1,0 +1,20 @@
+Package: NormalRegPanelMixture
+Type: Package
+Title: Normal Panel Regression Finite Mixture Model
+Version: 1.0
+Date: 2022-03-19
+Author: Jasmine Hao
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+Depends:
+    R (>= 2.14.0),Rcpp,
+    RcppArmadillo,
+    nloptr,
+    foreach,
+    doParallel
+Imports:
+    Rcpp (>= 0.12.8),
+    RcppArmadillo,
+    nloptr
+LinkingTo: Rcpp, RcppArmadillo
