@@ -61,8 +61,6 @@ getEstimate <- function(Data,nrep,an,cl,M, parlist){
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1 <- NormalRegPanelMixture::normalpanelmixPMLE.M1(y=data$Y,x=data$X,z = data$Z, parlist=out.h0$parlist,an=an)
-    #out.h1 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=(M+1),vcov.method = "none")
-    #out.h1 <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE, k_max = 10)
     
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
     if (class(crit) == "try-error"){

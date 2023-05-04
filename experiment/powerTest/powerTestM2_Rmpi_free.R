@@ -14,6 +14,12 @@ Tset <- c(2,5)
 alphaset <- list(c(1/3,1/3,1/3),c(0.25,0.5,0.25))
 muset <- list(c(-1,0,1),c(-1.5,0,1.5),c(-1,0,2),c(-0.5,0,1.5))
 sigmaset <- list(c(1,1,1),c(0.6,1.2,0.6),c(0.6,0.6,1.2))
+#GeneratePhiDataPairs
+count <- 0
+nrep <- 2000
+nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
+
+cl <- makeCluster(64)
 
 
 GenerateSample <- function(phi,nrep){ 
@@ -71,6 +77,8 @@ PerformEMPowerTest <- function (data , m, z = NULL) {
   
 #   return(list(est = lr.estimate , crit = lr.crit,nominal.size = apply(lr.size,2,mean)))
 # }
+
+
 getEstimatePower <- function(Data,nrep,an,cl,M, parlist) {
   lr.crit <- matrix(0.0, nr = nrep, ncol = 3)
   lr.estimate <- matrix(0.0, nr = nrep, ncol = 1)
@@ -97,15 +105,8 @@ getEstimatePower <- function(Data,nrep,an,cl,M, parlist) {
   return(list(est = lr.estimate, crit = lr.crit, nominal.size = apply(lr.size, 2, mean)))
 }
 
-#GeneratePhiDataPairs
-count <- 0
-nrep <- 2000
 phi.data <- list()
-nset <- length(Nset) * length(Tset) * length(muset) * length(alphaset) * length(sigmaset)
 power.data <- matrix(0,nr=(nset),nc=6)
-
-
-cl <- makeCluster(64)
 
 for (mu in muset){
   for (sigma in sigmaset){
