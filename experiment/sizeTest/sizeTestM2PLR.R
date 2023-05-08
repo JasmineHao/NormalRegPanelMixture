@@ -6,7 +6,7 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
 k_max <- 5
-nrep <- 2000
+nrep <- 20
 cl <- makeCluster(detectCores()-1)
 
 set.seed(123456)
