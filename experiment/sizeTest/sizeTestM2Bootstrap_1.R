@@ -68,7 +68,7 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   registerDoParallel(cl)
-  results <- foreach (k = 1:nrep)%dopar% {
+  results.m <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
@@ -79,20 +79,45 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     
   }
   
+  results.l <- foreach(k = 1:nrep) %dopar% {
+    library(NormalRegPanelMixture)
+    data <- Data[, k]
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y = data$Y, x = data$X, z = data$Z, m = M, vcov.method = "none")
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (0.1 * an), parallel = FALSE)
+    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (0.1 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
+
+    c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
+  }
   
-  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
-  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
-  lr.estimate.h <- t(t(sapply(results, function(x) x[1])))
-  lr.crit <- t(sapply(results, function(x) x[2:length(x)]))
   
+  results.h <- foreach(k = 1:nrep) %dopar% {
+    library(NormalRegPanelMixture)
+    data <- Data[, k]
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y = data$Y, x = data$X, z = data$Z, m = M, vcov.method = "none")
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (10 * an), parallel = FALSE)
+    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (10 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
+
+    c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
+  }
+
+  lr.estimate.m <- t(t(sapply(results.m, function(x) x[1])))
+  lr.crit.m <- t(sapply(results.m, function(x) x[2:length(x)]))
+
+  lr.estimate.h <- t(t(sapply(results.h, function(x) x[1])))
+  lr.crit.h <- t(sapply(results.h, function(x) x[2:length(x)]))
+
+  lr.estimate.l <- t(t(sapply(results.l, function(x) x[1])))
+  lr.crit.l <- t(sapply(results.l, function(x) x[2:length(x)]))
+
+
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   
   for ( k in 1:nrep){
-    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit[k,2])
-    lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit[k,2])
-    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit[k,2])
+    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit.l[k,2])
+    lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit.m[k,2])
+    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit.h[k,2])
   }
   
   return(list(nominal.size.l = apply(lr.size.l,2,mean), nominal.size.m = apply(lr.size.m,2,mean),  nominal.size.h = apply(lr.size.h,2,mean) ))
