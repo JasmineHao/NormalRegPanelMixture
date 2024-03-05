@@ -5,7 +5,7 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
-nrep <- 2000
+nrep <- 500
 cl <- makeCluster(9)
 
 set.seed(123456)
@@ -58,9 +58,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     library(NormalRegPanelMixture)
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),parallel = FALSE)
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.01 * an),parallel = FALSE)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE)
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,parallel = FALSE)
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(100 * an) ,parallel = FALSE)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
     if (class(crit) == "try-error"){
       crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
@@ -171,6 +171,6 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(result.h, file = "/home/haoyu/SizeTest/results/sizeTestM2SimH_1.csv")
-write.csv(result.m, file = "/home/haoyu/SizeTest/results/sizeTestM2SimM_1.csv")
-write.csv(result.l, file = "/home/haoyu/SizeTest/results/sizeTestM2SimL_1.csv")
+write.csv(result.h, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimH_1.csv")
+write.csv(result.m, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimM_1.csv")
+write.csv(result.l, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimL_1.csv")

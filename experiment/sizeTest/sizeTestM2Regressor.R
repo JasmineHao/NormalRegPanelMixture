@@ -124,6 +124,10 @@ for (r in 1:nNT){
   
 }
 result.m <- result.m * 100
+result.l <- result.l * 100
+result.h <- result.h * 100
 
-write.csv(result.m,file="results/sizeTest/sizeTestM2Regressor.csv")
+write.csv(result.m,file="results/sizeTest/sizeTestM2Regressorm.csv")
+write.csv(result.l,file="results/sizeTest/sizeTestM2Regressorl.csv")
+write.csv(result.h,file="results/sizeTest/sizeTestM2Regressorh.csv")
 
