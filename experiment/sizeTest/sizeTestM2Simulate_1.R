@@ -6,7 +6,7 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
-cl <- makeCluster(9)
+cl <- makeCluster(16)
 
 set.seed(123456)
 Nset <- c(200,400)
@@ -171,6 +171,7 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(result.h, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimH_1.csv")
-write.csv(result.m, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimM_1.csv")
-write.csv(result.l, file = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2SimL_1.csv")
+write.csv(rbind(result.h,result.m,result.l), file="../../results/sizeTestM2SimH_HML.csv")
+write.csv(result.h, file = "../../results/sizeTestM2SimH_1.csv")
+write.csv(result.m, file = "../../results/sizeTestM2SimM_1.csv")
+write.csv(result.l, file = "../../results/sizeTestM2SimL_1.csv")
