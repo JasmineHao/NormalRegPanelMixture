@@ -6,15 +6,15 @@ p <- 0 #Number of Z
 q <- 1 #Number of X
 
 nrep <- 500
-cl <- makeCluster(8)
+cl <- makeCluster(12)
 
 set.seed(123456)
-Nset <- c(200,500)
-Tset <- c(5)
-alphaset <- list(c(0.2,0.8))
+Nset <- c(200,400)
+Tset <- c(3, 5, 8)
+alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
-sigmaset <- list(c(0.3,0.1),c(0.1,0.1))
-betaset <- list(c(1,1),c(-1,1))
+sigmaset <- list(c(0.8,1.2))
+betaset <- list(c(1,1))
 
 GenerateSample <- function(phi,nrep){ 
   p = phi$p

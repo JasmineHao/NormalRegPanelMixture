@@ -6,7 +6,7 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
-cl <- makeCluster(10)
+cl <- makeCluster(12)
 
 set.seed(123456)
 Nset <- c(200,400)
@@ -61,7 +61,7 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
   library(doParallel) # workers might need information
   library(NormalRegPanelMixture)# workers might need information
   
-  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 999 ,parallel = TRUE,cl=cl)$crit
+  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 499 ,parallel = TRUE,cl=cl)$crit
   return(crit)
 }
 
@@ -71,10 +71,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   
   # Remove this: 
   data <- Data[,1]
-  out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-  lr.crit.m <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(an), z = data$Z, parallel = TRUE, nbtsp = 999, ninits = 10)$crit
-  lr.crit.l <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(0.1 * an), z = data$Z, parallel = TRUE, nbtsp = 999, ninits = 10)$crit
-  lr.crit.h <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(10 * an), z = data$Z, parallel = TRUE, nbtsp = 999, ninits = 10)$crit
+  lr.crit.m <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, an=(an), z = data$Z, parallel = TRUE, nbtsp = 499, ninits = 10)$crit
+  lr.crit.l <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, an=(0.01 * an), z = data$Z, parallel = TRUE, nbtsp = 499, ninits = 10)$crit
+  lr.crit.h <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=parlist, an=(100 * an), z = data$Z, parallel = TRUE, nbtsp = 499, ninits = 10)$crit
   
   
   results.m <- foreach (k = 1:nrep)%dopar% {
@@ -92,8 +91,8 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     library(NormalRegPanelMixture)
     data <- Data[, k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y = data$Y, x = data$X, z = data$Z, m = M, vcov.method = "none")
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (0.1 * an), parallel = FALSE)
-    # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (0.1 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = ( 0.01 * an), parallel = FALSE)
+    # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (0.01 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
     crit <- c(0,0,0)
     c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
   }
@@ -103,8 +102,8 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     library(NormalRegPanelMixture)
     data <- Data[, k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y = data$Y, x = data$X, z = data$Z, m = M, vcov.method = "none")
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (10 * an), parallel = FALSE)
-    # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (10 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (100 * an), parallel = FALSE)
+    # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (100 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
     crit <- c(0,0,0)
     c(2 * max(out.h1.m$penloglik - out.h0$loglik), crit)
   }
@@ -222,10 +221,12 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML.csv")
+write.csv(result.h, file = "results/sizeTestM2BBootH_1.csv")
+write.csv(result.m, file = "results/sizeTestM2BootM_1.csv")
+write.csv(result.l, file = "results/sizeTestM2BootL_1.csv")
 
-write.csv(result.h,file="/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/sizeTestM2BootH_1.csv")
-write.csv(result.m,file="/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/resultssizeTestM2BootM_1.csv")
-write.csv(result.l,file="/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/resultssizeTestM2BootL_1.csv")
+
 # registerDoParallel(detectCores())
 # t <- Sys.time()
 # foreach(i=1:2, .combine = rbind)%dopar%{
