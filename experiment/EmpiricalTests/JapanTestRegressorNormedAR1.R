@@ -5,6 +5,7 @@ library(reshape)
 library(NormalRegPanelMixture)
 # library(Hmisc)
 set.seed(123)
+library(dplyr)
 
 # library(normalregMix)
 
