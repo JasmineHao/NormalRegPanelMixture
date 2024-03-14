@@ -301,6 +301,6 @@ combined_df <- rbind(
 )
 
 # Write the combined data frame to a single file
-write.csv(combined_df, file = "results/Japan/combined_result_regressor_normed_AR1.csv")
+write.csv(combined_df, file = "results/Japan/combined_result_normed_AR1.csv")
 
 
