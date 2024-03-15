@@ -5,8 +5,8 @@ M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 
-nrep <- 10
-cl <- makeCluster(detectCores()-1)
+nrep <- 500
+cl <- makeCluster(124)
 
 set.seed(123456)
 Nset <- c(200,400)
@@ -132,6 +132,10 @@ for (r in 1:nNT){
 result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
+print(rbind(result.h,result.m,result.l))
+
+write.csv(rbind(result.h,result.m,result.l), file="~/test_result/sizeTestM2RegressorBootstrap_HML_T_5.csv")
+
 
 write.csv(rbind(result.h,result.m,result.l), file="results/sizeTest/sizeTestM2RegressorBootstrap_HML.csv")
 
