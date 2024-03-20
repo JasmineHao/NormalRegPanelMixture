@@ -109,6 +109,8 @@ colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M
 
 count = 0
 
+bs_degree <- 2
+
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
@@ -135,7 +137,7 @@ for (each.code in ind.code){
   # List of column names to apply the bs transformation
   # columns_to_transform <- c("lnk", "lnk_l1", "lnl", "lnl_l1" , "y_l1")
   
-  columns_to_transform <- c("lnk")
+  columns_to_transform <- c("lnk", "lnl")
   
   # Loop through each column name
   for (col_name in columns_to_transform) {
@@ -334,6 +336,6 @@ combined_df <- rbind(
 )
 
 # Write the combined data frame to a single file
-write.csv(combined_df, file = "results/Japan/combined_result_regressor_spline_normed.csv")
+write.csv(combined_df, file = "results/Japan/combined_result_regressor_spline_normed_KL.csv")
 
 
