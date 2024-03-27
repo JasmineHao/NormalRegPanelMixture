@@ -7,7 +7,7 @@ p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
 
-cl <- makeCluster(8)
+cl <- makeCluster(16)
 
 
 set.seed(123456)
@@ -201,10 +201,7 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML.csv")
-write.csv(result.h, file = "results/sizeTestM2BBootH_1.csv")
-write.csv(result.m, file = "results/sizeTestM2BootM_1.csv")
-write.csv(result.l, file = "results/sizeTestM2BootL_1.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML_T2.csv")
 
 
 # registerDoParallel(detectCores())

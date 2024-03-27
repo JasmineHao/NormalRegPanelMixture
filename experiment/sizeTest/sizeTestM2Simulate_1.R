@@ -10,7 +10,8 @@ cl <- makeCluster(16)
 
 set.seed(123456)
 Nset <- c(200,400)
-Tset <- c(3, 5, 8)
+Tset <- c(2, 3, 5, 8)
+Tset <- c(2)
 
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
@@ -171,7 +172,4 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="../../results/sizeTestM2SimH_HML.csv")
-write.csv(result.h, file = "../../results/sizeTestM2SimH_1.csv")
-write.csv(result.m, file = "../../results/sizeTestM2SimM_1.csv")
-write.csv(result.l, file = "../../results/sizeTestM2SimL_1.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2SimH_HML.csv")
