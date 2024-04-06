@@ -205,10 +205,15 @@ df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="results/Chile/resultLR2_regressorBoot.csv")
-write.csv(df.3,file="results/Chile/resultLR3_regressorBoot.csv")
-write.csv(df.4,file="results/Chile/resultLR4_regressorBoot.csv")
-write.csv(df.5,file="results/Chile/resultLR5_regressorBoot.csv")
+# Combine the data frames
+combined_df <- rbind(
+  cbind(df.2, original_df = "df.2"),
+  cbind(df.3, original_df = "df.3"),
+  cbind(df.4, original_df = "df.4"),
+  cbind(df.5, original_df = "df.5")
+)
+
+write.csv(combined_df,file="results/Chile/combined_result_regressorBoot.csv")
 
 
 # sink("/home/haoyu/results/Chile/result_regressor.txt")

@@ -74,18 +74,18 @@ GenerateSample <- function(phi,nrep){
 ######################################################
 
 estimate.LR.df.H <- matrix(0,nr=length(ind.code)*5,nc=15)
-colnames(estimate.LR.df.H) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.H) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
-colnames(estimate.LR.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.L <- matrix(0,nr=length(ind.code)*5,nc=15)
-colnames(estimate.LR.df.L) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.L) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 AIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
-colnames(AIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(AIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 BIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
-colnames(BIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(BIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 

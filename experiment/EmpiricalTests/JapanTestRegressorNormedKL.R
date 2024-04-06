@@ -48,58 +48,58 @@ ind.count <- length(ind.code)
 
 estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(estimate.LR.df.2) <- ind.names
-colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(estimate.LR.df.3) <- ind.names
-colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(estimate.LR.df.4) <- ind.names
-colnames(estimate.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(estimate.LR.df.5) <- ind.names
-colnames(estimate.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(estimate.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 AIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(AIC.df.2) <- ind.names
-colnames(AIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(AIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 AIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(AIC.df.3) <- ind.names
-colnames(AIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(AIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 AIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(AIC.df.4) <- ind.names
-colnames(AIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(AIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 AIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(AIC.df.5) <- ind.names
-colnames(AIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(AIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 BIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(BIC.df.2) <- ind.names
-colnames(BIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(BIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 BIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(BIC.df.3) <- ind.names
-colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 BIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(BIC.df.4) <- ind.names
-colnames(BIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(BIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 BIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(BIC.df.5) <- ind.names
-colnames(BIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(BIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 
 crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(crit.LR.df.2) <- ind.names
-colnames(crit.LR.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(crit.LR.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(crit.LR.df.3) <- ind.names
-colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(crit.LR.df.4) <- ind.names
-colnames(crit.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(crit.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
 rownames(crit.LR.df.5) <- ind.names
-colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 
@@ -229,10 +229,10 @@ for (each.code in ind.code){
   crit.LR.df.4[count,] <- crit.df[4,]
   crit.LR.df.5[count,] <- crit.df[5,]
   
-  colnames(estimate.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+  colnames(estimate.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10", "M=11","M=12","M=13","M=14","M=15")
+  colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 }
 
@@ -269,9 +269,14 @@ df.5[ 3* 1:count ,] <- BIC.df.5
 rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
+# Combine the data frames
+combined_df <- rbind(
+  cbind(df.2, original_df = "df.2"),
+  cbind(df.3, original_df = "df.3"),
+  cbind(df.4, original_df = "df.4"),
+  cbind(df.5, original_df = "df.5")
+)
 
-write.csv(df.2,file="results/Japan/resultLR2_regressor_normed_kl.csv")
-write.csv(df.3,file="results/Japan/resultLR3_regressor_normed_kl.csv")
-write.csv(df.4,file="results/Japan/resultLR4_regressor_normed_kl.csv")
-write.csv(df.5,file="results/Japan/resultLR5_regressor_normed_kl.csv")
+write.csv(combined_df,file="results/Japan/combined_regressor_normed_kl.csv")
+
 
