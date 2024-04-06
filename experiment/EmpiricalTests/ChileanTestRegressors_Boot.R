@@ -213,11 +213,11 @@ combined_df <- rbind(
   cbind(df.5, original_df = "df.5")
 )
 
-write.csv(combined_df,file="results/Chile/combined_result_regressorBoot.csv")
+write.csv(combined_df,file="results/Empirical/Chile_combined_regressorBoot.csv")
 
 
-# sink("/home/haoyu/results/Chile/result_regressor.txt")
-sink("results/Chile/result_regressor_boot.txt")
+# sink("/home/haoyu/results/Empirical/Chile_result_regressor.txt")
+sink("results/Empirical/Chile_result_regressor_boot.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)

@@ -28,58 +28,58 @@ for (each.code in ind.code){
 ind.count <- length(ind.code)
 
 
-estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.2) <- ind.names
 colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.3) <- ind.names
 colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.4) <- ind.names
 colnames(estimate.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.5) <- ind.names
 colnames(estimate.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-AIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.2) <- ind.names
 colnames(AIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.3) <- ind.names
 colnames(AIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.4) <- ind.names
 colnames(AIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.5) <- ind.names
 colnames(AIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
-BIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.2) <- ind.names
 colnames(BIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.3) <- ind.names
 colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.4) <- ind.names
 colnames(BIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.5) <- ind.names
 colnames(BIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 
-crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.2) <- ind.names
 colnames(crit.LR.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.3) <- ind.names
 colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.4) <- ind.names
 colnames(crit.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
@@ -141,12 +141,12 @@ for (each.code in ind.code){
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
   
-  coef.df <- matrix(0,nr=5,nc=15)
-  estimate.df <- matrix(0,nr=5,nc=15)
-  AIC.df <- matrix(0,nr=5,nc=15)
-  BIC.df <- matrix(0,nr=5,nc=15)
-  crit.df <- matrix(0,nr=5,nc=15)
-  result.df <- matrix(0,nr=5,nc=15)
+  coef.df <- matrix(0,nr=5,nc=10)
+  estimate.df <- matrix(0,nr=5,nc=10)
+  AIC.df <- matrix(0,nr=5,nc=10)
+  BIC.df <- matrix(0,nr=5,nc=10)
+  crit.df <- matrix(0,nr=5,nc=10)
+  result.df <- matrix(0,nr=5,nc=10)
   ######################################################
   #For panel data
   ######################################################
@@ -255,8 +255,8 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Chile/crit",ind.name,"_regressor_normed.txt"))
+  #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_normed.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   print(coef.df)
@@ -312,6 +312,6 @@ combined_df <- rbind(
 
 
 # Write the combined data frame to a single file
-write.csv(combined_df, file = "results/Chile/combined_result_regressor_spline_normed_AR1_KL.csv")
+write.csv(combined_df, file = "results/Empirical/Chile_combined_regressor_spline_normed_AR1_KL.csv")
 
 

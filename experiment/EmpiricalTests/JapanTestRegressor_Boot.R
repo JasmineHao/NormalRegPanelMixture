@@ -200,9 +200,9 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
 }
 
-  # write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
-#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
-# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
+  # write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Empirical/Japan_resultLR3_regressor.csv")
+#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Empirical/Japan_resultLR4_regressor.csv")
+# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Empirical/Japan_resultLR5_regressor.csv")
 
 df.2 <- data.frame(matrix('-',nrow=2*length(ind.names),ncol=5))
 df.2[ 2* 1:count -1,] <- estimate.LR.df.2
@@ -229,8 +229,8 @@ rownames(df.5)[ 5* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
 
-# sink("/home/haoyu/results/Japan/result.txt")
-sink("results/Japan/result_regressors_boot.txt")
+# sink("/home/haoyu/results/Empirical/Japan_result.txt")
+sink("results/Empirical/Japan_result_regressors_boot.txt")
 stargazer(estimate.LR.df.2)
 stargazer(AIC.df.2)
 stargazer(crit.LR.df.2)

@@ -59,7 +59,7 @@ desc.table <- transform(desc.table, N = as.numeric(N))
 desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]  
 desc.table <- transform(desc.table, N = as.character(N))
 
-sink("results/Chile/desc.table.txt")
+sink("results/Empirical/Chile_desc.table.txt")
 stargazer(desc.table,type="latex", summary=FALSE, title="Descriptive statistics for Chilean producer revenue share of intermediate material",rownames=FALSE)
 sink()
 

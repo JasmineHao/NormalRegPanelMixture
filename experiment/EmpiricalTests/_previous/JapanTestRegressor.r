@@ -81,7 +81,7 @@ for (each.code in ind.code){
   estimate.df <- matrix(0,nr=5,nc=5)
   crit.df <- matrix(0,nr=5,nc=5)
   crit.df.boot <- matrix(0,nr=5,nc=5)
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
@@ -151,7 +151,7 @@ for (each.code in ind.code){
   print( Sys.time() - t)
   print("*************************************")
   
-  sink(paste("results/Japan/regressorCrit",each.name,".txt"))
+  sink(paste("results/Empirical/Japan_regressorCrit",each.name,".txt"))
   stargazer(desc.each, type = "text", title = paste("Descriptives for ", each.name, each.code))
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
@@ -173,7 +173,7 @@ rownames(estimate.LR.df.4) <- ind_list[ind.code]
 rownames(estimate.LR.df.5) <- ind_list[ind.code]
 
 
-sink("results/Japan/result_regressor.txt")
+sink("results/Empirical/Japan_result_regressor.txt")
 stargazer(estimate.LR.df.1)
 stargazer(estimate.LR.df.2)
 stargazer(estimate.LR.df.3)

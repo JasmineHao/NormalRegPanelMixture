@@ -31,58 +31,58 @@ for (each.code in ind.code){
 ind.count <- length(ind.code)
 
 
-estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.2) <- ind.names
 colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.3) <- ind.names
 colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.4) <- ind.names
 colnames(estimate.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.5) <- ind.names
 colnames(estimate.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-AIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.2) <- ind.names
 colnames(AIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.3) <- ind.names
 colnames(AIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.4) <- ind.names
 colnames(AIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+AIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.5) <- ind.names
 colnames(AIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
-BIC.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.2) <- ind.names
 colnames(BIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.3) <- ind.names
 colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.4) <- ind.names
 colnames(BIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+BIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.5) <- ind.names
 colnames(BIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
 
-crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.2) <- ind.names
 colnames(crit.LR.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.3) <- ind.names
 colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.4) <- ind.names
 colnames(crit.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=15)
+crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
@@ -105,18 +105,18 @@ for (each.code in ind.code){
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
   
-  coef.df <- matrix(0,nr=5,nc=15)
-  estimate.df <- matrix(0,nr=5,nc=15)
-  AIC.df <- matrix(0,nr=5,nc=15)
-  BIC.df <- matrix(0,nr=5,nc=15)
-  crit.df <- matrix(0,nr=5,nc=15)
-  result.df <- matrix(0,nr=5,nc=15)
+  coef.df <- matrix(0,nr=5,nc=10)
+  estimate.df <- matrix(0,nr=5,nc=10)
+  AIC.df <- matrix(0,nr=5,nc=10)
+  BIC.df <- matrix(0,nr=5,nc=10)
+  crit.df <- matrix(0,nr=5,nc=10)
+  result.df <- matrix(0,nr=5,nc=10)
   ######################################################
   #For panel data
   ######################################################
   
   
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
     ind.each.t <- ind.each[ind.each$year>=t.start,]
@@ -212,8 +212,8 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Chile/crit",ind.name,"_regressor_beta_ratio_normed.txt"))
+  #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_beta_ratio_normed.txt"))
   print(coef.df)
   print(estimate.df)
   stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
@@ -257,8 +257,8 @@ rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
 
-write.csv(df.2,file="results/Chile/resultLR2_regressor_beta_ratio_normed.csv")
-write.csv(df.3,file="results/Chile/resultLR3_regressor_beta_ratio_normed.csv")
-write.csv(df.4,file="results/Chile/resultLR4_regressor_beta_ratio_normed.csv")
-write.csv(df.5,file="results/Chile/resultLR5_regressor_beta_ratio_normed.csv")
+write.csv(df.2,file="results/Empirical/Chile_resultLR2_regressor_beta_ratio_normed.csv")
+write.csv(df.3,file="results/Empirical/Chile_resultLR3_regressor_beta_ratio_normed.csv")
+write.csv(df.4,file="results/Empirical/Chile_resultLR4_regressor_beta_ratio_normed.csv")
+write.csv(df.5,file="results/Empirical/Chile_resultLR5_regressor_beta_ratio_normed.csv")
 

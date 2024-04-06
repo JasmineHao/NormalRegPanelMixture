@@ -72,7 +72,7 @@ for (each.code in ind.code){
   estimate.df <- matrix(0,nr=5,nc=10)
   crit.df <- matrix(0,nr=5,nc=10)
   crit.df.boot <- matrix(0,nr=5,nc=10)
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     m.share.t <- m.share[,t.seq]
@@ -129,7 +129,7 @@ for (each.code in ind.code){
   print( Sys.time() - t)
   print("*************************************")
   
-  sink(paste("results/Japan/CritBoot",each.name,".txt"))
+  sink(paste("results/Empirical/Japan_CritBoot",each.name,".txt"))
   
   stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
   print(paste("Estimate LR for ",each.name))
@@ -151,7 +151,7 @@ rownames(estimate.LR.df.4) <- ind_list[ind.code]
 rownames(estimate.LR.df.5) <- ind_list[ind.code]
 
 
-sink("results/Japan/resultBoot.txt")
+sink("results/Empirical/Japan_resultBoot.txt")
 stargazer(estimate.LR.df.1)
 stargazer(estimate.LR.df.2)
 stargazer(estimate.LR.df.3)

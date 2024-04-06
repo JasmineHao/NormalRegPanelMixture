@@ -73,18 +73,18 @@ GenerateSample <- function(phi,nrep){
 #For panel data
 ######################################################
 
-estimate.LR.df.H <- matrix(0,nr=length(ind.code)*5,nc=15)
+estimate.LR.df.H <- matrix(0,nr=length(ind.code)*5,nc=10)
 colnames(estimate.LR.df.H) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
+estimate.LR.df.M <- matrix(0,nr=length(ind.code)*5,nc=10)
 colnames(estimate.LR.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.L <- matrix(0,nr=length(ind.code)*5,nc=15)
+estimate.LR.df.L <- matrix(0,nr=length(ind.code)*5,nc=10)
 colnames(estimate.LR.df.L) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-AIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
+AIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=10)
 colnames(AIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
-BIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=15)
+BIC.df.M <- matrix(0,nr=length(ind.code)*5,nc=10)
 colnames(BIC.df.M) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
@@ -102,18 +102,18 @@ for (each.code in ind.code){
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list) 
   
-  coef.df <- matrix(0,nr=5,nc=15)
-  estimate.df <- matrix(0,nr=5,nc=15)
-  AIC.df <- matrix(0,nr=5,nc=15)
-  BIC.df <- matrix(0,nr=5,nc=15)
-  crit.df <- matrix(0,nr=5,nc=15)
-  result.df <- matrix(0,nr=5,nc=15)
+  coef.df <- matrix(0,nr=5,nc=10)
+  estimate.df <- matrix(0,nr=5,nc=10)
+  AIC.df <- matrix(0,nr=5,nc=10)
+  BIC.df <- matrix(0,nr=5,nc=10)
+  crit.df <- matrix(0,nr=5,nc=10)
+  result.df <- matrix(0,nr=5,nc=10)
   ######################################################
   #For panel data
   ######################################################
   
   T <- 5
-  # for (T in 2:5){
+  # for (T in 3:3){
   t.start <- T.cap-T+1
   t.seq <- seq(from=t.start,to=t.start+T-1)
   
@@ -213,13 +213,13 @@ for (each.code in ind.code){
 #     Output
 ###################################################################
 
-# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Japan/resultLR3_regressor.csv")
-#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Japan/resultLR4_regressor.csv")
-# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Japan/resultLR5_regressor.csv")
+# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Empirical/Japan_resultLR3_regressor.csv")
+#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Empirical/Japan_resultLR4_regressor.csv")
+# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Empirical/Japan_resultLR5_regressor.csv")
 
-write.csv(estimate.LR.df.H,file="results/Japan/BetaRatioNormed_KL_simulate_data/estimate.LR.df.H.csv")
-write.csv(estimate.LR.df.M,file="results/Japan/BetaRatioNormed_KL_simulate_data/estimate.LR.df.M.csv")
-write.csv(estimate.LR.df.L,file="results/Japan/BetaRatioNormed_KL_simulate_data/estimate.LR.df.L.csv")
-write.csv(AIC.df.M,file="results/Japan/BetaRatioNormed_KL_simulate_data/AIC.df.M.csv")
-write.csv(BIC.df.M,file="results/Japan/BetaRatioNormed_KL_simulate_data/BIC.df.M.csv")
+write.csv(estimate.LR.df.H,file="results/Empirical/Japan_BetaRatioNormed_KL_simulate_data/estimate.LR.df.H.csv")
+write.csv(estimate.LR.df.M,file="results/Empirical/Japan_BetaRatioNormed_KL_simulate_data/estimate.LR.df.M.csv")
+write.csv(estimate.LR.df.L,file="results/Empirical/Japan_BetaRatioNormed_KL_simulate_data/estimate.LR.df.L.csv")
+write.csv(AIC.df.M,file="results/Empirical/Japan_BetaRatioNormed_KL_simulate_data/AIC.df.M.csv")
+write.csv(BIC.df.M,file="results/Empirical/Japan_BetaRatioNormed_KL_simulate_data/BIC.df.M.csv")
 

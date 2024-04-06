@@ -206,8 +206,8 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  #sink(paste("/home/haoyu/results/Chile/crit",ind.name,"_regressor.txt"))
-  # sink(paste("results/Chile/crit",ind.name,"_regressor_normed.txt"))
+  #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
+  # sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_normed.txt"))
   # stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   # print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   # print(coef.df)
@@ -261,6 +261,6 @@ combined_df <- rbind(
   cbind(df.5, original_df = "df.5")
 )
 
-write.csv(combined_df,file="results/Chile/combined_result_normed.csv")
+write.csv(combined_df,file="results/Empirical/Chile_combined_normed.csv")
 
 

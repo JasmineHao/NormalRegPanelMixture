@@ -123,7 +123,7 @@ for (each.code in ind.code){
   ######################################################
   
   
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
@@ -231,8 +231,8 @@ df.5[ 2* 1:count,] <- AIC.df.5
 rownames(df.5)[ 2* 1:count -1] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
-write.csv(df.2,file="results/Japan/estim2_regressor.csv")
-write.csv(df.3,file="results/Japan/estim3_regressor.csv")
-write.csv(df.4,file="results/Japan/estim4_regressor.csv")
-write.csv(df.5,file="results/Japan/estim5_regressor.csv")
+write.csv(df.2,file="results/Empirical/Japan_estim2_regressor.csv")
+write.csv(df.3,file="results/Empirical/Japan_estim3_regressor.csv")
+write.csv(df.4,file="results/Empirical/Japan_estim4_regressor.csv")
+write.csv(df.5,file="results/Empirical/Japan_estim5_regressor.csv")
 

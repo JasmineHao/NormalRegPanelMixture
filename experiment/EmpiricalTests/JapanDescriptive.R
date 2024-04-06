@@ -68,7 +68,7 @@ desc.table <- transform(desc.table, N = as.numeric(N))
 desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]  
 desc.table <- transform(desc.table, N = as.character(N))
 
-sink("results/Japan/desc.table.txt")
+sink("results/Empirical/Japan_desc.table.txt")
 stargazer(desc.table,type="latex",summary=FALSE, title="Descriptive statistics for Japanses producer revenue share of intermediate material",rownames=FALSE)
 sink()
 

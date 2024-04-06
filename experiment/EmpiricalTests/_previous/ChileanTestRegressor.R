@@ -165,7 +165,7 @@ for (each.code in ind.code){
   ######################################################
   
   
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     #Reshape the data so that I can apply the test
     ind.each.t <- ind.each[ind.each$year>=t.start,]
@@ -280,7 +280,7 @@ for (each.code in ind.code){
   print(Sys.time()-t)
   print(paste(count,"/",ind.count))
   
-  sink(paste("results/Chile/regressorCrit",ind.name,".txt"))
+  sink(paste("results/Empirical/Chile_regressorCrit",ind.name,".txt"))
   
   stargazer(desc.each,type="text",title=paste("Descriptives for ",ind.name,each.code))
   
@@ -311,7 +311,7 @@ rownames(estimate.LR.df.3) <- ind.names
 rownames(estimate.LR.df.4) <- ind.names
 rownames(estimate.LR.df.5) <- ind.names
 
-sink("results/Chile/resultRegressors.txt")
+sink("results/Empirical/Chile_resultRegressors.txt")
 stargazer(estimate.LR.df.2)
 stargazer(estimate.LR.df.3)
 stargazer(estimate.LR.df.4)

@@ -118,7 +118,7 @@ for (each.code in ind.code){
   ######################################################
   
   
-  for (T in 2:5){
+  for (T in 3:3){
     t.start <- T.cap-T+1
     t.seq <- seq(from=t.start,to=t.start+T-1)
     m.share.t <- m.share[,t.seq]
@@ -175,7 +175,7 @@ for (each.code in ind.code){
   colnames(crit.df) <- c("M=1","M=2","M=3","M=4","M=5","M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  sink(paste("results/Chile/crit_1-10",ind.name,".txt"))
+  sink(paste("results/Empirical/Chile_crit_1-10",ind.name,".txt"))
   
   stargazer(desc.each,type="text",title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Columbian Producer Data: Estimated LR for ",ind.name))
@@ -198,7 +198,7 @@ rownames(estimate.LR.df.5) <- ind.names
 
 # stargazer(crit.df,title=paste("estimate",ind.name))
 
-sink("results/Chile/resultBoot_1-10.txt")
+sink("results/Empirical/Chile_resultBoot_1-10.txt")
 stargazer(estimate.LR.df.2)
 stargazer(estimate.LR.df.3)
 stargazer(estimate.LR.df.4)

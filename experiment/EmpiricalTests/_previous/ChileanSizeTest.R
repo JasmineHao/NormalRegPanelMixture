@@ -133,4 +133,4 @@ for (each.code in ind.code){
     
   }
 }
-write.csv(estimate.LR.df,file="/home/haoyu/results/Chile/ChileSizeTest.csv")    
+write.csv(estimate.LR.df,file="/home/haoyu/results/Empirical/Chile_ChileSizeTest.csv")    
