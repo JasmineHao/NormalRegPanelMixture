@@ -10,8 +10,14 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
                         NumericVector ys,
                         NumericMatrix xs,
                         NumericMatrix zs,
+                        NumericVector ys0, // initial condition
+                        NumericMatrix xs0, // initial condition
+                        NumericMatrix zs0, // initial condition
                         NumericVector mu0s,
                         NumericVector sigma0s,
+                        NumericVector mu00s, // initial condition
+                        NumericVector sigma00s, // initial condition
+                        
                         int m,
                         int p,
                         int t, //time periods,crucial for mix
@@ -30,12 +36,22 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
   arma::vec y(ys.begin(), ys.size(), false);
   arma::mat x(xs.begin(), xs.nrow(), xs.ncol(), false);
   arma::mat z(zs.begin(), zs.nrow(), zs.ncol(), false);
+  
+  arma::vec y0(ys0.begin(), ys0.size(), false); // initial condition
+  arma::mat x0(xs0.begin(), xs0.nrow(), xs0.ncol(), false); // initial condition
+  arma::mat z0(zs0.begin(), zs0.nrow(), zs0.ncol(), false); // initial condition
+  
   arma::vec mu0(mu0s.begin(), mu0s.size(), false);
-  arma::vec sigma0(sigma0s.begin(), sigma0s.size(), false);
+  arma::vec sigma0(sigma0s.begin(), sigma0s.size(), false); 
+  
+  arma::vec sigma00(sigma00s.begin(), sigma00s.size(), false); // initial condition
+  arma::vec mu00(mu00s.begin(), mu00s.size(), false); // initial condition
+  
   arma::vec b_jn(bs.nrow());
   arma::vec lb(m),ub(m);
-  arma::vec alpha(m), mu(m), sigma(m), alp_sig(m);
-  arma::mat mubeta(q1,m);
+  arma::vec alpha(m), mu(m), sigma(m), alp_sig(m), mu_0(m), sigma_0(m);
+  
+  arma::mat mubeta(q1,m), mubeta_0(q1,m);
   arma::vec r(m), r_t(m),l_j(m); //NEED this r_i since need to sum the squared residuals
   arma::mat w(m,nt); //Weight matrix, note weight will be similar for same i
   arma::mat post(m*nt,ninits);
@@ -100,9 +116,11 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               // alp_sig = alpha/pow(sigma,t);
               
               if (p==0) {
-                ytilde = y;
+                ytilde = y; // no z 
+                ytilde0 = y0;
               } else {
-                ytilde = y - z*gamma;
+                ytilde = y - z*gamma; // with z
+                ytilde0 = y0 - z0*gamma;
               }
               
               for (int nn = 0; nn < n; nn++) {

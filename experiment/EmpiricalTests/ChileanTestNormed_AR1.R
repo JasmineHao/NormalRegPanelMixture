@@ -148,14 +148,14 @@ for (each.code in ind.code){
     ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
     
     data <- list(Y = t(ind.each.y), X = data.frame(col2=ind.each.y1),  Z = NULL)
-    
+    data.0 <- list( Y = ind.each.y1, X = NULL, Z = NULL  ) # for the initial condition
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
     estimate.crit <- 1
     for (M in 1:10){
       # Estimate the null model
-      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+      out.h0 <- regpanelmixPMLE(y=data$Y, x=data$X, z = data$Z, m=M,vcov.method = "none", in.coefficient=h1.coefficient)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       print("-----------------------------------------")
       print(paste("T=",T,"M = ",M,"an=",an))
