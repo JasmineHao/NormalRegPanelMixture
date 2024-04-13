@@ -161,7 +161,7 @@ for (each.code in ind.code){
     ind.each.x1 <- ind.each.x1[,colnames(ind.each.x1)!="id"][,1]
     
     data <- list(Y = t(ind.each.y), X = data.frame(col2=ind.each.y1),  Z = NULL)
-    data.0 <- list( Y = ind.each.y10, X = NULL, Z = NULL  ) # for the initial condition
+    data.0 <- list( Y = ind.each.y10, X = NULL, Z = NULL ) # for the initial condition
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
@@ -184,7 +184,7 @@ for (each.code in ind.code){
       
       # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
       
-      lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+      lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
       
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
@@ -237,7 +237,7 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
   #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_normed.txt"))
+  sink(paste("results/Empirical/Chile_crit",ind.name,"_NormedAR1.txt"))
   stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   print(coef.df)
@@ -252,7 +252,7 @@ for (each.code in ind.code){
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
-df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.2[ 3* 1:count -2,] <- estimate.LR.df.2
 df.2[ 3* 1:count -1,] <- AIC.df.2
 df.2[ 3* 1:count ,] <- BIC.df.2
@@ -260,14 +260,14 @@ rownames(df.2)[ 3* 1:count -2] <- rownames(estimate.LR.df.2)
 colnames(df.2) <- colnames(estimate.LR.df.2)
 
 
-df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.3[ 3* 1:count -2,] <- estimate.LR.df.3
 df.3[ 3* 1:count -1,] <- AIC.df.3
 df.3[ 3* 1:count ,] <- BIC.df.3
 rownames(df.3)[ 3* 1:count -2] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.4 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.4[ 3* 1:count -2,] <- estimate.LR.df.4
 df.4[ 3* 1:count -1,] <- AIC.df.4
 df.4[ 3* 1:count ,] <- BIC.df.4
@@ -275,7 +275,7 @@ rownames(df.4)[ 3* 1:count -2] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
 
-df.5 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.5 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.5[ 3* 1:count -2,] <- estimate.LR.df.5
 df.5[ 3* 1:count -1,] <- AIC.df.5
 df.5[ 3* 1:count ,] <- BIC.df.5

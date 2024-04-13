@@ -129,25 +129,44 @@ for (each.code in ind.code){
   
   
   for (T in 3:3){
-    t.start <- T.cap-T+1
-    #Reshape the data so that I can apply the test
-    ind.each.t <- ind.each[ind.each$year>=t.start,]
-    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
-    id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
-    #Remove the incomplete data, need balanced panel
-    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
-    ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
-    #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
-    ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
+    t.start <- T.cap - T + 1
+    # Reshape the data so that I can apply the test
+    ind.each.t <- ind.each[ind.each$year >= t.start, ]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t), ]
+    ind.each.y <- cast(ind.each.t[, c("id", "year", "si")], id ~ year, value = "si")
+    id.list <- ind.each.y[complete.cases(ind.each.y), "id"]
+    # Remove the incomplete data, need balanced panel
+    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list, ]
+    ind.each.t <- ind.each.t[order(ind.each.t$id, ind.each.t$year), ]
+
+    # normalize data
+    ind.each.t$y <- (ind.each.t$si - mean(ind.each.t$si)) / (sd(ind.each.t$si))
+    ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk)) / (sd(ind.each.t$lnk))
+
+    ind.each.t$y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1)) / (sd(ind.each.t$si_l1))
+    ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1)) / (sd(ind.each.t$lnk_l1))
+
+    # Reshape the Y
+    ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
+    ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]
+
+    ind.each.x <- ind.each.t$x
+
+    ind.each.y1 <- ind.each.t$y1
+
+    ind.each.y10 <- cast(ind.each.t[, c("id", "year", "y1")], id ~ year, value = "y1")
+    ind.each.y10 <- ind.each.y10[, colnames(ind.each.y10) != "id"][, 1]
+
+    ind.each.x10 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
+    ind.each.x10 <- ind.each.x10[, colnames(ind.each.x10) != "id"][, 1]
+
+
+    ind.each.x1 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
+    ind.each.x1 <- ind.each.x1[, colnames(ind.each.x1) != "id"][, 1]
+
+    data <- list(Y = t(ind.each.y), X = data.frame(col1 = ind.each.y1, col2 = ind.each.x, col3 = ind.each.x1), Z = NULL)
+    data.0 <- list(Y = ind.each.y10, X = data.frame(col1=), Z = NULL) # for the initial condition
     
-    ind.each.y <- (ind.each.y - mean(ind.each.t$si))/(sd(ind.each.t$si))
-    ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
-    ind.each.y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1))/(sd(ind.each.t$si_l1))
-    ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
-    
-    data <- list(Y = t(ind.each.y), X = data.frame(col1=ind.each.x,col2=ind.each.y1,col3=ind.each.x1),  Z = NULL)
     
     N <- dim(ind.each.y)[1]
     
@@ -225,13 +244,12 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_normed.txt"))
-  stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
-  print(paste("Chilean Producer Data: Estimated LR for",ind.name))
+  sink(paste("results/Empirical/Chile_crit", ind.name, "_NormedAR1Regressor_K.txt"))
+  stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
+  print(paste("Chilean Producer Data: Estimated LR for", ind.name))
   print(coef.df)
   print(estimate.df)
-  stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
+  stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
   sink()
 }
 
@@ -241,7 +259,7 @@ for (each.code in ind.code){
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
-df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.2[ 3* 1:count -2,] <- estimate.LR.df.2
 df.2[ 3* 1:count -1,] <- AIC.df.2
 df.2[ 3* 1:count ,] <- BIC.df.2
@@ -249,14 +267,14 @@ rownames(df.2)[ 3* 1:count -2] <- rownames(estimate.LR.df.2)
 colnames(df.2) <- colnames(estimate.LR.df.2)
 
 
-df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.3[ 3* 1:count -2,] <- estimate.LR.df.3
 df.3[ 3* 1:count -1,] <- AIC.df.3
 df.3[ 3* 1:count ,] <- BIC.df.3
 rownames(df.3)[ 3* 1:count -2] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.4 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.4[ 3* 1:count -2,] <- estimate.LR.df.4
 df.4[ 3* 1:count -1,] <- AIC.df.4
 df.4[ 3* 1:count ,] <- BIC.df.4
@@ -264,7 +282,7 @@ rownames(df.4)[ 3* 1:count -2] <- rownames(estimate.LR.df.4)
 colnames(df.4) <- colnames(estimate.LR.df.4)
 
 
-df.5 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=15))
+df.5 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.5[ 3* 1:count -2,] <- estimate.LR.df.5
 df.5[ 3* 1:count -1,] <- AIC.df.5
 df.5[ 3* 1:count ,] <- BIC.df.5

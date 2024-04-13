@@ -344,6 +344,17 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau, ninits = ninits.short, data.0=data.0)
   
   if (model.ar1){
+    if (is.null(x0)){
+      xtilde0 <- matrix(0)
+    } else{
+      xtilde0 <- x0
+    }
+    
+    if (is.null(z0)){
+      ztilde0 <- matrix(0)
+    } else{
+      ztilde <- z0
+    }
     # short EM
     b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$mubeta0, tmp$sigma0, tmp$gam0)
     out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, maxit.short, ninits.short, epsilon.short, tau, h, k)
