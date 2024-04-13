@@ -383,8 +383,7 @@ regpanelmixCrit <- function(y, x, parlist, z = NULL, values = NULL, parallel = T
 #' @return A list with the following items:
 #' \item{crit}{3 by 3 matrix of (0.1, 0.05, 0.01 critical values), jth row corresponding to k=j}
 #' \item{pvals}{A vector of p-values at k = 1, 2, 3}
-regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits = 100,
-                                 nbtsp = 199, parallel = FALSE, an = 0.5, cl = NULL) {
+regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits = 100, nbtsp = 199, parallel = FALSE, an = 0.5, cl = NULL) {
   # if (NormalRegPanelMixture.test.on) # initial values controlled by NormalRegPanelMixture.test.on
   #   set.seed(NormalRegPanelMixture.test.seed)
 
@@ -493,6 +492,163 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
   #####################################
   # FIXIT FROM HERE, NOT SURE THE MODEL IS RIGHT
   #####################################
+  q <- ceiling(nbtsp*c(0.90,0.95,0.99))
+  # crit <- emstat.b[, q]
+  crit <- emstat.b[q]
+  if (!is.null(values)) { pvals <- rowMeans(emstat.b > values) }
+
+  return(list(crit = crit, pvals = pvals))
+}  # end function regpanelmixCritBoot
+
+
+
+#' @description Computes the bootstrap critical values of the modified EM test.
+#' @export
+#' @title regpanelmixCritBootAR1
+#' @name regpanelmixCritBoot
+#' @param y n by 1 vector of data for y
+#' @param x n by q vector of data for x
+#' @param parlist The parameter estimates as a list containing alpha, mu, sigma, and gamma
+#' in the form of (alpha = (alpha_1, ..., alpha_m), mu = (mu_1, ..., mu_m),
+#' sigma = (sigma_1, ..., sigma_m), gam = (gamma_1, ..., gamma_m))
+#' @param z n by p matrix of regressor associated with gamma
+#' @param values 3 by 1 Vector of length 3 (k = 1, 2, 3) at which the p-values are computed
+#' @param ninits The number of initial candidates to be generated
+#' @param nbtsp The number of bootstrap observations; by default, it is set to be 199
+#' @param parallel Determines whether package \code{doParallel} is used for calculation
+#' @param cl Cluster used for parallelization (optional)
+#' @param data.0 The original data
+#' @importFrom doParallel registerDoParallel
+#' @importFrom foreach foreach
+#' @return A list with the following items:
+#' \item{crit}{3 by 3 matrix of (0.1, 0.05, 0.01 critical values), jth row corresponding to k=j}
+#' \item{pvals}{A vector of p-values at k = 1, 2, 3}
+regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, ninits = 100, nbtsp = 199, parallel = FALSE, an = 0.5, cl = NULL, data.0 = NULL)
+{
+  if (is.null(data.0)){
+    return(regpanelmixCritBoot(y = y, x = x, parlist = parlist, z = z, values = values, ninits = ninits, nbtsp = nbtsp, parallel = parallel, an = an, cl = cl))
+  }
+
+  # Need the first column of y to be the lagged term of y
+  model.ar1 <- TRUE
+  y0 <- data.0$Y
+  x0 <- data.0$X
+  z0 <- data.0$Z
+  
+
+  n  <- ncol(y)
+  t  <- nrow(y)
+  nt <- n*t
+  y  <- as.vector(y)
+  
+  
+  alpha   <- parlist$alpha
+  mubeta  <- parlist$mubeta
+  sigma <- parlist$sigma
+  mubeta0 <- parlist$mubeta0
+  sigma0 <- parlist$sigma0
+  gam   <- parlist$gam
+  m       <- length(alpha)
+  
+  
+  if (!is.null(z)) {
+    z <- as.matrix(z)
+    p <- ncol(z)
+    y   <- y - z %*% gam
+  }else{
+    p <- 0
+  }
+  
+  
+  if (!is.null(x)){
+    x     <- as.matrix(x)
+    q     <- ncol(x)
+    mu <- mubeta[1,]
+    beta <- t(mubeta[2:(q+1),])  #CHECKED
+  }else{
+    q <- 0
+    mu <- mubeta
+    beta  <- NULL
+  }
+
+  if (!is.null(x0)) {
+    x0 <- as.matrix(x0)
+    q.0 <- ncol(x0)
+    mu0 <- mubeta0[1,]
+    beta0 <- t(mubeta0[2:(q + 1), ]) # CHECKED
+  } else {
+    q.0 <- 0
+    mu0 <- mubeta0
+    beta0 <- NULL
+
+  }
+  
+  if (!is.null(z0)) {
+    p.0 <- ncol(z)
+  } else {
+    p.0 <- 0
+  }
+  
+  # an    <- anFormula(parlist = parlist, m = m, n = n, t = t, q = q)
+  # print("Parallel Bootstrap Crit")
+  # print(paste("an=",an,"q=",q))
+
+  pvals <- NULL
+  
+  # Generate bootstrap observations
+  
+  ybset <- replicate(nbtsp, generateDataAR1(alpha=alpha,mu=mu,sigma=sigma,gamma=gamma,beta=beta,mu0=mu0,sigma0=sigma0,gamma0=gamma0,beta0=beta0,N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0=q.0,x=x,z=z, x0 = y0, z0=z0))
+  # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
+   
+  if (!is.null(z)) {
+    zgam <- as.matrix(z) %*% gam
+    ybset <- ybset + replicate(nbtsp, as.vector(zgam))
+  }
+  
+  if (parallel) {
+    if (is.null(cl)){
+      cl <- makeCluster(detectCores())}
+    
+      registerDoParallel(cl)
+      out <- foreach (j.btsp = 1:nbtsp) %dopar% {
+        # NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = ybset[,j.btsp]$Z, ninits = ninits, crit.method = "none") 
+          data.0 = list(Y = ybset[, j.btsp]$Y0, x.0 = ybset[, j.btsp]$X0, z.0 = ybset[, j.btsp]$Z0)
+          regpanelmix.pmle.result <- NormalRegPanelMixture::regpanelmixPMLE(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, m = m, z = ybset[, j.btsp]$Z, vcov.method = "none", ninits = ninits, data.0 = data.0)
+          
+          loglik0 <- regpanelmix.pmle.result$loglik
+          
+          
+          regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, parallel = FALSE, data.0 = data.0)
+          
+          c(2 * max(regpanelmix.pmle.result.1$penloglik - regpanelmix.pmle.result$loglik))
+        }
+      if( (parallel) && (is.null(cl)) ){
+        stopCluster(cl)}
+      # emstat.b <- sapply(out, "[[", "emstat")  # 3 by nbstp matrix
+      emstat.b <- t(t(sapply(out, function(x) x[1])))
+      emstat.b <- sort(emstat.b)
+      }
+  else
+    {
+      # out <- lapply(seq_len(ncol(ybset)), 
+      #               function(i) NormalRegPanelMixture::regpanelmixMEMtest(y = ybset[,i]$Y,x=ybset[,i]$X,m = m,t=T,z=NULL,ninits=ninits,an=an,crit.method = "none"))
+      emstat.b <- c()
+      for (j.btsp in 1:nbtsp){
+        
+        data.0 = list(Y = ybset[, j.btsp]$Y0, x.0 = ybset[, j.btsp]$X0, z.0 = ybset[, j.btsp]$Z0)
+        regpanelmix.pmle.result <- NormalRegPanelMixture::regpanelmixPMLE(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, m = m, z = ybset[, j.btsp]$Z, vcov.method = "none", ninits = ninits, data.0 = data.0)
+
+        loglik0 <- regpanelmix.pmle.result$loglik
+
+
+        regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, parallel = FALSE, data.0 = data.0)
+        
+        emstat.b <- append(emstat.b, 2*max(regpanelmix.pmle.result.1$penloglik-loglik0))
+      }
+    }
+  emstat.b <- sort(emstat.b)
+  # emstat.b <- t(apply(emstat.b, 1, sort))
+ 
   q <- ceiling(nbtsp*c(0.90,0.95,0.99))
   # crit <- emstat.b[, q]
   crit <- emstat.b[q]

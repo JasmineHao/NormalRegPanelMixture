@@ -138,24 +138,38 @@ for (each.code in ind.code){
     #Remove the incomplete data, need balanced panel
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
+    
+    # normalize data
+    ind.each.t$y <- (ind.each.t$si - mean(ind.each.t$si))/(sd(ind.each.t$si))
+    ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
+    
+    ind.each.t$y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1))/(sd(ind.each.t$si_l1))
+    ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
+    
     #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
+    ind.each.y <- cast(ind.each.t[,c("id","year","y")],id ~ year,value="y")
     ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
     
-    ind.each.y <- (ind.each.y - mean(ind.each.t$si))/(sd(ind.each.t$si))
-    ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
-    ind.each.y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1))/(sd(ind.each.t$si_l1))
-    ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
+    ind.each.x <- ind.each.t$x
+    
+    ind.each.y1 <- ind.each.t$y1
+    
+    ind.each.y10 <- cast(ind.each.t[,c("id","year","y1")],id ~ year,value="y1")
+    ind.each.y10 <- ind.each.y10[,colnames(ind.each.y10)!="id"][,1]
+    
+    ind.each.x1 <- cast(ind.each.t[,c("id","year","x1")],id ~ year,value="x1")
+    ind.each.x1 <- ind.each.x1[,colnames(ind.each.x1)!="id"][,1]
     
     data <- list(Y = t(ind.each.y), X = data.frame(col2=ind.each.y1),  Z = NULL)
-    data.0 <- list( Y = ind.each.y1, X = NULL, Z = NULL  ) # for the initial condition
+    data.0 <- list( Y = ind.each.y10, X = NULL, Z = NULL  ) # for the initial condition
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
     estimate.crit <- 1
     for (M in 1:10){
       # Estimate the null model
-      out.h0 <- regpanelmixPMLE(y=data$Y, x=data$X, z = data$Z, m=M,vcov.method = "none", in.coefficient=h1.coefficient)
+      out.h0 <- regpanelmixPMLE(y=data$Y, x=data$X, z = data$Z, m=M,vcov.method = "none", in.coefficient=h1.coefficient, data.0= data.0)
+      
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       print("-----------------------------------------")
       print(paste("T=",T,"M = ",M,"an=",an))
@@ -163,18 +177,15 @@ for (each.code in ind.code){
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an)
+      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an, data.0 = data.0)
       h1.parlist = out.h1$parlist
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
-      # Simulate the asymptotic distribution
-      if (estimate.crit == 1){
-        lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
-        if (class(lr.crit) == "try-error"){
-          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
-        }
-      }
+      # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
+      
+      lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+      
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
       estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
