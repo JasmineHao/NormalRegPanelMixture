@@ -1,48 +1,30 @@
-# This script replicates table 7, 10, 11 - 14 in the paper.
 library(stargazer)
 library(ggplot2)
 library(reshape)
+# library(normalregMix)
+library(foreign)
 library(NormalRegPanelMixture)
-# library(Hmisc)
+library(dplyr)
+library(splines)
+options('nloptr.show.inequality.warning'=FALSE)
+options(warn = -1)
+
 set.seed(123)
 
-# library(normalregMix)
+#df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
-options('nloptr.show.inequality.warning'=FALSE)
-cl <- makeCluster(16)
-##################################################
-#1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
-#7.plastic; 8. ceramics; 9. steel; 10. othermetal;
-#11. metal product; 12. machine; 13. electronics;
-#14. transportation
-#equipment; 15. precision instrument; 16. other;
-##################################################
+df <- readRDS("data/ChileanClean.rds")
+cl <- makeCluster(8)
 
-ind_list <- c("food","textile", "wood","paper", "chemical",
-              "petro","plastic","ceramics","steel","othermetal",
-              "metal product","machine","electronics",
-              "transportation equipment","precision instrument",
-              "other")
+ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
+ind.code <- c(311,381,321)
 
-
-# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
-df <- readRDS("data/JapanClean.rds")
-df[df==0] <- NA
-#Function
-#source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
-df$t <- df$year
-df <- df[order(df$id,df$t),]
-
-
-
-ind.code <- c(5,13,12,14,1)
-ind.code <- c(5,13,12)
 ind.names <- c()
 for (each.code in ind.code){
-  ind.name <- ind_list[each.code]
+  ind.each <- subset(df,ciiu_3d==each.code)
+  ind.name <- ind.each$ciiu3d_descr[1]
   ind.names <- append(ind.names,ind.name)
 }
-
 ind.count <- length(ind.code)
 
 
@@ -102,22 +84,62 @@ rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
-######################################################
-#For panel data
-######################################################
-
 count = 0
 
 for (each.code in ind.code){
   t <- Sys.time()
-  ind.each <- subset(df,industry_2==each.code)
-  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
-  ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['ln_k'] <- ind.each['k_it']
-  each.name <- ind_list[each.code]
   
+  ind.each <- df %>%
+    filter(ciiu_3d == each.code) %>%
+    mutate(
+      lny = log(GO),
+      lnm = log(WI),
+      lnl = log(L),
+      lnk = log(K),
+      lny = (lny - mean(lny, na.rm = TRUE)) / sd(lny, na.rm = TRUE),
+      lnm = (lnm - mean(lnm, na.rm = TRUE)) / sd(lnm, na.rm = TRUE),
+      lnl = (lnl - mean(lnl, na.rm = TRUE)) / sd(lnl, na.rm = TRUE),
+      lnk = (lnk - mean(lnk, na.rm = TRUE)) / sd(lnk, na.rm = TRUE)
+    ) %>%
+    group_by(id) %>%
+    arrange(id, year) %>%
+    mutate(
+      si_l1 = lag(si, n = 1, default = NA),
+      lnk_l1 = lag(lnk, n = 1, default = NA),
+      lnl_l1 = lag(lnl, n = 1, default = NA),
+      lnm_l1 = lag(lnm, n = 1, default = NA),
+      lny_l1 = lag(lny, n = 1, default = NA)
+    ) %>%
+  ungroup()
+  
+  # List of column names to apply the bs transformation
+  columns_to_transform <- c("lnk", "lnk_l1", "lnl", "lnl_l1" , "lny_l1") 
+  
+  # Loop through each column name
+  for (col_name in columns_to_transform) {
+    # Compute quantiles excluding NA values
+    cleaned_data <- na.omit(ind.each[[col_name]])
+    quantiles <- c(quantile(cleaned_data, probs = 0.33), quantile(cleaned_data, probs = 0.67))
+    
+    # Apply the bs function and create new columns
+    bs_columns <- bs(ind.each[[col_name]], degree = bs_degree, knots = quantiles)
+    new_colnames <- paste0(col_name, "_bs_", seq_len(ncol(bs_columns)))
+    colnames(bs_columns) <- new_colnames
+    
+    # Bind the new columns to the original dataframe
+    ind.each <- cbind(ind.each, bs_columns)
+  }
+  
+  ind.name <- ind.each$ciiu3d_descr[1]
+  
+  ######################################################
+  # Describe the data
+  ######################################################
+  
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk", "si_l1","lny_l1","lnm_l1","lnl_l1","lnk_l1")]
+  # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
-  T.cap <- max(year.list) 
+  T.cap <- max(year.list)
   
   coef.df <- matrix(0,nr=5,nc=10)
   estimate.df <- matrix(0,nr=5,nc=10)
@@ -132,23 +154,32 @@ for (each.code in ind.code){
   
   for (T in 3:3){
     t.start <- T.cap-T+1
-    t.seq <- seq(from=t.start,to=t.start+T-1)
-    
-    ind.each.t <- ind.each[ind.each$year >= t.start,]
-    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
+    #Reshape the data so that I can apply the test
+    ind.each.t <- ind.each[ind.each$year>=t.start,]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
+    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
     id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
     #Remove the incomplete data, need balanced panel
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
     #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
+    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
     ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
     
-    ind.each.y <- (ind.each.y - mean(ind.each.t$lnmY_it))/(sd(ind.each.t$lnmY_it))
-    ind.each.x <- (ind.each.t$ln_k - mean(ind.each.t$ln_k))/(sd(ind.each.t$ln_k))
+    # Find all columns in ind.each that contain '_bs_'
+    bs_columns <- grep("_bs_", colnames(ind.each.t), value = TRUE)
     
-    data <- list(Y = t(ind.each.y), X = matrix(ind.each.x),  Z = NULL)
-    N <- dim(data$Y)[2]
+    # Create a data frame with all the bs_columns
+    X_bs <- ind.each.t[, bs_columns]
+    
+    # Create the list with Y, X (with bs columns), and Z
+    data <- list(
+      Y = t(ind.each.y),
+      X = X_bs,
+      Z = NULL
+    )
+    
+    N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
     estimate.crit <- 1
@@ -176,23 +207,17 @@ for (each.code in ind.code){
       }
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
-      
+      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
       AIC.df[T,M] <- round(out.h0$aic,2)
       BIC.df[T,M] <- round(out.h0$bic,2)
+      
+      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      if (estimate.crit == 1){
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-        
-      }
-      else{
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
-        
-      }
-        # If fail to reject the test, break the loop
+      # If fail to reject the test, break the loop
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 1){
+      if (sum(lr.estimate > lr.crit) < 3){
         estimate.crit <- 0
       }
     }
@@ -202,7 +227,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
   
@@ -230,22 +255,19 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",each.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Japan_Crit",each.name,"_regressor_normed.txt"))
-  
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
+  sink(paste("results/Empirical/Chile_Crit_", each.name, "_KL_AR1_Spline.txt"))
+  stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
+  print(paste("Japan Producer Data: Estimated LR for", ind.name))
   print(coef.df)
   print(estimate.df)
-  stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
-  # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
-  #stargazer(crit.df.boot,title=paste("Critical Values Bootstrapped",each.code))
+  stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
   sink()
 }
 
-# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Empirical/Japan_resultLR3_regressor.csv")
-#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Empirical/Japan_resultLR4_regressor.csv")
-# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Empirical/Japan_resultLR5_regressor.csv")
+
+
+# colnames(crit.df.boot) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
+# rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
 df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
@@ -278,6 +300,7 @@ df.5[ 3* 1:count ,] <- BIC.df.5
 rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
+
 # Combine the data frames
 combined_df <- rbind(
   cbind(df.2, original_df = "df.2"),
@@ -286,6 +309,8 @@ combined_df <- rbind(
   cbind(df.5, original_df = "df.5")
 )
 
-write.csv(combined_df,file="results/Empirical/Japan_combined_regressor_normed.csv")
+
+# Write the combined data frame to a single file
+write.csv(combined_df, file = "results/Empirical/Chile_KL_AR1_Spline.csv")
 
 

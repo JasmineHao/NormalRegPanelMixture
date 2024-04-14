@@ -5,6 +5,7 @@ library(reshape)
 library(NormalRegPanelMixture)
 # library(Hmisc)
 set.seed(123)
+library(dplyr)
 
 # library(normalregMix)
 
@@ -102,7 +103,6 @@ rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
-
 ######################################################
 #For panel data
 ######################################################
@@ -112,22 +112,24 @@ count = 0
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
-  ind.each <- ind.each[,c("id","year","lnmY_it","k_it","l_it")]
+  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['ln_k'] <- ind.each['k_it']
-  ind.each['ln_l'] <- ind.each['l_it']
+  ind.each['lnk'] <- ind.each['k_it']
   each.name <- ind_list[each.code]
+  
+  ind.each <- ind.each %>%
+    group_by(id) %>%
+    arrange(id, year) %>%
+    mutate(
+      y_l1 = lag(lnmY_it, n = 1, default = NA),
+      lnk_l1 = lag(lnk, n = 1, default = NA),
+    ) %>%
+    ungroup()
+  
   
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list) 
   
-  desc.each <- matrix(0, nr = 5, nc = 15)
-  estimate.df <- matrix(0,nr=5,nc=10)
-  crit.df <- matrix(0,nr=5,nc=10)
-  
-  ######################################################
-  # Select the data out
-  ######################################################
   coef.df <- matrix(0,nr=5,nc=10)
   estimate.df <- matrix(0,nr=5,nc=10)
   AIC.df <- matrix(0,nr=5,nc=10)
@@ -154,10 +156,11 @@ for (each.code in ind.code){
     ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
     
     ind.each.y <- (ind.each.y - mean(ind.each.t$lnmY_it))/(sd(ind.each.t$lnmY_it))
-    ind.each.xk <- (ind.each.t$ln_k - mean(ind.each.t$ln_k))/(sd(ind.each.t$ln_k))
-    ind.each.xl <- (ind.each.t$ln_l - mean(ind.each.t$ln_l))/(sd(ind.each.t$ln_l))
+    ind.each.y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1))/(sd(ind.each.t$y_l1))
+    ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
+    ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
     
-    data <- list(Y = t(ind.each.y), X = data.frame(col1=ind.each.xk,col2=ind.each.xl),  Z = NULL)
+    data <- list(Y = t(ind.each.y), X = data.frame(col1=ind.each.x,col2=ind.each.y1,col3=ind.each.x1),  Z = NULL)
     N <- dim(data$Y)[2]
     
     h1.coefficient = NULL
@@ -181,25 +184,30 @@ for (each.code in ind.code){
       if (estimate.crit == 1){
         lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
         if (class(lr.crit) == "try-error"){
-          #lr.crit <- c(0,0,0)
-          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X,  parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
         }
       }
       # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
-      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      
       AIC.df[T,M] <- round(out.h0$aic,2)
       BIC.df[T,M] <- round(out.h0$bic,2)
-      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      # If fail to reject the test, break the loop
+      if (estimate.crit == 1){
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+        
+      }
+      else{
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
+        
+      }
+        # If fail to reject the test, break the loop
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 3){
+      if (sum(lr.estimate > lr.crit) < 1){
         estimate.crit <- 0
       }
-      
     }
   }
   ###################################################################
@@ -207,7 +215,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", ind.name))
+  print(paste("Finished", each.name))
   print( Sys.time() - t)
   print("*************************************")
   
@@ -234,9 +242,20 @@ for (each.code in ind.code){
   
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
+  
+  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",each.name,"_regressor.txt"))
+  sink(paste("results/Empirical/Japan_Crit_", each.name, "_AR1.txt"))
+  stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
+  print(paste("Chilean Producer Data: Estimated LR for", ind.name))
+  print(coef.df)
+  print(estimate.df)
+  stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
+  sink()
 }
 
-
+# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Empirical/Japan_resultLR3_regressor.csv")
+#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Empirical/Japan_resultLR4_regressor.csv")
+# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Empirical/Japan_resultLR5_regressor.csv")
 
 count <- length(ind.names)
 df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
@@ -269,6 +288,7 @@ df.5[ 3* 1:count ,] <- BIC.df.5
 rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
+
 # Combine the data frames
 combined_df <- rbind(
   cbind(df.2, original_df = "df.2"),
@@ -277,6 +297,7 @@ combined_df <- rbind(
   cbind(df.5, original_df = "df.5")
 )
 
-write.csv(combined_df,file="results/Empirical/Japan_combined_regressor_normed_kl.csv")
+# Write the combined data frame to a single file
+write.csv(combined_df, file = "results/Empirical/Japan_K_AR1.csv")
 
 

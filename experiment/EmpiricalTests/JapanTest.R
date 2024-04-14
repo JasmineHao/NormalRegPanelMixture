@@ -1,28 +1,53 @@
+# This script replicates table 7, 10, 11 - 14 in the paper.
 library(stargazer)
 library(ggplot2)
 library(reshape)
-# library(normalregMix)
-library(foreign)
 library(NormalRegPanelMixture)
-options('nloptr.show.inequality.warning'=FALSE)
-options(warn = -1)
-
+# library(Hmisc)
 set.seed(123)
 
-#df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
+# library(normalregMix)
 
-df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(12)
+options('nloptr.show.inequality.warning'=FALSE)
+cl <- makeCluster(7)
+##################################################
+#1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
+#7.plastic; 8. ceramics; 9. steel; 10. othermetal;
+#11. metal product; 12. machine; 13. electronics;
+#14. transportation
+#equipment; 15. precision instrument; 16. other;
+##################################################
 
-ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
-ind.code <- c(311,381,321)
+ind_list <- c("food","textile", "wood","paper", "chemical",
+              "petro","plastic","ceramics","steel","othermetal",
+              "metal product","machine","electronics",
+              "transportation equipment","precision instrument",
+              "other")
 
+
+# df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/JapanClean.rds")
+# df <- read.csv(file="data/data_production_function_missing2zero_ver3.csv")
+
+#Function
+#source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
+
+df <- readRDS("data/JapanClean.rds")
+df[df==0] <- NA
+#Function
+#source("C:/Users/Jasmine/Dropbox/GNR/R/productionEstimation.R")
+df$t <- df$year
+df <- df[order(df$id,df$t),]
+
+
+
+ind.code <- c(5,13,12,14,1)
+ind.code <- c(5,13,12)
 ind.names <- c()
 for (each.code in ind.code){
-  ind.each <- subset(df,ciiu_3d==each.code)
-  ind.name <- ind.each$ciiu3d_descr[1]
+  ind.name <- ind_list[each.code]
   ind.names <- append(ind.names,ind.name)
 }
+
 ind.count <- length(ind.code)
 
 
@@ -82,23 +107,22 @@ rownames(crit.LR.df.5) <- ind.names
 colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 
+######################################################
+#For panel data
+######################################################
+
 count = 0
+
 for (each.code in ind.code){
   t <- Sys.time()
-  ind.each <- subset(df,ciiu_3d==each.code)
-  ind.name <- ind.each$ciiu3d_descr[1]
-  ind.each$lny <- log(ind.each$GO)
-  ind.each$lnm <- log(ind.each$WI)
-  ind.each$lnl <- log(ind.each$L)
-  ind.each$lnk <- log(ind.each$K)
-  ######################################################
-  # Describe the data
-  ######################################################
+  ind.each <- subset(df,industry_2==each.code)
+  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
+  ind.each <- ind.each[complete.cases(ind.each),]
+  ind.each['lnk'] <- ind.each['k_it']
+  each.name <- ind_list[each.code]
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
-  # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
-  T.cap <- max(year.list)
+  T.cap <- max(year.list) 
   
   coef.df <- matrix(0,nr=5,nc=10)
   estimate.df <- matrix(0,nr=5,nc=10)
@@ -113,38 +137,39 @@ for (each.code in ind.code){
   
   for (T in 3:3){
     t.start <- T.cap-T+1
-    #Reshape the data so that I can apply the test
-    ind.each.t <- ind.each[ind.each$year>=t.start,]
-    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
+    t.seq <- seq(from=t.start,to=t.start+T-1)
+    
+    ind.each.t <- ind.each[ind.each$year >= t.start,]
+    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
     id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
     #Remove the incomplete data, need balanced panel
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
     #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
+    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
     ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
     
-    ind.each.y <- (ind.each.y - mean(ind.each.t$si))/(sd(ind.each.t$si))
+    ind.each.y <- (ind.each.y - mean(ind.each.t$lnmY_it))/(sd(ind.each.t$lnmY_it))
+    ind.each.y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1))/(sd(ind.each.t$y_l1))
     ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
+    ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
     
-    data <- list(Y = t(ind.each.y), X = matrix(ind.each.x),  Z = NULL)
-    
-    N <- dim(ind.each.y)[1]
+    data <- list(Y = t(ind.each.y), X = NULL,  Z = NULL)
+    N <- dim(data$Y)[2]
     
     h1.coefficient = NULL
     estimate.crit <- 1
     for (M in 1:10){
       # Estimate the null model
-      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
-      an <- anFormula(out.h0$parlist,M,N,T,q=1)
+      out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+      an <- anFormula(out.h0$parlist,M,N,T,q=0)
       print("-----------------------------------------")
       print(paste("T=",T,"M = ",M,"an=",an))
       if (is.na(an)){
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an)
+      out.h1 <- normalpanelmixMaxPhi(y=data$Y,z = data$Z,parlist=out.h0$parlist,an=an)
       h1.parlist = out.h1$parlist
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
@@ -153,7 +178,8 @@ for (each.code in ind.code){
       if (estimate.crit == 1){
         lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
         if (class(lr.crit) == "try-error"){
-          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+          #lr.crit <- c(0,0,0)
+          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X,  parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
         }
       }
       # Store the estimation results
@@ -178,7 +204,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", ind.name))
+  print(paste("Finished", each.name))
   print( Sys.time() - t)
   print("*************************************")
   
@@ -205,21 +231,19 @@ for (each.code in ind.code){
   
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
-  
-  #sink(paste("/home/haoyu/results/Empirical/Chile_crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Chile_crit",ind.name,"_regressor_normed.txt"))
-  stargazer(as.data.frame(desc.each),type="text",summary=TRUE,title=paste("Descriptive data for Chilean Industry: ",ind.name))
-  print(paste("Chilean Producer Data: Estimated LR for",ind.name))
+
+  sink(paste("results/Empirical/Japan_Crit_", each.name, "_plain"))
+
+  stargazer(ind.each, type = "latex", title = paste("Descriptive data for ", each.name, " industry in Japan"))
+  print(paste("Estimate LR for ", each.name))
   print(coef.df)
   print(estimate.df)
-  stargazer(crit.df,type="text",title=paste("Simulated crit for ",ind.name,each.code))
+  stargazer(crit.df, title = paste("Critical Values Asymptotics", each.code))
+
   sink()
+
 }
 
-
-
-# colnames(crit.df.boot) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-# rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
 df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
@@ -252,6 +276,7 @@ df.5[ 3* 1:count ,] <- BIC.df.5
 rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
 colnames(df.5) <- colnames(estimate.LR.df.5)
 
+
 # Combine the data frames
 combined_df <- rbind(
   cbind(df.2, original_df = "df.2"),
@@ -260,6 +285,6 @@ combined_df <- rbind(
   cbind(df.5, original_df = "df.5")
 )
 
-write.csv(combined_df,file="results/Empirical/Chile_combined_regressor_normed.csv")
+write.csv(combined_df,file="results/Empirical/Japan_plain.csv")
 
 
