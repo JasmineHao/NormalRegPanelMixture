@@ -64,7 +64,7 @@ for (each.code in ind.code){
   ind.each <- subset(df,industry_2==each.code)
   ind.each <- ind.each[complete.cases(ind.each),]
   ind.each$lnm <- log(ind.each$m_it)
-  each.name <- ind_list[each.code]
+  ind.name <- ind_list[each.code]
   
   year.list <- sort(unique(ind.each$year))
   ######################################################
@@ -126,7 +126,7 @@ for (each.code in ind.code){
       print(lr.crit)
     }
    
-     desc.each[T, ] <- c(each.name, each.code, dim(m.share)[1], round(mean(as.matrix(ind.each.y)), 2), round(sd(as.matrix(ind.each.y)), 2))
+     desc.each[T, ] <- c(ind.name, each.code, dim(m.share)[1], round(mean(as.matrix(ind.each.y)), 2), round(sd(as.matrix(ind.each.y)), 2))
   }
   colnames(estimate.df) <- c("M=1","M=2","M=3","M=4","M=5")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
@@ -147,14 +147,14 @@ for (each.code in ind.code){
   colnames(desc.each) <- c("Industry Name", "code", "n", "mean", "sd")
   rownames(desc.each) <- c("T=1", "T=2", "T=3", "T=4", "T=5")
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
   
-  sink(paste("results/Empirical/Japan_regressorCrit",each.name,".txt"))
-  stargazer(desc.each, type = "text", title = paste("Descriptives for ", each.name, each.code))
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
+  sink(paste("results/Empirical/Japan_regressorCrit",ind.name,".txt"))
+  stargazer(desc.each, type = "text", title = paste("Descriptives for ", ind.name, each.code))
+  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",ind.name, " industry in Japan"))
+  print(paste("Estimate LR for ",ind.name))
   print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
   # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")

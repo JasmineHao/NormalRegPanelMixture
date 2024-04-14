@@ -99,7 +99,7 @@ for (each.code in ind.code){
   ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
   ind.each['ln_k'] <- ind.each['k_it']
-  each.name <- ind_list[each.code]
+  ind.name <- ind_list[each.code]
   
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list) 
@@ -174,7 +174,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
 

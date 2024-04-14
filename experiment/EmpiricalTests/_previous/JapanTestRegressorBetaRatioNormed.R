@@ -118,7 +118,7 @@ for (each.code in ind.code){
   ind.each <- ind.each[,c("id","year","si_sl","k_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
   ind.each['ln_k'] <- ind.each['k_it']
-  each.name <- ind_list[each.code]
+  ind.name <- ind_list[each.code]
   
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list) 
@@ -201,7 +201,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
   
@@ -229,9 +229,9 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",each.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Japan_Crit",each.name,"_regressor_normed.txt"))
-  print(paste("Estimate LR for ",each.name))
+  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Empirical/Japan_Crit",ind.name,"_regressor_normed.txt"))
+  print(paste("Estimate LR for ",ind.name))
   print(coef.df)
   print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))

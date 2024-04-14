@@ -120,7 +120,7 @@ for (each.code in ind.code){
   ind.each['lnl'] <- (ind.each$l_it - mean(ind.each$l_it) )/(sd(ind.each$l_it))
   ind.each['y'] <- (ind.each$lnmY_it - mean(ind.each$lnmY_it) )/(sd(ind.each$lnmY_it))
   
-  each.name <- ind_list[each.code]
+  ind.name <- ind_list[each.code]
   # first create splines
   
   ind.each <- ind.each %>%
@@ -250,7 +250,7 @@ for (each.code in ind.code){
   ###################################################################
   count = count + 1
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
   
@@ -278,11 +278,11 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",each.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Japan_Crit_", each.name, "_KL_Spline"))
+  # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",ind.name,"_regressor.txt"))
+  sink(paste("results/Empirical/Japan_Crit_", ind.name, "_KL_Spline"))
   
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
+  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",ind.name, " industry in Japan"))
+  print(paste("Estimate LR for ",ind.name))
   print(coef.df)
   print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))

@@ -258,7 +258,7 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
   # 
-  sink(paste("results/Empirical/Chile_Crit_", each.name, "_KL_Spline.txt"))
+  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_KL_Spline.txt"))
   stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
   print(paste("Chilean Producer Data: Estimated LR for",ind.name))
   print(coef.df)

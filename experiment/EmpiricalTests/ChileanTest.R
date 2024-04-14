@@ -206,10 +206,10 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  sink(paste("results/Empirical/Chile_Crit_", each.name, "_plain"))
+  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_plain"))
 
-  stargazer(ind.each, type = "latex", title = paste("Descriptive data for ", each.name, " industry in Chile"))
-  print(paste("Estimate LR for ", each.name))
+  stargazer(ind.each, type = "latex", title = paste("Descriptive data for ", ind.name, " industry in Chile"))
+  print(paste("Estimate LR for ", ind.name))
   print(coef.df)
   print(estimate.df)
   stargazer(crit.df, title = paste("Critical Values Asymptotics", each.code))

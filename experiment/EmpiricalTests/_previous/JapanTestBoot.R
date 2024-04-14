@@ -61,7 +61,7 @@ count = 1
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
-  each.name <- ind_list[each.code]
+  ind.name <- ind_list[each.code]
   
   m.share <- cast(ind.each,id ~ year,value="lnmY_it")
   
@@ -125,14 +125,14 @@ for (each.code in ind.code){
   count = count + 1
   
   print("*************************************")
-  print(paste("Finished", each.name))
+  print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
   
-  sink(paste("results/Empirical/Japan_CritBoot",each.name,".txt"))
+  sink(paste("results/Empirical/Japan_CritBoot",ind.name,".txt"))
   
-  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",each.name, " industry in Japan"))
-  print(paste("Estimate LR for ",each.name))
+  stargazer(ind.each,type="latex",title=paste("Descriptive data for ",ind.name, " industry in Japan"))
+  print(paste("Estimate LR for ",ind.name))
   print(estimate.df)
   stargazer(crit.df,title=paste("Critical Values Asymptotics",each.code))
   # regpanelmixMEMtest(y = data$Y,x=NULL,t=5,m=2,crit.method="none")
