@@ -131,16 +131,21 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
             gamma(j) = b_jn((q1+2)*m+j);
           }
         }
+        
         // For initial condition
         for (int j = 0; j < m; ++j)
         {
           for (int i = 0; i < q01; ++i)
           {
-            mubeta_0(i, j) = b_jn((q1 + p + 2) * m + q01 * j + i);
+            mubeta_0(i, j) = b_jn((q1  + 2) * m + p + q01 * j + i);
+            
           }
-          sigma_0(j) = b_jn((q1 + p + q01 + 2) * m + j);
+          sigma_0(j) = b_jn((q1 + q01 + 2) * m + p + j);
         }
-
+        
+        
+        
+        
         oldpenloglik = R_NegInf;
         emit = 0;
         diff = 1.0;
@@ -175,7 +180,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
 
               r0 = (1.0 / sigma_0) % (ytilde0(nn) - trans(x10.row(nn) * mubeta_0)) + log(sigma_0);
 
-
+              
               r = r + r0;
               /* normalizing with minr avoids the problem of dividing by zero */
               minr = min(r);
