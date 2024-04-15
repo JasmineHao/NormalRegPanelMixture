@@ -575,7 +575,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
     x0 <- as.matrix(x0)
     q.0 <- ncol(x0)
     mu0 <- mubeta0[1,]
-    beta0 <- t(mubeta0[2:(q + 1), ]) # CHECKED
+    beta0 <- t(mubeta0[2:(q.0 + 1), ]) # CHECKED
   } else {
     q.0 <- 0
     mu0 <- mubeta0

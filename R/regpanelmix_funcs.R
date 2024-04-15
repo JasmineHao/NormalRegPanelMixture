@@ -327,11 +327,9 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   if (model.ar1){
     # for AR1 model
     mubeta0.0 <- parlist$mubeta0
-    if (q1.0 > 2){
+    if (q1.0 > 1){
       mubeta0.0h <- c(-1e+10,mubeta0.0[1,],1e+10)        # m+2 by 1
-    } else if (q1.0 == 2){
-      mubeta0.0h <- c(-1e+10,mubeta0.0,1e+10)        # m+2 by 1
-    }
+    } 
     else{
       mubeta0.0h <- c(-1e+10,mubeta0.0,1e+10)        # m+2 by 1
     }
@@ -646,8 +644,8 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
       minMU <- min(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
       maxMU <- max(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
       }
-      mubeta0 <- matrix(0, nrow = q1.0 * m, ncol = ninits)
-      for (j in 1:m) {
+      mubeta0 <- matrix(0, nrow = q1.0 * (m+1), ncol = ninits)
+      for (j in 1:(m+1)) {
         mubeta0[(q1.0 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
         for (i in 2:q1.0) {
           mubeta0[(q1.0 * (j - 1) + i), ] <- mubeta_hat.0[i] * runif(ninits, min = -2, max = 2)
@@ -908,7 +906,11 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     p.0 <- 0
   }
   # determine the number of coefficient
-  npar    <- m-1 + (q1+1+q1.0+p.0)*m + p  # number of parameters
+  if (model.ar1){
+    npar    <- m-1 + (q1+2+q1.0+p.0)*m + p  # number of parameters
+  } else {
+    npar    <- m-1 + (q1+1)*m + p  # number of parameters
+  }
   xz      <- cbind(x, z)
   ls.out  <- lsfit(xz, y)
   sd0     <- sqrt(mean(ls.out$residuals^2))
@@ -949,7 +951,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
         mubeta0 <- mean(y0)
       } else {
         ls.out0  <- lsfit(xz0, y0)
-        mubeta0 <- ls.out0$coeff
+        mubeta0 <- as.matrix(unname(ls.out0$coeff[1:q1.0]))
         sd00     <- sqrt(mean(ls.out0$residuals^2))
       }
       loglik0 <- - (n/2) * (1 + log(2 * pi) + 2 * log(sd00))
@@ -1057,7 +1059,12 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   sigma <- b1[(1 + (q1 + 1) * m):((q1 + 2) * m), index]
   
   if (model.ar1){
-    mubeta0 <- b1[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p ), index]
+
+    if (q1.0 > 1){
+      mubeta0 <- matrix(b1[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p ), index],nrow=q1.0,ncol=m)}
+      else{
+      mubeta0 <- b1[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p ), index]
+    }
     sigma0 <- b1[((q1 + q1.0 + 2) * m + p + 1):((q1 + q1.0 + 3) * m + p), index]
   } else{
     mubeta0 <- NULL
@@ -1103,11 +1110,28 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
       }
     }
   }
-
+  
+  if (model.ar1){
+    mubeta0.name <- matrix(0,nrow = q1.0, ncol = m)
+    mubeta0.name[1,] <- paste("mu0", 1:m, sep = "")
+    if (q1.0 == 2) {
+      mubeta0.name[2,] <- paste("beta0", 1:m,  sep = "")
+    } else {
+      for (i in 1:(q1.0-1)) {
+        for (j in 1:m) {
+          mubeta0.name[i+1,j] <- paste("beta0", j, i, sep = "")
+        }
+      }
+    } 
+    
+  }
+  
   parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam,  mubeta0 = mubeta0, sigma0 = sigma0)
   coefficients <- unlist(parlist)
   names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
-  }  # end m >= 2
+  names(coefficients)[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p )] <- c(mubeta0.name)
+
+    }  # end m >= 2
 
   if (vcov.method == "none") {
     vcov <- NULL
