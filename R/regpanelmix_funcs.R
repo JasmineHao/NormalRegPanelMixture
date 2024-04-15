@@ -608,6 +608,7 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
   alpha.hyp[h:(h + 1)] <- c(alpha.hyp[h] * tau, alpha.hyp[h + 1] * (1 - tau))
   alpha <- matrix(rep.int(alpha.hyp, ninits), nrow = m + 1)
   
+  
   if (model.ar1){
     
     if (!is.null(z0) & !is.null(z0)) {
@@ -620,7 +621,8 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
       stdR.0 <- sd(r)
     } else if (!is.null(x0)) {
       out <- lsfit(x0, y0)
-      mubeta_hat.0 <- out$coef
+      mubeta_hat.0 <- out$coef[1:q1.0]
+      
       r <- out$residuals
       stdR.0 <- sd(r)
     } else if (!is.null(z0)) {
@@ -637,13 +639,10 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
       mubeta0 <- matrix(runif((m + 1) * ninits, min = min(y0), max = max(y0)), nrow = (m + 1))
       sigma0 <- matrix(runif((m + 1) * ninits, min = 0.01, max = 2), nrow = (m + 1)) * stdR.0
     } else{
-      if (q1.0 == 2){
-        minMU <- min(y0 - x0 * mubeta_hat.0[2])
-        maxMU <- max(y0 - x0 * mubeta_hat.0[2])
-      } else{
-      minMU <- min(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
-      maxMU <- max(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
-      }
+      x0 <- as.matrix(x0)
+      minMU <- min(y0 - x0 %*% mubeta_hat.0[-1])
+      maxMU <- max(y0 - x0 %*% mubeta_hat.0[-1])
+      
       mubeta0 <- matrix(0, nrow = q1.0 * (m+1), ncol = ninits)
       for (j in 1:(m+1)) {
         mubeta0[(q1.0 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
@@ -731,7 +730,8 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
       stdR.0 <- sd(r)
     } else if (is.null(z0) & !is.null(x0)) {
       out <- lsfit(x0, y0)
-      mubeta_hat.0 <- out$coef
+      mubeta_hat.0 <- out$coef[1:q1.0]
+      
       r <- out$residuals
       stdR.0 <- sd(r)
     } else if (!is.null(z0) & is.null(x0)) {
@@ -749,13 +749,10 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
       sigma0 <- matrix(runif(m * ninits, min = 0.01, max = 2), nrow = m) * stdR.0
     } else{
       
-      if (q1.0 == 2){
-        minMU <- min(y0 - x0 * mubeta_hat.0[-1])
-        maxMU <- max(y0 - x0 * mubeta_hat.0[-1])
-      } else {
-      minMU <- min(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
-      maxMU <- max(y0 - x0 %*% mubeta_hat.0[2:length(mubeta_hat.0)])
-      }
+      x0 <- as.matrix(x0)
+      minMU <- min(y0 - x0 %*% mubeta_hat.0[-1])
+      maxMU <- max(y0 - x0 %*% mubeta_hat.0[-1])
+      
       mubeta0 <- matrix(0, nrow = q1.0 * m, ncol = ninits)
       for (j in 1:m) {
         mubeta0[(q1.0 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)

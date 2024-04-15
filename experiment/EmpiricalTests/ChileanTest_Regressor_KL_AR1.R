@@ -141,31 +141,32 @@ for (each.code in ind.code){
 
     # normalize data
     ind.each.t$y <- (ind.each.t$si - mean(ind.each.t$si)) / (sd(ind.each.t$si))
-    ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk)) / (sd(ind.each.t$lnk))
+    ind.each.t$k <- (ind.each.t$lnk - mean(ind.each.t$lnk)) / (sd(ind.each.t$lnk))
+    ind.each.t$l <- (ind.each.t$lnl - mean(ind.each.t$lnl)) / (sd(ind.each.t$lnl))
 
     ind.each.t$y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1)) / (sd(ind.each.t$si_l1))
-    ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1)) / (sd(ind.each.t$lnk_l1))
+    ind.each.t$k1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1)) / (sd(ind.each.t$lnk_l1))
+    ind.each.t$l1 <- (ind.each.t$lnl_l1 - mean(ind.each.t$lnl_l1)) / (sd(ind.each.t$lnl_l1))
+
 
     # Reshape the Y
     ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
     ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]
-
-    ind.each.x <- ind.each.t$x
-
-    ind.each.y1 <- ind.each.t$y1
-
+    
+    
     ind.each.y10 <- cast(ind.each.t[, c("id", "year", "y1")], id ~ year, value = "y1")
     ind.each.y10 <- ind.each.y10[, colnames(ind.each.y10) != "id"][, 1]
-
-    ind.each.x10 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
-    ind.each.x10 <- ind.each.x10[, colnames(ind.each.x10) != "id"][, 1]
-
-
-    ind.each.x1 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
-    ind.each.x1 <- ind.each.x1[, colnames(ind.each.x1) != "id"][, 1]
-
-    data <- list(Y = t(ind.each.y), X = data.frame(col1 = ind.each.y1, col2 = ind.each.x, col3 = ind.each.x1), Z = NULL)
-    data.0 <- list(Y = ind.each.y10, X = data.frame(col1 = ind.each.x10), Z = NULL) # for the initial condition
+    
+    # For K
+    ind.each.k10 <- cast(ind.each.t[, c("id", "year", "k1")], id ~ year, value = "k1")
+    ind.each.k10 <- ind.each.k10[, colnames(ind.each.k10) != "id"][, 1]
+    
+    # For L
+    ind.each.l10 <- cast(ind.each.t[, c("id", "year", "l1")], id ~ year, value = "l1")
+    ind.each.l10 <- ind.each.l10[, colnames(ind.each.l10) != "id"][, 1]
+    
+    data <- list(Y = t(ind.each.y), X = data.frame(col1 = ind.each.t$y1, col2 = ind.each.t$k, col3 = ind.each.t$k1, col4 = ind.each.t$l, col5 = ind.each.t$l), Z = NULL)
+    data.0 <- list(Y = ind.each.y10, X = data.frame(col1 = ind.each.k10, col2 = ind.each.l10), Z = NULL) # for the initial condition
     
     
     N <- dim(ind.each.y)[1]
@@ -246,7 +247,7 @@ for (each.code in ind.code){
   colnames(crit.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
-  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_K_AR1.txt"))
+  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_KL_AR1.txt"))
   stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
   print(paste("Chilean Producer Data: Estimated LR for", ind.name))
   print(coef.df)
@@ -302,6 +303,6 @@ combined_df <- rbind(
 
 
 # Write the combined data frame to a single file
-write.csv(combined_df, file = "results/Empirical/Chile_K_AR1.csv")
+write.csv(combined_df, file = "results/Empirical/Chile_KL_AR1.csv")
 
 

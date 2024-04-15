@@ -167,7 +167,7 @@ for (each.code in ind.code){
     estimate.crit <- 1
     for (M in 1:10){
       # Estimate the null model
-      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       print("-----------------------------------------")
       print(paste("T=",T,"M = ",M,"an=",an))
@@ -175,37 +175,33 @@ for (each.code in ind.code){
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an)
+      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an, data.0 = data.0)
       h1.parlist = out.h1$parlist
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       # Simulate the asymptotic distribution
-      if (estimate.crit == 1){
-        lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
-        if (class(lr.crit) == "try-error"){
-          lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
-        }
+      if (estimate.crit){
+        lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      } else{
+        lr.crit <- c(0,0,0)
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
       }
-      # Store the estimation results
+      
+      
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
       
       AIC.df[T,M] <- round(out.h0$aic,2)
       BIC.df[T,M] <- round(out.h0$bic,2)
+      
+      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      if (estimate.crit == 1){
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-        
-      }
-      else{
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
-        
-      }
-        # If fail to reject the test, break the loop
+      # If fail to reject the test, break the loop
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 1){
+      if (sum(lr.estimate > lr.crit) < 3){
         estimate.crit <- 0
       }
     }
@@ -244,7 +240,7 @@ for (each.code in ind.code){
   rownames(crit.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
   # sink(paste("/home/haoyu/results/Empirical/Japan_Crit",ind.name,"_regressor.txt"))
-  sink(paste("results/Empirical/Japan_Crit_", ind.name, "_AR1.txt"))
+  sink(paste("results/Empirical/Japan_Crit_", ind.name, "_K_AR1.txt"))
   stargazer(as.data.frame(desc.each), type = "text", summary = TRUE, title = paste("Descriptive data for Chilean Industry: ", ind.name))
   print(paste("Chilean Producer Data: Estimated LR for", ind.name))
   print(coef.df)
@@ -252,10 +248,6 @@ for (each.code in ind.code){
   stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
   sink()
 }
-
-# write.csv(cbind(estimate.LR.df.3,AIC.df.3),file="/home/haoyu/results/Empirical/Japan_resultLR3_regressor.csv")
-#     write.csv(cbind(estimate.LR.df.4,AIC.df.4),file="/home/haoyu/results/Empirical/Japan_resultLR4_regressor.csv")
-# write.csv(cbind(estimate.LR.df.5,AIC.df.5),file="/home/haoyu/results/Empirical/Japan_resultLR5_regressor.csv")
 
 count <- length(ind.names)
 df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))

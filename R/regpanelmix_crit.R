@@ -597,7 +597,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   
   # Generate bootstrap observations
   
-  ybset <- replicate(nbtsp, generateDataAR1(alpha=alpha,mu=mu,sigma=sigma,gamma=gamma,beta=beta,mu0=mu0,sigma0=sigma0,gamma0=gamma0,beta0=beta0,N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0=q.0,x=x,z=z, x0 = y0, z0=z0))
+  ybset <- replicate(nbtsp, generateDataAR1(alpha=alpha,mu=mu,sigma=sigma,gamma=gamma,beta=beta,mu0=mu0,sigma0=sigma0,gamma0=gamma0,beta0=beta0,N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0=q.0,x=x,z=z, x0 = x0, z0=z0))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
    
   if (!is.null(z)) {

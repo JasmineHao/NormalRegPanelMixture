@@ -165,11 +165,13 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,
   
   
   y0 <- mu_R0 + sigma_R0 * rnorm(N)
+  
   if (q.0 > 1) {
     beta_R0 <- R %*% beta0
-    y0 = y0 + x0 %*% beta_R0
+    y0 = y0 + rowSums(x0 * beta_R0)
   } else if (q.0 == 1) {
     beta_R0 <- R %*% as.vector(beta0)
+    
     y0 = y0 + x0 * beta_R0
   } else {
 
