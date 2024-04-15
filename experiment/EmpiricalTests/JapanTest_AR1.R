@@ -196,28 +196,28 @@ for (each.code in ind.code){
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
-      # Simulate the asymptotic distribution
-      lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
+      # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
+      if (estimate.crit){
+        lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      } else{
+        lr.crit <- c(0,0,0)
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
+      }
       
-      # Store the estimation results
+      
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
       
       AIC.df[T,M] <- round(out.h0$aic,2)
       BIC.df[T,M] <- round(out.h0$bic,2)
+      
+      
       crit.df[T,M] <- paste(round(lr.crit,2),collapse = ",")
-      if (estimate.crit == 1){
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-        
-      }
-      else{
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
-        
-      }
-        # If fail to reject the test, break the loop
+      # If fail to reject the test, break the loop
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 1){
+      if (sum(lr.estimate > lr.crit) < 3){
         estimate.crit <- 0
       }
     }

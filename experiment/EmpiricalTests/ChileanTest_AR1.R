@@ -14,7 +14,7 @@ set.seed(123)
 #df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(12)
+cl <- makeCluster(16)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.code <- c(311,381,321)
@@ -166,6 +166,7 @@ for (each.code in ind.code){
     
     h1.coefficient = NULL
     estimate.crit <- 1
+    
     for (M in 1:10){
       # Estimate the null model
       out.h0 <- regpanelmixPMLE(y=data$Y, x=data$X, z = data$Z, m=M,vcov.method = "none", in.coefficient=h1.coefficient, data.0= data.0)
@@ -183,12 +184,17 @@ for (each.code in ind.code){
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
+      if (estimate.crit){
+        lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      } else{
+        lr.crit <- c(0,0,0)
+        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
+      }
       
-      lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
       
-      # Store the estimation results
       coef.df[T,M] <- paste(paste(names(out.h0$coefficients), collapse = ","), paste(out.h0$coefficients, collapse = ","), collapse = ",")
-      estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
+      
       AIC.df[T,M] <- round(out.h0$aic,2)
       BIC.df[T,M] <- round(out.h0$bic,2)
       
