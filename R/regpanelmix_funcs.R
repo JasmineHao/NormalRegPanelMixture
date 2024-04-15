@@ -1109,11 +1109,12 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   }
   
   if (model.ar1){
+    
     mubeta0.name <- matrix(0,nrow = q1.0, ncol = m)
     mubeta0.name[1,] <- paste("mu0", 1:m, sep = "")
     if (q1.0 == 2) {
       mubeta0.name[2,] <- paste("beta0", 1:m,  sep = "")
-    } else {
+    } else if (q1.0 > 2) {
       for (i in 1:(q1.0-1)) {
         for (j in 1:m) {
           mubeta0.name[i+1,j] <- paste("beta0", j, i, sep = "")
