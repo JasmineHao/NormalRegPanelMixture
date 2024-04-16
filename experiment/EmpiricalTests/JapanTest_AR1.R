@@ -10,7 +10,7 @@ library(dplyr)
 # library(normalregMix)
 
 options('nloptr.show.inequality.warning'=FALSE)
-cl <- makeCluster(16)
+cl <- makeCluster(12)
 ##################################################
 #1. food; 2. textile; 3. wood; 4. paper; 5. chemical; 6. petro;
 #7.plastic; 8. ceramics; 9. steel; 10. othermetal;
