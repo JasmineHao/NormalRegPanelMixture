@@ -132,7 +132,7 @@ LR_2.comp <- function(Z, I, q, ninits = 25) {
 #' @return A list with items:
 #' \item{loglik}{Log-likelihood resulting from MEM algorithm at k=1,2,3.}
 #' \item{penloglik}{Penalized log-likelihood resulting from MEM algorithm at k=1,2,3.}
-regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 0.5),
+regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, an_0, tauset = c(0.1, 0.3, 0.5),
                               ninits = 10,
                               epsilon.short = 1e-02, epsilon = 1e-08,
                               maxit.short = 500, maxit = 2000,
@@ -205,7 +205,7 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
       foreach(h = 1:m) %dopar% {
         regpanelmixPhiStep(
           c(h, tauset[t]), y, x, parlist, z, p,
-          an,
+          an, an_0,
           ninits, ninits.short,
           epsilon.short, epsilon,
           maxit.short, maxit,
@@ -223,7 +223,7 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
         tau <- tauset[t]
         results <- regpanelmixPhiStep(
           c(h, tau), y, x, parlist, z, p,
-          an,
+          an, an_0,
           ninits, ninits.short,
           epsilon.short, epsilon,
           maxit.short, maxit,
@@ -270,7 +270,7 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, tauset = c(0.1, 0.3, 
 #' @param verb Determines whether to print a message if an error occurs.
 #' @return A list of coefficients, log-likelihood, and penalized log-likelihood resulting from MEM algorithm.
 regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
-                           an,
+                           an, an_0,
                            ninits, ninits.short,
                            epsilon.short, epsilon,
                            maxit.short, maxit,
@@ -361,7 +361,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     }
     # short EM
     b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$mubeta0, tmp$sigma0, tmp$gam0)
-    out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, maxit.short, ninits.short, epsilon.short, tau, h, k)
+    out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, an_0 , maxit.short, ninits.short, epsilon.short, tau, h, k)
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- as.matrix(b0[ ,components]) # b0 has been updated
@@ -396,7 +396,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
       ninits <- 1
       maxit <- 1
       # Two EM steps
-      out <- cppRegPanelmixPMLEAR1(b, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
+      out <- cppRegPanelmixPMLEAR1(b, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, an_0, maxit, ninits, epsilon, tau, h, k)
       
       alpha <- b[1:m1,1] # b0 has been updated
       tau <- alpha[h] / (alpha[h] + alpha[h+1]) 
@@ -978,6 +978,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   k <- 0 # setting k=0 gives PMLE
 
   an <- 1 / n # penalty term for variance
+  an_0 <- 1 / n # penalty term for variance
   sigma.0 <- rep(sd0, m)
   mu.0 <- double(m + 1) # dummy
   
@@ -1031,7 +1032,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
       b0[, 1] <- binit
     }
     out.short <- cppRegPanelmixPMLEAR1(
-      b0, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0,  mu0.0, sigma0.0, m, p, t, an, maxit.short,
+      b0, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0,  mu0.0, sigma0.0, m, p, t, an, an_0,  maxit.short,
       ninits.short, epsilon.short
     )
 
@@ -1044,7 +1045,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
       b1[, components] <- in.coefficient
     }
     out <- cppRegPanelmixPMLEAR1(
-      b1, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0, mu0.0, sigma0.0, m, p, t, an, maxit, ninits, epsilon
+      b1, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0, mu0.0, sigma0.0, m, p, t, an, an_0, maxit, ninits, epsilon
     )
 
   } # End of AR 1 case
@@ -1125,6 +1126,8 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   }
   
   parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam,  mubeta0 = mubeta0, sigma0 = sigma0)
+  parlist0 <- list(alpha = alpha, mubeta = mubeta0, sigma = sigma0,gam=NULL)
+  
   coefficients <- unlist(parlist)
   names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
   names(coefficients)[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p )] <- c(mubeta0.name)
@@ -1137,7 +1140,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     vcov <- regpanelmixVcov(y = y, x = x, coefficients = coefficients, z = z , vcov.method = vcov.method)
   }
 
-  a <- list(coefficients = coefficients, parlist = parlist, vcov = vcov, loglik = loglik,
+  a <- list(coefficients = coefficients, parlist = parlist, parlist0=parlist0, vcov = vcov, loglik = loglik,
             penloglik = penloglik, aic = aic, bic = bic, postprobs = postprobs,
             components = getComponentcomponents(postprobs),
             call = match.call(), m = m, label = "PMLE")

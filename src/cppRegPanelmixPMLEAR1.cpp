@@ -7,27 +7,29 @@ const double SINGULAR_EPS = 10e-10; // criteria for matrix singularity
 
 // [[Rcpp::export]]
 List cppRegPanelmixPMLEAR1(NumericMatrix bs,
-                        NumericVector ys,
-                        NumericMatrix xs,
-                        NumericMatrix zs,
-                        NumericVector ys0, // initial condition
-                        NumericMatrix xs0, // initial condition
-                        NumericMatrix zs0, // initial condition
-                        NumericVector mu0s,
-                        NumericVector sigma0s,
-                        NumericVector mu00s, // initial condition
-                        NumericVector sigma00s, // initial condition
-                        
-                        int m,
-                        int p,
-                        int t, //time periods,crucial for mix
-                        double an,
-                        int maxit = 2000,
-                        int ninits = 10,
-                        double tol = 1e-8,
-                        double tau = 0.5,
-                        int h = 0,
-                        int k = 0) {
+                           NumericVector ys,
+                           NumericMatrix xs,
+                           NumericMatrix zs,
+                           NumericVector ys0, // initial condition
+                           NumericMatrix xs0, // initial condition
+                           NumericMatrix zs0, // initial condition
+                           NumericVector mu0s,
+                           NumericVector sigma0s,
+                           NumericVector mu00s,    // initial condition
+                           NumericVector sigma00s, // initial condition
+
+                           int m,
+                           int p,
+                           int t, // time periods,crucial for mix
+                           double an,
+                           double an_0,
+                           int maxit = 2000,
+                           int ninits = 10,
+                           double tol = 1e-8,
+                           double tau = 0.5,
+                           int h = 0,
+                           int k = 0)
+{
   int nt = ys.size();
   int n  = nt / t;
   int q = xs.ncol();
@@ -82,7 +84,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
   arma::mat ze(p,1);
   int sing, emit;
   
-  double oldpenloglik, s0j, diff, minr, w_j, sum_l_j, ssr_j, alphah, tauhat;
+  double oldpenloglik, s0j, s00j, diff, minr, w_j, sum_l_j, ssr_j, alphah, tauhat;
   arma::mat x1(nt,q1);
   arma::mat x10(n,q01);
   double ll = 0; // force initilization
@@ -201,6 +203,8 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
             for (int j=0; j<m; j++) {
               s0j = sigma0(j)/sigma(j);
               penloglik += -an*(s0j*s0j - 2.0*log(s0j) -1.0);
+              s00j = sigma00(j) / sigma_0(j);
+              penloglik += -an_0 * (s00j * s00j - 2.0 * log(s00j) - 1.0);
             }
             diff = penloglik - oldpenloglik;
             oldpenloglik = penloglik;
@@ -235,7 +239,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               mubeta.col(j) = solve(design_matrix, trans(xtilde) * ytilde);
               
               ssr_j = sum( trans(w.row(j)) % pow(  ytilde - x1*mubeta.col(j), 2 ) );
-              sigma(j) = sqrt( (ssr_j + 2.0*an*sigma0(j)*sigma0(j))  / (w_j + 2.0*an) );
+              sigma(j) = sqrt( (ssr_j + 2.0 * an *sigma0(j)*sigma0(j))  / (w_j + 2.0 * an) );
               sigma(j) = fmax(sigma(j),0.05*sigma0(j)); //Why changed from 0.01 to 0.05
               /* If k ==1, impose lower and upper bound */
               if (k==1) {
@@ -266,7 +270,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
                 ssr_j = sum(trans(w0.row(j)) % pow(ytilde0 - x10 * mubeta_0.col(j), 2));
                 
               }
-              sigma_0(j) = sqrt((ssr_j + 2.0 * an * sigma00(j) * sigma00(j)) / (w_j + 2.0 * an));
+              sigma_0(j) = sqrt((ssr_j + 2.0 * an_0 * sigma00(j) * sigma00(j)) / (w_j + 2.0 * an_0));
               
               sigma_0(j) = fmax(sigma_0(j), 0.05 * sigma00(j)); 
               

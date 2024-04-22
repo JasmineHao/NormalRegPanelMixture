@@ -14,7 +14,7 @@ set.seed(123)
 #df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(16)
+cl <- makeCluster(9)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.code <- c(311,381,321)
@@ -172,13 +172,14 @@ for (each.code in ind.code){
       out.h0 <- regpanelmixPMLE(y=data$Y, x=data$X, z = data$Z, m=M,vcov.method = "none", in.coefficient=h1.coefficient, data.0= data.0)
       
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
+      an_0 <- anFormula.t0(out.h0$parlist0,M,N,q=1)
       print("-----------------------------------------")
-      print(paste("T=",T,"M = ",M,"an=",an))
+      print(paste("T =",T,"M = ",M,"an =",an, "an_0 =",an_0))
       if (is.na(an)){
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an, data.0 = data.0)
+      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an, an_0=an_0, data.0 = data.0)
       h1.parlist = out.h1$parlist
       
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
