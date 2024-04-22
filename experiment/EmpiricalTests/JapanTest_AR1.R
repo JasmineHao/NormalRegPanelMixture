@@ -185,24 +185,26 @@ for (each.code in ind.code){
       # Estimate the null model
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
+      
+      an_0 <- anFormula.t0(out.h0$parlist0, M, N, q = 1)
       print("-----------------------------------------")
-      print(paste("T=",T,"M = ",M,"an=",an))
-      if (is.na(an)){
+      print(paste("T =", T, "M = ", M, "an =", an, "an_0 =", an_0))
+      if (is.na(an)) {
         an <- 1.0
       }
       # Estimate the alternative model
-      out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an, data.0 = data.0)
+      out.h1 <- regpanelmixMaxPhi(y = data$Y, x = data$X, z = data$Z, parlist = out.h0$parlist, an = an, an_0 = an_0, data.0 = data.0)
       h1.parlist = out.h1$parlist
-      
+
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
-      
+
       # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
-      if (estimate.crit){
-        lr.crit <- regpanelmixCritBootAR1(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, data.0=data.0)$crit
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'^{',paste(rep('*',sum(lr.estimate > lr.crit)),  collapse = ""),'}','$', sep = "")
-      } else{
-        lr.crit <- c(0,0,0)
-        estimate.df[T,M] <- paste('$',round(lr.estimate,2),'$', sep = "")
+      if (estimate.crit) {
+        lr.crit <- regpanelmixCritBootAR1(y = data$Y, x = data$X, parlist = out.h0$parlist, z = data$Z, cl = cl, parallel = TRUE, data.0 = data.0, an = an, an_0 = an_0)$crit
+        estimate.df[T, M] <- paste("$", round(lr.estimate, 2), "^{", paste(rep("*", sum(lr.estimate > lr.crit)), collapse = ""), "}", "$", sep = "")
+      } else {
+        lr.crit <- c(0, 0, 0)
+        estimate.df[T, M] <- paste("$", round(lr.estimate, 2), "$", sep = "")
       }
       
       

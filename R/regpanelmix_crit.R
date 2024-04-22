@@ -523,7 +523,7 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
 #' @return A list with the following items:
 #' \item{crit}{3 by 3 matrix of (0.1, 0.05, 0.01 critical values), jth row corresponding to k=j}
 #' \item{pvals}{A vector of p-values at k = 1, 2, 3}
-regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, ninits = 100, nbtsp = 199, parallel = FALSE, an = 0.5, cl = NULL, data.0 = NULL)
+regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, ninits = 100, nbtsp = 199, parallel = FALSE, an = 0.5, an_0 = 0.5,  cl = NULL, data.0 = NULL)
 {
   if (is.null(data.0)){
     return(regpanelmixCritBoot(y = y, x = x, parlist = parlist, z = z, values = values, ninits = ninits, nbtsp = nbtsp, parallel = parallel, an = an, cl = cl))
@@ -618,7 +618,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
           loglik0 <- regpanelmix.pmle.result$loglik
           
           
-          regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, parallel = FALSE, data.0 = data.0)
+          regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, an_0 = an_0, parallel = FALSE, data.0 = data.0)
           
           c(2 * max(regpanelmix.pmle.result.1$penloglik - regpanelmix.pmle.result$loglik))
         }
@@ -641,7 +641,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
         loglik0 <- regpanelmix.pmle.result$loglik
 
 
-        regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, parallel = FALSE, data.0 = data.0)
+        regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, an_0 = an_0, parallel = FALSE, data.0 = data.0)
         
         emstat.b <- append(emstat.b, 2*max(regpanelmix.pmle.result.1$penloglik-loglik0))
       }

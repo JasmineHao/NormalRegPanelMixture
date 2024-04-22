@@ -809,7 +809,8 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
 #' @param binit The initial value of parameter vector that is included as a candidate parameter vector
 #' @return  A list of class \code{normalMix} with items:
 #' \item{coefficients}{A vector of parameter estimates. Ordered as \eqn{\alpha_1,\ldots,\alpha_m,\mu_1,\ldots,\mu_m,\sigma_1,\ldots,\sigma_m,\gam}.}
-#' \item{parlist}{The parameter estimates as a list containing alpha, mu, and sigma (and gam if z is included in the model).}
+#' \item{parlist}{The parameter estimates as a list containing alpha, mu, and sigma, mu0 and sigma0 (and gam if z is included in the model).}
+#' \item{parlist0}{The parameter estimates as a list containing alpha, mu0, and sigma0 for the initial condition.}
 #' \item{vcov}{The estimated variance-covariance matrix.}
 #' \item{loglik}{The maximized value of the log-likelihood.}
 #' \item{penloglik}{The maximized value of the penalized log-likelihood.}
@@ -966,6 +967,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     penloglik <- loglik
 
     parlist <- list(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0=mubeta0, sigma0=sigma0)
+    parlist0 <- list(alpha = 1, mubeta = mubeta0, sigma = sigma0,gam=NULL)
     coefficients <- c(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0=mubeta0, sigma0=sigma0)
     postprobs <- rep(1, n)
     
