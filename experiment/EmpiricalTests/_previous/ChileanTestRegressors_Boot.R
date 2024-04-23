@@ -207,10 +207,7 @@ colnames(df.5) <- colnames(estimate.LR.df.5)
 
 # Combine the data frames
 combined_df <- rbind(
-  cbind(df.2, original_df = "df.2"),
-  cbind(df.3, original_df = "df.3"),
-  cbind(df.4, original_df = "df.4"),
-  cbind(df.5, original_df = "df.5")
+  cbind(df.3, original_df = "df.3")
 )
 
 write.csv(combined_df,file="results/Empirical/Chile_combined_regressorBoot.csv")

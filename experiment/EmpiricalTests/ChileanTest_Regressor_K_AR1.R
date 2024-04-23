@@ -14,7 +14,7 @@ set.seed(123)
 #df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(12)
+cl <- makeCluster(8)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.code <- c(311,381,321)
@@ -27,62 +27,21 @@ for (each.code in ind.code){
 }
 ind.count <- length(ind.code)
 
-
-estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(estimate.LR.df.2) <- ind.names
-colnames(estimate.LR.df.2) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.3) <- ind.names
 colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(estimate.LR.df.4) <- ind.names
-colnames(estimate.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-estimate.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(estimate.LR.df.5) <- ind.names
-colnames(estimate.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-AIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(AIC.df.2) <- ind.names
-colnames(AIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 AIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.3) <- ind.names
 colnames(AIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(AIC.df.4) <- ind.names
-colnames(AIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-AIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(AIC.df.5) <- ind.names
-colnames(AIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-
-BIC.df.2 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(BIC.df.2) <- ind.names
-colnames(BIC.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 BIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.3) <- ind.names
 colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.4 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(BIC.df.4) <- ind.names
-colnames(BIC.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-BIC.df.5 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(BIC.df.5) <- ind.names
-colnames(BIC.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-
-
-crit.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(crit.LR.df.2) <- ind.names
-colnames(crit.LR.df.2) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.3) <- ind.names
 colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.4 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(crit.LR.df.4) <- ind.names
-colnames(crit.LR.df.4) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-crit.LR.df.5 <- matrix(0,nr=length(ind.code),nc=10)
-rownames(crit.LR.df.5) <- ind.names
-colnames(crit.LR.df.5) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
-
 
 count = 0
 for (each.code in ind.code){
@@ -154,17 +113,17 @@ for (each.code in ind.code){
 
     ind.each.y1 <- ind.each.t$y1
 
-    ind.each.y10 <- cast(ind.each.t[, c("id", "year", "y1")], id ~ year, value = "y1")
-    ind.each.y10 <- ind.each.y10[, colnames(ind.each.y10) != "id"][, 1]
-
-    ind.each.x10 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
-    ind.each.x10 <- ind.each.x10[, colnames(ind.each.x10) != "id"][, 1]
-
-
     ind.each.x1 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
     ind.each.x1 <- ind.each.x1[, colnames(ind.each.x1) != "id"][, 1]
 
     data <- list(Y = t(ind.each.y), X = data.frame(col1 = ind.each.y1, col2 = ind.each.x, col3 = ind.each.x1), Z = NULL)
+    
+    ind.each.y10 <- cast(ind.each.t[, c("id", "year", "y1")], id ~ year, value = "y1")
+    ind.each.y10 <- ind.each.y10[, colnames(ind.each.y10) != "id"][, 1]
+    
+    ind.each.x10 <- cast(ind.each.t[, c("id", "year", "x1")], id ~ year, value = "x1")
+    ind.each.x10 <- ind.each.x10[, colnames(ind.each.x10) != "id"][, 1]
+    
     data.0 <- list(Y = ind.each.y10, X = data.frame(col1 = ind.each.x10), Z = NULL) # for the initial condition
     
     
@@ -222,25 +181,10 @@ for (each.code in ind.code){
   print(paste("Finished", ind.name))
   print( Sys.time() - t)
   print("*************************************")
-  
-  estimate.LR.df.2[count,] <- estimate.df[2,]
   estimate.LR.df.3[count,] <- estimate.df[3,]
-  estimate.LR.df.4[count,] <- estimate.df[4,]
-  estimate.LR.df.5[count,] <- estimate.df[5,]
-  AIC.df.2[count,] <- AIC.df[2,]
   AIC.df.3[count,] <- AIC.df[3,]
-  AIC.df.4[count,] <- AIC.df[4,]
-  AIC.df.5[count,] <- AIC.df[5,]
-  
-  BIC.df.2[count,] <- BIC.df[2,]
   BIC.df.3[count,] <- BIC.df[3,]
-  BIC.df.4[count,] <- BIC.df[4,]
-  BIC.df.5[count,] <- BIC.df[5,]
-  crit.LR.df.2[count,] <- crit.df[2,]
   crit.LR.df.3[count,] <- crit.df[3,]
-  crit.LR.df.4[count,] <- crit.df[4,]
-  crit.LR.df.5[count,] <- crit.df[5,]
-  
   colnames(estimate.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")
   
@@ -262,14 +206,6 @@ for (each.code in ind.code){
 # rownames(crit.df.boot) <- c("T=1","T=2","T=3","T=4","T=5")
 
 count <- length(ind.names)
-df.2 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
-df.2[ 3* 1:count -2,] <- estimate.LR.df.2
-df.2[ 3* 1:count -1,] <- AIC.df.2
-df.2[ 3* 1:count ,] <- BIC.df.2
-rownames(df.2)[ 3* 1:count -2] <- rownames(estimate.LR.df.2)
-colnames(df.2) <- colnames(estimate.LR.df.2)
-
-
 df.3 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
 df.3[ 3* 1:count -2,] <- estimate.LR.df.3
 df.3[ 3* 1:count -1,] <- AIC.df.3
@@ -277,28 +213,10 @@ df.3[ 3* 1:count ,] <- BIC.df.3
 rownames(df.3)[ 3* 1:count -2] <- rownames(estimate.LR.df.3)
 colnames(df.3) <- colnames(estimate.LR.df.3)
 
-df.4 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
-df.4[ 3* 1:count -2,] <- estimate.LR.df.4
-df.4[ 3* 1:count -1,] <- AIC.df.4
-df.4[ 3* 1:count ,] <- BIC.df.4
-rownames(df.4)[ 3* 1:count -2] <- rownames(estimate.LR.df.4)
-colnames(df.4) <- colnames(estimate.LR.df.4)
-
-
-df.5 <- data.frame(matrix('-',nrow=3*length(ind.names),ncol=10))
-df.5[ 3* 1:count -2,] <- estimate.LR.df.5
-df.5[ 3* 1:count -1,] <- AIC.df.5
-df.5[ 3* 1:count ,] <- BIC.df.5
-rownames(df.5)[ 3* 1:count -2] <- rownames(estimate.LR.df.5)
-colnames(df.5) <- colnames(estimate.LR.df.5)
-
 
 # Combine the data frames
 combined_df <- rbind(
-  cbind(df.2, original_df = "df.2"),
-  cbind(df.3, original_df = "df.3"),
-  cbind(df.4, original_df = "df.4"),
-  cbind(df.5, original_df = "df.5")
+  cbind(df.3, original_df = "df.3")
 )
 
 
