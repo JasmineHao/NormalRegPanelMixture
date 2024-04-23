@@ -113,7 +113,7 @@ for (each.code in ind.code){
   ungroup()
   
   # List of column names to apply the bs transformation
-  columns_to_transform <- c("lnk", "lnk_l1", "lnl", "lnl_l1" , "lny_l1") 
+  columns_to_transform <- c("lnk", "lnk_l1", "lnl", "lnl_l1") 
   
   # Loop through each column name
   for (col_name in columns_to_transform) {

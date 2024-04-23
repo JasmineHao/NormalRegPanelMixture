@@ -489,9 +489,7 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
     }
   emstat.b <- sort(emstat.b)
   # emstat.b <- t(apply(emstat.b, 1, sort))
-  #####################################
-  # FIXIT FROM HERE, NOT SURE THE MODEL IS RIGHT
-  #####################################
+  
   q <- ceiling(nbtsp*c(0.90,0.95,0.99))
   # crit <- emstat.b[, q]
   crit <- emstat.b[q]
@@ -610,10 +608,23 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
       cl <- makeCluster(detectCores())}
     
       registerDoParallel(cl)
-      out <- foreach (j.btsp = 1:nbtsp) %dopar% {
-        # NormalRegPanelMixture::regpanelmixMEMtest (y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X , m = m, t = t, an = an, z = ybset[,j.btsp]$Z, ninits = ninits, crit.method = "none") 
-          data.0 = list(Y = ybset[, j.btsp]$Y0, x.0 = ybset[, j.btsp]$X0, z.0 = ybset[, j.btsp]$Z0)
-          regpanelmix.pmle.result <- NormalRegPanelMixture::regpanelmixPMLE(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, m = m, z = ybset[, j.btsp]$Z, vcov.method = "none", ninits = ninits, data.0 = data.0)
+      out <- foreach(j.btsp = 1:nbtsp, .packages = c("NormalRegPanelMixture"), .export = c("ybset", "m", "t", "an", "ninits")) %dopar% {
+        data.0 <- list(Y = ybset[, j.btsp]$Y0, x.0 = ybset[, j.btsp]$X0, z.0 = ybset[, j.btsp]$Z0)
+        tryCatch({
+          regpanelmix.pmle.result <- NormalRegPanelMixture::regpanelmixPMLE(
+            y = ybset[, j.btsp]$Y,
+            x = ybset[, j.btsp]$X,
+            m = m,
+            z = ybset[, j.btsp]$Z,
+            vcov.method = "none",
+            ninits = ninits,
+            data.0 = data.0
+          )
+        }, error = function(e) {
+          cat("Error in iteration", j.btsp, ":", e$message, "\n")
+          NULL  # Return NULL or some other indicator of failure
+        })
+      
           
           loglik0 <- regpanelmix.pmle.result$loglik
           

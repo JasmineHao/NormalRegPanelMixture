@@ -980,7 +980,8 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   k <- 0 # setting k=0 gives PMLE
 
   an <- 1 / n # penalty term for variance
-  an_0 <- 1 / n # penalty term for variance
+  # an_0 <- 1 / n # penalty term for variance
+  an_0 <- 0.3 # use the default from KS 15
   sigma.0 <- rep(sd0, m)
   mu.0 <- double(m + 1) # dummy
   
