@@ -100,7 +100,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
   {
     x10.col(i) = x0.col(i - 1);
   }
-
+  
   /* Lower and upper bound for mu */
     if (k==1) {  // If k==1, compute upper and lower bounds
       mu0(0) = R_NegInf;
@@ -120,6 +120,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
       
       /* initialize EM iteration */
         b_jn = b.col(jn);
+        // Rcout << "b_jn" << b_jn << "\n";
         for (int j=0; j < m; ++j){
           alpha(j) = b_jn(j);
           for (int i=0; i<q1; ++i){
@@ -158,7 +159,9 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
           for (int iter = 0; iter < maxit; iter++) {
             ll = - (double)nt * M_LN_SQRT_2PI; /* nt/2 times log(2pi) */
               // alp_sig = alpha/pow(sigma,t);
-              
+            /*Rcout << "jn" << jn << "\n";
+            Rcout << "iter" << iter << "\n";
+            Rcout << "mubeta" << mubeta << "\n";*/
             if (p==0) {
               ytilde = y; // no z 
               ytilde0 = y0;
@@ -183,12 +186,13 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               r0 = (1.0 / sigma_0) % (ytilde0(nn) - trans(x10.row(nn) * mubeta_0)) + log(sigma_0);
 
               
+              
               r = r + r0;
               /* normalizing with minr avoids the problem of dividing by zero */
               minr = min(r);
               l_j =  alpha % exp( minr-r );
               sum_l_j = sum( l_j );
-
+            
               
               for (int tt= 0; tt<t;tt++){
                 w.col(nn*t + tt) = l_j/sum_l_j; /* w(j,i) = alp_j*l_j / sum_j (alp_j*l_j) */
@@ -197,7 +201,10 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               /* loglikelihood*/
                 ll +=  log(sum_l_j) - minr; /* subtract back minr */
             } /* end for (i=0; i<n; i++) loop */
-              
+            
+            
+            
+
             /* Compute the penalized loglik. Note that penalized loglik uses old (not updated) sigma */
             penloglik = ll + log(2.0) + fmin(log(tau),log(1-tau));
             for (int j=0; j<m; j++) {
@@ -229,6 +236,14 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               }
               /* Check for singularity*/
               arma::mat design_matrix = trans(xtilde) * x1;
+              
+              /*
+              if (isnan(rcond(design_matrix))){
+                Rcout << "an" << an << "\n";
+                Rcout << "alpha" << alpha << "\n";
+                break;
+              }
+               */
               if (rcond(design_matrix) < SINGULAR_EPS)
               {
                 sing = 1;
@@ -254,7 +269,10 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
                 xtilde0.col(ii) = wtilde0 % x10.col(ii);
               }
               /* Check for singularity*/
+              
               arma::mat design_matrix0 = trans(xtilde0) * x10;
+              
+              //std::count << design_matrix0 << std::endl;
               if (rcond(design_matrix0) < SINGULAR_EPS)
               {
                 sing = 1;
@@ -262,7 +280,7 @@ List cppRegPanelmixPMLEAR1(NumericMatrix bs,
               }
               
               if (q0 > 0){
-                mubeta_0.col(j) = solve(design_matrix0, trans(xtilde0) * ytilde0);
+                mubeta_0.col(j) = solve(design_matrix0, trans(xtilde0) * ytilde0,arma::solve_opts::allow_ugly);
                 
                 ssr_j = sum(trans(w0.row(j)) % pow(ytilde0 - x10 * mubeta_0.col(j), 2));
               } else{

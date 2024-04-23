@@ -361,6 +361,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     }
     # short EM
     b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$mubeta0, tmp$sigma0, tmp$gam0)
+    
     out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, an_0 , maxit.short, ninits.short, epsilon.short, tau, h, k)
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
@@ -577,6 +578,8 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
 
   if (m >= 2) {
     mid <- (mu0[1:(m - 1)] + mu0[2:m]) / 2 # m-1 by 1
+    minMU <- min(minMU, min(mid))
+    maxMU <- max(maxMU, max(mid))
     lb0 <- c(minMU, mid) # m by 1
     lb <- c(lb0[1:h], lb0[h:m]) # m+1 by 1
     ub0 <- c(mid, maxMU) # m by 1
