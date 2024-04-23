@@ -92,7 +92,7 @@ for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
-  ind.each$lny <- log(ind.each$GO)
+  ind.each$y <- log(ind.each$GO)
   ind.each$lnm <- log(ind.each$WI)
   ind.each$lnl <- log(ind.each$L)
   ind.each$lnk <- log(ind.each$K)

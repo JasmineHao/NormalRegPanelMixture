@@ -73,7 +73,7 @@ for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
-  ind.each$lny <- log(ind.each$GO)
+  ind.each$y <- log(ind.each$GO)
   ind.each$lnm <- log(ind.each$WI)
   ind.each$lnl <- log(ind.each$L)
   ind.each$lnk <- log(ind.each$K)
@@ -81,7 +81,7 @@ for (each.code in ind.code){
   # Describe the data
   ######################################################
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","y","lnm","lnl","lnk")]
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)

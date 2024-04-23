@@ -71,9 +71,12 @@ count = 0
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
-  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
+  ind.each <- ind.each[,c("id","year","lnmY_it","k_it","l_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['lnk'] <- ind.each['k_it']
+  ind.each['lnk'] <- (ind.each$k_it - mean(ind.each$k_it) )/(sd(ind.each$k_it))
+  ind.each['lnl'] <- (ind.each$l_it - mean(ind.each$l_it) )/(sd(ind.each$l_it))
+  ind.each['y'] <- (ind.each$lnmY_it - mean(ind.each$lnmY_it) )/(sd(ind.each$lnmY_it))
+  
   ind.name <- ind_list[each.code]
   
   ind.each <- ind.each %>%
@@ -102,24 +105,36 @@ for (each.code in ind.code){
   
   for (T in 3:3){
     t.start <- T.cap-T+1
+  
     t.seq <- seq(from=t.start,to=t.start+T-1)
     
     ind.each.t <- ind.each[ind.each$year >= t.start,]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t), ]
+    
     ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
     id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
     #Remove the incomplete data, need balanced panel
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
-    #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","lnmY_it")],id ~ year,value="lnmY_it")
-    ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
     
-    ind.each.y <- (ind.each.y - mean(ind.each.t$lnmY_it))/(sd(ind.each.t$lnmY_it))
-    ind.each.y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1))/(sd(ind.each.t$y_l1))
-    ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
-    ind.each.x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
+    #Order the range of IDs
+    ind.each.t <- ind.each.t %>%
+      arrange(id)
     
-    data <- list(Y = t(ind.each.y), X = data.frame(col1=ind.each.x,col2=ind.each.y1,col3=ind.each.x1),  Z = NULL)
+    # Reshape the Y
+    ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
+    ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]
+  
+    data <- list(
+      Y = t(ind.each.y), 
+      X = ind.each.t[,c("y_l1", "lnk","lnk_l1")], 
+      Z = NULL)
+
+    data.0 <- list(
+      Y = ind.each.t[ind.each.t$year==t.start,]$y_l1, 
+      X = ind.each.t[ind.each.t$year==t.start,c("lnk_l1")], 
+      Z = NULL) # for the initial condition
+    
     N <- dim(data$Y)[2]
     
     h1.coefficient = NULL

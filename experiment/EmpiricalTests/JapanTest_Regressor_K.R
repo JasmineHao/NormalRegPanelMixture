@@ -70,9 +70,12 @@ count = 0
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
-  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
+  ind.each <- ind.each[,c("id","year","lnmY_it","k_it","l_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['ln_k'] <- ind.each['k_it']
+  ind.each['lnk'] <- (ind.each$k_it - mean(ind.each$k_it) )/(sd(ind.each$k_it))
+  ind.each['lnl'] <- (ind.each$l_it - mean(ind.each$l_it) )/(sd(ind.each$l_it))
+  ind.each['y'] <- (ind.each$lnmY_it - mean(ind.each$lnmY_it) )/(sd(ind.each$lnmY_it))
+  
   ind.name <- ind_list[each.code]
   
   year.list <- sort(unique(ind.each$year))

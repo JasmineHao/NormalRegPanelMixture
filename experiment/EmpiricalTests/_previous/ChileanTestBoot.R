@@ -36,7 +36,7 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6","M=7","M=8",
 #   t <- Sys.time()
 #   ind.each <- subset(df,ciiu_3d==each.code)
 #   ind.name <- ind.each$ciiu3d_descr[1]
-#   ind.each$lny <- log(ind.each$GO)
+#   ind.each$y <- log(ind.each$GO)
 #   ind.each$lnm <- log(ind.each$WI)
 #   ind.each$lnl <- log(ind.each$L)
 #   ind.each$lnk <- log(ind.each$K)
@@ -44,7 +44,7 @@ colnames(estimate.LR.df.5) <- c("M=1","M=2","M=3","M=4","M=5","M=6","M=7","M=8",
 #   # Describe the data
 #   ######################################################
 
-#   desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+#   desc.each <- ind.each[ind.each$L != 0 ,c("si","y","lnm","lnl","lnk")]
 #   desc.each <- desc.each[complete.cases(desc.each),]
 
 
@@ -91,7 +91,7 @@ for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
-  ind.each$lny <- log(ind.each$GO)
+  ind.each$y <- log(ind.each$GO)
   ind.each$lnm <- log(ind.each$WI)
   ind.each$lnl <- log(ind.each$L)
   ind.each$lnk <- log(ind.each$K)
@@ -99,7 +99,7 @@ for (each.code in ind.code){
   # Describe the data
   ######################################################
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk")]
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","y","lnm","lnl","lnk")]
   desc.each <- desc.each[complete.cases(desc.each),]
   
   ######################################################

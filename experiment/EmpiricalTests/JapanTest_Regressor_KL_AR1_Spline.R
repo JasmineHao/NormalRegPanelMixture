@@ -133,6 +133,7 @@ for (each.code in ind.code){
     #Remove the incomplete data, need balanced panel
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
+    
     #Order the range of IDs
     ind.each.t <- ind.each.t %>%
       arrange(id)
@@ -155,7 +156,7 @@ for (each.code in ind.code){
     )
     
     data.0 <- list(
-      Y = ind.each.t[ind.each.t$year==t.start,"y_l1"], 
+      Y = ind.each.t[ind.each.t$year==t.start,]$y_l1, 
       X = ind.each.t[ind.each.t$year==t.start,grep("l1",bs_columns,value = TRUE)], 
       Z = NULL) # for the initial condition
     

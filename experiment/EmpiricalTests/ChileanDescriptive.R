@@ -35,7 +35,7 @@ for (each.code in ind.code){
   count = count + 1
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
-  ind.each$lny <- log(ind.each$GO)
+  ind.each$y <- log(ind.each$GO)
   ind.each$lnm <- log(ind.each$WI)
   ind.each$lnl <- log(ind.each$L)
   ind.each$lnk <- log(ind.each$K)
@@ -50,10 +50,10 @@ for (each.code in ind.code){
   ind.each <- ind.each[ind.each$year >= t.start,]
   df.include <- rbind(df.include,ind.each)
   
-  desc.table[count, ] <- c(each.code, ind.name,dim(ind.each)[1],dim(exp(m.share))[1],round(mean(exp(ind.each$si)),2),round(sd(exp(ind.each$si)),2),round(mean(ind.each$lny),2),round(sd(ind.each$lny),2))
+  desc.table[count, ] <- c(each.code, ind.name,dim(ind.each)[1],dim(exp(m.share))[1],round(mean(exp(ind.each$si)),2),round(sd(exp(ind.each$si)),2),round(mean(ind.each$y),2),round(sd(ind.each$y),2))
   
 }
-colnames(desc.table) <- c("Code","Industry","NObs", "N","Mean_m_share","Sd_m_share","Mean_lnY","Sd_lnY")
+colnames(desc.table) <- c("Code","Industry","NObs", "N","Mean_m_share","Sd_m_share","Mean_y","Sd_y")
 
 desc.table <- transform(desc.table, N = as.numeric(N))
 desc.table <- desc.table[order(desc.table[,'N'],decreasing = TRUE),]  

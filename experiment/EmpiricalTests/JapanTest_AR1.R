@@ -71,9 +71,12 @@ count = 0
 for (each.code in ind.code){
   t <- Sys.time()
   ind.each <- subset(df,industry_2==each.code)
-  ind.each <- ind.each[,c("id","year","lnmY_it","k_it")]
+  ind.each <- ind.each[,c("id","year","lnmY_it","k_it","l_it")]
   ind.each <- ind.each[complete.cases(ind.each),]
-  ind.each['lnk'] <- ind.each['k_it']
+  ind.each['lnk'] <- (ind.each$k_it - mean(ind.each$k_it) )/(sd(ind.each$k_it))
+  ind.each['lnl'] <- (ind.each$l_it - mean(ind.each$l_it) )/(sd(ind.each$l_it))
+  ind.each['y'] <- (ind.each$lnmY_it - mean(ind.each$lnmY_it) )/(sd(ind.each$lnmY_it))
+  
   ind.name <- ind_list[each.code]
   
   ind.each <- ind.each %>%
@@ -111,6 +114,10 @@ for (each.code in ind.code){
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
     
+    #Order the range of IDs
+    ind.each.t <- ind.each.t %>%
+      arrange(id)
+    
     # normalize data
     ind.each.t$y <- (ind.each.t$lnmY_it - mean(ind.each.t$lnmY_it)) / (sd(ind.each.t$lnmY_it))
     ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
@@ -118,7 +125,10 @@ for (each.code in ind.code){
     ind.each.t$y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1)) / (sd(ind.each.t$y_l1))
     ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
     
-
+    #Order the range of IDs
+    ind.each.t <- ind.each.t %>%
+      arrange(id)
+    
     #Reshape the Y 
     ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
     ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]

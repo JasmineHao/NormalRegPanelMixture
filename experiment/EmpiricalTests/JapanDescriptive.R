@@ -61,7 +61,7 @@ for (each.code in ind.code){
   
 }
 
-colnames(desc.table) <- c("code","Industry","NObs","N","Mean_m_share","Sd_m_share","Mean_lnY","Sd_lnY")
+colnames(desc.table) <- c("code","Industry","NObs","N","Mean_m_share","Sd_m_share","Mean_y","Sd_y")
 
 
 desc.table <- transform(desc.table, N = as.numeric(N))

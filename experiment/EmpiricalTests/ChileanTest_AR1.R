@@ -49,7 +49,7 @@ for (each.code in ind.code){
   ind.each <- df %>%
     filter(ciiu_3d == each.code) %>%
     mutate(
-      lny = log(GO),
+      y = log(GO),
       lnm = log(WI),
       lnl = log(L),
       lnk = log(K)
@@ -57,11 +57,10 @@ for (each.code in ind.code){
     group_by(id) %>%
     arrange(id, year) %>%
     mutate(
-      si_l1 = lag(si, n = 1, default = NA),
+      y_l1 = lag(si, n = 1, default = NA),
       lnk_l1 = lag(lnk, n = 1, default = NA),
       lnl_l1 = lag(lnl, n = 1, default = NA),
-      lnm_l1 = lag(lnm, n = 1, default = NA),
-      lny_l1 = lag(lny, n = 1, default = NA)
+      lnm_l1 = lag(lnm, n = 1, default = NA)
     ) %>%
     ungroup()
   
@@ -71,7 +70,7 @@ for (each.code in ind.code){
   # Describe the data
   ######################################################
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk", "si_l1","lny_l1","lnm_l1","lnl_l1","lnk_l1")]
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","y","lnm","lnl","lnk", "y_l1","lnm_l1","lnl_l1","lnk_l1")]
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
@@ -98,11 +97,15 @@ for (each.code in ind.code){
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
     
+    #Order the range of IDs
+    ind.each.t <- ind.each.t %>%
+      arrange(id)
+    
     # normalize data
     ind.each.t$y <- (ind.each.t$si - mean(ind.each.t$si))/(sd(ind.each.t$si))
     ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
     
-    ind.each.t$y1 <- (ind.each.t$si_l1 - mean(ind.each.t$si_l1))/(sd(ind.each.t$si_l1))
+    ind.each.t$y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1))/(sd(ind.each.t$y_l1))
     ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
     
     #Reshape the Y 

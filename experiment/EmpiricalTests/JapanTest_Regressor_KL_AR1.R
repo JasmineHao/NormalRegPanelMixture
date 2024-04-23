@@ -84,7 +84,7 @@ for (each.code in ind.code){
     group_by(id) %>%
     arrange(id, year) %>%
     mutate(
-      y_1 = lag(lnmY_it, n = 1, default = NA),
+      y_l1 = lag(lnmY_it, n = 1, default = NA),
       lnk_l1 = lag(lnk, n = 1, default = NA),
       lnl_l1 = lag(lnl, n = 1, default = NA),
     ) %>%
@@ -118,31 +118,24 @@ for (each.code in ind.code){
     ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
     ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
     
-    # normalize data
-    ind.each.t$y <- (ind.each.t$y - mean(ind.each.t$y)) / (sd(ind.each.t$y))
-    ind.each.t$k <- (ind.each.t$lnk - mean(ind.each.t$lnk)) / (sd(ind.each.t$lnk))
-    ind.each.t$l <- (ind.each.t$lnl - mean(ind.each.t$lnl)) / (sd(ind.each.t$lnl))
+    #Order the range of IDs
+    ind.each.t <- ind.each.t %>%
+      arrange(id)
     
-    ind.each.t$y1 <- (ind.each.t$y_1 - mean(ind.each.t$y_1)) / (sd(ind.each.t$y_1))
-    ind.each.t$k1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1)) / (sd(ind.each.t$lnk_l1))
-    ind.each.t$l1 <- (ind.each.t$lnl_l1 - mean(ind.each.t$lnl_l1)) / (sd(ind.each.t$lnl_l1))
     # Reshape the Y
     ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
     ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]
+  
+    data <- list(
+      Y = t(ind.each.y), 
+      X = ind.each.t[,c("y_l1", "lnk","lnl","lnk_l1","lnl_l1")], 
+      Z = NULL)
 
-    ind.each.y10 <- cast(ind.each.t[, c("id", "year", "y1")], id ~ year, value = "y1")
-    ind.each.y10 <- ind.each.y10[, colnames(ind.each.y10) != "id"][, 1]
-
-    # For K
-    ind.each.k10 <- cast(ind.each.t[, c("id", "year", "k1")], id ~ year, value = "k1")
-    ind.each.k10 <- ind.each.k10[, colnames(ind.each.k10) != "id"][, 1]
-
-    # For L
-    ind.each.l10 <- cast(ind.each.t[, c("id", "year", "l1")], id ~ year, value = "l1")
-    ind.each.l10 <- ind.each.l10[, colnames(ind.each.l10) != "id"][, 1]
-
-    data <- list(Y = t(ind.each.y), X = data.frame(col1 = ind.each.t$y1, col2 = ind.each.t$k, col3 = ind.each.t$k1, col4 = ind.each.t$l, col5 = ind.each.t$l), Z = NULL)
-    data.0 <- list(Y = ind.each.y10, X = data.frame(col1 = ind.each.k10, col2 = ind.each.l10), Z = NULL) # for the initial condition
+    data.0 <- list(
+      Y = ind.each.t[ind.each.t$year==t.start,]$y_l1, 
+      X = ind.each.t[ind.each.t$year==t.start,c("lnk_l1","lnl_l1")], 
+      Z = NULL) # for the initial condition
+    
     
     N <- dim(ind.each.y)[1]
     
@@ -150,7 +143,7 @@ for (each.code in ind.code){
     estimate.crit <- 1
     for (M in 1:10){
       # Estimate the null model
-      
+      out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       an_0 <- anFormula.t0(out.h0$parlist0, M, N, q = 1)
       print("-----------------------------------------")

@@ -51,11 +51,11 @@ for (each.code in ind.code){
   ind.each <- df %>%
     filter(ciiu_3d == each.code) %>%
     mutate(
-      lny = log(GO),
+      y = log(GO),
       lnm = log(WI),
       lnl = log(L),
       lnk = log(K),
-      lny = (lny - mean(lny, na.rm = TRUE)) / sd(lny, na.rm = TRUE),
+      y = (y - mean(y, na.rm = TRUE)) / sd(y, na.rm = TRUE),
       lnm = (lnm - mean(lnm, na.rm = TRUE)) / sd(lnm, na.rm = TRUE),
       lnl = (lnl - mean(lnl, na.rm = TRUE)) / sd(lnl, na.rm = TRUE),
       lnk = (lnk - mean(lnk, na.rm = TRUE)) / sd(lnk, na.rm = TRUE)
@@ -63,11 +63,10 @@ for (each.code in ind.code){
     group_by(id) %>%
     arrange(id, year) %>%
     mutate(
-      si_l1 = lag(si, n = 1, default = NA),
+      y_l1 = lag(si, n = 1, default = NA),
       lnk_l1 = lag(lnk, n = 1, default = NA),
       lnl_l1 = lag(lnl, n = 1, default = NA),
-      lnm_l1 = lag(lnm, n = 1, default = NA),
-      lny_l1 = lag(lny, n = 1, default = NA)
+      lnm_l1 = lag(lnm, n = 1, default = NA)
     ) %>%
   ungroup()
   
@@ -95,7 +94,7 @@ for (each.code in ind.code){
   # Describe the data
   ######################################################
   
-  desc.each <- ind.each[ind.each$L != 0 ,c("si","lny","lnm","lnl","lnk", "si_l1","lny_l1","lnm_l1","lnl_l1","lnk_l1")]
+  desc.each <- ind.each[ind.each$L != 0 ,c("si","y","lnm","lnl","lnk", "y_l1","lnm_l1","lnl_l1","lnk_l1")]
   # desc.each <- desc.each[complete.cases(desc.each),]
   year.list <- sort(unique(ind.each$year))
   T.cap <- max(year.list)
@@ -135,7 +134,7 @@ for (each.code in ind.code){
     bs_columns <- grep("_bs_", colnames(ind.each.t), value = TRUE)
     
     # Create a data frame with all the bs_columns
-    X_bs <- ind.each.t[, c("lny_l1", bs_columns)]
+    X_bs <- ind.each.t[, c("y_l1", bs_columns)]
     
     # Create the list with Y, X (with bs columns), and Z
     data <- list(
@@ -145,7 +144,7 @@ for (each.code in ind.code){
     )
     
     data.0 <- list(
-      Y = ind.each.t[ind.each.t$year==t.start,"lny_l1"], 
+      Y = ind.each.t[ind.each.t$year==t.start,]$y_l1, 
       X = ind.each.t[ind.each.t$year==t.start,grep("l1",bs_columns,value = TRUE)], 
       Z = NULL) # for the initial condition
     
