@@ -25,3 +25,13 @@ Rscript experiment/EmpiricalTests/JapanTest_Regressor_K_AR1.R
 # Script 6: ChileanTest_AR1.R
 Rscript experiment/EmpiricalTests/ChileanTest_AR1.R
 Rscript experiment/EmpiricalTests/JapanTest_AR1.R
+
+
+# Script 7: Plain 
+Rscript experiment/EmpiricalTests/ChileanTest.R
+Rscript experiment/EmpiricalTests/JapanTest.R
+
+
+# Script 8: K and L
+Rscript experiment/EmpiricalTests/ChileanTest_Regressor_KL.R
+Rscript experiment/EmpiricalTests/JapanTest_Regressor_KL.R
