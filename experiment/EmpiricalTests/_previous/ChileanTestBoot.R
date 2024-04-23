@@ -17,7 +17,7 @@ df <- readRDS("data/ChileanClean.rds")
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324,332,384,312,313,341,351,383)
 ind.names <- c("Wood products, except furniture","Machinery, except electrical","Manufacture of furniture and fixtures, except primarily of metal","Transport equipment","Other chemicals","Printing and publishing","Other non-metallic mineral products","Fabricated metal products","Textiles","Beverages","Paper and products","Wearing apparel, except footwear","Other manufactured products","Food products","Industrial chemicals","Footwear, except rubber or plastic","Plastic products","Animal feeds, etc")
 ind.count <- length(ind.code)
-cl <- makeCluster(7)
+cl <- makeCluster(12)
 count = 0
 
 estimate.LR.df.2 <- matrix(0,nr=length(ind.code),nc=10)

@@ -10,7 +10,7 @@ options(warn = -1)
 # df <- readRDS("/home/haoyu/NormalRegPanelMixture/data/ChileanClean.rds")
 
 df <- readRDS("data/ChileanClean.rds")
-cl <- makeCluster(8)
+cl <- makeCluster(12)
 nrep <- 500
 M <- 2 #Number of Type
 p <- 0 #Number of Z

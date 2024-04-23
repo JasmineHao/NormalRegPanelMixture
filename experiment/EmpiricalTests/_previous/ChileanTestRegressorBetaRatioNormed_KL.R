@@ -17,7 +17,7 @@ df <- df[df$K > 0, ]
 df['si_sl'] <- df$WI /(df$WI + df$WL)
 df['si_sl'] <- log(df['si_sl'])
 
-cl <- makeCluster(16)
+cl <- makeCluster(12)
 
 ind.code <- c(311,381,321,322,331,356,342,382,352,369,324)
 ind.code <- c(311,381,321)
