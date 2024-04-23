@@ -178,7 +178,7 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 3){
+      if (sum(lr.estimate > lr.crit) < 2){
         estimate.crit <- 0
       }
     }

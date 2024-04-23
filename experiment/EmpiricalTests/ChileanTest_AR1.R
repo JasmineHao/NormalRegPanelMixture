@@ -87,43 +87,34 @@ for (each.code in ind.code){
   
   
   for (T in 3:3){
-    t.start <- T.cap-T+1
-    #Reshape the data so that I can apply the test
-    ind.each.t <- ind.each[ind.each$year>=t.start,]
-    ind.each.t <- ind.each.t[complete.cases(ind.each.t),]
-    ind.each.y <- cast(ind.each.t[,c("id","year","si")],id ~ year,value="si")
-    id.list    <- ind.each.y[complete.cases(ind.each.y),"id"]
-    #Remove the incomplete data, need balanced panel
-    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list,]
-    ind.each.t <- ind.each.t[order(ind.each.t$id,ind.each.t$year),]
+    t.start <- T.cap - T + 1
+    # Reshape the data so that I can apply the test
+    ind.each.t <- ind.each[ind.each$year >= t.start, ]
+    ind.each.t <- ind.each.t[complete.cases(ind.each.t), ]
+    ind.each.y <- cast(ind.each.t[, c("id", "year", "si")], id ~ year, value = "si")
+    id.list <- ind.each.y[complete.cases(ind.each.y), "id"]
+    # Remove the incomplete data, need balanced panel
+    ind.each.t <- ind.each.t[ind.each.t$id %in% id.list, ]
+    ind.each.t <- ind.each.t[order(ind.each.t$id, ind.each.t$year), ]
     
     #Order the range of IDs
     ind.each.t <- ind.each.t %>%
       arrange(id)
     
-    # normalize data
-    ind.each.t$y <- (ind.each.t$si - mean(ind.each.t$si))/(sd(ind.each.t$si))
-    ind.each.t$x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
+    # Reshape the Y
+    ind.each.y <- cast(ind.each.t[, c("id", "year", "y")], id ~ year, value = "y")
+    ind.each.y <- ind.each.y[, colnames(ind.each.y) != "id"]
     
-    ind.each.t$y1 <- (ind.each.t$y_l1 - mean(ind.each.t$y_l1))/(sd(ind.each.t$y_l1))
-    ind.each.t$x1 <- (ind.each.t$lnk_l1 - mean(ind.each.t$lnk_l1))/(sd(ind.each.t$lnk_l1))
+    data <- list(
+      Y = t(ind.each.y), 
+      X = data.frame(ind.each.t[,c("y_l1")]), 
+      Z = NULL)
     
-    #Reshape the Y 
-    ind.each.y <- cast(ind.each.t[,c("id","year","y")],id ~ year,value="y")
-    ind.each.y <- ind.each.y[,colnames(ind.each.y)!="id"]
+    data.0 <- list(
+      Y = ind.each.t[ind.each.t$year==t.start,]$y_l1,
+      X = NULL, 
+      Z = NULL) # for the initial condition
     
-    ind.each.x <- ind.each.t$x
-    
-    ind.each.y1 <- ind.each.t$y1
-    
-    ind.each.y10 <- cast(ind.each.t[,c("id","year","y1")],id ~ year,value="y1")
-    ind.each.y10 <- ind.each.y10[,colnames(ind.each.y10)!="id"][,1]
-    
-    ind.each.x1 <- cast(ind.each.t[,c("id","year","x1")],id ~ year,value="x1")
-    ind.each.x1 <- ind.each.x1[,colnames(ind.each.x1)!="id"][,1]
-    
-    data <- list(Y = t(ind.each.y), X = data.frame(col2=ind.each.y1),  Z = NULL)
-    data.0 <- list( Y = ind.each.y10, X = NULL, Z = NULL ) # for the initial condition
     N <- dim(ind.each.y)[1]
     
     h1.coefficient = NULL
@@ -167,7 +158,7 @@ for (each.code in ind.code){
       print(lr.estimate)
       print(lr.crit)
       
-      if (sum(lr.estimate > lr.crit) < 3){
+      if (sum(lr.estimate > lr.crit) < 2){
         estimate.crit <- 0
       }
     }
