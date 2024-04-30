@@ -1136,9 +1136,10 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   
   coefficients <- unlist(parlist)
   names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
+  if (model.ar1){
   names(coefficients)[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p )] <- c(mubeta0.name)
-
-    }  # end m >= 2
+  }
+  }  # end m >= 2
 
   if (vcov.method == "none") {
     vcov <- NULL
