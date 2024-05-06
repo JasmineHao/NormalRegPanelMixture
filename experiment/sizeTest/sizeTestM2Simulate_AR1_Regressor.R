@@ -4,9 +4,9 @@ library(foreach)
 #Generate Data
 M <- 2 #Number of Type
 p <- 0 #Number of Z
-q <- 1 #Number of X
+q <- 3 #Number of X
 p.0 <- 0
-q.0 <- 0 
+q.0 <- 1 
 nrep <- 500
 cl <- makeCluster(10)
 
@@ -18,7 +18,8 @@ alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 
 muset <- list(c(-1,1))
 mu0set <- list(c(-1,1))
-betaset <- list(c(0.5,0.5))
+betaset <- list(t(matrix(c(0.5,1, 1, 0.5,0.5,0.5),nrow = q)) )
+beta0set <- list(c(0.5,0.5))
 sigmaset <- list(c(0.8,1.2))
 sigma0set <- list(c(0.8,1.2))
 
@@ -49,10 +50,11 @@ GenerateSample <- function(phi,nrep){
   mu0 = phi$mu0
   gamma = phi$gamma
   beta = phi$beta
+  beta0 = phi$beta0
   
   Data <- replicate(nrep,generateDataAR1(
     alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,
-    beta0,N, T ,M,p,q,p.0,q.0))
+    beta0, N, T ,M,p,q,p.0,q.0))
   return(list(phi=phi,Data=Data))
 }
 
@@ -127,6 +129,7 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
 
 
 #GeneratePhiDataPairs
+count <- 0
 
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * 
@@ -165,12 +168,13 @@ for (r in 1:nNT){
     
     sigma <- sigmaset[[1]]
     sigma0 <- sigma0set[[1]]
+    beta0 <- beta0set[[1]]
     
     t <- Sys.time()
-    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = beta, 
+    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = beta, beta0 = beta0, 
                mu0 = mu0, sigma0 = sigma0 , N = N, T = T, M = M, p = p, q = q, p.0 = p.0, q.0 = q.0)
     phi.0 <- list(alpha = alpha, gamma = NULL, beta = NULL, 
-                 mu = mu0, sigma = sigma0)
+                  mu = mu0, sigma = sigma0)
     phi.data.pair <- GenerateSample(phi,nrep)
     Data = phi.data.pair$Data
     phi = phi.data.pair$phi
@@ -213,4 +217,4 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2SimH_AR1_HML.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2SimRegressor_AR1_HML.csv")

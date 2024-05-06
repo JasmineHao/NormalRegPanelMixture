@@ -146,14 +146,14 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,
     x = matrix(rnorm(N*T*q),nc=q)
   }
   if ((p != 0) && (is.null(z))){
-    x = matrix(rnorm(N*T*p),nc=p)
+    z = matrix(rnorm(N*T*p),nc=p)
   }
   
   if ((q.0 != 0) && (is.null(x0))) {
-    x0 = matrix(rnorm(N * T * q.0), nc = q.0)
+    x0 = matrix(rnorm(N * q.0), nc = q.0)
   }
   if ((p != 0) && (is.null(z))) {
-    x = matrix(rnorm(N * T * p), nc = p)
+    z0 = matrix(rnorm(N * p), nc = p)
   }
 
   mu_R <- R %*% mu
