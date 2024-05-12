@@ -23,7 +23,8 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
                       double tau = 0.5,
                       int h = 0,
                       int k = 0, 
-                      int psih = 0) {
+                      int psih = 0,
+                      double epsilon = 0.05) {
   int nt = ys.size();
   int n  = nt / t;
   arma::mat b(bs.begin(), bs.nrow(), bs.ncol(), false);
@@ -139,7 +140,7 @@ List cppnormalpanelmixPMLE(NumericMatrix bs,
         mu(j) = sum( trans(w.row(j)) % ytilde ) / w_j;
         ssr_j = sum( trans(w.row(j)) % pow( ytilde - mu(j), 2 ) );
         sigma(j) = sqrt( (ssr_j + 2.0*an*sigma0(j)*sigma0(j))  / (w_j + 2.0*an) );
-        sigma(j) = fmax(sigma(j),0.01*sigma0(j));
+        sigma(j) = fmax(sigma(j),epsilon * sigma0(j));
         
         /* If k ==1, impose lower and upper bound */
         if (k==1  || psih == 1) {

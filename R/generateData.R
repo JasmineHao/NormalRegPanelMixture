@@ -141,16 +141,28 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,
     R <- matrix(1,nrow=N,ncol=M)
   }
   Y = matrix(0,T,N)
-
+  
+  
   if ((q != 0) && (is.null(x))){
-    x = matrix(rnorm(N*T*q),nc=q)
+    q.eff <- (q-1) / 2
+    x.raw = matrix(rnorm(N* (T + 1) * q.eff),nc=q.eff)
+    x = matrix(0, nc=q, nr = (N * T) )
+    x0.random = matrix(0, nc=q.0, nr = N)
+    for (q.eff.count in 1:q.eff){
+      x.tmp <- matrix(x.raw[,q.eff.count],nrow=(T+1),ncol=N)
+      x0.random[,q.eff.count] <- x.tmp[1,]
+      x[,q.eff.count+1] <- as.vector(x.tmp[2:(T+1),])
+      x[,q.eff.count+1+q.eff] <- as.vector(x.tmp[1:(T),])
+    }
+    
   }
   if ((p != 0) && (is.null(z))){
+    p.eff <- p / 2
     z = matrix(rnorm(N*T*p),nc=p)
   }
   
   if ((q.0 != 0) && (is.null(x0))) {
-    x0 = matrix(rnorm(N * q.0), nc = q.0)
+    x0 = x0.random
   }
   if ((p != 0) && (is.null(z))) {
     z0 = matrix(rnorm(N * p), nc = p)
@@ -188,7 +200,8 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,
     y_nn <- mu_R[nn] + sigma_R[nn] * u[, nn]
     y_l1 <- y0[nn]
     for (tt in 1:T){
-      x[(T * (nn - 1) + tt), 1] <- y_l1 # update the lagged value
+      x[(T * (nn - 1) + tt), 1] <- y_l1 # update the lagged value, 
+                                       #the first column of x, is always y_l1
       x_t <- x[(T * (nn - 1) + tt), ]
       y_nn[tt] <- y_nn[tt] + x_t %*% beta_R[nn, ]
       

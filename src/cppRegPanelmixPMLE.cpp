@@ -21,7 +21,8 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
                            double tol = 1e-8,
                            double tau = 0.5,
                            int h = 0,
-                           int k = 0) {
+                           int k = 0,
+                           double epsilon = 0.05) {
   int nt = ys.size();
   int n  = nt / t;
   int q = xs.ncol();
@@ -164,7 +165,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
 
       ssr_j = sum( trans(w.row(j)) % pow(  ytilde - x1*mubeta.col(j), 2 ) );
       sigma(j) = sqrt( (ssr_j + 2.0*an*sigma0(j)*sigma0(j))  / (w_j + 2.0*an) );
-      sigma(j) = fmax(sigma(j),0.05*sigma0(j)); //Why changed from 0.01 to 0.05
+      sigma(j) = fmax(sigma(j),epsilon * sigma0(j)); //Why changed from 0.01 to 0.05
       /* If k ==1, impose lower and upper bound */
       if (k==1) {
         mubeta(0,j) = fmin( fmax(mubeta(0,j),lb(j)), ub(j));

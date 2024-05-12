@@ -18,7 +18,7 @@ alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 
 muset <- list(c(-1,1))
 mu0set <- list(c(-1,1))
-betaset <- list(t(matrix(c(0.5,1, 1, 0.5,0.5,0.5),nrow = q)) )
+betaset <- list(t(matrix(c(0.5,1, -0.5, 0.5,-1, 0.5),nrow = q)) )
 beta0set <- list(c(0.5,0.5))
 sigmaset <- list(c(0.8,1.2))
 sigma0set <- list(c(0.8,1.2))
@@ -129,7 +129,7 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
 
 
 #GeneratePhiDataPairs
-count <- 0
+count <- 1
 
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * 
