@@ -26,7 +26,7 @@ normalpanelmixMaxPhi <- function (y, parlist, z = NULL, an, tauset = c(0.1,0.3,0
                              maxit.short = 500, maxit = 2000,
                              verb = FALSE,
                              parallel = FALSE,
-                             cl = NULL, k_max = 3, eps=NULL) {
+                             cl = NULL, k_max = 3, eps=0.01) {
   # Given a parameter estimate of an m component model and tuning paramter an,
   # maximize the objective function for computing the modified EM test statistic
   # for testing H_0 of m components against H_1 of m+1 for a univariate normal finite mixture
