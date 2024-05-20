@@ -148,13 +148,14 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,
     x.raw = matrix(rnorm(N* (T + 1) * q.eff),nc=q.eff)
     x = matrix(0, nc=q, nr = (N * T) )
     x0.random = matrix(0, nc=q.0, nr = N)
+    if (q.eff > 0) {
     for (q.eff.count in 1:q.eff){
       x.tmp <- matrix(x.raw[,q.eff.count],nrow=(T+1),ncol=N)
       x0.random[,q.eff.count] <- x.tmp[1,]
       x[,q.eff.count+1] <- as.vector(x.tmp[2:(T+1),])
       x[,q.eff.count+1+q.eff] <- as.vector(x.tmp[1:(T),])
     }
-    
+    }
   }
   if ((p != 0) && (is.null(z))){
     p.eff <- p / 2

@@ -19,7 +19,7 @@ alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1))
 mu0set <- list(c(-1,1))
 betaset <- list(c(0.5,0.5))
-sigmaset <- list(c(0.8,1.2))
+sigmaset <- list(c(0.5, 0.75))
 sigma0set <- list(c(0.8,1.2))
 
 anFormula.alt <- function(parlist, m, n, t){
