@@ -287,4 +287,7 @@ for (r in 1:nNT){
 }
 # stopCluster(cl)
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2_nonpar.csv")
+rownames(result) <- apply(NTset,1,paste,collapse = ",")
+colnames(result) <- apply(Parset,1,paste,collapse = ",")
+
+write.csv(rbind(result), file="results/sizeTestM2_nonpar.csv")
