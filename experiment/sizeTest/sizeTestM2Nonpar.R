@@ -22,7 +22,15 @@ alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
 sigmaset <- list(c(0.8,1.2))
 
-
+anFormula.alt <- function(parlist, m, n, t){
+  omega <- omega.12(parlist)
+  omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
+  omega.term <- log(omega /(1-omega))
+  b <-   c(-0.8112790,  -0.2882271,   4.6374028,  -0.1012959,  -0.1973225)
+  x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
+  an <- 1 / (1 + exp(x))
+  an
+}
 
 GenerateSample <- function(phi,nrep){
   p = phi$p
@@ -137,7 +145,7 @@ calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
   
   P_c <- NonParametricNumber(data_c, T.even, T.odd, n.grid)
   
-  for (kk in 1:100){
+  
   ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
   n_element <- length(as.vector(P_c))
   # Initialize the vec_P_b matrix
@@ -150,7 +158,7 @@ calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
     P_b <- NonParametricNumber(data_b, T.even, T.odd, n.grid)
     vec_P_b[i, ] <- as.vector(P_b)
   }
-  }
+  
   
   # Calculate mean_vec_P_b
   mean_vec_P_b <- colMeans(vec_P_b)

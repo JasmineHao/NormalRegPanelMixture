@@ -1,0 +1,5 @@
+"","","source"
+"aic_table",0,0.726,0.246,0.026,0.002,aic_table
+"bic_table",0,0.994,0.006,0,0,bic_table
+"mem_table",0,0.958,0.04,0.002,0,mem_table
+"mem_table_nonpar",0.006,0.812,0.174,0.008,0,mem_table_nonpar
