@@ -10,7 +10,8 @@ cl <- makeCluster(10)
 
 set.seed(123456)
 Nset <- c(200,400)
-Tset <- c(2, 3, 5, 8)
+# Tset <- c(2, 3, 5, 8)
+Tset <- c(2, 3)
 
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 muset <- list(c(-1,1),c(-0.5,0.5))
@@ -51,9 +52,9 @@ getEstimateDiffEps <- function(Data,nrep,cl,M, parlist){
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.0001)
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.001)
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.01)
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.0001, k_max=100)
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.001, k_max=100)
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.01, k_max=100)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
     if (class(crit) == "try-error"){
       crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = 0, z = data$Z, parallel = FALSE)$crit
@@ -157,4 +158,4 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Sim_HML_Bound.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Sim_HML_Bound_kmax_100.csv")
