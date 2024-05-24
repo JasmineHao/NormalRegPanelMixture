@@ -479,7 +479,7 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
         loglik0 <- regpanelmix.pmle.result$loglik
         
         if (q == 0){
-          regpanelmix.pmle.result.1 <- normalpanelmixMaxPhi(y = ybset[,j.btsp]$Y,  z = ybset[,j.btsp]$Z, parlist = regpanelmix.pmle.result$parlist, an=an)
+          regpanelmix.pmle.result.1 <- normalpanelmixMaxPhi(y = ybset[,j.btsp]$Y, parlist = regpanelmix.pmle.result$parlist, z = ybset[,j.btsp]$Z, an=an)
         }else{
           regpanelmix.pmle.result.1  <- regpanelmixMaxPhi(y = ybset[,j.btsp]$Y, x = ybset[,j.btsp]$X, z = ybset[,j.btsp]$Z, parlist = regpanelmix.pmle.result$parlist, an=an)
         }
