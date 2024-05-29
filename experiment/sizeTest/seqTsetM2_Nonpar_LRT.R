@@ -73,7 +73,7 @@ matrix_sqrt_svd <- function(mat) {
   return(sqrt_mat)
 }
 
-NonParametricNumber <- function(data_c, T.even, T.odd, n.grid=2){
+calculate_P_matrix <- function(data_c, T.even, T.odd, n.grid=2){
   
   T <- nrow(data_c)
   # Initialize an empty list to store the empirical breakpoints for each dimension
@@ -140,7 +140,7 @@ calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
   data_c <- data$Y
   n_size <- ncol(data_c)
   
-  P_c <- NonParametricNumber(data_c, T.even, T.odd, n.grid)
+  P_c <- calculate_P_matrix(data_c, T.even, T.odd, n.grid)
   
   
   ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
@@ -152,7 +152,7 @@ calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
   for (i in 1:BB) {
     index <- ceiling(ru[, i] * n_size)
     data_b <- data$Y[,index]
-    P_b <- NonParametricNumber(data_b, T.even, T.odd, n.grid)
+    P_b <- calculate_P_matrix(data_b, T.even, T.odd, n.grid)
     vec_P_b[i, ] <- as.vector(P_b)
   }
 

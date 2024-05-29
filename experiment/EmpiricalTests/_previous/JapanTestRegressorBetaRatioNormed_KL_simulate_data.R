@@ -105,8 +105,9 @@ for (each.code in ind.code){
   coef.df <- matrix(0,nr=5,nc=10)
   estimate.df <- matrix(0,nr=5,nc=10)
   AIC.df <- matrix(0,nr=5,nc=10)
-  BIC.df <- matrix(0,nr=5,nc=10)
-  crit.df <- matrix(0,nr=5,nc=10)
+  BIC.df <- matrix(0, nr = 5, nc = 10)
+    Nonpar.df <- matrix(0, nr = 5, nc = 10)
+  crit.df <- matrix(0, nr = 5, nc = 10)
   result.df <- matrix(0,nr=5,nc=10)
   ######################################################
   #For panel data

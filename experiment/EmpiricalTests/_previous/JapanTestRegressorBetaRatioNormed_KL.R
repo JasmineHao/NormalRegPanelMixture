@@ -61,6 +61,10 @@ BIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.3) <- ind.names
 colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
+Nonpar.df.3 <- matrix(0, nr = length(ind.code), nc = 10)
+rownames(Nonpar.df.3) <- ind.names
+colnames(Nonpar.df.3) <- c("M=1", "M=2", "M=3", "M=4", "M=5", "M=6", "M=7", "M=8", "M=9", "M=10")
+
 crit.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(crit.LR.df.3) <- ind.names
 colnames(crit.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
@@ -86,8 +90,9 @@ for (each.code in ind.code){
   coef.df <- matrix(0,nr=5,nc=10)
   estimate.df <- matrix(0,nr=5,nc=10)
   AIC.df <- matrix(0,nr=5,nc=10)
-  BIC.df <- matrix(0,nr=5,nc=10)
-  crit.df <- matrix(0,nr=5,nc=10)
+  BIC.df <- matrix(0, nr = 5, nc = 10)
+    Nonpar.df <- matrix(0, nr = 5, nc = 10)
+  crit.df <- matrix(0, nr = 5, nc = 10)
   result.df <- matrix(0,nr=5,nc=10)
   ######################################################
   #For panel data
@@ -169,7 +174,9 @@ for (each.code in ind.code){
   print("*************************************")
   estimate.LR.df.3[count,] <- estimate.df[3,]
   AIC.df.3[count,] <- AIC.df[3,]
-  BIC.df.3[count,] <- BIC.df[3,]
+  BIC.df.3[count, ] <- BIC.df[3, ]
+  Nonpar.df.3[count, ] <- Nonpar.df[3, ]
+  
   crit.LR.df.3[count,] <- crit.df[3,]
   colnames(estimate.df) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
   rownames(estimate.df) <- c("T=1","T=2","T=3","T=4","T=5")

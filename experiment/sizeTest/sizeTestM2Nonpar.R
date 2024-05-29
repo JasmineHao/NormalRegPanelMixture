@@ -161,7 +161,7 @@ calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
   
   
   # Calculate mean_vec_P_b
-  mean_vec_P_b <- colMeans(vec_P_b)
+  mean_vec_P_b <- as.vector(P_c)#colMeans(vec_P_b)
   
   # Initialize the W_b matrix
   W_b <- matrix(0, nrow =  n_element, ncol = n_element)
