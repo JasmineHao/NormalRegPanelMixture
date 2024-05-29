@@ -1,0 +1,6 @@
+"","","source"
+"aic_table",0,0.726,0.244,0.028,0.002,aic_table
+"bic_table",0,0.994,0.006,0,0,bic_table
+"mem_table",0,0,0,0,0,mem_table
+"mem_table_nonpar_h",0,0,0,0,1,polynomial
+"mem_table_nonpar_i",1,0,0,0,0,indicator

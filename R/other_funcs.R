@@ -1,5 +1,3 @@
-
-
 #  get.t.from.lambda
 # lambda Take in lambda, list of mu, sigma, beta
 # @return the second order expansion
@@ -315,7 +313,7 @@ hermite_recursive <- function(n, x) {
   } else {
     H_n_minus_1 <- hermite_recursive(n - 1, x)
     H_n_minus_2 <- hermite_recursive(n - 2, x)
-    return(2 * x * H_n_minus_1 - 2 * (n - 1) * H_n_minus_2)
+    return( x * H_n_minus_1 -  (n - 1) * H_n_minus_2)
   }
 }
 
@@ -348,7 +346,7 @@ calculate_P_matrix <- function(data_c, T.even, T.odd, n.grid=2, type="indicator"
   } else{
     for (t in 1:T){
       # Create the indicator matrix
-      hermite_matrix <- sapply(1:n.grid, function(k) hermite_recursive(k, data_c[t,]))
+      hermite_matrix <- sapply(0:(n.grid-1), function(k) hermite_recursive(k, data_c[t,]))
       indicator_list[[t]] <- hermite_matrix
     }
   }
@@ -430,17 +428,35 @@ construct_stat_KP <- function(P_c, W_c, r.test, n_size){
   U_12 <- U[1:(r.test),(r.test+1):ncol(U)]
   V_12 <- V[1:(r.test),(r.test+1):ncol(U)]
   
+  if (r.test == 1){
+    U_12 <- t(as.matrix(U_12))
+    V_12 <- t(as.matrix(V_12))
+  }
+  
   U_22 <- U[(r.test+1):ncol(U),(r.test+1):ncol(U)]
   V_22 <- V[(r.test+1):ncol(V),(r.test+1):ncol(V)]
   
+
+  svd_U22 <- svd(U_22)
+  sqrtm_u_22 <- svd_U22$u %*% diag(svd_U22$d) %*% t(svd_U22$u)
+  inv_u_22 <- svd_U22$u %*% diag(1/svd_U22$d) %*% t(svd_U22$v)
+  
+  svd_V22 <- svd(V_22)
+  sqrtm_v_22 <- svd_V22$u %*% diag(svd_V22$d) %*% t(svd_V22$u)
+  inv_v_22 <- svd_V22$u %*% diag(1/svd_V22$d) %*% t(svd_V22$v)
+  
+  
   # Construct the A_q_o and B_q_o matrix. 
-  A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
-  B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% solve(t(V_22)) %*% cbind(t(V_12), t(V_22))
+  # A_q_o <- t( sqrtm_u_22 %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
+  A_q_o <- t( sqrtm_u_22 %*% inv_u_22 %*% cbind(t(U_12), t(U_22)))
+  
+  B_q_o <- sqrtm_v_22 %*% inv_v_22 %*% cbind(t(V_12), t(V_22))
   lambda_q <- t(A_q_o) %*% P_c %*% t(B_q_o)
   kron_BA_o <- kronecker(B_q_o, t(A_q_o))
   Omega_q <- kron_BA_o %*% W_c %*% t(kron_BA_o)
   
   if (qr(Omega_q)$rank == nrow(Omega_q)) {
+    
     r <- nrow(Omega_q)
     rk_c <- n_size * sum(as.vector(lambda_q) * solve(Omega_q) %*% as.vector(lambda_q))
   } else {
@@ -455,4 +471,20 @@ construct_stat_KP <- function(P_c, W_c, r.test, n_size){
   BIC_c = rk_c - log(n_size)*r  
   HQ_c  = rk_c - 2*log(log(n_size))*r   
   return(rk_c)
+}
+
+
+return_p_val <- function(data_P_W, m, N){
+  
+  P_c <- data_P_W$P_c 
+  W_c <- data_P_W$W_c
+  s_1 <- dim(P_c)[1]
+  s_2 <- dim(P_c)[2]
+  
+  rk_c <- construct_stat_KP(P_c, W_c, m, N)
+  df <- (s_1 - m) * (s_2 - m)
+  
+  p.val <- 1 - pchisq(rk_c, df, lower.tail=TRUE)
+  
+  return(p.val) 
 }

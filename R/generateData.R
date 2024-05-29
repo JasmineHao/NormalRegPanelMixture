@@ -113,7 +113,8 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
 
 # x = matrix(rnorm(N*T*q),nc=q)
 # z = matrix(rnorm(N*T*p),nc=p)
-generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,N,T,M,p,q,p.0,q.0,x=NULL,z=NULL, x0 = NULL, z0=NULL){
+generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
+                            N,T,M,p,q,p.0,q.0,x=NULL,z=NULL, x0 = NULL, z0=NULL){
   sprintf("N = %d",N)
   sprintf("T = %d",T)
 
