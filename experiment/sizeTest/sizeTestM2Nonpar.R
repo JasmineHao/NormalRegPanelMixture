@@ -11,7 +11,7 @@ n.grid <- 2 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
-cl <- makeCluster(10)
+cl <- makeCluster(15)
 
 set.seed(123456)
 Nset <- c(200,400)
@@ -76,151 +76,151 @@ matrix_sqrt_svd <- function(mat) {
   return(sqrt_mat)
 }
 
-NonParametricNumber <- function(data_c, T.even, T.odd, n.grid=2){
-    
-    T <- nrow(data_c)
-    # Initialize an empty list to store the empirical breakpoints for each dimension
-    empirical_breakpoints <- vector("list", T)
-    
-    
-    # Calculate the empirical breakpoints for each dimension
-    for (t in 1:T) {
-      empirical_breakpoints[[t]] <- quantile(data_c[t,], probs = seq(0, 1, length.out = n.grid+1))
-      empirical_breakpoints[[t]][1] <- -Inf
-      empirical_breakpoints[[t]][n.grid+1] <- Inf
-    }
-
-        
-    # Partition the data into total_partitions groups
-    partition_indices.even <- matrix(0, nrow = ncol(data_c), ncol = length(T.even))
-    partition_indices.odd <- matrix(0, nrow = ncol(data_c), ncol = length(T.odd))
-    t.even <- 1
-    t.odd <- 1
-    
-    for (t in 1:T) {
-      if (t %in% T.even){
-        for (j in 1:ncol(data_c)) {
-          
-        partition_indices.even[j, t.even] <- findInterval(data_c[t,j], empirical_breakpoints[[t]])
-        }
-        t.even <- t.even + 1
-      }
-      else{
-        for (j in 1:ncol(data_c)) {
-          partition_indices.odd[j, t.odd] <- findInterval(data_c[t,j], empirical_breakpoints[[t]])
-        }
-        t.odd <- t.odd + 1
-      }
-    }
-    
-    partition_decimal_indices.even <- apply(partition_indices.even, 1, function(x) sum((x - 1) * n.grid^(seq_along(x) - 1))) + 1
-    partition_decimal_indices.odd <- apply(partition_indices.odd, 1, function(x) sum((x - 1) * n.grid^(seq_along(x) - 1))) + 1
-    
-    P_raw <- table(partition_decimal_indices.even, partition_decimal_indices.odd)
-    
-    nrow.P_c <- n.grid^(length(T.even))
-    ncol.P_c <- n.grid^(length(T.odd))
-    
-    
-    if ( nrow(P_raw) < nrow.P_c | ncol(P_raw) < ncol.P_c ){
-      P_c <- matrix(0,nrow=nrow.P_c,ncol=nrow.P_c)
-
-      for (index in rownames(P_raw)) {
-        for (index.col in colnames(P_raw)){
-          P_c[as.numeric(index), as.numeric(index.col)] <- P_raw[index, index.col]
-        }
-      }
-    }
-    else{
-      P_c <- P_raw
-    }
-    P_c
-    # P_raw
-}
-  
-
-calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
-  data_c <- data$Y
-  n_size <- ncol(data_c)
-  
-  P_c <- NonParametricNumber(data_c, T.even, T.odd, n.grid)
-  
-  
-  ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
-  n_element <- length(as.vector(P_c))
-  # Initialize the vec_P_b matrix
-  vec_P_b <- matrix(0, nrow = BB, ncol = n_element)
-  
-  # Loop to generate vec_P_b
-  for (i in 1:BB) {
-    index <- ceiling(ru[, i] * n_size)
-    data_b <- data$Y[,index]
-    P_b <- NonParametricNumber(data_b, T.even, T.odd, n.grid)
-    vec_P_b[i, ] <- as.vector(P_b)
-  }
-  
-  
-  # Calculate mean_vec_P_b
-  mean_vec_P_b <- as.vector(P_c)#colMeans(vec_P_b)
-  
-  # Initialize the W_b matrix
-  W_b <- matrix(0, nrow =  n_element, ncol = n_element)
-  
-  # Fill the W_b matrix
-  for (i in 1:n_element) {
-    for (j in i:n_element) {
-      if (i == j) {
-        W_b[i, i] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i])^2)
-      } else {
-        W_b[i, j] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i]) * (vec_P_b[, j] - mean_vec_P_b[j]))
-        W_b[j, i] <- W_b[i, j]
-      }
-    }
-  }
-  W_c = n_size*W_b 
-  
-  return(list(P_c = P_c, W_c = W_c))
-}
-
-construct_stat_KP <- function(P_c, W_c, r.test, n_size){
-  # Perform SVD decomposition of the matrix
-  P_svd <- svd(P_c)
-  tol_s <- 1e-10
-  # Extract the U, D, and V components of the SVD decomposition
-  D <- P_svd$d
-  U <- P_svd$u
-  V <- P_svd$v
-  
-  U_12 <- U[1:(r.test),(r.test+1):ncol(U)]
-  V_12 <- V[1:(r.test),(r.test+1):ncol(U)]
-  
-  U_22 <- U[(r.test+1):ncol(U),(r.test+1):ncol(U)]
-  V_22 <- V[(r.test+1):ncol(V),(r.test+1):ncol(V)]
-  
-  # Construct the A_q_o and B_q_o matrix. 
-  A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
-  B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% solve(t(V_22)) %*% cbind(t(V_12), t(V_22))
-  lambda_q <- t(A_q_o) %*% P_c %*% t(B_q_o)
-  kron_BA_o <- kronecker(B_q_o, t(A_q_o))
-  Omega_q <- kron_BA_o %*% W_c %*% t(kron_BA_o)
-  
-  if (qr(Omega_q)$rank == nrow(Omega_q)) {
-    r <- nrow(Omega_q)
-    rk_c <- n_size * sum(as.vector(lambda_q) * solve(Omega_q) %*% as.vector(lambda_q))
-  } else {
-    svd_result <- svd(Omega_q)
-    s <- svd_result$d
-    r <- sum(s > tol_s * max(s))
-    inv_Omega_q <- svd_result$v[, 1:r] %*% diag(1 / s[1:r]) %*% t(svd_result$u[, 1:r])
-    rk_c <- n_size * sum( t(as.vector(lambda_q)) %*% inv_Omega_q %*% as.vector(lambda_q))
-  } 
-  
-  AIC_c = rk_c - 2*r
-  BIC_c = rk_c - log(n_size)*r  
-  HQ_c  = rk_c - 2*log(log(n_size))*r   
-  return(rk_c)
-}
-
+# NonParametricNumber <- function(data_c, T.even, T.odd, n.grid=2){
+#     
+#     T <- nrow(data_c)
+#     # Initialize an empty list to store the empirical breakpoints for each dimension
+#     empirical_breakpoints <- vector("list", T)
+#     
+#     
+#     # Calculate the empirical breakpoints for each dimension
+#     for (t in 1:T) {
+#       empirical_breakpoints[[t]] <- quantile(data_c[t,], probs = seq(0, 1, length.out = n.grid+1))
+#       empirical_breakpoints[[t]][1] <- -Inf
+#       empirical_breakpoints[[t]][n.grid+1] <- Inf
+#     }
+# 
+#         
+#     # Partition the data into total_partitions groups
+#     partition_indices.even <- matrix(0, nrow = ncol(data_c), ncol = length(T.even))
+#     partition_indices.odd <- matrix(0, nrow = ncol(data_c), ncol = length(T.odd))
+#     t.even <- 1
+#     t.odd <- 1
+#     
+#     for (t in 1:T) {
+#       if (t %in% T.even){
+#         for (j in 1:ncol(data_c)) {
+#           
+#         partition_indices.even[j, t.even] <- findInterval(data_c[t,j], empirical_breakpoints[[t]])
+#         }
+#         t.even <- t.even + 1
+#       }
+#       else{
+#         for (j in 1:ncol(data_c)) {
+#           partition_indices.odd[j, t.odd] <- findInterval(data_c[t,j], empirical_breakpoints[[t]])
+#         }
+#         t.odd <- t.odd + 1
+#       }
+#     }
+#     
+#     partition_decimal_indices.even <- apply(partition_indices.even, 1, function(x) sum((x - 1) * n.grid^(seq_along(x) - 1))) + 1
+#     partition_decimal_indices.odd <- apply(partition_indices.odd, 1, function(x) sum((x - 1) * n.grid^(seq_along(x) - 1))) + 1
+#     
+#     P_raw <- table(partition_decimal_indices.even, partition_decimal_indices.odd)
+#     
+#     nrow.P_c <- n.grid^(length(T.even))
+#     ncol.P_c <- n.grid^(length(T.odd))
+#     
+#     
+#     if ( nrow(P_raw) < nrow.P_c | ncol(P_raw) < ncol.P_c ){
+#       P_c <- matrix(0,nrow=nrow.P_c,ncol=nrow.P_c)
+# 
+#       for (index in rownames(P_raw)) {
+#         for (index.col in colnames(P_raw)){
+#           P_c[as.numeric(index), as.numeric(index.col)] <- P_raw[index, index.col]
+#         }
+#       }
+#     }
+#     else{
+#       P_c <- P_raw
+#     }
+#     P_c
+#     # P_raw
+# }
+#   
+# 
+# calculate_W_P <- function(data,T.even, T.odd, n.grid=2, BB=199){
+#   data_c <- data$Y
+#   n_size <- ncol(data_c)
+#   
+#   P_c <- NonParametricNumber(data_c, T.even, T.odd, n.grid)
+#   
+#   
+#   ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
+#   n_element <- length(as.vector(P_c))
+#   # Initialize the vec_P_b matrix
+#   vec_P_b <- matrix(0, nrow = BB, ncol = n_element)
+#   
+#   # Loop to generate vec_P_b
+#   for (i in 1:BB) {
+#     index <- ceiling(ru[, i] * n_size)
+#     data_b <- data$Y[,index]
+#     P_b <- NonParametricNumber(data_b, T.even, T.odd, n.grid)
+#     vec_P_b[i, ] <- as.vector(P_b)
+#   }
+#   
+#   
+#   # Calculate mean_vec_P_b
+#   mean_vec_P_b <- as.vector(P_c)#colMeans(vec_P_b)
+#   
+#   # Initialize the W_b matrix
+#   W_b <- matrix(0, nrow =  n_element, ncol = n_element)
+#   
+#   # Fill the W_b matrix
+#   for (i in 1:n_element) {
+#     for (j in i:n_element) {
+#       if (i == j) {
+#         W_b[i, i] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i])^2)
+#       } else {
+#         W_b[i, j] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i]) * (vec_P_b[, j] - mean_vec_P_b[j]))
+#         W_b[j, i] <- W_b[i, j]
+#       }
+#     }
+#   }
+#   W_c = n_size*W_b 
+#   
+#   return(list(P_c = P_c, W_c = W_c))
+# }
+# 
+# construct_stat_KP <- function(P_c, W_c, r.test, n_size){
+#   # Perform SVD decomposition of the matrix
+#   P_svd <- svd(P_c)
+#   tol_s <- 1e-10
+#   # Extract the U, D, and V components of the SVD decomposition
+#   D <- P_svd$d
+#   U <- P_svd$u
+#   V <- P_svd$v
+#   
+#   U_12 <- U[1:(r.test),(r.test+1):ncol(U)]
+#   V_12 <- V[1:(r.test),(r.test+1):ncol(U)]
+#   
+#   U_22 <- U[(r.test+1):ncol(U),(r.test+1):ncol(U)]
+#   V_22 <- V[(r.test+1):ncol(V),(r.test+1):ncol(V)]
+#   
+#   # Construct the A_q_o and B_q_o matrix. 
+#   A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
+#   B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% solve(t(V_22)) %*% cbind(t(V_12), t(V_22))
+#   lambda_q <- t(A_q_o) %*% P_c %*% t(B_q_o)
+#   kron_BA_o <- kronecker(B_q_o, t(A_q_o))
+#   Omega_q <- kron_BA_o %*% W_c %*% t(kron_BA_o)
+#   
+#   if (qr(Omega_q)$rank == nrow(Omega_q)) {
+#     r <- nrow(Omega_q)
+#     rk_c <- n_size * sum(as.vector(lambda_q) * solve(Omega_q) %*% as.vector(lambda_q))
+#   } else {
+#     svd_result <- svd(Omega_q)
+#     s <- svd_result$d
+#     r <- sum(s > tol_s * max(s))
+#     inv_Omega_q <- svd_result$v[, 1:r] %*% diag(1 / s[1:r]) %*% t(svd_result$u[, 1:r])
+#     rk_c <- n_size * sum( t(as.vector(lambda_q)) %*% inv_Omega_q %*% as.vector(lambda_q))
+#   } 
+#   
+#   AIC_c = rk_c - 2*r
+#   BIC_c = rk_c - log(n_size)*r  
+#   HQ_c  = rk_c - 2*log(log(n_size))*r   
+#   return(rk_c)
+# }
+# 
 
 NTset <- expand.grid(Nset,Tset)
 Parset <- expand.grid(muset,alphaset)
@@ -262,7 +262,7 @@ for (r in 1:nNT){
     results <- foreach (k = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
       #for (k in 1:nrep) { 
       data <- Data[,k]
-      data_P_W <- calculate_W_P(data,T.even, T.odd, n.grid=n.grid, BB=199)
+      data_P_W <- calculate_W_P(data,T.even, T.odd, n.grid=2, BB=199, type="polynomial")
       P_c <- data_P_W$P_c 
       W_c <- data_P_W$W_c
       rk_c <- construct_stat_KP(P_c, W_c, r.test, N)
@@ -298,4 +298,4 @@ for (r in 1:nNT){
 rownames(result) <- apply(NTset,1,paste,collapse = ",")
 colnames(result) <- apply(Parset,1,paste,collapse = ",")
 
-write.csv(rbind(result), file="results/sizeTestM2_nonpar.csv")
+write.csv(rbind(result), file="results/sizeTestM2_nonpar_polynomial.csv")

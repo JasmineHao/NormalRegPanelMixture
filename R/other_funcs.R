@@ -356,7 +356,7 @@ calculate_P_matrix <- function(data_c, T.even, T.odd, n.grid=2, type="indicator"
   
   # Initialize the result matrix
   
-  P_dim = length(Reduce(kronecker, lapply(T.even, function(t) indicator_list[[t]][n, ])))
+  P_dim = length(Reduce(kronecker, lapply(T.even, function(t) indicator_list[[t]][1, ])))
   result_matrix_even <- matrix(0, nrow = N, ncol = P_dim)
   result_matrix_odd <- matrix(0, nrow = N, ncol = P_dim)
   
