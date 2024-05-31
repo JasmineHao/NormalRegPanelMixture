@@ -315,7 +315,7 @@ hermite_recursive <- function(n, x) {
   } else {
     H_n_minus_1 <- hermite_recursive(n - 1, x)
     H_n_minus_2 <- hermite_recursive(n - 2, x)
-    return(2 * x * H_n_minus_1 - 2 * (n - 1) * H_n_minus_2)
+    return( x * H_n_minus_1 -  (n - 1) * H_n_minus_2)
   }
 }
 
