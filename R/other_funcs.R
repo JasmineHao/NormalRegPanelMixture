@@ -348,7 +348,7 @@ calculate_P_matrix <- function(data_c, T.even, T.odd, n.grid=2, type="indicator"
   } else{
     for (t in 1:T){
       # Create the indicator matrix
-      hermite_matrix <- sapply(1:n.grid, function(k) hermite_recursive(k, data_c[t,]))
+      hermite_matrix <- sapply(0:(n.grid-1), function(k) hermite_recursive(k, data_c[t,]))
       indicator_list[[t]] <- hermite_matrix
     }
   }
