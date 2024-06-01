@@ -456,3 +456,19 @@ construct_stat_KP <- function(P_c, W_c, r.test, n_size){
   HQ_c  = rk_c - 2*log(log(n_size))*r   
   return(rk_c)
 }
+
+
+return_p_val <- function(data_P_W, m, N){
+  
+  P_c <- data_P_W$P_c 
+  W_c <- data_P_W$W_c
+  s_1 <- dim(P_c)[1]
+  s_2 <- dim(P_c)[2]
+  
+  rk_c <- construct_stat_KP(P_c, W_c, m, N)
+  df <- (s_1 - m) * (s_2 - m)
+  
+  p.val <- 1 - pchisq(rk_c, df, lower.tail=TRUE)
+  
+  return(p.val) 
+}
