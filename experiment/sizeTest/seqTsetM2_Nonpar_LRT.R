@@ -7,12 +7,12 @@ library(expm)
 #Generate Data
 M <- 2 #Number of Type
 r.test <- 2 # test the null hypothesis of 2
-n.grid <- 2 # partition each t into 2 intervals
+n.grid <- 3 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
-cl <- makeCluster(10)
-M_max <- 5
+cl <- makeCluster(8)
+M_max <- 5  
 
 set.seed(123456)
 # Nset <- c(200,400)
@@ -102,9 +102,13 @@ mem_table <- matrix(0,nr=(nNT),nc=nPar)
 rownames(mem_table) <- apply(NTset,1,paste,collapse = ",")
 colnames(mem_table) <- apply(Parset,1,paste,collapse = ",")
 
-mem_table_nonpar <- matrix(0,nr=(nNT),nc=nPar)
-rownames(mem_table_nonpar) <- apply(NTset,1,paste,collapse = ",")
-colnames(mem_table_nonpar) <- apply(Parset,1,paste,collapse = ",")
+mem_table_nonpar_h <- matrix(0,nr=(nNT),nc=nPar)
+rownames(mem_table_nonpar_h) <- apply(NTset,1,paste,collapse = ",")
+colnames(mem_table_nonpar_h) <- apply(Parset,1,paste,collapse = ",")
+
+mem_table_nonpar_i <- matrix(0,nr=(nNT),nc=nPar)
+rownames(mem_table_nonpar_i) <- apply(NTset,1,paste,collapse = ",")
+colnames(mem_table_nonpar_i) <- apply(Parset,1,paste,collapse = ",")
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
@@ -143,14 +147,20 @@ for (r in 1:nNT){
       aic <- rep(0,M_max)
       bic <- rep(0,M_max)
       lr.estim <- rep(0,M_max)
-      test <- 1
-      test.nonpar <- 1
+      test <- 0
+      mem_result <- 0
+      test.nonpar.h <- 1
+      test.nonpar.i <- 1
       
-      data_P_W <- calculate_W_P(data,T.even, T.odd, n.grid=n.grid, BB=199, type="polynomial")
-      P_c <- data_P_W$P_c 
-      W_c <- data_P_W$W_c
-      s_1 <- dim(P_c)[1]
-      s_2 <- dim(P_c)[2]
+      data_P_W_h <- calculate_W_P(data,T.even, T.odd, n.grid=n.grid, BB=199, type="polynomial")
+      P_c_h <- data_P_W_h$P_c 
+      W_c_h <- data_P_W_h$W_c
+      s_1 <- dim(P_c_h)[1]
+      s_2 <- dim(P_c_h)[2]
+      
+      data_P_W_i <- calculate_W_P(data,T.even, T.odd, n.grid=n.grid, BB=199, type="indicator")
+      P_c_i <- data_P_W_i$P_c
+      W_c_i <- data_P_W_i$W_c
       
       for(m in 1:M_max){
         out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
@@ -174,25 +184,34 @@ for (r in 1:nNT){
         }
         
         
-        rk_c <- construct_stat_KP(P_c, W_c, m, N)
+        rk_c_h <- construct_stat_KP(P_c_h, W_c_h, m, N)
+        rk_c_i <- construct_stat_KP(P_c_i, W_c_i, m, N)
         
         df <- (s_1 - m) * (s_2 - m)
         crit.0.95 <- qchisq(0.95, df)
-        if (test.nonpar == 1){
-          mem_result_nonpar <- m
-          if (rk_c < crit.0.95){
-            test.nonpar = 0
+        if (test.nonpar.h == 1){
+          mem_result_nonpar_h <- m
+          if (rk_c_h < crit.0.95){
+            test.nonpar.h = 0
+          }
+        }
+        if (test.nonpar.i == 1){
+          mem_result_nonpar_i <- m
+          if (rk_c_i < crit.0.95){
+            test.nonpar.i = 0
           }
         }
       }
       
-      list(lr.estim=lr.estim, aic=aic, bic=bic, mem_result=mem_result, mem_result_nonpar=mem_result_nonpar)    
+      list(lr.estim=lr.estim, aic=aic, bic=bic, mem_result=mem_result, mem_result_nonpar_h=mem_result_nonpar_h, mem_result_nonpar_i=mem_result_nonpar_i)    
     }
     
     aic <- matrix(0,nrow=nrep,ncol=M_max)
     bic <- matrix(0,nrow=nrep,ncol=M_max)
     mem_seq <-matrix(0,nrow=nrep,ncol=1)
-    mem_seq_nonpar <-matrix(0,nrow=nrep,ncol=1)
+    mem_seq_nonpar_h <-matrix(0,nrow=nrep,ncol=1)
+    mem_seq_nonpar_i <-matrix(0,nrow=nrep,ncol=1)
+    
     lr.estim_table <- matrix(0,nrow=nrep,ncol=M_max)
     
     for (k in 1:nrep) {
@@ -200,7 +219,8 @@ for (r in 1:nNT){
       aic[k,] <- results[[k]]$aic
       bic[k,] <- results[[k]]$bic
       mem_seq[k,] <- results[[k]]$mem_result
-      mem_seq_nonpar[k,] <- results[[k]]$mem_result_nonpar
+      mem_seq_nonpar_h[k,] <- results[[k]]$mem_result_nonpar_h
+      mem_seq_nonpar_i[k,] <- results[[k]]$mem_result_nonpar_i
     }
     
     
@@ -210,7 +230,8 @@ for (r in 1:nNT){
     aic_table[r, count] <-paste(count_freq(aic_freq),collapse=",")
     bic_table[r, count] <- paste(count_freq(bic_freq),collapse=",")
     mem_table[r, count] <- paste(count_freq(mem_seq),collapse=",")
-    mem_table_nonpar[r, count] <- paste(count_freq(mem_seq_nonpar),collapse=",")
+    mem_table_nonpar_h[r, count] <- paste(count_freq(mem_seq_nonpar_h),collapse=",")
+    mem_table_nonpar_i[r, count] <- paste(count_freq(mem_seq_nonpar_i),collapse=",")
     print(Sys.time() - t)
     
   }
@@ -220,6 +241,7 @@ for (r in 1:nNT){
 aic_table$source <- "aic_table"
 bic_table$source <- "bic_table"
 mem_table$source <- "mem_table"
-mem_table_nonpar$source <- "mem_table_nonpar"
+mem_table_nonpar_h$source <- "polynomial"
+mem_table_nonpar_i$source <- "indicator"
 
-write.csv(rbind(aic_table,bic_table,mem_table,mem_table_nonpar), file="results/seqTestM2_nonpar_polynomial.csv")
+write.csv(rbind(aic_table,bic_table,mem_table,mem_table_nonpar_h, mem_table_nonpar_i), file="results/seqTestM2_nonpar_polynomial.csv")

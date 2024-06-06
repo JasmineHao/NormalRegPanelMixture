@@ -430,17 +430,35 @@ construct_stat_KP <- function(P_c, W_c, r.test, n_size){
   U_12 <- U[1:(r.test),(r.test+1):ncol(U)]
   V_12 <- V[1:(r.test),(r.test+1):ncol(U)]
   
+  if (r.test == 1){
+    U_12 <- t(as.matrix(U_12))
+    V_12 <- t(as.matrix(V_12))
+  }
+  
   U_22 <- U[(r.test+1):ncol(U),(r.test+1):ncol(U)]
   V_22 <- V[(r.test+1):ncol(V),(r.test+1):ncol(V)]
   
+
+  svd_U22 <- svd(U_22)
+  sqrtm_u_22 <- svd_U22$u %*% diag(svd_U22$d) %*% t(svd_U22$u)
+  inv_u_22 <- svd_U22$u %*% diag(1/svd_U22$d) %*% t(svd_U22$v)
+  
+  svd_V22 <- svd(V_22)
+  sqrtm_v_22 <- svd_V22$u %*% diag(svd_V22$d) %*% t(svd_V22$u)
+  inv_v_22 <- svd_V22$u %*% diag(1/svd_V22$d) %*% t(svd_V22$v)
+  
+  
   # Construct the A_q_o and B_q_o matrix. 
-  A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
-  B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% solve(t(V_22)) %*% cbind(t(V_12), t(V_22))
+  # A_q_o <- t( sqrtm_u_22 %*% solve(t(U_22)) %*% cbind(t(U_12), t(U_22)))
+  A_q_o <- t( sqrtm_u_22 %*% inv_u_22 %*% cbind(t(U_12), t(U_22)))
+  
+  B_q_o <- sqrtm_v_22 %*% inv_v_22 %*% cbind(t(V_12), t(V_22))
   lambda_q <- t(A_q_o) %*% P_c %*% t(B_q_o)
   kron_BA_o <- kronecker(B_q_o, t(A_q_o))
   Omega_q <- kron_BA_o %*% W_c %*% t(kron_BA_o)
   
   if (qr(Omega_q)$rank == nrow(Omega_q)) {
+    
     r <- nrow(Omega_q)
     rk_c <- n_size * sum(as.vector(lambda_q) * solve(Omega_q) %*% as.vector(lambda_q))
   } else {
