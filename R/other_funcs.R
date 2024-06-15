@@ -1,5 +1,3 @@
-
-
 #  get.t.from.lambda
 # lambda Take in lambda, list of mu, sigma, beta
 # @return the second order expansion
