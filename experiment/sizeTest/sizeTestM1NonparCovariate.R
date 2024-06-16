@@ -62,7 +62,7 @@ Parset <- expand.grid(muset,betaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
 result <- matrix(0,nr=(nNT),nc=nPar)
-
+nBB <- 199
 for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
@@ -106,20 +106,32 @@ for (r in 1:nNT){
       rk_c <- construct_stat_KP(P_c, W_c, r.test, N)
       #rk_c_all[k] <- rk_c
       #P_c_list[[k]] <- results[[k]]$P_c
-      list(rk_c = rk_c, P_c = P_c)
+      
+      resample_index <- matrix(sample(N, nBB*N, replace=TRUE), nrow=nBB)
+      rk_c_boot <- matrix(0,nrow=1,ncol=nBB)
+      for (b in 1:nBB){
+        data.res.b <- list(Y = data.res$Y[,resample_index[b,]] )
+        data_P_W <- calculate_W_P(data.res.b, T.even, T.odd, n.grid=2, BB=199, type="indicator")
+        P_c <- data_P_W$P_c 
+        W_c <- data_P_W$W_c
+        rk_c_b <- construct_stat_KP(P_c, W_c, r.test, N)
+        rk_c_boot[b] <- rk_c_b
+      }
+      list(rk_c = rk_c, P_c = P_c, rk_c_boot=rk_c_boot)
     }
     
     rk_c_all <- matrix(0, nrow = nrep, ncol = 1)
+    rk_c_crit_all <- matrix(0, nrow = nrep, ncol = 1)
     P_c_list <- vector("list", nrep)  # List to store all P_c matrices
     
     # Extract results from the list
     for (k in 1:nrep) {
       rk_c_all[k] <- results[[k]]$rk_c
       P_c_list[[k]] <- results[[k]]$P_c
+      rk_c_crit_all[[k]] <- results[[k]]$crit.0.95
     }
     
     # Stop the parallel backend
-    
     
     s_1 <- dim(P_c_list[[1]])[1]
     s_2 <- dim(P_c_list[[2]])[2]
@@ -127,6 +139,8 @@ for (r in 1:nNT){
     crit.0.95 <- qchisq(0.95, df)
     
     result[r, count] <- mean(rk_c_all > crit.0.95)
+    result.boot[r, count] <- mean(rk_c_all > rk_c_crit_all) 
+    
     print(Sys.time() - t)
     
   }
@@ -136,4 +150,8 @@ for (r in 1:nNT){
 rownames(result) <- apply(NTset,1,paste,collapse = ",")
 colnames(result) <- apply(Parset,1,paste,collapse = ",")
 
-write.csv(rbind(result), file="results/sizeTestM1_nonpar_covariates.csv")
+rownames(result.boot) <- apply(NTset,1,paste,collapse = ",")
+colnames(result.boot) <- apply(Parset,1,paste,collapse = ",")
+
+
+write.csv(rbind(result, result.boot), file="results/sizeTestM1_nonpar_covariates.csv")
