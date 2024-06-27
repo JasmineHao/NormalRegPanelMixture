@@ -38,9 +38,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// logistic_regression
+arma::vec logistic_regression(const arma::mat& X, const arma::vec& y, double alpha, int iterations);
+RcppExport SEXP _NormalRegPanelMixture_logistic_regression(SEXP XSEXP, SEXP ySEXP, SEXP alphaSEXP, SEXP iterationsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< int >::type iterations(iterationsSEXP);
+    rcpp_result_gen = Rcpp::wrap(logistic_regression(X, y, alpha, iterations));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cppRegPanelmixPMLEAR1
-List cppRegPanelmixPMLEAR1(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericVector ys0, NumericMatrix xs0, NumericMatrix zs0, NumericVector mu0s, NumericVector sigma0s, NumericVector mu00s, NumericVector sigma00s, int m, int p, int t, double an, double an_0, int maxit, int ninits, double tol, double tau, int h, int k);
-RcppExport SEXP _NormalRegPanelMixture_cppRegPanelmixPMLEAR1(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP ys0SEXP, SEXP xs0SEXP, SEXP zs0SEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mu00sSEXP, SEXP sigma00sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP an_0SEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP) {
+List cppRegPanelmixPMLEAR1(NumericMatrix bs, NumericVector ys, NumericMatrix xs, NumericMatrix zs, NumericMatrix zinits, NumericVector mu0s, NumericVector sigma0s, int m, int p, int t, double an, int maxit, int ninits, double tol, double tau, int h, int k, double epsilon);
+RcppExport SEXP _NormalRegPanelMixture_cppRegPanelmixPMLEAR1(SEXP bsSEXP, SEXP ysSEXP, SEXP xsSEXP, SEXP zsSEXP, SEXP zinitsSEXP, SEXP mu0sSEXP, SEXP sigma0sSEXP, SEXP mSEXP, SEXP pSEXP, SEXP tSEXP, SEXP anSEXP, SEXP maxitSEXP, SEXP ninitsSEXP, SEXP tolSEXP, SEXP tauSEXP, SEXP hSEXP, SEXP kSEXP, SEXP epsilonSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -48,25 +62,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type ys(ysSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type xs(xsSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type zs(zsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type ys0(ys0SEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type xs0(xs0SEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type zs0(zs0SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type zinits(zinitsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type mu0s(mu0sSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type sigma0s(sigma0sSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type mu00s(mu00sSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type sigma00s(sigma00sSEXP);
     Rcpp::traits::input_parameter< int >::type m(mSEXP);
     Rcpp::traits::input_parameter< int >::type p(pSEXP);
     Rcpp::traits::input_parameter< int >::type t(tSEXP);
     Rcpp::traits::input_parameter< double >::type an(anSEXP);
-    Rcpp::traits::input_parameter< double >::type an_0(an_0SEXP);
     Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< int >::type ninits(ninitsSEXP);
     Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
     Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppRegPanelmixPMLEAR1(bs, ys, xs, zs, ys0, xs0, zs0, mu0s, sigma0s, mu00s, sigma00s, m, p, t, an, an_0, maxit, ninits, tol, tau, h, k));
+    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppRegPanelmixPMLEAR1(bs, ys, xs, zs, zinits, mu0s, sigma0s, m, p, t, an, maxit, ninits, tol, tau, h, k, epsilon));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -100,7 +110,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_NormalRegPanelMixture_cppRegPanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppRegPanelmixPMLE, 17},
-    {"_NormalRegPanelMixture_cppRegPanelmixPMLEAR1", (DL_FUNC) &_NormalRegPanelMixture_cppRegPanelmixPMLEAR1, 22},
+    {"_NormalRegPanelMixture_logistic_regression", (DL_FUNC) &_NormalRegPanelMixture_logistic_regression, 4},
+    {"_NormalRegPanelMixture_cppRegPanelmixPMLEAR1", (DL_FUNC) &_NormalRegPanelMixture_cppRegPanelmixPMLEAR1, 18},
     {"_NormalRegPanelMixture_cppnormalpanelmixPMLE", (DL_FUNC) &_NormalRegPanelMixture_cppnormalpanelmixPMLE, 17},
     {NULL, NULL, 0}
 };

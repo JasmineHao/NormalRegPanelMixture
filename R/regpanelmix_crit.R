@@ -532,7 +532,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   y0 <- data.0$Y
   x0 <- data.0$X
   z0 <- data.0$Z
-  
+  z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
 
   n  <- ncol(y)
   t  <- nrow(y)
@@ -543,8 +543,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   alpha   <- parlist$alpha
   mubeta  <- parlist$mubeta
   sigma <- parlist$sigma
-  mubeta0 <- parlist$mubeta0
-  sigma0 <- parlist$sigma0
+  gamma0 <- parlist$gamma0
   gam   <- parlist$gam
   m       <- length(alpha)
   
@@ -558,28 +557,22 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   }
   
   
-  if (!is.null(x)){
-    x     <- as.matrix(x)
-    q     <- ncol(x)
-    mu <- mubeta[1,]
-    beta <- t(mubeta[2:(q+1),])  #CHECKED
-  }else{
-    q <- 0
-    mu <- mubeta
-    beta  <- NULL
-  }
-
+  
+  x     <- as.matrix(x)
+  q     <- ncol(x)
+  q.eff <- (ncol(x) - 1) / 2
+  mu <- mubeta[1,]
+  rho <- mubeta[2,]
+  beta.r <- t(mubeta[3:(q.eff + 2),])  #CHECKED
+  
+  
   if (!is.null(x0)) {
-    x0 <- as.matrix(x0)
-    q.0 <- ncol(x0)
-    mu0 <- mubeta0[1,]
-    beta0 <- t(mubeta0[2:(q.0 + 1), ]) # CHECKED
+    q.00 <- ncol(x0)
   } else {
-    q.0 <- 0
-    mu0 <- mubeta0
-    beta0 <- NULL
-
+    q.00 <- 0
   }
+  
+  q.0 <- ncol(z.init) + 1
   
   if (!is.null(z0)) {
     p.0 <- ncol(z)
@@ -587,15 +580,20 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
     p.0 <- 0
   }
   
-  # an    <- anFormula(parlist = parlist, m = m, n = n, t = t, q = q)
-  # print("Parallel Bootstrap Crit")
-  # print(paste("an=",an,"q=",q))
 
   pvals <- NULL
   
   # Generate bootstrap observations
   
-  ybset <- replicate(nbtsp, generateDataAR1(alpha=alpha,mu=mu,sigma=sigma,gamma=gamma,beta=beta,mu0=mu0,sigma0=sigma0,gamma0=gamma0,beta0=beta0,N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0=q.0,x=x,z=z, x0 = x0, z0=z0))
+  
+  beta <- t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q))
+  
+  mu0 <- mu / sqrt(1- rho**2)
+  
+  beta0 <- t(beta.r / sqrt(1 - rho**2) )
+  
+  
+  ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.00))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
    
   if (!is.null(z)) {

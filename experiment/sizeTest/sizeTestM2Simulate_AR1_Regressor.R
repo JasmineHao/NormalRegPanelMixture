@@ -5,10 +5,10 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 3 #Number of X
-p.0 <- 0
-q.0 <- 1 
-nrep <- 500
-cl <- makeCluster(10)
+p.0 <- round(( p - 1 ) / 2)
+q.0 <- round(( q - 1 ) / 2) 
+nrep <- 5
+cl <- makeCluster(5)
 
 set.seed(123456)
 Nset <- c(200)
@@ -16,12 +16,22 @@ Tset <- c(3,5)
 
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
 
-muset <- list(c(-1,1))
-mu0set <- list(c(-1,1))
-betaset <- list(t(matrix(c(0.5,1, -0.5, 0.5,-1, 0.5),nrow = q)) )
-beta0set <- list(c(0.5,0.5))
-sigmaset <- list(c(0.8,1.2))
-sigma0set <- list(c(0.8,1.2))
+
+
+rho <- c(0.5,0.7)
+beta.r <- c(1,-1)
+mu.r <- c(1,-1)
+
+muset <- list(mu.r * (1-rho))
+mu0set <- list(mu.r / sqrt(1- rho**2))
+
+
+betaset <- list( t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q)) )
+beta0set <- list(beta.r / sqrt(1 - rho**2))
+
+
+sigma <- c(0.8,1.2)
+sigma0 <- sqrt(sigma**2 / (1 - rho**2))
 
 anFormula.alt <- function(parlist, m, n, t){
   omega <- omega.12(parlist)
@@ -68,61 +78,43 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
     data.0 <- list(Y = data$Y0, X = data$X0, Z = data$Z0)
     out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(
       y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none", data.0 = data.0)
-    out.h1.l <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X,
-                                                         parlist=out.h0$parlist,an=(0.01 * an), 
-                                                         an_0 = (0.01* an_0),parallel = FALSE, data.0 = data.0)
+    
     out.h1.m <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X,
                                                          parlist=out.h0$parlist,an=(an), 
                                                          an_0 = (an_0),parallel = FALSE, data.0 = data.0)
-    out.h1.h <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X,
-                                                         parlist=out.h0$parlist,
-                                                         an=(100 * an), an_0 = (100 * an_0),
-                                                         parallel = FALSE, data.0 = data.0)
-    
-    crit.l <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X,
-                                                            parlist = out.h0$parlist, 
-                                                            z = data$Z, parallel = FALSE, 
-                                                            data.0 = data.0, an=(0.01 * an), 
-                                                            an_0 = (0.01* an_0), nbtsp = 199)$crit
-    crit.m <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X, 
-                                                            parlist = out.h0$parlist, 
-                                                            z = data$Z, parallel = FALSE, 
-                                                            data.0 = data.0, an=(an), 
-                                                            an_0 = ( an_0), nbtsp = 199)$crit
-    crit.h <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X, 
-                                                            parlist = out.h0$parlist, 
-                                                            z = data$Z, parallel = FALSE, 
-                                                            data.0 = data.0, an=(100 * an), 
-                                                            an_0 = (100 * an_0), nbtsp = 199)$crit
     
     
-    c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit.l, crit.m, crit.h)
+    
+    crit.m <- c(0,5,10)
+    
+    # crit.m <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X, 
+                                                            # parlist = out.h0$parlist, 
+                                                            # z = data$Z, parallel = FALSE, 
+                                                            # data.0 = data.0, an=(an), 
+                                                            # an_0 = ( an_0), nbtsp = 199)$crit
+    
+    
+    
+    c( 2 * max(out.h1.m$penloglik - out.h0$loglik), crit.m)
     
   }
   
   
-  lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
-  lr.estimate.m <- t(t(sapply(results, function(x) x[2])))
-  lr.estimate.h <- t(t(sapply(results, function(x) x[3])))
-  lr.crit.l <- t(sapply(results, function(x) x[4:6]))
-  lr.crit.m <- t(sapply(results, function(x) x[7:9]))
-  lr.crit.h <- t(sapply(results, function(x) x[10:12]))
   
-  lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
+  lr.estimate.m <- t(t(sapply(results, function(x) x[1])))
+  
+  lr.crit.m <- t(sapply(results, function(x) x[2:4]))
+  
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
-  lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   
-  print(lr.crit.l)
+  
   
   for ( k in 1:nrep){
-    lr.size.l[k,] <- 1 * (lr.estimate.l[k,] > lr.crit.l[k,2])
     lr.size.m[k,] <- 1 * (lr.estimate.m[k,] > lr.crit.m[k,2])
-    lr.size.h[k,] <- 1 * (lr.estimate.h[k,] > lr.crit.h[k,2])
   }
   
-  return(list(nominal.size.l = apply(lr.size.l,2,mean),
-              nominal.size.m = apply(lr.size.m,2,mean), 
-              nominal.size.h = apply(lr.size.h,2,mean) ))
+  return(list(nominal.size.m = apply(lr.size.m,2,mean)
+              ))
 }
 
 
@@ -137,21 +129,13 @@ nset <- length(Nset) * length(Tset) * length(muset) *
 
 
 NTset <- expand.grid(Nset,Tset)
-Parset <- expand.grid(muset,alphaset, betaset, mu0set)
+Parset <- expand.grid(muset,alphaset,betaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
-result.l <- matrix(0,nr=(nNT),nc=nPar)
-rownames(result.l) <- apply(NTset,1,paste,collapse = ",")
-colnames(result.l) <- apply(Parset,1,paste,collapse = ",")
 
 result.m <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.m) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.m) <- apply(Parset,1,paste,collapse = ",")
-
-result.h <- matrix(0,nr=(nNT),nc=nPar)
-rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
-colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
-
 
 
 
@@ -159,15 +143,11 @@ for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
   
-  
   for (count in 1:nPar){
     mu <- Parset[count,1][[1]]
     alpha <- Parset[count,2][[1]]
     beta <- Parset[count,3][[1]]
-    mu0 <- Parset[count,4][[1]]
-    
-    sigma <- sigmaset[[1]]
-    sigma0 <- sigma0set[[1]]
+    mu0  <- mu0set[[1]]
     beta0 <- beta0set[[1]]
     
     t <- Sys.time()
@@ -200,9 +180,8 @@ for (r in 1:nNT){
     result <- getEstimateDiffAn(Data,nrep,an, an_0, cl,M, parlist)
     
     
-    result.l[r, count] <- result$nominal.size.l
     result.m[r, count] <- result$nominal.size.m
-    result.h[r, count] <- result$nominal.size.h
+    
     print(result$nominal.size.m)
     
     print(Sys.time() - t)
@@ -213,8 +192,6 @@ for (r in 1:nNT){
 
 
 
-result.h <- result.h * 100
-result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2SimRegressor_AR1_HML.csv")
+write.csv(result.m, file="results/sizeTestM2SimRegressor_AR1_M.csv")
