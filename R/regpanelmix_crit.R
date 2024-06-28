@@ -533,7 +533,8 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   x0 <- data.0$X
   z0 <- data.0$Z
   z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
-
+  z.init <- scale(z.init)
+  
   n  <- ncol(y)
   t  <- nrow(y)
   nt <- n*t
@@ -566,6 +567,8 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   beta.r <- t(mubeta[3:(q.eff + 2),])  #CHECKED
   
   
+  
+  
   if (!is.null(x0)) {
     q.00 <- ncol(x0)
   } else {
@@ -592,6 +595,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   
   beta0 <- t(beta.r / sqrt(1 - rho**2) )
   
+  sigma0 <- sqrt(sigma**2 / (1 - rho**2))
   
   ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.00))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])

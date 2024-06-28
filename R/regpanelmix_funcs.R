@@ -169,12 +169,17 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, an_0, tauset = c(0.1,
     x0 <- data.0$X
     z0 <- data.0$Z
     z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    z.init <- scale(z.init)
     q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
     p.0 <- 0
     
   }
   
-  ninits.short <- ninits * 10 * (q1 + p) * m
+  if (model.ar1){
+    ninits.short <- ninits*(q1+p)*m
+  }else{
+    ninits.short <- ninits*10*(q1+p)*m
+  }
 
   loglik.all <- matrix(0, nrow = m * length(tauset), ncol = k_max)
   penloglik.all <- matrix(0, nrow = m * length(tauset), ncol = k_max)
@@ -509,6 +514,18 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, mode
   sigma0 <- parlist$sigma
   gamma0 <- parlist$gamma0
   
+  m <- length(alpha0)
+  if (model.ar1){
+    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), (q1.0*m))))
+    gamma0 <- do.call(cbind, replicate(ninits, gamma0.raw, simplify=FALSE)) 
+    n.gamma <- ncol(gamma0.raw)
+    ninits.final <- n.gamma * ninits
+    # end of AR 1
+  } else{
+    gamma0 <- NULL
+    ninits.final <- ninits
+    
+  } # end of if (model.ar1)
   
   mu0 <- mubeta0[1, ]
   beta0 <- mubeta0[-1, , drop = FALSE]
@@ -517,7 +534,7 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, mode
     gam0 <- parlist$gam
     p <- ncol(z)
     y <- as.vector(y - z %*% gam0)
-    gam1 <- c(rep(1, p), runif(p * (ninits - 1), min = -2, max = 2)) * gam0
+    gam1 <- c(rep(1, p), runif(p * (ninits.final - 1), min = -2, max = 2)) * gam0
     gam <- matrix(gam1, nrow = p)
   }
 
@@ -543,37 +560,24 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, mode
     mu.hyp <- c(mu0, mu0) # 2 by 1 vector
   }
 
-  mubeta <- matrix(0, nrow = q1 * (m + 1), ncol = ninits)
+  mubeta <- matrix(0, nrow = q1 * (m + 1), ncol = ninits.final)
   for (j in 1:(m + 1)) {
-    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits, min = lb, max = ub)
+    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits.final, min = lb, max = ub)
     mubeta[(q1 * (j - 1) + 1), 1] <- mu.hyp[j]
     for (i in 2:q1) {
-      mubeta[(q1 * (j - 1) + i), ] <- beta.hyp[i] * runif(ninits, min = -2, max = 2)
+      mubeta[(q1 * (j - 1) + i), ] <- beta.hyp[i] * runif(ninits.final, min = -2, max = 2)
       mubeta[(q1 * (j - 1) + i), 1] <- beta.hyp[i]
     }
   }
 
   sigma.hyp <- c(sigma0[1:h], sigma0[h:m]) # m+1 by 1
-  sigma1 <- c(rep(1, m + 1), runif((m + 1) * (ninits - 1), min = 0.25, max = 2)) * sigma.hyp
+  sigma1 <- c(rep(1, m + 1), runif((m + 1) * (ninits.final - 1), min = 0.25, max = 2)) * sigma.hyp
   sigma <- matrix(sigma1, nrow = m + 1)
 
   alpha.hyp <- c(alpha0[1:h], alpha0[h:m]) # m+1 by 1
   alpha.hyp[h:(h + 1)] <- c(alpha.hyp[h] * tau, alpha.hyp[h + 1] * (1 - tau))
-  alpha <- matrix(rep.int(alpha.hyp, ninits), nrow = m + 1)
+  alpha <- matrix(rep.int(alpha.hyp, ninits.final), nrow = m + 1)
   
-  
-  if (model.ar1){
-    omega_hat <- runif(n,  min = 0, max=1)
-    glm.coef <- logistic_regression(cbind(1,z.init), omega_hat, 0.01, 1000)
-    gamma0 <- matrix(0, nrow=(m)*q1.0, ncol=ninits)
-    for (j in 1:(m)){
-      for (i in 1:q1.0){
-        gamma0[ (q1.0 * (j - 1) + i), ] <- runif(ninits, min = -2, max = 2) * glm.coef[i]
-      }
-    }
-  } else{
-    gamma0 <- NULL
-  } # end of if (model.ar1)
   
   list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, gamma0 = gamma0)
 } # end function regpanelmixPhiInit
@@ -631,33 +635,31 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
 
   
   if (model.ar1){
-    omega_hat <- runif(n,  min = 0, max=1)
-    glm.coef <- logistic_regression(cbind(1,z.init), omega_hat, 0.01, 1000)
-    gamma0 <- matrix(0, nrow=(m-1)*q1.0, ncol=ninits)
-    for (j in 1:(m-1)){
-      for (i in 1:q1.0){
-        gamma0[ (q1.0 * (j - 1) + i), ] <- runif(ninits, min = -2, max = 2) * glm.coef[i]
-      }
-    }
+    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), q1.0)))
+    gamma0 <- do.call(cbind, replicate(ninits, gamma0.raw, simplify=FALSE)) 
+    n.gamma <- ncol(gamma0.raw)
+    ninits.final <- n.gamma * ninits
     # end of AR 1
   } else{
     gamma0 <- NULL
+    ninits.final <- ninits
+    
   } # end of if (model.ar1)
 
-  alpha <- matrix(runif(m * ninits), nrow = m)
+  alpha <- matrix(runif(m * ninits.final), nrow = m)
   alpha <- t(t(alpha) / colSums(alpha))
-
+  
 
   minMU <- min(y - x %*% mubeta_hat[-1])
   maxMU <- max(y - x %*% mubeta_hat[-1])
-  mubeta <- matrix(0, nrow = q1 * m, ncol = ninits)
+  mubeta <- matrix(0, nrow = q1 * m, ncol = ninits.final)
   for (j in 1:m) {
-    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
+    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits.final, min = minMU, max = maxMU)
     for (i in 2:q1) {
-      mubeta[(q1 * (j - 1) + i), ] <- mubeta_hat[i] * runif(ninits, min = -2, max = 2)
+      mubeta[(q1 * (j - 1) + i), ] <- mubeta_hat[i] * runif(ninits.final, min = -2, max = 2)
     }
   }
-  sigma <- matrix(runif(m * ninits, min = 0.01, max = 1), nrow = m) * stdR
+  sigma <- matrix(runif(m * ninits.final, min = 0.01, max = 1), nrow = m) * stdR
 
   list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, gamma0 = gamma0)
 } # end function regpanelmixPMLEinit
@@ -731,6 +733,8 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
            epsilon.short = epsilon.short, maxit.short = maxit.short,
            binit = binit))
   }
+  
+  
   t  <- nrow(y)
   n  <- ncol(y)
   nt <- n*t
@@ -744,7 +748,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   
   p       <- 0
   gam   <- NULL
-  ninits.short <- ninits*10*(q1+p)*m
+  
   vcov.method <- match.arg(vcov.method)
 
   if (!is.null(z)) {
@@ -765,6 +769,13 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     x0 <- data.0$X
     z0 <- data.0$Z
     z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    z.init <- scale(z.init)
+  }
+  
+  if (model.ar1){
+    ninits.short <- ninits*(q1+p)*m
+  }else{
+    ninits.short <- ninits*10*(q1+p)*m
   }
   
   if (model.ar1) {

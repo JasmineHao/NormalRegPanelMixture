@@ -2,7 +2,7 @@ library(NormalRegPanelMixture)
 library(foreach)
 
 #Generate Data
-M <- 2 #Number of Type
+M <- 1 #Number of Type
 p <- 0 #Number of Z
 q <- 3 #Number of X
 p.0 <- round(( p - 1 ) / 2)
@@ -14,11 +14,11 @@ set.seed(123456)
 Nset <- c(200)
 Tset <- c(3,5)
 
-alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+alphaset <- list(c(1))
 
-rho <- c(0.5,0.5)
-beta.r <- c(1,-1)
-mu.r <- c(-1,1)
+rho <- c(0.5)
+beta.r <- c(1)
+mu.r <- c(-1)
 
 muset <- list(mu.r * (1-rho))
 mu0set <- list(mu.r / sqrt(1- rho**2))
@@ -28,7 +28,7 @@ betaset <- list( t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q)) )
 beta0set <- list(beta.r / sqrt(1 - rho**2))
 
 
-sigma <- c(0.8,1.2)
+sigma <- c(0.8)
 sigma0 <- sqrt(sigma**2 / (1 - rho**2))
 
 anFormula.alt <- function(parlist, m, n, t){
@@ -70,7 +70,7 @@ N <- 200
 T <- 3
 
 mu <- muset[[1]]
-alpha <- alphaset[[2]]
+alpha <- alphaset[[1]]
 beta <- betaset[[1]]
 mu0  <- mu0set[[1]]
 beta0 <- beta0set[[1]]
@@ -83,7 +83,7 @@ phi.data.pair <- GenerateSample(phi,nrep)
 Data = phi.data.pair$Data
 phi = phi.data.pair$phi
 
-an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
+an <- anFormula(phi,M,N,T)  #The an function according the the empirical regression
 an_0 <- anFormula.t0(phi.0, M, N, q = q.0)
 
 k <- 1
@@ -92,28 +92,34 @@ data.0 <- list(Y = data$Y0, X = data$X0, Z = data$Z0)
 
 # 1. Debug for PMLE
 # --------------------------------
-# y = data$Y
-# x = data$X
-# m = M
-# z = data$Z
-# ninits = 10
-# epsilon = 1e-08
-# maxit = 2000
-# epsilon.short = 1e-02
-# maxit.short = 500
-# binit = NULL
-# in.coefficient=NULL
-# 
-# t  <- nrow(y)
-# n  <- ncol(y)
-# nt <- n*t
-# 
-# y   <- as.vector(y)
-# x   <- as.matrix(x)   # n by (q1-1) matrix
-# 
-# if (nrow(x) != nt) { stop("y and x must have the same number of rows.") }
-# x1  <- cbind(1, x)
-# q1   <- ncol(x1)
+y = data$Y
+x = data$X
+m = M
+z = data$Z
+ninits = 10
+epsilon = 1e-08
+maxit = 2000
+epsilon.short = 1e-02
+maxit.short = 500
+binit = NULL
+in.coefficient=NULL
+
+t  <- nrow(y)
+n  <- ncol(y)
+nt <- n*t
+
+y   <- as.vector(y)
+x   <- as.matrix(x)   # n by (q1-1) matrix
+
+if (nrow(x) != nt) { stop("y and x must have the same number of rows.") }
+x1  <- cbind(1, x)
+q1   <- ncol(x1)
+
+xz      <- cbind(x, z)
+ls.out  <- lsfit(xz, y)
+sd0     <- sqrt(mean(ls.out$residuals^2))
+
+
 # 
 # p       <- 0
 # gam   <- NULL
@@ -277,20 +283,21 @@ out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none"
 
 # Finalize if the procedure work
 out.h1.h <- regpanelmixMaxPhi(y=data$Y,x=data$X,
-                  parlist=out.h0$parlist,
-                  an=(an), an_0 = (an_0),
-                  parallel = FALSE, data.0 = data.0)
-  
+                              parlist=out.h0$parlist,
+                              an=(an), an_0 = (an_0),
+                              parallel = FALSE, data.0 = data.0)
+
 print(Sys.time() - t)
 
-# t <- Sys.time()
-# regpanelmixCritBootAR1(y = data$Y, x = data$X,
-#                        parlist = out.h0$parlist,
-#                        z = data$Z, parallel = FALSE,
-#                        data.0 = data.0, an=( an),
-#                        an_0 = ( an_0), nbtsp = 5)$crit
-# print(Sys.time() - t)
-# 
+t <- Sys.time()
+regpanelmixCritBootAR1(y = data$Y, x = data$X,
+                       parlist = out.h0$parlist,
+                       z = data$Z, parallel = FALSE,
+                       data.0 = data.0, an=( an),
+                       an_0 = ( an_0), nbtsp = 10)$crit
+print(Sys.time() - t)
+
+out.h1.h$penloglik - out.h0$loglik
 
 # 2. Debug for regpanelmixCritBootAR1
 # --------------------------------
