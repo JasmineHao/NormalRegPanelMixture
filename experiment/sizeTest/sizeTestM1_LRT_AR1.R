@@ -60,7 +60,7 @@ GenerateSample <- function(phi,nrep){
 
 
 
-getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
+getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M){
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
@@ -158,8 +158,7 @@ for (r in 1:nNT){
     print(T)
     print(mu)
     print(alpha)
-    parlist = list(alpha = alpha, mubeta = mubeta, sigma=sigma, gam=NULL)
-    result <- getEstimateDiffAn(Data,nrep,an, an_0, cl,M, parlist)
+    result <- getEstimateDiffAn(Data,nrep,an, an_0, cl,M)
     
     
     result.m[r, count] <- result$nominal.size.m
