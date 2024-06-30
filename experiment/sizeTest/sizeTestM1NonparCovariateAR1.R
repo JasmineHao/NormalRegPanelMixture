@@ -6,12 +6,14 @@ library(expm)
 
 #Generate Data
 M <- 1 #Number of Type
-r.test <- 1 # test the null hypothesis of 2
+r.test <- 1 # test the null hypothesis of 1 component
 n.grid <- 2 # partition each t into 2 intervals
 p <- 0 #Number of Z
+p.0 <- 0 #Number of Z
 q <- 1 #Number of X
+q.0 <- 0
 nrep <- 500
-cl <- makeCluster(15)
+cl <- makeCluster(12)
 
 set.seed(123456)
 Nset <- c(200,400)
@@ -128,7 +130,7 @@ for (r in 1:nNT){
       for (b in 1:nBB){
         data.res.b <- list(Y = data.res$Y[,resample_index[b,]] )
         data_P_W <- calculate_W_P(data.res.b, T.even, T.odd, n.grid=2, BB=199, type="indicator")
-        P_c <- data_P_W$P_c 
+        P_c <- data_P_W$P_c
         W_c <- data_P_W$W_c
         rk_c_b <- construct_stat_KP(P_c, W_c, r.test, N)
         rk_c_boot[b] <- rk_c_b
@@ -156,7 +158,7 @@ for (r in 1:nNT){
     crit.0.95 <- qchisq(0.95, df)
     
     result[r, count] <- mean(rk_c_all > crit.0.95)
-    result.boot[r, count] <- mean(rk_c_all > rk_c_crit_all) 
+    # result.boot[r, count] <- mean(rk_c_all > rk_c_crit_all) 
     print(Sys.time() - t)
     
   }

@@ -10,9 +10,9 @@ r.test <- 1 # test the null hypothesis of 2
 n.grid <- 2 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 1 #Number of X
-nrep <- 500
-cl <- makeCluster(15)
-
+nrep <- 100
+cl <- makeCluster(10)
+nBB <- 0 
 set.seed(123456)
 Nset <- c(200,400)
 Tset <- c(4,6)
@@ -62,8 +62,10 @@ Parset <- expand.grid(muset,betaset)
 nNT <- dim(NTset)[1]
 nPar <- dim(Parset)[1]
 result <- matrix(0,nr=(nNT),nc=nPar)
-nBB <- 199
+result.boot <- matrix(0,nr=(nNT),nc=nPar)
+
 for (r in 1:nNT){
+  
   N <-  NTset[r,1]
   T <-  NTset[r,2]
   
@@ -75,6 +77,7 @@ for (r in 1:nNT){
   T.odd <- T.sequence[T.sequence %% 2 == 1]
   
   for (count in 1:nPar){
+    
     t <- Sys.time()
     mu <- Parset[count,1][[1]]
     beta <- Parset[count,2][[1]]
@@ -91,10 +94,9 @@ for (r in 1:nNT){
     Data = phi.data.pair$Data
     phi = phi.data.pair$phi
     
-    
     registerDoParallel(cl)
     results <- foreach (k = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
-      #for (k in 1:nrep) { 
+      t <- Sys.time()
       data <- Data[,k]
       lm.data <- lm(as.vector(data$Y) ~ data$X)
       
@@ -109,15 +111,18 @@ for (r in 1:nNT){
       
       resample_index <- matrix(sample(N, nBB*N, replace=TRUE), nrow=nBB)
       rk_c_boot <- matrix(0,nrow=1,ncol=nBB)
-      for (b in 1:nBB){
-        data.res.b <- list(Y = data.res$Y[,resample_index[b,]] )
-        data_P_W <- calculate_W_P(data.res.b, T.even, T.odd, n.grid=2, BB=199, type="indicator")
-        P_c <- data_P_W$P_c 
-        W_c <- data_P_W$W_c
-        rk_c_b <- construct_stat_KP(P_c, W_c, r.test, N)
-        rk_c_boot[b] <- rk_c_b
-      }
-      list(rk_c = rk_c, P_c = P_c, rk_c_boot=rk_c_boot)
+      # for (b in 1:nBB){
+      #   data.res.b <- list(Y = data.res$Y[,resample_index[b,]] )
+      #   data_P_W <- calculate_W_P(data.res.b, T.even, T.odd, n.grid=2, BB=199, type="indicator")
+      #   P_c <- data_P_W$P_c 
+      #   W_c <- data_P_W$W_c
+      #   rk_c_b <- construct_stat_KP(P_c, W_c, r.test, N)
+      #   rk_c_boot[b] <- rk_c_b
+      # }
+      print(paste(k,Sys.time() - t))
+      
+      list(rk_c = rk_c, P_c = P_c, crit.0.95=quantile(rk_c_boot, 0.95))
+      
     }
     
     rk_c_all <- matrix(0, nrow = nrep, ncol = 1)
@@ -139,7 +144,7 @@ for (r in 1:nNT){
     crit.0.95 <- qchisq(0.95, df)
     
     result[r, count] <- mean(rk_c_all > crit.0.95)
-    result.boot[r, count] <- mean(rk_c_all > rk_c_crit_all) 
+    # result.boot[r, count] <- mean(rk_c_all > rk_c_crit_all) 
     
     print(Sys.time() - t)
     
