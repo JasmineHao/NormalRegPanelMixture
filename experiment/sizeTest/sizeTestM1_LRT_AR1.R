@@ -2,25 +2,24 @@ library(NormalRegPanelMixture)
 library(foreach)
 
 #Generate Data
-M <- 2 #Number of Type
+M <- 1 #Number of Type
 p <- 0 #Number of Z
 q <- 3 #Number of X
 p.0 <- round(( p - 1 ) / 2)
 q.0 <- round(( q - 1 ) / 2) 
-nrep <- 5
-cl <- makeCluster(5)
+nrep <- 100
+cl <- makeCluster(10)
 
 set.seed(123456)
 Nset <- c(200)
 Tset <- c(3,5)
 
-alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+alphaset <- list(c(1))
 
 
-
-rho <- c(0.5,0.7)
-beta.r <- c(1,-1)
-mu.r <- c(1,-1)
+rho <- c(0.5)
+beta.r <- c(1)
+mu.r <- c(1)
 
 muset <- list(mu.r * (1-rho))
 mu0set <- list(mu.r / sqrt(1- rho**2))
@@ -30,18 +29,9 @@ betaset <- list( t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q)) )
 beta0set <- list(beta.r / sqrt(1 - rho**2))
 
 
-sigma <- c(0.8,1.2)
+sigma <- c(1)
 sigma0 <- sqrt(sigma**2 / (1 - rho**2))
 
-anFormula.alt <- function(parlist, m, n, t){
-  omega <- omega.12(parlist)
-  omega <- pmin(pmax(omega, 1e-16), 0.5-1e-16)  # an becomes NaN if omega[j]=0 or 1
-  omega.term <- log(omega /(1-omega))
-  b <-   c(-0.8112790,  -0.2882271,   4.6374028,  -0.1012959,  -0.1973225)
-  x <- (  b[1] + b[2]/t + b[3]/n + b[5] * omega.term ) / b[4]   # maxa=1
-  an <- 1 / (1 + exp(x))
-  an
-}
 
 
 GenerateSample <- function(phi,nrep){
@@ -70,7 +60,7 @@ GenerateSample <- function(phi,nrep){
 
 
 
-getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
+getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M){
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
@@ -85,15 +75,11 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
     
     
     
-    crit.m <- c(0,5,10)
-    
-    # crit.m <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X, 
-                                                            # parlist = out.h0$parlist, 
-                                                            # z = data$Z, parallel = FALSE, 
-                                                            # data.0 = data.0, an=(an), 
-                                                            # an_0 = ( an_0), nbtsp = 199)$crit
     
     
+    crit.m <- NormalRegPanelMixture::regpanelmixCritBootAR1(y = data$Y, x = data$X, 
+    parlist = out.h0$parlist,  z = data$Z, parallel = FALSE,  data.0 = data.0, an=(an), 
+    an_0 = ( an_0), nbtsp = 199)$crit
     
     c( 2 * max(out.h1.m$penloglik - out.h0$loglik), crit.m)
     
@@ -114,7 +100,7 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
   }
   
   return(list(nominal.size.m = apply(lr.size.m,2,mean)
-              ))
+  ))
 }
 
 
@@ -122,7 +108,7 @@ getEstimateDiffAn <- function(Data,nrep,an,an_0,cl,M, parlist){
 
 #GeneratePhiDataPairs
 count <- 1
-
+r <- 1
 phi.data <- list()
 nset <- length(Nset) * length(Tset) * length(muset) * 
   length(alphaset) * length(mu0set) * length(betaset)
@@ -136,8 +122,6 @@ nPar <- dim(Parset)[1]
 result.m <- matrix(0,nr=(nNT),nc=nPar)
 rownames(result.m) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.m) <- apply(Parset,1,paste,collapse = ",")
-
-
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
@@ -166,7 +150,7 @@ for (r in 1:nNT){
     } else {
       T_an <- T
     }
-    an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
+    an <- anFormula(phi,M,N,T_an)  #The an function according the the empirical regression
     an_0 <- anFormula.t0(phi.0, M, N, q = q.0)
     
     # an <- 0.03
@@ -174,10 +158,7 @@ for (r in 1:nNT){
     print(T)
     print(mu)
     print(alpha)
-    print(anFormula(phi,M,N,T_an))
-    print(an)
-    parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-    result <- getEstimateDiffAn(Data,nrep,an, an_0, cl,M, parlist)
+    result <- getEstimateDiffAn(Data,nrep,an, an_0, cl,M)
     
     
     result.m[r, count] <- result$nominal.size.m

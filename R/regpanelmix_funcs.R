@@ -156,39 +156,36 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, an_0, tauset = c(0.1,
     p <- 0
   }
   
+  
   # determine if the model is AR1
   if (is.null(data.0)){
     model.ar1 <- FALSE
+    z.init <- NULL
+    q1.0 <- 0 
+    p.0 <- 0
   } else {
     model.ar1 <- TRUE
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-  }
-  
-  if (model.ar1) {
-    if (!is.null(x0)) {
-      q1.0 <- ncol(x0) + 1
-    } else {
-      q1.0 <- 1
-    }
-    if (!is.null(z0)) {
-      p.0 <- ncol(z)
-    } else {
-      p.0 <- 0
-    }
-  } else {
-    q1.0 <- 0
+    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    z.init <- scale(z.init)
+    q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
     p.0 <- 0
+    
   }
   
-  ninits.short <- ninits * 10 * (q1 + p) * m
+  if (model.ar1){
+    ninits.short <- ninits*(q1+p)*m
+  }else{
+    ninits.short <- ninits*10*(q1+p)*m
+  }
 
   loglik.all <- matrix(0, nrow = m * length(tauset), ncol = k_max)
   penloglik.all <- matrix(0, nrow = m * length(tauset), ncol = k_max)
   
   if (model.ar1){
-  coefficient.all <- matrix(0, nrow = m * length(tauset), ncol = ((q1 + q1.0 + 3) * (m + 1) + p + p.0))
+    coefficient.all <- matrix(0, nrow = m * length(tauset), ncol = ((q1 + q1.0 + 2) * (m + 1) + p + p.0))
   } else{
     coefficient.all <- matrix(0, nrow = m * length(tauset), ncol = ((q1  + 2) * (m + 1) + p ))
   }
@@ -285,7 +282,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   t  <- nrow(y)
   n  <- ncol(y)
   nt <- n*t
-  y   <- as.vector(y)
+  # y   <- as.vector(y)
   x   <- as.matrix(x) 
   h      <- as.numeric(htaupair[1])
   tau    <- as.numeric(htaupair[2])
@@ -294,27 +291,21 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   # determine if the model is AR1
   if (is.null(data.0)){
     model.ar1 <- FALSE
+    q1.0 <- 0 
+    z.init <- NULL
   } else {
     model.ar1 <- TRUE
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-  }
-  
-  if (model.ar1) {
-    if (!is.null(x0)) {
-      q1.0 <- ncol(x0) + 1
-    } else {
-      q1.0 <- 1
-    }
+    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
+    
     if (!is.null(z0)) {
       p.0 <- ncol(z)
     } else {
       p.0 <- 0
     }
-  } else {
-    q1.0 <- 0
-    p.0 <- 0
   }
   
   mubeta0 <- parlist$mubeta
@@ -324,18 +315,6 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   sigma0h <- c(sigma0[1:h],sigma0[h:m])  # m+1 by 1
   gam0 <- parlist$gam
   
-  if (model.ar1){
-    # for AR1 model
-    mubeta0.0 <- parlist$mubeta0
-    if (q1.0 > 1){
-      mubeta0.0h <- c(-1e+10,mubeta0.0[1,],1e+10)        # m+2 by 1
-    } 
-    else{
-      mubeta0.0h <- c(-1e+10,mubeta0.0,1e+10)        # m+2 by 1
-    }
-    sigma0.0 <- parlist$sigma0
-    sigma0.0h <- c(sigma0.0[1:h],sigma0.0[h:m])  # m+1 by 1
-  }
   
   if (is.null(z)) {
     ztilde <- matrix(0) # dummy
@@ -345,35 +324,31 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   }
   # generate initial values
   # print(parlist)
-  tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau, ninits = ninits.short, data.0=data.0)
+  tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau=tau, ninits = ninits.short, model.ar1=TRUE, z.init =z.init) 
   
+  
+    
   if (model.ar1){
-    if (is.null(x0)){
-      xtilde0 <- matrix(0)
-    } else{
-      xtilde0 <- as.matrix(x0)
-    }
-    
-    if (is.null(z0)){
-      ztilde0 <- matrix(0)
-    } else{
-      ztilde <- as.matrix(z0)
-    }
+    # Begin of AR1 case
+    z.init <- as.matrix(z.init)
     # short EM
-    b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$mubeta0, tmp$sigma0, tmp$gam0)
+    b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$gamma0)
     
-    out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, an_0 , maxit.short, ninits.short, epsilon.short, tau, h, k)
+    out.short <- cppRegPanelmixPMLEAR1(b0, y, x, ztilde, cbind(1,z.init), mu0h, sigma0h, m1, p, t, an, maxit.short, ninits.short, epsilon.short, tau, h, k)
+    
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- as.matrix(b0[ ,components]) # b0 has been updated
-    out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
+    out <- cppRegPanelmixPMLEAR1(b1, y, x, ztilde, cbind(1,z.init), mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k)
     
     index     <- which.max(out$penloglikset)
     alpha <- b1[1:m1,index] # b0 has been updated
     mubeta <- matrix(b1[(1+m1):((q1+1)*m1),index],nrow=q1,ncol=m1)
     sigma <- b1[(1+(q1+1)*m1):((q1+2)*m1),index]
-    mubeta0 <- matrix(b1[((q1+2)*m1+1):((q1+2+q1.0)*m1),index],nrow=q1.0,ncol=m1)
-    sigma0 <- b1[((q1+2+q1.0)*m1+1):((q1+3+q1.0)*m1),index]
+    
+    gamma0 <- matrix(b1[((q1 + 2) * m1 + p + 1):((q1 + 2) * m1 + p + (m1-1)*q1.0 ), index],nrow = q1.0,ncol=(m1-1))
+    gamma0 <- cbind(gamma0,0)
+    
     if (!is.null(z)) {
       gam     <- b1[((q1+2)*m1+1):((q1+2)*m1+p),index]
     }
@@ -381,10 +356,9 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     alpha     <- alpha[mu.order]
     mubeta    <- mubeta[ ,mu.order]
     sigma     <- sigma[mu.order]
-    mubeta0    <- mubeta0[ ,mu.order]
-    sigma0     <- sigma0[mu.order]
-    sigma0h <- sigma0h[mu.order]
-    b <- as.matrix(c(alpha,as.vector(mubeta),sigma,gam,as.vector(mubeta0),sigma0 ))
+    
+    gamma0 <- gamma0[,mu.order]
+    b <- as.matrix(c(alpha,as.vector(mubeta),sigma,gam,as.vector(gamma0) ))
     
     # initilization
     penloglik <- vector("double", k_max)
@@ -397,14 +371,14 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
       ninits <- 1
       maxit <- 1
       # Two EM steps
-      out <- cppRegPanelmixPMLEAR1(b, y, x, ztilde, y0 , xtilde0, ztilde0, mu0h, sigma0h, mubeta0.0h, sigma0.0h ,m1, p, t, an, an_0, maxit, ninits, epsilon, tau, h, k)
+      out <- cppRegPanelmixPMLEAR1(b, y, x, ztilde, cbind(1,z.init), mu0h, sigma0h, m1, p, t, an , 1, 1, epsilon.short, tau, h, k)
       
       alpha <- b[1:m1,1] # b0 has been updated
       tau <- alpha[h] / (alpha[h] + alpha[h+1]) 
       mubeta <- matrix(b[(1+m1):((q1+1)*m1),1],nrow=q1,ncol=m1)
       sigma <- b[(1+(q1+1)*m1):((q1+2)*m1),1]
-      mubeta0 <- matrix(b1[((q1+2)*m1+1):((q1+2+q1.0)*m1),index],nrow=q1.0,ncol=m1)
-      sigma0 <- b1[((q1+2+q1.0)*m1+1):((q1+3+q1.0)*m1),index]
+      gamma0 <- matrix(b[((q1 + 2) * m1 + p + 1):((q1 + 2) * m1 + p + (m1-1)*q1.0 ), 1],nrow = q1.0,ncol=(m1-1))
+      gamma0 <- cbind(gamma0,0)
       
       if (!is.null(z)) {
         gam     <- b[((q1+2)*m1+1):((q1+2)*m1+p),1]
@@ -424,12 +398,10 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
       alpha     <- alpha[mu.order]
       mubeta    <- mubeta[ ,mu.order]
       sigma     <- sigma[mu.order]
-      sigma0h <- sigma0h[mu.order]
-      mubeta0    <- mubeta0[ ,mu.order]
-      sigma0     <- sigma0[mu.order]
+      gamma0    <- gamma0[,mu.order]
     }
-    coefficient <- as.matrix(c(alpha,as.vector(mubeta),sigma,gam,as.vector(mubeta0),sigma0)) # at k=3
-    parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0 = mubeta0, sigma0 = sigma0)
+    coefficient <- as.matrix(c(alpha,as.vector(mubeta),sigma,gam,as.vector(gamma0))) # at k=3
+    parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, gamma0 = gamma0)
   } # end of if (model.ar1)
   else{ 
   # short EM
@@ -517,37 +489,21 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
 #' \item{mubeta}{q+1 by m+1 by ninits array for mu and beta}
 #' \item{sigma}{m+1 by ninits matrix for sigma}
 #' \item{gam}{m+1 by ninits matrix for gam}
-regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data.0 = NULL) {
+regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, model.ar1=FALSE, z.init =NULL) {
   # if (NormalRegPanelMixture.test.on) # initial values controlled by NormalRegPanelMixture.test.on
   #   set.seed(NormalRegPanelMixture.test.seed)
 
   y <- as.vector(y)
   n <- length(y)
+  
   x <- matrix(x, nrow = n)
   x1 <- cbind(1, x)
   q1 <- ncol(x1)
   
-  # determine if the model is AR1
-  if (is.null(data.0)){
-    model.ar1 <- FALSE
-  } else {
-    model.ar1 <- TRUE
-    y0 <- data.0$Y
-    x0 <- data.0$X
-    z0 <- data.0$Z
-  }
   
   if (model.ar1) {
-    if (!is.null(x0)) {
-      q1.0 <- ncol(x0) + 1
-    } else {
-      q1.0 <- 1
-    }
-    if (!is.null(z0)) {
-      p.0 <- ncol(z)
-    } else {
-      p.0 <- 0
-    }
+    q1.0 <- ncol(z.init) + 1
+    p.0 <- 0
   } else {
     q1.0 <- 0
     p.0 <- 0
@@ -556,9 +512,20 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
   alpha0 <- parlist$alpha
   mubeta0 <- parlist$mubeta
   sigma0 <- parlist$sigma
-  mubeta0.0 <- parlist$mubeta0
-  sigma0.0 <- parlist$sigma0
+  gamma0 <- parlist$gamma0
   
+  m <- length(alpha0)
+  if (model.ar1){
+    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), (q1.0*m))))
+    gamma0 <- do.call(cbind, replicate(ninits, gamma0.raw, simplify=FALSE)) 
+    n.gamma <- ncol(gamma0.raw)
+    ninits.final <- n.gamma * ninits
+    # end of AR 1
+  } else{
+    gamma0 <- NULL
+    ninits.final <- ninits
+    
+  } # end of if (model.ar1)
   
   mu0 <- mubeta0[1, ]
   beta0 <- mubeta0[-1, , drop = FALSE]
@@ -567,7 +534,7 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
     gam0 <- parlist$gam
     p <- ncol(z)
     y <- as.vector(y - z %*% gam0)
-    gam1 <- c(rep(1, p), runif(p * (ninits - 1), min = -2, max = 2)) * gam0
+    gam1 <- c(rep(1, p), runif(p * (ninits.final - 1), min = -2, max = 2)) * gam0
     gam <- matrix(gam1, nrow = p)
   }
 
@@ -593,74 +560,26 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
     mu.hyp <- c(mu0, mu0) # 2 by 1 vector
   }
 
-  mubeta <- matrix(0, nrow = q1 * (m + 1), ncol = ninits)
+  mubeta <- matrix(0, nrow = q1 * (m + 1), ncol = ninits.final)
   for (j in 1:(m + 1)) {
-    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits, min = lb, max = ub)
+    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits.final, min = lb, max = ub)
     mubeta[(q1 * (j - 1) + 1), 1] <- mu.hyp[j]
     for (i in 2:q1) {
-      mubeta[(q1 * (j - 1) + i), ] <- beta.hyp[i] * runif(ninits, min = -2, max = 2)
+      mubeta[(q1 * (j - 1) + i), ] <- beta.hyp[i] * runif(ninits.final, min = -2, max = 2)
       mubeta[(q1 * (j - 1) + i), 1] <- beta.hyp[i]
     }
   }
 
   sigma.hyp <- c(sigma0[1:h], sigma0[h:m]) # m+1 by 1
-  sigma1 <- c(rep(1, m + 1), runif((m + 1) * (ninits - 1), min = 0.25, max = 2)) * sigma.hyp
+  sigma1 <- c(rep(1, m + 1), runif((m + 1) * (ninits.final - 1), min = 0.25, max = 2)) * sigma.hyp
   sigma <- matrix(sigma1, nrow = m + 1)
 
   alpha.hyp <- c(alpha0[1:h], alpha0[h:m]) # m+1 by 1
   alpha.hyp[h:(h + 1)] <- c(alpha.hyp[h] * tau, alpha.hyp[h + 1] * (1 - tau))
-  alpha <- matrix(rep.int(alpha.hyp, ninits), nrow = m + 1)
+  alpha <- matrix(rep.int(alpha.hyp, ninits.final), nrow = m + 1)
   
   
-  if (model.ar1){
-    
-    if (!is.null(z0) & !is.null(z0)) {
-      out <- lsfit(cbind(x0, z0), y0)
-      gam0.0 <- out$coef[(q1.0 + 1):(q1.0 + p.0)]
-      gam.0 <- matrix(runif(p * ninits, min = 0.5, max = 1.5), nrow = p) * gam0.0
-      mubeta_hat.0 <- out$coef[1:q1.0]
-      y0 <- y0 - z0 %*% gam0.0
-      r <- out$residuals
-      stdR.0 <- sd(r)
-    } else if (!is.null(x0)) {
-      out <- lsfit(x0, y0)
-      mubeta_hat.0 <- out$coef[1:q1.0]
-      
-      r <- out$residuals
-      stdR.0 <- sd(r)
-    } else if (!is.null(z0)) {
-      out <- lsfit(z0, y0)
-      gam0.0 <- out$coef[-1]
-      gam.0 <- matrix(runif(p * ninits, min = 0.5, max = 1.5), nrow = p.0) * gam0.0
-      y0 <- out$residuals + out$coef[1]
-    } else{
-      y0 <- y0 # pass
-      stdR.0 <- sd(y0)
-    }
-    
-    if (is.null(x0)) {
-      mubeta0 <- matrix(runif((m + 1) * ninits, min = min(y0), max = max(y0)), nrow = (m + 1))
-      sigma0 <- matrix(runif((m + 1) * ninits, min = 0.01, max = 2), nrow = (m + 1)) * stdR.0
-    } else{
-      x0 <- as.matrix(x0)
-      minMU <- min(y0 - x0 %*% mubeta_hat.0[-1])
-      maxMU <- max(y0 - x0 %*% mubeta_hat.0[-1])
-      
-      mubeta0 <- matrix(0, nrow = q1.0 * (m+1), ncol = ninits)
-      for (j in 1:(m+1)) {
-        mubeta0[(q1.0 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
-        for (i in 2:q1.0) {
-          mubeta0[(q1.0 * (j - 1) + i), ] <- mubeta_hat.0[i] * runif(ninits, min = -2, max = 2)
-        }
-      }
-      sigma0 <- matrix(runif((m + 1) * ninits, min = 0.01, max = 2), nrow = (m + 1)) * stdR.0
-    } 
-  } else{
-    mubeta0 <- NULL 
-    sigma0 <- NULL
-  } # end of if (model.ar1)
-  
-  list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0=mubeta0, sigma0=sigma0)
+  list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, gamma0 = gamma0)
 } # end function regpanelmixPhiInit
 
 
@@ -682,27 +601,21 @@ regpanelmixPhiInit <- function(y, x, z = NULL, parlist, h, tau, ninits = 1, data
 #' \item{mubeta}{q+1 by m by ninits array for mu and beta}
 #' \item{sigma}{m by ninits matrix for sigma}
 #' \item{gam}{m by ninits matrix for gam}
-regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FALSE, y0 = NULL, x0 = NULL, z0 = NULL) {
+regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FALSE, z.init = NULL) {
   # if (normalregMix.test.on) # initial values controlled by normalregMix.test.on
   #   set.seed(normalregMix.test.seed)
-  t <- nrow(y)
-  n <- ncol(y)
+  
   y <- as.vector(y)
   q1 <- ncol(x) + 1
   p <- ncol(z)
 
   if (model.ar1) {
-    if (! is.null(x0)){
-    q1.0 <- ncol(x0) + 1}
-    else {
-      q1.0 <- 1
-    }
-    if (!is.null(z0)) {
-      p.0 <- ncol(z)
-    } else{
-      p.0 <- 0
-    }
+    q1.0 <- ncol(z.init) + 1
+    n <- nrow(z.init)
+  } else{
+    q1.0 <- 0
   }
+
 
   gam <- NULL
   if (!is.null(z)) {
@@ -720,72 +633,35 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
     stdR <- sd(r)
   }
 
-  gam.0 <- NULL
+  
   if (model.ar1){
-    
-    if (!is.null(x0) & !is.null(z0)) {
-      out <- lsfit(cbind(x0, z0), y0)
-      gam0.0 <- out$coef[(q1.0 + 1):(q1.0 + p.0)]
-      gam.0 <- matrix(runif(p * ninits, min = 0.5, max = 1.5), nrow = p) * gam0.0
-      mubeta_hat.0 <- out$coef[1:q1.0]
-      y0 <- y0 - z0 %*% gam0.0
-      r <- out$residuals
-      stdR.0 <- sd(r)
-    } else if (is.null(z0) & !is.null(x0)) {
-      out <- lsfit(x0, y0)
-      mubeta_hat.0 <- out$coef[1:q1.0]
-      
-      r <- out$residuals
-      stdR.0 <- sd(r)
-    } else if (!is.null(z0) & is.null(x0)) {
-      out <- lsfit(z0, y0)
-      gam0.0 <- out$coef[-1]
-      gam.0 <- matrix(runif(p * ninits, min = 0.5, max = 1.5), nrow = p.0) * gam0.0
-      y0 <- out$residuals + out$coef[1]
-    } else{
-      y0 <- y0 # pass
-      stdR.0 <- sd(y0)
-    }
-    
-    if (is.null(x0)) {
-      mubeta0 <- matrix(runif(m * ninits, min = min(y0), max = max(y0)), nrow = m)
-      sigma0 <- matrix(runif(m * ninits, min = 0.01, max = 2), nrow = m) * stdR.0
-    } else{
-      
-      x0 <- as.matrix(x0)
-      minMU <- min(y0 - x0 %*% mubeta_hat.0[-1])
-      maxMU <- max(y0 - x0 %*% mubeta_hat.0[-1])
-      
-      mubeta0 <- matrix(0, nrow = q1.0 * m, ncol = ninits)
-      for (j in 1:m) {
-        mubeta0[(q1.0 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
-        for (i in 2:q1.0) {
-          mubeta0[(q1.0 * (j - 1) + i), ] <- mubeta_hat.0[i] * runif(ninits, min = -2, max = 2)
-        }
-      }
-      sigma0 <- matrix(runif(m * ninits, min = 0.01, max = 2) , nrow = m) * stdR.0
-    } 
+    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), q1.0)))
+    gamma0 <- do.call(cbind, replicate(ninits, gamma0.raw, simplify=FALSE)) 
+    n.gamma <- ncol(gamma0.raw)
+    ninits.final <- n.gamma * ninits
+    # end of AR 1
   } else{
-    mubeta0 <- NULL 
-    sigma0 <- NULL
+    gamma0 <- NULL
+    ninits.final <- ninits
+    
   } # end of if (model.ar1)
 
-  alpha <- matrix(runif(m * ninits), nrow = m)
+  alpha <- matrix(runif(m * ninits.final), nrow = m)
   alpha <- t(t(alpha) / colSums(alpha))
-
+  
 
   minMU <- min(y - x %*% mubeta_hat[-1])
   maxMU <- max(y - x %*% mubeta_hat[-1])
-  mubeta <- matrix(0, nrow = q1 * m, ncol = ninits)
+  mubeta <- matrix(0, nrow = q1 * m, ncol = ninits.final)
   for (j in 1:m) {
-    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits, min = minMU, max = maxMU)
+    mubeta[(q1 * (j - 1) + 1), ] <- runif(ninits.final, min = minMU, max = maxMU)
     for (i in 2:q1) {
-      mubeta[(q1 * (j - 1) + i), ] <- mubeta_hat[i] * runif(ninits, min = -2, max = 2)
+      mubeta[(q1 * (j - 1) + i), ] <- mubeta_hat[i] * runif(ninits.final, min = -2, max = 2)
     }
   }
-  sigma <- matrix(runif(m * ninits, min = 0.01, max = 1), nrow = m) * stdR
+  sigma <- matrix(runif(m * ninits.final, min = 0.01, max = 1), nrow = m) * stdR
 
-  list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0 = mubeta0, sigma0 = sigma0, gam0 = gam.0)
+  list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam, gamma0 = gamma0)
 } # end function regpanelmixPMLEinit
 
 
@@ -857,20 +733,22 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
            epsilon.short = epsilon.short, maxit.short = maxit.short,
            binit = binit))
   }
+  
+  
   t  <- nrow(y)
   n  <- ncol(y)
   nt <- n*t
   
   y   <- as.vector(y)
   x   <- as.matrix(x)   # n by (q1-1) matrix
-  # n   <- length(y)
+  
   if (nrow(x) != nt) { stop("y and x must have the same number of rows.") }
   x1  <- cbind(1, x)
   q1   <- ncol(x1)
-
+  
   p       <- 0
   gam   <- NULL
-  ninits.short <- ninits*10*(q1+p)*m
+  
   vcov.method <- match.arg(vcov.method)
 
   if (!is.null(z)) {
@@ -884,31 +762,31 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   # determine if the model is AR1
   if (is.null(data.0)){
     model.ar1 <- FALSE
+    z.init <- NULL
   } else {
     model.ar1 <- TRUE
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
+    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    z.init <- scale(z.init)
+  }
+  
+  if (model.ar1){
+    ninits.short <- ninits*(q1+p)*m
+  }else{
+    ninits.short <- ninits*10*(q1+p)*m
   }
   
   if (model.ar1) {
-    if (!is.null(x0)) {
-      q1.0 <- ncol(x0) + 1
-    } else {
-      q1.0 <- 1
-    }
-    if (!is.null(z0)) {
-      p.0 <- ncol(z)
-    } else {
-      p.0 <- 0
-    }
+    q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
   } else {
     q1.0 <- 0
-    p.0 <- 0
   }
+  
   # determine the number of coefficient
   if (model.ar1){
-    npar    <- m-1 + (q1+2+q1.0+p.0)*m + p  # number of parameters
+    npar    <- m-1 + (q1+1)*m + p + q1.0 * (m-1)  # number of parameters
   } else {
     npar    <- m-1 + (q1+1)*m + p  # number of parameters
   }
@@ -916,67 +794,25 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   ls.out  <- lsfit(xz, y)
   sd0     <- sqrt(mean(ls.out$residuals^2))
   
-  # for ar1 model, estimate the initial value
-  if (model.ar1){
-    if (is.null(z0)){
-      xz0      <- x0
-    } else{
-      xz0      <- cbind(x0, z0)
-    }
-    
-    if (is.null(xz0)){
-      sd00 <- sd(y0) * sqrt((n - 1) / n)
-    } else
-    {
-      ls.out0  <- lsfit(xz0, y0)
-      sd00     <- sqrt(mean(ls.out0$residuals^2))
-    }
-  } # end of if (model.ar1)
-  
   if (m == 1) {
     mubeta <- as.matrix(unname(ls.out$coeff[1:q1]))
     if (!is.null(z)) {gam <- unname(ls.out$coeff[(q1+1):(q1+p)])}
     res     <- ls.out$residuals
     sigma   <- sqrt(mean(res*res))
     
-    # add the log-likelihood for initial distribution
-    if (model.ar1){
-      if (is.null(z0)){
-        xz0      <- x0
-      } else{
-        xz0      <- cbind(x0, z0)  
-      }
-      
-      if (is.null(xz0)){
-        sd00 <- sd(y0) * sqrt((n - 1) / n)
-        mubeta0 <- mean(y0)
-      } else {
-        ls.out0  <- lsfit(xz0, y0)
-        mubeta0 <- as.matrix(unname(ls.out0$coeff[1:q1.0]))
-        sd00     <- sqrt(mean(ls.out0$residuals^2))
-      }
-      loglik0 <- - (n/2) * (1 + log(2 * pi) + 2 * log(sd00))
-      
-      sigma0 <- sd00
-    } else {
-      loglik0 <- 0
-      mubeta0 <- NULL
-      sigma0 <- NULL
-    }# end of if (model.ar1)
     
-    loglik  <- - (nt/2)*(1 + log(2*pi) + 2*log(sigma)) + loglik0
+    loglik  <- - (nt/2)*(1 + log(2*pi) + 2*log(sigma)) 
     aic     <- -2*loglik + 2*npar
     bic     <- -2*loglik + log(n)*npar
     penloglik <- loglik
 
-    parlist <- list(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0=mubeta0, sigma0=sigma0)
-    parlist0 <- list(alpha = 1, mubeta = mubeta0, sigma = sigma0,gam=NULL)
-    coefficients <- c(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam, mubeta0=mubeta0, sigma0=sigma0)
+    parlist <- list(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam)
+    coefficients <- c(alpha = 1, mubeta = mubeta, sigma = sigma, gam = gam)
     postprobs <- rep(1, n)
     
   } else {  # m >= 2
   # generate initial values
-  tmp <- regpanelmixPMLEinit(y = y, x = x, z = z, ninits = ninits.short, m = m, model.ar1=model.ar1, y0 = y0, x0 = x0, z0 = z0)
+  tmp <- regpanelmixPMLEinit(y = y, x = x, z = z, ninits = ninits.short, m = m, model.ar1=model.ar1, z.init =z.init)
   
   h       <- 0    # setting h=0 gives PMLE
   tau     <- 0.5  # setting tau=0.5 gives PMLE
@@ -985,9 +821,6 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   an <- 1 / n # penalty term for variance
   # an_0 <- 1 / n # penalty term for variance
   an_0 <- 0.3 # use the default from KS 15
-  if (q1.0 > 0){
-    an_0 <- 1 #when AR1 with covariates, need larger penalty
-  }
   
   sigma.0 <- rep(sd0, m)
   mu.0 <- double(m + 1) # dummy
@@ -998,13 +831,35 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     ztilde <- z
   }
   
-  if (model.ar1){
-    mu0.0 <- double(m + 1) # dummy
-    sigma0.0 <- rep(sd00, m)
-  }
-  
 
-  if (!model.ar1) {
+  if (model.ar1) {
+    # Begin of AR1 case
+    z.init <- as.matrix(z.init)
+    # short EM
+    b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$gamma0)
+    if (!is.null(binit)) {
+      b0[, 1] <- binit
+    }
+    out.short <- cppRegPanelmixPMLEAR1(
+      b0, y, x, ztilde, cbind(1,z.init), mu.0, sigma.0, m, p, t, an, maxit.short,
+      ninits.short, epsilon.short
+    )
+    
+    # long EM
+    components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
+    b1 <- b0[, components] # b0 has been updated
+    if ((!is.null(in.coefficient)) & (dim(b1)[1] == length(in.coefficient))) {
+      b1[, components] <- in.coefficient
+    }
+    out <- cppRegPanelmixPMLEAR1(
+      b1, y, x, ztilde, cbind(1,z.init), mu.0, sigma.0, m, p, t, an, maxit,
+      ninits, epsilon
+    )
+    
+    # End of AR 1 case
+  }  
+  else{
+    # Begin of non-AR1 case
     # short EM
     b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam)
     if (!is.null(binit)) {
@@ -1014,7 +869,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
       b0, y, x, ztilde, mu.0, sigma.0, m, p, t, an, maxit.short,
       ninits.short, epsilon.short
     )
-  
+    
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- b0[ ,components] # b0 has been updated
@@ -1022,43 +877,8 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
       b1[,components] <- in.coefficient
     }
     out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu.0, sigma.0, m, p, t, an, maxit, ninits, epsilon)
-  }  # End of non-AR1 case
-  else{
-    if (is.null(x0)){
-      xtilde0 <- matrix(0)
-    } else{
-      xtilde0 <- as.matrix(x0)
-    }
-    
-    if (is.null(z0)){
-      ztilde0 <- matrix(0)
-    } else{
-      ztilde <- as.matrix(z0) 
-    }
-    y0 <- as.vector(y0)
-    # short EM
-    b0 <- rbind(tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam, tmp$mubeta0, tmp$sigma0, tmp$gam0)
-    if (!is.null(binit)) {
-      b0[, 1] <- binit
-    }
-    out.short <- cppRegPanelmixPMLEAR1(
-      b0, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0,  mu0.0, sigma0.0, m, p, t, an, an_0,  maxit.short,
-      ninits.short, epsilon.short
-    )
-
-    
-    
-    # long EM
-    components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
-    b1 <- b0[, components] # b0 has been updated
-    if ((!is.null(in.coefficient)) & (dim(b1)[1] == length(in.coefficient))) {
-      b1[, components] <- in.coefficient
-    }
-    out <- cppRegPanelmixPMLEAR1(
-      b1, y, x, ztilde, y0, xtilde0, ztilde0, mu.0, sigma.0, mu0.0, sigma0.0, m, p, t, an, an_0, maxit, ninits, epsilon
-    )
-
-  } # End of AR 1 case
+    # End of non-AR1 case
+  } 
 
   index     <- which.max(out$penloglikset)
   alpha <- b1[1:m,index] # b0 has been updated
@@ -1067,16 +887,10 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   sigma <- b1[(1 + (q1 + 1) * m):((q1 + 2) * m), index]
   
   if (model.ar1){
-
-    if (q1.0 > 1){
-      mubeta0 <- matrix(b1[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p ), index],nrow=q1.0,ncol=m)}
-      else{
-      mubeta0 <- b1[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p ), index]
-    }
-    sigma0 <- b1[((q1 + q1.0 + 2) * m + p + 1):((q1 + q1.0 + 3) * m + p), index]
+    gamma0 <- matrix(b1[((q1 + 2) * m + p + 1):((q1 + 2) * m + p + (m-1)*q1.0), index],nrow = q1.0,ncol=(m-1))
+    gamma0 <- cbind(gamma0,0)
   } else{
-    mubeta0 <- NULL
-    sigma0  <- NULL
+    gamma0 <- NULL
   }
   if (!is.null(z)) {
     gam     <- b1[((q1+2)*m+1):((q1+2)*m+p),index]
@@ -1095,12 +909,9 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   sigma     <- sigma[mu.order]
   
   if (model.ar1){
-    if (q1.0 == 1){
-      mubeta0    <- mubeta0[mu.order]
-    } else {
-      mubeta0    <- mubeta0[,mu.order]
-    }
-    sigma0     <- sigma0[mu.order]
+    
+    gamma0     <- gamma0[,mu.order]
+    
   } # adjust the order
 
   postprobs <- postprobs[, mu.order]
@@ -1119,30 +930,13 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     }
   }
   
-  if (model.ar1){
-    
-    mubeta0.name <- matrix(0,nrow = q1.0, ncol = m)
-    mubeta0.name[1,] <- paste("mu0", 1:m, sep = "")
-    if (q1.0 == 2) {
-      mubeta0.name[2,] <- paste("beta0", 1:m,  sep = "")
-    } else if (q1.0 > 2) {
-      for (i in 1:(q1.0-1)) {
-        for (j in 1:m) {
-          mubeta0.name[i+1,j] <- paste("beta0", j, i, sep = "")
-        }
-      }
-    } 
-    
-  }
   
-  parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam,  mubeta0 = mubeta0, sigma0 = sigma0)
-  parlist0 <- list(alpha = alpha, mubeta = mubeta0, sigma = sigma0,gam=NULL)
+  
+  parlist <- list(alpha = alpha, mubeta = mubeta, sigma = sigma, gam = gam,  gamma0 = gamma0)
+  
   
   coefficients <- unlist(parlist)
   names(coefficients)[(m+1):((q1+1)*m)] <- c(mubeta.name)
-  if (model.ar1){
-  names(coefficients)[((q1 + 2) * m + p + 1):((q1 +  q1.0 + 2) * m + p )] <- c(mubeta0.name)
-  }
   }  # end m >= 2
 
   if (vcov.method == "none") {
@@ -1151,7 +945,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     vcov <- regpanelmixVcov(y = y, x = x, coefficients = coefficients, z = z , vcov.method = vcov.method)
   }
 
-  a <- list(coefficients = coefficients, parlist = parlist, parlist0=parlist0, vcov = vcov, loglik = loglik,
+  a <- list(coefficients = coefficients, parlist = parlist, vcov = vcov, loglik = loglik,
             penloglik = penloglik, aic = aic, bic = bic, postprobs = postprobs,
             components = getComponentcomponents(postprobs),
             call = match.call(), m = m, label = "PMLE")
