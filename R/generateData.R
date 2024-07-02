@@ -114,15 +114,16 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
 # x = matrix(rnorm(N*T*q),nc=q)
 # z = matrix(rnorm(N*T*p),nc=p)
 generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
-                            N,T,M,p,q,p.0,q.0,x=NULL,z=NULL, x0 = NULL, z0=NULL){
-  sprintf("N = %d",N)
-  sprintf("T = %d",T)
+                            N,T,M,p,q,p.0,q.0,x=NULL,z=NULL, x0 = NULL, z0=NULL, logistic=TRUE){
+  # sprintf("N = %d",N)
+  # sprintf("T = %d",T)
 
   # Draw the initial type
   R <- matrix(0,nrow=N,ncol=M)
   if (sum(alpha) != 1){
     alpha <- alpha / sum(alpha)
   }
+  
   
   if (length(alpha) != M | length(mu) != M){
     stop('M must be the size of alpha')
@@ -158,6 +159,8 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
     }
     }
   }
+  
+  
   if ((p != 0) && (is.null(z))){
     p.eff <- p / 2
     z = matrix(rnorm(N*T*p),nc=p)
@@ -179,6 +182,27 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
   
   
   y0 <- mu_R0 + sigma_R0 * rnorm(N)
+  
+  # Determine the logistic probability
+  if (M > 1 & logistic) {
+    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    z.init <- scale(z.init)
+    q.0 <- ncol(z.init) + 1
+    gamma.init <- matrix(0, nc=q.0,nr=M)
+    for (m in 1:(M-1) ){
+      gamma.init[m,] <- logistic_regression(cbind(1,z.init), R[,1], 0.01, 1000)
+    }
+    pi.init <- exp(cbind(1, z.init) %*% t(gamma.init))
+    pi.init <- pi.init / rowSums(pi.init)
+    
+    prior <- runif(N)
+    pi.init.cum <- rbind(0, apply(pi.init,1,cumsum))
+    for (m in 1:M){
+      lb <-  pi.init.cum[m,]
+      ub <- pi.init.cum[m+1,] 
+      R[,m] <- 1 * ((prior <= ub) & (prior > lb))
+    }
+  }
   
   if (q.0 > 1) {
     beta_R0 <- R %*% beta0

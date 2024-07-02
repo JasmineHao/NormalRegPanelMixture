@@ -5,13 +5,15 @@ library(expm)
 
 
 #Generate Data
-M <- 1 #Number of Type
+M <- 2 #Number of Type
 r.test <- 1 # test the null hypothesis of 1 component
 n.grid <- 2 # partition each t into 2 intervals
 p <- 0 #Number of Z
-p.0 <- 0 #Number of Z
-q <- 1 #Number of X
-q.0 <- 0
+q <- 3 #Number of X
+p.0 <- round(( p - 1 ) / 2)
+q.0 <- round(( q - 1 ) / 2) 
+
+
 nrep <- 500
 cl <- makeCluster(12)
 
@@ -20,11 +22,11 @@ Nset <- c(200,400)
 Tset <- c(4,6)
 
 
-alphaset <- list(c(1))
+alphaset <- list(c(0.5,0.5))
 
-rho <- c(0.5)
-beta.r <- c(1)
-mu.r <- c(1)
+rho <- c(0.5,0.5)
+beta.r <- c(-1,1)
+mu.r <- c(-1,1)
 
 muset <- list(mu.r * (1-rho))
 mu0set <- list(mu.r / sqrt(1- rho**2))
@@ -34,7 +36,7 @@ betaset <- list( t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q)) )
 beta0set <- list(beta.r / sqrt(1 - rho**2))
 
 
-sigma <- c(0.75)
+sigma <- c(0.75,0.75)
 sigma0 <- sqrt(sigma**2 / (1 - rho**2))
 
 
@@ -65,6 +67,7 @@ GenerateSample <- function(phi,nrep){
   gamma = phi$gamma
   beta = phi$beta
   
+
   Data <- replicate(nrep,generateDataAR1(
     alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,
     beta0,N, T ,M,p,q,p.0,q.0))
@@ -98,16 +101,17 @@ for (r in 1:nNT){
   
   for (count in 1:nPar){
     t <- Sys.time()
-    mu <- Parset[count,1][[1]]
-    beta <- Parset[count,2][[1]]
-    # sigma <- sigmaset[[1]]
+    mu <- Parset[count,1][[count]]
+    beta <- Parset[count,2][[count]]
+    sigma <- sigmaset[[count]]
     
-    mu0 <- mu0set[[1]]
-    # sigma0 <- sigma0set[[1]]
+    mu0 <- mu0set[[count]]
+    beta0 <- beta0set[[count]]
+    sigma0 <- sigma0set[[count]]
     print(N)
     print(T)
     print(mu)
-    alpha <- 1
+    alpha <- alphaset[[1]]
     
     phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = beta, 
                mu0 = mu0, sigma0 = sigma0 , N = N, T = T, M = M, p = p, q = q, p.0 = p.0, q.0 = q.0)
@@ -175,10 +179,11 @@ for (r in 1:nNT){
 }
 # stopCluster(cl)
 
+
 rownames(result) <- apply(NTset,1,paste,collapse = ",")
 colnames(result) <- apply(Parset,1,paste,collapse = ",")
 
 rownames(result.boot) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.boot) <- apply(Parset,1,paste,collapse = ",")
 
-write.csv(rbind(result, result.boot), file="results/sizeTestM1_nonpar_AR1.csv")
+write.csv(rbind(result, result.boot), file="results/powerTestM1_nonpar_AR1.csv")
