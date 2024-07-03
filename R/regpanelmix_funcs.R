@@ -168,7 +168,11 @@ regpanelmixMaxPhi <- function(y, x, parlist, z = NULL, an, an_0, tauset = c(0.1,
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    if (is.null(z0)){
+      z.init <- cbind(y0,x0) # use to determine the mixture probability
+    }else{
+      z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    }
     z.init <- scale(z.init)
     q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
     p.0 <- 0
@@ -298,7 +302,11 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    if (is.null(z0)){
+      z.init <- cbind(y0,x0) # use to determine the mixture probability
+    }else{
+      z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    }
     q1.0 <- ncol(z.init) + 1 # the dimension of gamma_0
     
     if (!is.null(z0)) {
@@ -635,7 +643,7 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
 
   
   if (model.ar1){
-    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), q1.0)))
+    gamma0.raw <- t(expand.grid(rep(list(c(-1, 1)), q1.0 * (m-1))))
     gamma0 <- do.call(cbind, replicate(ninits, gamma0.raw, simplify=FALSE)) 
     n.gamma <- ncol(gamma0.raw)
     ninits.final <- n.gamma * ninits
@@ -768,7 +776,12 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+    if (is.null(z0)){
+      z.init <- cbind(y0,x0) # use to determine the mixture probability  
+    } else{
+      z.init <- cbind(y0,x0,z0) # use to determine the mixture probability  
+    }
+    
     z.init <- scale(z.init)
   }
   
