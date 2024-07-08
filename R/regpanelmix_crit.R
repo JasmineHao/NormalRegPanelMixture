@@ -532,7 +532,11 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   y0 <- data.0$Y
   x0 <- data.0$X
   z0 <- data.0$Z
-  z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+  if (is.null(z0)){
+    z.init <- cbind(y0,x0) # use to determine the mixture probability
+  }else{
+    z.init <- cbind(y0,x0,z0) # use to determine the mixture probability
+  }
   z.init <- scale(z.init)
   
   n  <- ncol(y)
@@ -557,15 +561,16 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
     p <- 0
   }
   
-  
-  
   x     <- as.matrix(x)
   q     <- ncol(x)
   q.eff <- (ncol(x) - 1) / 2
   mu <- mubeta[1,]
   rho <- mubeta[2,]
-  beta.r <- t(mubeta[3:(q.eff + 2),])  #CHECKED
-  
+  if (q.eff > 0 ){
+    beta.r <- t(mubeta[3:(q.eff + 2),])  #CHECKED
+  } else{
+    beta.r <- NULL
+  }
   
   
   
@@ -588,14 +593,16 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   
   # Generate bootstrap observations
   
-  
   beta <- t(matrix(rbind(rho, beta.r, -rho * beta.r),nrow = q))
   
-  mu0 <- mu / sqrt(1- rho**2)
+  mu0 <- mu / sqrt( abs(1- rho**2))
   
-  beta0 <- t(beta.r / sqrt(1 - rho**2) )
-  
-  sigma0 <- sqrt(sigma**2 / (1 - rho**2))
+  if (q.eff > 0){
+    beta0 <- t(beta.r / sqrt(1 - rho**2) )
+  } else{
+    beta0 <- NULL 
+  }
+  sigma0 <- sqrt( abs(sigma**2 / (1 - rho**2)))
   
   ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.00))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])

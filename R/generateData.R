@@ -166,7 +166,7 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
     z = matrix(rnorm(N*T*p),nc=p)
   }
   
-  if ((q.0 != 0) && (is.null(x0))) {
+  if ((q.eff != 0) && (is.null(x0))) {
     x0 = x0.random
   }
   if ((p != 0) && (is.null(z))) {
@@ -204,10 +204,10 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
     }
   }
   
-  if (q.0 > 1) {
+  if (q.eff > 1) {
     beta_R0 <- R %*% beta0
     y0 = y0 + rowSums(x0 * beta_R0)
-  } else if (q.0 == 1) {
+  } else if (q.eff == 1) {
     beta_R0 <- R %*% as.vector(beta0)
     
     y0 = y0 + x0 * beta_R0
