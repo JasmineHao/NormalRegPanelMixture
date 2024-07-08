@@ -8,11 +8,11 @@ q <- 3 #Number of X
 p.0 <- round(( p - 1 ) / 2)
 q.0 <- round(( q - 1 ) / 2) 
 nrep <- 100
-cl <- makeCluster(10)
+cl <- makeCluster(16)
 
 set.seed(123456)
 Nset <- c(200)
-Tset <- c(3,5)
+Tset <- c(3)
 
 
 alphaset <- list(c(0.5,0.5))
