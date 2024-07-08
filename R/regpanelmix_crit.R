@@ -573,7 +573,6 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   }
   
   
-  
   if (!is.null(x0)) {
     q.00 <- ncol(x0)
   } else {
@@ -588,7 +587,6 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
     p.0 <- 0
   }
   
-
   pvals <- NULL
   
   # Generate bootstrap observations
@@ -598,13 +596,14 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   mu0 <- mu / sqrt( abs(1- rho**2))
   
   if (q.eff > 0){
-    beta0 <- t(beta.r / sqrt(1 - rho**2) )
+    beta0 <- t(beta.r / sqrt(abs(sigma**2 / (1 - rho**2))))
   } else{
     beta0 <- NULL 
   }
   sigma0 <- sqrt( abs(sigma**2 / (1 - rho**2)))
   
-  ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.00))
+  
+  ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0 = q.00))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
    
   if (!is.null(z)) {
@@ -636,7 +635,6 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
       
           
           loglik0 <- regpanelmix.pmle.result$loglik
-          
           
           regpanelmix.pmle.result.1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y = ybset[, j.btsp]$Y, x = ybset[, j.btsp]$X, z = ybset[, j.btsp]$Z, parlist = (regpanelmix.pmle.result$parlist), an = an, an_0 = an_0, parallel = FALSE, data.0 = data.0)
           

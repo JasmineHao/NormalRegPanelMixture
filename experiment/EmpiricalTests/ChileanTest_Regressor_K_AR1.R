@@ -125,8 +125,9 @@ for (each.code in ind.code){
     
     h1.coefficient = NULL
     estimate.crit <- 1
-    for (M in 1:10){
+    for (M in 1:5){
       # Estimate the null model
+      t <- Sys.time()
       out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0)
       an <- anFormula(out.h0$parlist,M,N,T,q=1)
       an_0 <- anFormula.t0(out.h0$parlist0, M, N, q = 1)
@@ -140,10 +141,13 @@ for (each.code in ind.code){
       h1.parlist = out.h1$parlist
 
       lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
-
+      print(Sys.time()-t)
+      
       # Simulate the asymptotic distribution, for AR1 only use Bootstrapped
       if (estimate.crit) {
-        lr.crit <- regpanelmixCritBootAR1(y = data$Y, x = data$X, parlist = out.h0$parlist, z = data$Z, cl = cl, parallel = TRUE, data.0 = data.0, an = an, an_0 = an_0, ninits=2)$crit
+        t <- Sys.time()
+        lr.crit <- regpanelmixCritBootAR1(y = data$Y, x = data$X, parlist = out.h0$parlist, z = data$Z, cl = cl, parallel = TRUE, data.0 = data.0, an = an, an_0 = an_0, ninits=2, nbtsp = 199)$crit
+        print(Sys.time()-t)
         estimate.df[T, M] <- paste("$", round(lr.estimate, 2), "^{", paste(rep("*", sum(lr.estimate > lr.crit)), collapse = ""), "}", "$", sep = "")
       } else {
         lr.crit <- c(0, 0, 0)
