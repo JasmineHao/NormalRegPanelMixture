@@ -16,18 +16,18 @@ def find_best_model_per_metric(sub_df):
 
     # LRT: Find the first column with less than 2 stars
     if sum(sub_df.loc['LRT'] < 2) > 0:
-        best_lrt_model = sub_df.columns[(sub_df.loc['LRT'] < 2).argmax()]
+        best_lrt_model = sub_df.columns[(sub_df.loc['LRT'] < 2).argmax()].strip("M=")
     else:
-        best_lrt_model = 'M=10'
+        best_lrt_model = '10'
     # AIC & BIC: Find the minimum point before the values start increasing
     def find_optimal_model(series):
         differences = np.diff(series.values)  # Calculate the first derivative
         min_point = np.where(differences > 0)[0]  # Find where the difference becomes positive
         
         if len(min_point) > 0:
-            return series.index[min_point[0]]  # Return the last model before increase
+            return series.index[min_point[0]].strip("M=")  # Return the last model before increase
         else:
-            return series.index[-1]  # Return the global minimum if no increase is found
+            return series.index[-1].strip("M=")  # Return the global minimum if no increase is found
 
     best_aic_model = find_optimal_model(sub_df.loc['AIC'])
     best_bic_model = find_optimal_model(sub_df.loc['BIC'])
@@ -85,17 +85,19 @@ country_prefix = 'Japan'  # Adjust based on the file naming convention
 country_prefix = 'Chile' #['Chile', 'Japan']
 files_path = r'C:\Users\JasmineHao\Desktop\EmpiricalTestResults'
 
-files_path = "/Users/haoyu/Desktop/Empirical"
+files_path = "/Users/haoyu/Documents/GitHub/NormalRegPanelMixture/results/Empirical"
 # %%
+index_list = ['plain', 'K', 'KL',  'KL_Spline', 'AR1', 'K_AR1', 'plain_nonpar']
 
 for country_prefix in ['Chile', 'Japan']:
     result_df = process_country_data(files_path, country_prefix)
     melted_df = result_df.melt(id_vars=['Model', 'Industry'], var_name='Metric', value_name='Best Model')
-    pivot_df = pd.pivot_table(melted_df, index=['Industry', 'Metric'], columns='Model', values='Best Model', aggfunc='first').sort_index(level=1).T
+    pivot_df = pd.pivot_table(melted_df, index=['Metric','Industry'], columns='Model', values='Best Model', aggfunc='first').sort_index(level=1).T
     output_file = os.path.join(files_path, f"{country_prefix}_best_models.xlsx")
-    pivot_df.to_excel(output_file)
+    pivot_df.loc[index_list, ].to_excel(output_file)
 
     print(f"Results saved to {output_file}")
 
 
 # %%
+
