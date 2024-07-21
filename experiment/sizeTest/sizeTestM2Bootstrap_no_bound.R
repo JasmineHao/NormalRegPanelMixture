@@ -5,9 +5,9 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
-nrep <- 100
+nrep <- 10
 
-cl <- makeCluster(16)
+cl <- makeCluster(10)
 
 
 set.seed(123456)
@@ -50,6 +50,7 @@ GenerateSample <- function(phi,nrep){
 }
 
 
+
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   registerDoParallel(cl)
   
@@ -64,9 +65,9 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     library(NormalRegPanelMixture)
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE)
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = ( 0.01 * an), parallel = FALSE)
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (100 * an), parallel = FALSE)
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE,eps=0)
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = ( 0.01 * an), parallel = FALSE,eps=0)
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y = data$Y, parlist = out.h0$parlist, an = (100 * an), parallel = FALSE,eps=0)
     
     crit.m <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an=(an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
     crit.l <- NormalRegPanelMixture::regpanelmixCritBoot(y = data$Y, x = data$X, parlist = out.h0$parlist, an = (0.01 * an), z = data$Z, parallel = FALSE, nbtsp = 199, ninits = 10)$crit
@@ -76,7 +77,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
     
   }
   
-
+  
   lr.estimate.l <- t(t(sapply(results, function(x) x[1])))
   lr.estimate.m <- t(t(sapply(results, function(x) x[2])))
   lr.estimate.h <- t(t(sapply(results, function(x) x[3])))
@@ -85,7 +86,7 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   lr.crit.m <- t(sapply(results, function(x) x[7:9]))
   lr.crit.h <- t(sapply(results, function(x) x[10:12]))
   
-
+  
   lr.size.l <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.m <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
   lr.size.h <- matrix(0.0,nr=nrep,ncol=1) #Nomimal size
@@ -159,7 +160,7 @@ for (r in 1:nNT){
     result.m[r, count] <- result$nominal.size.m
     result.h[r, count] <- result$nominal.size.h
     
-    
+    print(result.m[r, count])
     print(Sys.time() - t)
   }
 }
@@ -183,7 +184,7 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML_T2.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML_T2_no_bound.csv")
 
 
 # registerDoParallel(detectCores())
