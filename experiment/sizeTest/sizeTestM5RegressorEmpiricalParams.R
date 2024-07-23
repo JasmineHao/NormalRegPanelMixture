@@ -57,11 +57,12 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       aic[m] <- out.h0$aic
       bic[m] <- out.h0$bic
       
-      out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an),parallel = TRUE, cl = cl)
+      out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an), an_0 = 0, parallel = TRUE, cl = cl)
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       if (test == 1){
         mem_result <- m
-        crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
+        crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
+        # crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
         if (class(crit) == "try-error"){
           crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
         }

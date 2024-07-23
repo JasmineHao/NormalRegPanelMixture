@@ -5,7 +5,7 @@ library(foreach)
 M <- 2 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
-nrep <- 10
+nrep <- 100
 
 cl <- makeCluster(10)
 

@@ -332,11 +332,12 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   }
   # generate initial values
   # print(parlist)
-  tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau=tau, ninits = ninits.short, model.ar1=TRUE, z.init =z.init) 
+   
   
   
     
   if (model.ar1){
+    tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau=tau, ninits = ninits.short, model.ar1=TRUE, z.init =z.init)
     # Begin of AR1 case
     z.init <- as.matrix(z.init)
     # short EM
@@ -413,6 +414,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   } # end of if (model.ar1)
   else{ 
   # short EM
+  tmp <- regpanelmixPhiInit(y = y, x = x, z = z, parlist=parlist, h=h, tau=tau, ninits = ninits.short, model.ar1=FALSE, z.init =z.init)
   b0 <- as.matrix(rbind( tmp$alpha, tmp$mubeta, tmp$sigma, tmp$gam ))
   out.short <- cppRegPanelmixPMLE(b0, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit.short, ninits.short, epsilon.short, tau, h, k)
   # long EM

@@ -27,6 +27,41 @@ anFormula.alt <- function(parlist, m, n, t){
   an
 }
 
+
+GetMisclTerm <- function(phi) {
+  m <- phi$M
+  
+  if (m == 2)
+  {
+    omega.12  <- omega.12(phi)
+    return (log(omega.12 /(1-omega.12)))
+  }
+  
+  if (m == 3) # ln(omega_12 omega_23 / (0.5-omega_12)(0.5-omega_23))
+  {
+    omega.123 <- omega.123(phi)
+    omega.12 <- omega.123[1]
+    omega.23 <- omega.123[2]
+    return (log(omega.12 * omega.23 / ((1-omega.12)*(1-omega.23))))
+  }
+  omega.1234 <- omega.1234(phi)
+  omega.12 <- omega.1234[1]
+  omega.23 <- omega.1234[2]
+  omega.34 <- omega.1234[3]
+  # (m == 4) # ln(omega_12 omega_23 omega_34 / (0.5-omega_12)(0.5-omega_23)(0.5-omega_34))
+  return (log(omega.12 * omega.23 * omega.34 /
+                ((1-omega.12)*(1-omega.23)*(1-omega.34))))
+  
+}
+
+anFormula.alt <- function(phi,M,N,T){
+  omega.term <- GetMisclTerm(phi)
+  b <- c(-0.679611458, 0.611474005, 21.155661588, -0.110969483, 0.002174285)
+  x <- (  b[1] + b[2]/T + b[3]/N + b[5] * omega.term ) / b[4]   # maxa=1
+  an <- 1 / (1 + exp(x))
+  an
+}
+
 GenerateSample <- function(phi,nrep){
   p = phi$p
   q = phi$q
@@ -38,7 +73,7 @@ GenerateSample <- function(phi,nrep){
   mu = phi$mu
   gamma = phi$gamma
   beta = phi$beta
-
+  
   Data <- replicate(nrep,generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q))
   return(list(phi=phi,Data=Data))
 }
@@ -47,26 +82,34 @@ GenerateSample <- function(phi,nrep){
 PerformEMtest <- function (data, an, m = M, z = NULL, parallel) {
   library(doParallel) # workers might need information
   library(NormalRegPanelMixture)# workers might need information
-
+  
   out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
   out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=an,parallel = FALSE)
   return(2 * max(out.h1$penloglik - out.h0$loglik))
 }
+
+PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
+  library(doParallel) # workers might need information
+  library(NormalRegPanelMixture)# workers might need information
+  
+  crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, nbtsp = 199 ,parallel = TRUE,cl=cl)$crit
+  return(crit)
+}
+
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   registerDoParallel(cl)
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
     data <- Data[,k]
-    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y, x=data$X, z = data$Z,m=M,vcov.method = "none")
-    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.01 * an),parallel = FALSE)
-    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE)
-    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(100 * an) ,parallel = FALSE)
+    out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
+    out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),eps=0,parallel = FALSE)
+    out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),eps=0,parallel = FALSE)
+    out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,eps=0,parallel = FALSE)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
     if (class(crit) == "try-error"){
       crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
     }
-    
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
   }
@@ -89,7 +132,6 @@ getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   
   return(list(crit = lr.crit,nominal.size.l = apply(lr.size.l,2,mean),nominal.size.m = apply(lr.size.m,2,mean) , nominal.size.h = apply(lr.size.h,2,mean) ))
 }
-
 
 
 
@@ -117,59 +159,58 @@ rownames(result.h) <- apply(NTset,1,paste,collapse = ",")
 colnames(result.h) <- apply(Parset,1,paste,collapse = ",")
 
 
-
-
 for (r in 1:nNT){
   N <-  NTset[r,1]
   T <-  NTset[r,2]
-  
-  
-  for (count in 1:nPar){
-    mu <- Parset[count,1][[1]]
-    alpha <- Parset[count,2][[1]]
-    sigma <- sigmaset[[1]]
-
-    t <- Sys.time()
-    phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
-
-    phi.data.pair <- GenerateSample(phi,nrep)
-    Data = phi.data.pair$Data
-    phi = phi.data.pair$phi
-    
-    if (T > 5) {
-      T_an <- T 
-    } else if ( T < 5) {
-      T_an <- T 
-    } else {
-      T_an <- T
+  count <- 0
+  for (mu in muset){
+    for (alpha in alphaset){
+      for (sigma in sigmaset){
+        
+        t <- Sys.time()
+        phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
+        
+        phi.data.pair <- GenerateSample(phi,nrep)
+        count <- count + 1
+        Data = phi.data.pair$Data
+        phi = phi.data.pair$phi
+        
+        an <- anFormula.alt(phi,M,N,T)  #The an function according the the empirical regression
+        print(N)
+        print(T)
+        print(mu)
+        print(alpha)
+        print(an)
+        parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
+        result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
+        result.l[r, count] <- result$nominal.size.l
+        result.m[r, count] <- result$nominal.size.m
+        result.h[r, count] <- result$nominal.size.h
+        
+        
+        print(Sys.time() - t)
+      }
     }
-    an <- anFormula.alt(phi,M,N,T_an)  #The an function according the the empirical regression
-    # an <- 0.03
-    print(N)
-    print(T)
-    print(mu)
-    print(alpha)
-    print(anFormula(phi,M,N,T_an))
-    print(an)
-    parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
-    result <- getEstimateDiffAn(Data,nrep,an,cl,M, parlist)
-
-
-    result.l[r, count] <- result$nominal.size.l
-    result.m[r, count] <- result$nominal.size.m
-    result.h[r, count] <- result$nominal.size.h
-    print(result$nominal.size.m)
-
-    print(Sys.time() - t)
-    
   }
 }
 
 
 
 
+# for(i in 1:count){
+#   t.out <- Sys.time()
+#   phi <- phi.data[[i]]$phi
+#   Data = phi.data.pair$Data
+#   an <- anFormula(phi,M,phi$N,phi$T)
+#   result <- getEstimate(Data,nrep,an)
+#   regression.data[i,] <- cbind(result$nominal.size,phi$N,phi$T)
+#   print(cbind(result$nominal.size,phi$N,phi$T,phi$alpha,phi$mu,phi$sigma))
+#   print(i)
+#   print(Sys.time() - t.out)
+#
+# }
 result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2SimH_HML.csv")
+write.csv(rbind(result.h,result.m,result.l), file = "results/sizeTest/sizeTestM2Sim_nobound.csv")
