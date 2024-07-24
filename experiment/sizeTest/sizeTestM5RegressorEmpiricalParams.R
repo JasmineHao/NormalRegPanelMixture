@@ -41,7 +41,9 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
   # results <- foreach (k = 1:nrep)%dopar% {
   aic_table <- matrix(0,nrow=nrep,ncol=M_max)
   bic_table <- matrix(0,nrow=nrep,ncol=M_max)
-  mem_seq <-matrix(0,nrow=nrep,ncol=1)
+  mem_seq_1 <-matrix(0,nrow=nrep,ncol=1)
+  mem_seq_5 <-matrix(0,nrow=nrep,ncol=1)
+  mem_seq_10 <-matrix(0,nrow=nrep,ncol=1)
   lr.estim_table <- matrix(0,nrow=nrep,ncol=M_max)
   
   for (k in 1:nrep){
@@ -51,6 +53,11 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
     aic <- rep(0,M_max)
     bic <- rep(0,M_max)
     lr.estim <- rep(0,M_max)
+    
+    crit.1 <- rep(0,M_max)
+    crit.5 <- rep(0,M_max)
+    crit.10 <- rep(0,M_max)
+    
     test <- 1
     for(m in 1:M_max){
       out.h0 <- NormalRegPanelMixture::regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=m,vcov.method = "none")
@@ -59,22 +66,32 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       
       out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an), an_0 = 0, parallel = TRUE, cl = cl)
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
-      if (test == 1){
-        mem_result <- m
+      
+      if (test){
+      
+      # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
+      crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
+      if (class(crit) == "try-error"){
         crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
-        # crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
-        if (class(crit) == "try-error"){
-          crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
-        }
-        if (2 * max(out.h1$penloglik - out.h0$loglik) < crit[2]){
-          test = 0
-        }
       }
+      
+      if(lr.estim[m] < crit[1]){
+        test <- 0 
+      }
+      
+      crit.1[m] <- crit[3]
+      crit.5[m] <- crit[2]
+      crit.10[m] <- crit[1]
+      }
+      
     }
+    
     lr.estim_table[k,] <- lr.estim  
     aic_table[k,] <- aic
     bic_table[k,] <- bic
-    mem_seq[k,] <- mem_result
+    mem_seq_1[k,] <- min(which(lr.estim < crit.1))
+    mem_seq_5[k,] <- min(which(lr.estim < crit.5))
+    mem_seq_10[k,] <- min(which(lr.estim < crit.10))
     print(paste("simulation", k, "out of", nrep))
     print(Sys.time() - t) 
   }
@@ -82,7 +99,7 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
     aic_freq <- apply(aic_table,1,which.min)
   bic_freq <- apply(bic_table,1,which.min)
   
-  return(list(aic=aic_freq,bic=bic_freq,mem_seq=mem_seq))
+  return(list(aic=aic_freq,bic=bic_freq,mem_seq_1=mem_seq_1,mem_seq_5=mem_seq_5,mem_seq_10=mem_seq_10))
 }
 
 
@@ -117,11 +134,15 @@ bic_table <- matrix(0,nr=(nNT),nc=nPar)
 rownames(bic_table) <- apply(NTset,1,paste,collapse = ",")
 # colnames(bic_table) <- apply(Parset,1,paste,collapse = ",")
 
-mem_table <- matrix(0,nr=(nNT),nc=nPar)
-rownames(mem_table) <- apply(NTset,1,paste,collapse = ",")
+mem_table_1 <- matrix(0,nr=(nNT),nc=nPar)
+rownames(mem_table_1) <- apply(NTset,1,paste,collapse = ",")
 # colnames(mem_table) <- apply(Parset,1,paste,collapse = ",")
 
+mem_table_5 <- matrix(0,nr=(nNT),nc=nPar)
+rownames(mem_table_5) <- apply(NTset,1,paste,collapse = ",")
 
+mem_table_10 <- matrix(0,nr=(nNT),nc=nPar)
+rownames(mem_table_10) <- apply(NTset,1,paste,collapse = ",")
 
 for (r in 1:nNT){
   N <-  NTset[r,1]
@@ -153,10 +174,14 @@ for (r in 1:nNT){
     
     aic_freq <- result$aic
     bic_freq <- result$bic
-    mem_seq  <- result$mem_seq
+    mem_seq_1  <- result$mem_seq_1
+    mem_seq_5  <- result$mem_seq_5
+    mem_seq_10  <- result$mem_seq_10
     aic_table[r, count] <-paste(count_freq(aic_freq),collapse=",")
     bic_table[r, count] <- paste(count_freq(bic_freq),collapse=",")
-    mem_table[r, count] <- paste(count_freq(mem_seq),collapse=",")
+    mem_table_1[r, count] <- paste(count_freq(mem_seq_1),collapse=",")
+    mem_table_5[r, count] <- paste(count_freq(mem_seq_5),collapse=",")
+    mem_table_10[r, count] <- paste(count_freq(mem_seq_10),collapse=",")
     print(aic_table[r, count])
     
     print(Sys.time() - t)
@@ -170,6 +195,5 @@ for (r in 1:nNT){
 # write.csv(aic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_aic_table_regressor.csv")
 # write.csv(bic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_bic_table_regressor.csv")
 
-write.csv(mem_table, file = "results/sizeTestM5_mem_table_regressor_empirical_param_boot.csv")
-write.csv(aic_table, file = "results/sizeTestM5_aic_table_regressor_empirical_param_boot.csv")
-write.csv(bic_table, file = "results/sizeTestM5_bic_table_regressor_empirical_param_boot.csv")
+
+write.csv(rbind(mem_table_1, mem_table_5, mem_table_10, aic_table, bic_table ), file = "results/sizeTestM5_regressor_empirical_param_boot.csv")
