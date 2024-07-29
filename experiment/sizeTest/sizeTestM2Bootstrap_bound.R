@@ -55,10 +55,8 @@ getEstimateDiffEps <- function(Data,nrep,cl,M, parlist){
     out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.01)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.05)
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.5)
-    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
-    if (class(crit) == "try-error"){
-      crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = 0, z = data$Z, parallel = FALSE)$crit
-    }
+    
+    crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = 0, z = data$Z, parallel = FALSE)$crit
     
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
@@ -135,10 +133,10 @@ for (r in 1:nNT){
     print(T)
     print(mu)
     print(alpha)
-
+    
     parlist = list(alpha = alpha, mubeta = mu, sigma=sigma, gam=NULL)
     result <- getEstimateDiffEps(Data,nrep,cl,M, parlist)
-
+    
     
     
     result.l[r, count] <- result$nominal.size.l
@@ -158,4 +156,4 @@ result.h <- result.h * 100
 result.l <- result.l * 100
 result.m <- result.m * 100
 
-write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Sim_HML_Bound.csv")
+write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Boot_HML_Bound.csv")
