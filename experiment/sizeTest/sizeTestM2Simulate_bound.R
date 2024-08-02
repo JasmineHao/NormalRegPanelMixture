@@ -50,12 +50,14 @@ getEstimateDiffEps <- function(Data,nrep,cl,M, parlist){
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
     data <- Data[,k]
+    t <- Sys.time()
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     
     out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.01)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.05)
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=0,parallel = FALSE, eps=0.5)
     crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+    
     if (class(crit) == "try-error"){
       crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = 0, z = data$Z, parallel = FALSE)$crit
     }
