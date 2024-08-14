@@ -56,7 +56,7 @@ for (each.code in ind.code){
 
 estimate.LR.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(estimate.LR.df.3) <- ind.names
-colnames(estimate.LR.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
+colnames(estimate.LR.df.3) <- c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
 AIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(AIC.df.3) <- ind.names
@@ -106,17 +106,17 @@ for (each.code in ind.code){
   ind.each.y <- (ind.each.y - mean(ind.each.t$si))/(sd(ind.each.t$si))
   ind.each.x <- (ind.each.t$lnk - mean(ind.each.t$lnk))/(sd(ind.each.t$lnk))
   
-  ind.each.ciiu_dummy <- model.matrix(~ ciiu - 1, data = ind.each.t)
+  ind.each.ciiu_dummy <- model.matrix(~ ciiu - 1, data = ind.each.t)[,-1]
   ind.each.export <- ind.each.t$export
   
-  data <- list(Y = t(ind.each.y), X = cbind(ind.each.export,ind.each.ciiu_dummy)  ,  Z = NULL)
+  data <- list(Y = t(ind.each.y), X = cbind(ind.each.x)  ,  Z = ind.each.ciiu_dummy)
   
   N <- dim(ind.each.y)[1]
   
   h1.coefficient = NULL
   
   estimate.crit <- 1
-  for (M in 1:10){
+  for (M in 1:5){
     # Estimate the null model
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
     an <- anFormula(out.h0$parlist,M,N,T,q=1)
@@ -174,7 +174,7 @@ colnames(df.3) <- colnames(estimate.LR.df.3)
 
 
 
-write.csv(combined_df,file="results/Empirical/Chile_regressior_ciiu_export.csv")
+write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_ciiu.csv")
 
 
 
