@@ -7,7 +7,7 @@ M <- 5 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 nrep <- 100
-cl <- makeCluster(16)
+cl <- makeCluster(8)
 
 # Based on textile industry in Chile normed log revenue  share of intermediate input against ln K, (N,T)
 # 5-component model
@@ -64,7 +64,7 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       aic[m] <- out.h0$aic
       bic[m] <- out.h0$bic
       
-      out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=(an), an_0 = 0, parallel = TRUE, cl = cl)
+      out.h1 <- NormalRegPanelMixture::regpanelmixMaxPhi(y=data$Y,x=data$X, parlist=out.h0$parlist,an=0, eps = 0.05, parallel = FALSE)
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       
       if (test){
@@ -72,7 +72,7 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
       crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
       if (class(crit) == "try-error"){
-        crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
+        crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, cl = cl)$crit
       }
       
       if(lr.estim[m] < crit[1]){
@@ -196,4 +196,4 @@ for (r in 1:nNT){
 # write.csv(bic_table, file = "/home/haoyu/SizeTest/results/sizeTestM2_bic_table_regressor.csv")
 
 
-write.csv(rbind(mem_table_1, mem_table_5, mem_table_10, aic_table, bic_table ), file = "results/sizeTestM5_regressor_empirical_param_boot.csv")
+write.csv(rbind(mem_table_1, mem_table_5, mem_table_10, aic_table, bic_table ), file = "results/sizeTestM5_regressor_empirical_bound_sim.csv")
