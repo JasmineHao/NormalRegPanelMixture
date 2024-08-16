@@ -286,7 +286,7 @@ regpanelmixPhiStep <- function (htaupair, y, x, parlist, z = NULL, p,
   t  <- nrow(y)
   n  <- ncol(y)
   nt <- n*t
-  # y   <- as.vector(y)
+  y   <- as.vector(y)
   x   <- as.matrix(x) 
   h      <- as.numeric(htaupair[1])
   tau    <- as.numeric(htaupair[2])
@@ -764,7 +764,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   if (!is.null(z)) {
     z <- as.matrix(z)
     p <- ncol(z)
-    if (nrow(z) != n) { stop("y and z must have the same number of rows.") }
+    if (nrow(z) != nt) { stop("y and z must have the same number of rows.") }
   } else {
     p <- 0 
   }

@@ -28,6 +28,7 @@ if (all(is.na(df.0$padron)) || nrow(df.0) == 0) {
   stop("Column 'padron' in df.0 is empty or all values are NA")
 }
 
+
 # Ensure 'id' and 'year' columns have the same data type in both DataFrames
 df.0 <- df.0 %>%
   mutate(id = as.numeric(padron),
@@ -108,6 +109,7 @@ for (each.code in ind.code){
   
   ind.each.ciiu_dummy <- model.matrix(~ ciiu - 1, data = ind.each.t)[,-1]
   ind.each.export <- ind.each.t$export
+  ind.each.import <- ind.each.t$import
   
   data <- list(Y = t(ind.each.y), X = cbind(ind.each.x)  ,  Z = ind.each.ciiu_dummy)
   
@@ -116,7 +118,7 @@ for (each.code in ind.code){
   h1.coefficient = NULL
   
   estimate.crit <- 1
-  for (M in 1:5){
+  for (M in 1:10){
     # Estimate the null model
     out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
     an <- anFormula(out.h0$parlist,M,N,T,q=1)
