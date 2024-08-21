@@ -114,6 +114,7 @@ regpanelmixCrit <- function(y, x, parlist, z = NULL, values = NULL, parallel = T
     x1 <- rep(1,nt)
     q <- 0
   }
+  
   # normalized data, W_p, f_p are n by m
   # W,f are nt by m.
   # f is pdf matrix.
@@ -168,11 +169,11 @@ regpanelmixCrit <- function(y, x, parlist, z = NULL, values = NULL, parallel = T
     S_gam  <- matrix(0, nrow=n, ncol=p)
 
     for (j in 1:m){
-      print("THIS MIGHT BE WRONG, IF YES, CHECK CASE q > 0 ")
+      # print("THIS MIGHT BE WRONG, IF YES, CHECK CASE q > 0 ")
       H_1 <- H[,j,1]
       # H_2 <- H[,j,2]
       for (pp in 1:p){
-        H_1z <- rowSums(colSums(matrix(z[,pp] * H[,j,1],nr=t)))
+        H_1z <- colSums(matrix(z[,pp] * H[,j,1],nr=t))
         S_gam[,pp] =  S_gam[,pp] +  H_1z * w_m_T[,j]
       }
     }
@@ -430,13 +431,13 @@ regpanelmixCritBoot <- function (y, x, parlist, z = NULL, values = NULL, ninits 
   
   # Generate bootstrap observations
   
-  ybset <- replicate(nbtsp, generateData(N = n, T = t,M=m ,alpha = alpha, mu = mu, beta = beta, sigma = sigma,p= p,q=q))
+  ybset <- replicate(nbtsp, generateData(N = n, T = t,M=m ,alpha = alpha, mu = mu, beta = beta, sigma = sigma, gamma=gam, p= p,q=q, x= x, z = z))
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
    
-  if (!is.null(z)) {
-    zgam <- as.matrix(z) %*% gam
-    ybset <- ybset + replicate(nbtsp, as.vector(zgam))
-  }
+  # if (!is.null(z)) {
+  #   zgam <- as.matrix(z) %*% gam
+  #   ybset <- ybset + replicate(nbtsp, as.vector(zgam))
+  # }
   
   if (parallel) {
     if (is.null(cl)){

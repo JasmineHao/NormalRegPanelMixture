@@ -71,7 +71,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
       ub(j) = (mu0(j)+mu0(j+1))/2.0;
     }
   }
-
+  
   /* iteration over ninits initial values of b */
   for (int jn=0; jn<ninits; jn++) {
 
@@ -105,7 +105,8 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
     } else {
       ytilde = y - z*gamma;
     }
-
+    
+    
     for (int nn = 0; nn < n; nn++) {
       r.fill(0);
       for (int tt = 0; tt < t; tt++){
@@ -162,7 +163,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
         break;
       }
       mubeta.col(j) = solve( design_matrix , trans(xtilde) * ytilde );
-
+      
       ssr_j = sum( trans(w.row(j)) % pow(  ytilde - x1*mubeta.col(j), 2 ) );
       sigma(j) = sqrt( (ssr_j + 2.0*an*sigma0(j)*sigma0(j))  / (w_j + 2.0*an) );
       sigma(j) = fmax(sigma(j),epsilon * sigma0(j)); //Why changed from 0.01 to 0.05
@@ -202,6 +203,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
     }
 
     if (p>0) { /* update gamma */
+      
       zz.zeros();
       ze.zeros();
       for (int j = 0; j < m; j++) {
@@ -211,6 +213,10 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
         }
         zz = zz + ( trans(ztilde) * z ) / (sigma(j)*sigma(j));
         ze = ze + ( trans(ztilde) * (y - x1*mubeta.col(j)) ) / (sigma(j)*sigma(j));
+        // Rcpp::Rcout << "mubeta" << mubeta << std::endl;
+        // Rcpp::Rcout << "sigma"  << sigma << std::endl;
+
+        
       }
       // sanity check before solving an inverse matrix;
       // if it is likely singular, leave it as is.
@@ -219,8 +225,14 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
         sing = 1;
         break;
       }
-      else
-        gamma = solve(zz,ze);
+      else{
+        if (ze.has_nan()) {
+          Rcpp::Rcout << "ze contains NaN values." << std::endl;
+          break;
+        }
+        gamma = arma::solve(zz, ze);  // Assuming `ze` is a compatible Armadillo object
+        
+      }
     }
 
     /* Check singularity */
@@ -250,7 +262,7 @@ List cppRegPanelmixPMLE(NumericMatrix bs,
     }
     if (p>0) {
       for (int j=0; j < p; j++){
-        b_jn(3*m+j) = gamma(j);
+        b_jn((q1+2)*m+j) = gamma(j);
       }
     }
     b.col(jn) = b_jn; /* b is updated */

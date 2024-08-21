@@ -99,20 +99,24 @@ PerformCritBoot <- function (data, an, m = M, z = NULL, parallel) {
 
 getEstimateDiffAn <- function(Data,nrep,an,cl,M, parlist){
   registerDoParallel(cl)
+  #t <- Sys.time()
   results <- foreach (k = 1:nrep)%dopar% {
     library(NormalRegPanelMixture)
+    
     data <- Data[,k]
     out.h0 <- NormalRegPanelMixture::normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
     out.h1.l <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(0.1 * an),eps=0,parallel = FALSE)
     out.h1.m <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),eps=0,parallel = FALSE)
     out.h1.h <- NormalRegPanelMixture::normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(10 * an) ,eps=0,parallel = FALSE)
-    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+    crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=500)$crit)
+    
     if (class(crit) == "try-error"){
       crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
     }
     c(2 * max(out.h1.l$penloglik - out.h0$loglik), 2 * max(out.h1.m$penloglik - out.h0$loglik), 2 * max(out.h1.h$penloglik - out.h0$loglik), crit)
     
   }
+  # print(Sys.time()-t)
   
   
   lr.estimate.l <- t(t(sapply(results, function(x) x[1])))

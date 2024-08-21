@@ -71,6 +71,7 @@ count <- 0
 
 for (each.code in ind.code){
   t <- Sys.time()
+  print(each.code)
   ind.each <- subset(df,ciiu_3d==each.code)
   ind.name <- ind.each$ciiu3d_descr[1]
   ind.each$y <- log(ind.each$GO)
@@ -164,6 +165,14 @@ for (each.code in ind.code){
   estimate.LR.df.3[count,] <- estimate.df[3,]
   AIC.df.3[count,] <- AIC.df[3,]
   BIC.df.3[count, ] <- BIC.df[3, ]
+  
+  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_lnk_z_ciiu.txt"))
+  print(paste("Chilean Producer Data: Estimated LR for", ind.name))
+  print(coef.df)
+  print(estimate.df)
+  stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
+  sink()
+  
 }
 
 
@@ -176,7 +185,7 @@ colnames(df.3) <- colnames(estimate.LR.df.3)
 
 
 
-write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_ciiu.csv")
+write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_z_ciiu.csv")
 
 
 

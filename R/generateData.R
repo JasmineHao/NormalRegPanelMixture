@@ -53,7 +53,7 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
     x = matrix(rnorm(N*T*q),nc=q)
   }
   if ((p != 0) && (is.null(z))){
-    x = matrix(rnorm(N*T*p),nc=p)
+    z = matrix(rnorm(N*T*p),nc=p)
   }
   
 
