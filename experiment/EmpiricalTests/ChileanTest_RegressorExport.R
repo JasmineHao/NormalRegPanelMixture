@@ -111,7 +111,8 @@ for (each.code in ind.code){
   ind.each.ciiu_dummy <- model.matrix(~ ciiu - 1, data = ind.each.t)[,-1]
   ind.each.export <- ind.each.t$export
   ind.each.import <- ind.each.t$import
-  
+  ind.each.k_hl   <- ind.each.x > median(ind.each.x) # indicator for high capital v.s. low capital
+    
   data <- list(Y = t(ind.each.y), X = cbind(ind.each.x)  ,  Z = ind.each.ciiu_dummy)
   
   N <- dim(ind.each.y)[1]
@@ -186,11 +187,6 @@ colnames(df.3) <- colnames(estimate.LR.df.3)
 
 
 write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_z_ciiu.csv")
-
-
-
-
-
 
 
 
