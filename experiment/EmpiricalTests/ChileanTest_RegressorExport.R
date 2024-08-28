@@ -1,5 +1,4 @@
 library(stargazer)
-library(ggplot2)
 library(reshape)
 # library(normalregMix)
 library(foreign)
@@ -7,7 +6,7 @@ library(NormalRegPanelMixture)
 library(haven)
 library(dplyr)
 
-cl <- makeCluster(12)
+cl <- makeCluster(50)
 
 options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
@@ -69,6 +68,12 @@ colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9",
 
 count <- 0
 
+
+model <- "lnk_ciiu"
+
+# candidate models
+# c("lnk_ciiu", "lnk_export", "lnk_import", "lnkhl", "lnkhl_export", "lnkhl_import")
+
 for (each.code in ind.code){
   t <- Sys.time()
   print(each.code)
@@ -112,9 +117,10 @@ for (each.code in ind.code){
   ind.each.export <- ind.each.t$export
   ind.each.import <- ind.each.t$import
   ind.each.k_hl   <- ind.each.x > median(ind.each.x) # indicator for high capital v.s. low capital
-    
-  data <- list(Y = t(ind.each.y), X = cbind(ind.each.x)  ,  Z = ind.each.ciiu_dummy)
   
+  
+  # data <- list(Y = t(ind.each.y), X = cbind(ind.each.x)  ,  Z = ind.each.ciiu_dummy)
+  data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl)  ,  Z = ind.each.ciiu_dummy)
   N <- dim(ind.each.y)[1]
   
   h1.coefficient = NULL
@@ -167,7 +173,7 @@ for (each.code in ind.code){
   AIC.df.3[count,] <- AIC.df[3,]
   BIC.df.3[count, ] <- BIC.df[3, ]
   
-  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_lnk_z_ciiu.txt"))
+  sink(paste("results/Empirical/Chile_Crit_", ind.name, "_lnk_hl_ciiu.txt"))
   print(paste("Chilean Producer Data: Estimated LR for", ind.name))
   print(coef.df)
   print(estimate.df)
@@ -186,10 +192,6 @@ colnames(df.3) <- colnames(estimate.LR.df.3)
 
 
 
-write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_z_ciiu.csv")
-
-
-
-
+write.csv(df.3,file="results/Empirical/Chile_regressior_lnk_hl_ciiu.csv")
 
 
