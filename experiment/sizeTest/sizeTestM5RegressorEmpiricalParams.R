@@ -7,7 +7,7 @@ M <- 5 #Number of Type
 p <- 0 #Number of Z
 q <- 1 #Number of X
 nrep <- 100
-cl <- makeCluster(8)
+cl <- makeCluster(10)
 
 # Based on textile industry in Chile normed log revenue  share of intermediate input against ln K, (N,T)
 # 5-component model
@@ -70,9 +70,9 @@ getResult <- function(Data,nrep,an,cl,M, parlist){
       if (test){
       
       # crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
-      crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=1000, cl = cl)$crit)
+      crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, nrep=500, cl = cl)$crit)
       if (class(crit) == "try-error"){
-        crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, cl = cl)$crit
+        crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl = cl)$crit
       }
       
       if(lr.estim[m] < crit[1]){
