@@ -131,5 +131,3 @@ result.h <- result.h * 100
 
 write.csv(rbind(result.h,result.m,result.l), file="results/sizeTestM2Regressorm_HML_T2.csv")
 
-
-
