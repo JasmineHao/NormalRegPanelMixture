@@ -627,21 +627,7 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
   }
 
 
-  gam <- NULL
-  if (!is.null(z)) {
-    out <- lsfit(cbind(x, z), y)
-    gam0 <- out$coef[(q1 + 1):(q1 + p)]
-    gam <- matrix(runif(p * ninits, min = 0.5, max = 1.5), nrow = p) * gam0
-    mubeta_hat <- out$coef[1:q1]
-    y <- y - z %*% gam0
-    r <- out$residuals
-    stdR <- sd(r)
-  } else {
-    out <- lsfit(x, y)
-    mubeta_hat <- out$coef
-    r <- out$residuals
-    stdR <- sd(r)
-  }
+  
 
   
   if (model.ar1){
@@ -655,7 +641,25 @@ regpanelmixPMLEinit <- function(y, x, z = NULL, ninits = 1, m = 2, model.ar1=FAL
     ninits.final <- ninits
     
   } # end of if (model.ar1)
-
+  
+  
+  gam <- NULL
+  if (!is.null(z)) {
+    out <- lsfit(cbind(x, z), y)
+    gam0 <- out$coef[(q1 + 1):(q1 + p)]
+    gam <- matrix(runif(p * ninits.final, min = 0.5, max = 1.5), nrow = p) * gam0
+    mubeta_hat <- out$coef[1:q1]
+    y <- y - z %*% gam0
+    r <- out$residuals
+    stdR <- sd(r)
+  } else {
+    out <- lsfit(x, y)
+    mubeta_hat <- out$coef
+    r <- out$residuals
+    stdR <- sd(r)
+  }
+  
+  
   alpha <- matrix(runif(m * ninits.final), nrow = m)
   alpha <- t(t(alpha) / colSums(alpha))
   
@@ -863,9 +867,11 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     # long EM
     components <- order(out.short$penloglikset, decreasing = TRUE)[1:ninits]
     b1 <- b0[, components] # b0 has been updated
-    if ((!is.null(in.coefficient)) & (dim(b1)[1] == length(in.coefficient))) {
+    if (!is.null(in.coefficient)){
+      if (dim(b1)[1] == length(in.coefficient)) {
       b1[, components] <- in.coefficient
     }
+    } 
     out <- cppRegPanelmixPMLEAR1(
       b1, y, x, ztilde, cbind(1,z.init), mu.0, sigma.0, m, p, t, an, maxit,
       ninits, epsilon

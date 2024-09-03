@@ -4,7 +4,7 @@
 #' @param alpha m vector.
 #' @param mu m vector.
 #' @param sigma m vector.
-#' @param gamma p vector.
+#' @param gam p vector.
 #' @param beta q vector
 #' @param N int
 #' @param T int
@@ -16,12 +16,12 @@
 #' \item{x}
 #' \item{z}
 #' @examples
-#'generateData(alpha,mu,sigma,gamma,beta,N,T,M,p,q)
+#'generateData(alpha,mu,sigma,gam,beta,N,T,M,p,q)
 # The example of x, z
 
 # x = matrix(rnorm(N*T*q),nc=q)
 # z = matrix(rnorm(N*T*p),nc=p)
-generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
+generateData <- function(alpha,mu,sigma,gam,beta,N,T,M,p,q,x=NULL,z=NULL){
   sprintf("N = %d",N)
   sprintf("T = %d",T)
 
@@ -73,9 +73,9 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
      }else{}
 
     if (p > 1){
-      y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] %*% gamma
+      y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] %*% gam
     }else if (p ==1){
-      y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] * gamma
+      y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] * gam
     }else{ }
     Y[,nn] <- y_nn
   }
@@ -93,10 +93,10 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
 #' @param alpha m vector.
 #' @param mu m vector.
 #' @param sigma m vector.
-#' @param gamma p vector.
+#' @param gam p vector.
 #' @param mu0 m vector.
 #' @param sigma0 m vector.
-#' @param gamma p vector.
+#' @param gam p vector.
 #' @param beta q vector
 #' @param N int
 #' @param T int
@@ -108,16 +108,16 @@ generateData <- function(alpha,mu,sigma,gamma,beta,N,T,M,p,q,x=NULL,z=NULL){
 #' \item{x}
 #' \item{z}
 #' @examples
-#'generateDataAR1(alpha,mu,sigma,gamma,beta,N,T,M,p,q)
+#'generateDataAR1(alpha,mu,sigma,gam,beta,N,T,M,p,q)
 # The example of x, z
 
 # x = matrix(rnorm(N*T*q),nc=q)
 # z = matrix(rnorm(N*T*p),nc=p)
-generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
+generateDataAR1 <- function(alpha,mu,sigma,gam,beta,mu0,sigma0,gamma0,beta0,
                             N,T,M,p,q,p.0,q.0,x=NULL,z=NULL, x0 = NULL, z0=NULL, logistic=TRUE){
   # sprintf("N = %d",N)
   # sprintf("T = %d",T)
-
+  
   # Draw the initial type
   R <- matrix(0,nrow=N,ncol=M)
   if (sum(alpha) != 1){
@@ -162,7 +162,7 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
   
   
   if ((p != 0) && (is.null(z))){
-    p.eff <- p / 2
+    p.eff <- p 
     z = matrix(rnorm(N*T*p),nc=p)
   }
   
@@ -232,9 +232,9 @@ generateDataAR1 <- function(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0,beta0,
       y_nn[tt] <- y_nn[tt] + x_t %*% beta_R[nn, ]
       
       if (p > 1){
-        y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] %*% gamma
+        y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] %*% gam
       }else if (p ==1){
-        y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] * gamma
+        y_nn = y_nn + z[(T*(nn-1)+1) : (T*nn),] * gam
       }else{ }
       y_l1 <- y_nn[tt]
     }

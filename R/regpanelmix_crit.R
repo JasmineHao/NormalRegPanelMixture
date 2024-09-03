@@ -583,7 +583,7 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   q.0 <- ncol(z.init) + 1
   
   if (!is.null(z0)) {
-    p.0 <- ncol(z)
+    p.0 <- ncol(z0)
   } else {
     p.0 <- 0
   }
@@ -604,13 +604,10 @@ regpanelmixCritBootAR1 <- function (y, x, parlist, z = NULL, values = NULL, nini
   sigma0 <- sqrt( abs(sigma**2 / (1 - rho**2)))
   
   
-  ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gamma,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0 = q.00))
+  ybset <- replicate(nbtsp, generateDataAR1(alpha,mu,sigma,gam,beta,mu0,sigma0,gamma0, beta0, N = n, T = t,M=m,p=p,q=q,p.0=p.0,q.0 = q.00))
+  
   # tmp <- lapply(seq_len(ncol(tmp)),function(i) tmp[,i])
-   
-  if (!is.null(z)) {
-    zgam <- as.matrix(z) %*% gam
-    ybset <- ybset + replicate(nbtsp, as.vector(zgam))
-  }
+  
   
   if (parallel) {
     if (is.null(cl)){
