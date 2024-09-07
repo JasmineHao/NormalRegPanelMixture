@@ -782,11 +782,13 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     y0 <- data.0$Y
     x0 <- data.0$X
     z0 <- data.0$Z
-    if (is.null(z0)){
-      z.init <- cbind(y0,x0) # use to determine the mixture probability  
-    } else{
-      z.init <- cbind(y0,x0,z0) # use to determine the mixture probability  
-    }
+    
+    z.init <- cbind(y0,x0)
+    # if (is.null(z0)){
+    #   z.init <- cbind(y0,x0) # use to determine the mixture probability  
+    # } else{
+    #   z.init <- cbind(y0,x0,z0) # use to determine the mixture probability  
+    # }
     
     z.init <- scale(z.init)
   }

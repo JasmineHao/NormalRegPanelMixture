@@ -184,7 +184,7 @@ for (each.code in ind.code){
   estimate.crit <- 1
   for (M in 1:10){
     # Estimate the null model
-    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0, ninits = 2)
+    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0, ninits = 1)
     an <- anFormula(out.h0$parlist,M,N,T,q=1)
     print("-----------------------------------------")
     print(paste("T=",T,"M = ",M,"an=",an))
@@ -192,7 +192,7 @@ for (each.code in ind.code){
       an <- 1.0
     }
     # Estimate the alternative model
-    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 2)
+    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 1)
     h1.parlist = out.h1$parlist
     
     lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)

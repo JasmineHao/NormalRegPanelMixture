@@ -163,7 +163,7 @@ for (each.code in ind.code){
       an <- 1.0
     }
     # Estimate the alternative model
-    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 10)
+    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 2)
     h1.parlist = out.h1$parlist
     
     lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
@@ -172,7 +172,7 @@ for (each.code in ind.code){
     if (estimate.crit == 1){
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
-        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE, ninits = 2)$crit
       }
     }
     # Store the estimation results
