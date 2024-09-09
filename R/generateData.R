@@ -204,6 +204,7 @@ generateDataAR1 <- function(alpha,mu,sigma,gam,beta,mu0,sigma0,gamma0,beta0,
     }
   }
   
+  
   if (q.eff > 1) {
     beta_R0 <- R %*% beta0
     y0 = y0 + rowSums(x0 * beta_R0)

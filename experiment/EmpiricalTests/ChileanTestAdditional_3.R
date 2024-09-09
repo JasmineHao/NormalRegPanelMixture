@@ -184,7 +184,7 @@ for (each.code in ind.code){
   estimate.crit <- 1
   for (M in 1:10){
     # Estimate the null model
-    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0, ninits = 1)
+    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, data.0 = data.0, ninits = 2)
     an <- anFormula(out.h0$parlist,M,N,T,q=1)
     print("-----------------------------------------")
     print(paste("T=",T,"M = ",M,"an=",an))

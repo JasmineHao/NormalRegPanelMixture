@@ -7,7 +7,7 @@ library(haven)
 library(dplyr)
 library(splines)
 
-cl <- makeCluster(16)
+cl <- makeCluster(12)
 
 options('nloptr.show.inequality.warning'=FALSE)
 options(warn = -1)
@@ -76,7 +76,8 @@ model <- "k_dummy_imex_ciiu"
 # candidate models
 # c("lnk_ciiu", "lnk_export", "lnk_import", "lnkhl", "lnkhl_export", "lnkhl_import")
 
-for (each.code in ind.code){
+# for (each.code in ind.code)
+for (each.code in c(381,321))  {
   t <- Sys.time()
   print(each.code)
   ind.each <- subset(df,ciiu_3d==each.code)
@@ -155,7 +156,7 @@ for (each.code in ind.code){
   estimate.crit <- 1
   for (M in 1:10){
     # Estimate the null model
-    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient)
+    out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none",in.coefficient=h1.coefficient, ninits=2)
     an <- anFormula(out.h0$parlist,M,N,T,q=1)
     print("-----------------------------------------")
     print(paste("T=",T,"M = ",M,"an=",an))
@@ -163,7 +164,7 @@ for (each.code in ind.code){
       an <- 1.0
     }
     # Estimate the alternative model
-    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 10)
+    out.h1 <- regpanelmixMaxPhi(y=data$Y,x=data$X, z = data$Z,parlist=out.h0$parlist,an=an,ninits = 2)
     h1.parlist = out.h1$parlist
     
     lr.estimate <- 2 * max(out.h1$penloglik - out.h0$loglik)
@@ -172,7 +173,7 @@ for (each.code in ind.code){
     if (estimate.crit == 1){
       lr.crit <- try(regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit)
       if (class(lr.crit) == "try-error"){
-        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE)$crit
+        lr.crit <- regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, cl=cl,parallel = TRUE,ninits = 2)$crit
       }
     }
     # Store the estimation results

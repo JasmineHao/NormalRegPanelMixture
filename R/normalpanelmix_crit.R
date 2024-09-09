@@ -135,7 +135,7 @@ normalpanelmixCritBoot <- function (y, parlist, z = NULL, values = NULL, ninits 
 
   
   t <- nrow(y)
-  n <- ncol
+  n <- ncol(y)
   nt <- n*t
   y   <- as.vector(y) # TODO(Jasmine) Is this really needed?
   
