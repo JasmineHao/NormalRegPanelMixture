@@ -1076,7 +1076,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
       y <- as.vector(y - z %*% gam)
     }
 
-    post <- matrix(out.p$post, nrow=n)
+    post <- matrix(out.p$post, nrow=nt)
 
     p2 <- seq(q1+1, (q1+1)*m, by=q1+1)  # sequence of q1+1, (q1+1)*2, ... , (q1+1)*m
     p1 <- (1:((q1+1)*m))[-p2]        # other values from 1, ..., (q1+1)*m
@@ -1094,21 +1094,21 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
 
     vinv <- 1/(sigma*sigma)  # m-vector
 
-    b <- t(t(Z0)/sigma)  # n by m
-    B <- t(vinv - t(b*b))  # n by m
+    b <- t(t(Z0)/sigma)  # nt by m
+    B <- t(vinv - t(b*b))  # nt by m
 
-    c0 <- array(0,dim=c(n, m, q1+1))
-    c0[, , (1:q1)] <- array(tKR(x1, b), dim=c(n, m, q1))
+    c0 <- array(0,dim=c(nt, m, q1+1))
+    c0[, , (1:q1)] <- array(tKR(x1, b), dim=c(nt, m, q1))
     c0[, , (q1+1)] <- -B/2
 
     # Compute Hessian-based I
     if (vcov.method == "Hessian") {
       other.method = "OPG"
-      C0 <- array(0, dim=c(n, m, q1+1, q1+1))
-      x11 <- array(tKR(x1, x1), dim = c(n, q1, q1))
+      C0 <- array(0, dim=c(nt, m, q1+1, q1+1))
+      x11 <- array(tKR(x1, x1), dim = c(nt, q1, q1))
       for (i in 1:m) {
         C0[, i, (1:q1), (1:q1)] <- x11*vinv[i]
-        C0[, i, (1:q1), q1+1]   <- C0[, i, q1+1, (1:q1)] <- x1*b[, i]*vinv[i] # n by q1
+        C0[, i, (1:q1), q1+1]   <- C0[, i, q1+1, (1:q1)] <- x1*b[, i]*vinv[i] # nt by q1
       }
       C0[, , q1+1, q1+1] <- t((vinv - 2*t(B))*vinv)/2      # n by m
 
@@ -1137,7 +1137,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
 
       Q.theta <- Q.theta + t(Q.theta)
       for (i in 1:m) {  # diagonal blocks
-        C.ii   <- array(C0[, i, , ], dim=c(n, q1+1, q1+1))
+        C.ii   <- array(C0[, i, , ], dim=c(nt, q1+1, q1+1))
         Q.ii.1   <- apply(C.ii*post[,i], c(2, 3), sum)
         w.ii   <- tKR(c0[, i, ], c0[, i, ])*post[, i]*(1-post[, i])
         Q.ii.2   <- matrix(colSums(w.ii), nrow=q1+1, ncol=q1+1)
@@ -1159,7 +1159,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
         dbar <-  z*rowSums(post*b)  # n by p
         Q.gam.theta <- matrix(0, nrow=p, ncol=(q1+1)*m)  # p by (q1+1)*m matrix
         for (i in 1:m) {
-          C.i <- array(C0[, i, 1, ], dim=c(n, q1+1))  # n by q1+1
+          C.i <- array(C0[, i, 1, ], dim=c(nt, q1+1))  # n by q1+1
           Q.i.1 <- colSums(tKR(-C.i+b[, i]*c0[, i, ], z*post[, i])) # p*(q1+1) vector
           Q.i.2 <- colSums(tKR(c0[, i, ]*post[, i], dbar))  # p*(q1+1) vector
           Q.gam.theta[, ((q1+1)*(i-1)+1):((q1+1)*i)] <- matrix(Q.i.1+Q.i.2, nrow=p, ncol=q1+1)
@@ -1178,7 +1178,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
 
     }  else {  # compute I with (method == "OPG")
       other.method = "Hessian"
-      c0.a <- array(0, dim=c(n, m, 2))
+      c0.a <- array(0, dim=c(nt, m, 2))
       c0.a[, , 1] <- b  # n by m
       c0.a[, , 2] <- -B/2  # n by m
 
@@ -1203,7 +1203,8 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
     }  # end if (method=="OPG")
 
     vcov <- try(solve(I))
-    if (class(vcov) == "try-error" || any(diag(vcov) <0) ) {
+    tmp <- (class(vcov) == "try-error")
+    if  (any(class(vcov) == "try-error") || any(diag(vcov) <0) ) {
       vcov <- matrix(NaN, nrow = (2+q1)*m-1+p, ncol = (2+q1)*m-1+p)
       warning("Fisher information matrix is singular and/or the
               variance is estimated to be negative. Consider using vcov.method=\"",other.method,"\".")

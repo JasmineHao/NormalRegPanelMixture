@@ -170,7 +170,7 @@ for (each.code in ind.code)  {
   estimate.crit <- 1
   
   # Estimate the null model
-  out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "OPG",in.coefficient=NULL, ninits=5)
+  out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "Hessian",in.coefficient=NULL, ninits=5)
   
   
   count = count + 1
