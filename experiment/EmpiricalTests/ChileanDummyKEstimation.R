@@ -7,6 +7,7 @@ library(haven)
 library(dplyr)
 library(splines)
 
+
 cl <- makeCluster(12)
 
 options('nloptr.show.inequality.warning'=FALSE)
@@ -160,9 +161,16 @@ for (each.code in ind.code)  {
     
   }else if (model == "k_dummy_imex_ciiu"){
     data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl*1, ind.each.t[, c("import","export")])  ,  Z = ind.each.ciiu_dummy)
-    
   }
   
+  if (model == "k_dummy" || model == "k_dummy_ciiu"){
+    x.type <- expand.grid(c(0,1))
+      
+  } else if (model == "k_dummy_imex" || model == "k_dummy_imex_ciiu"){
+    x.type <- expand.grid(c(0,1),c(0,1),c(0,1))
+  }
+  
+  x.type <- as.matrix(x.type)
   N <- dim(ind.each.y)[1]
   
   h1.coefficient = NULL
@@ -170,8 +178,30 @@ for (each.code in ind.code)  {
   estimate.crit <- 1
   
   # Estimate the null model
+  M <- 5
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "Hessian",in.coefficient=NULL, ninits=5)
   
+  q       <- ncol(data$X)
+  alpha   <- out.h0$parlist$alpha  # m-vector
+  mubeta  <- out.h0$parlist$mubeta  # q+1 by m
+  sigma   <- out.h0$parlist$sigma  # m-vector
+  gam     <- out.h0$parlist$gam
+  
+  for (m in 1:M){
+    # for (t in 1:nrow(x.type)){
+    for (t in 1:1){
+      mubeta_ind <- array(0, dim = dim(mubeta))
+      mubeta_ind[1,m] <- 1
+      mubeta_ind[2:(q+1),m] <- as.vector(x.type[t,])
+      coef_ind = array(0, dim=length(out.h0$coefficients))
+      coef_ind[(M+1):((2+q)*M)] <- as.vector(mubeta_ind )
+      print(coef_ind)
+    }
+  }
+  
+  # mubeta  <- matrix(coefficients[(m+1):((2+q)*m)], nrow=q+1, ncol=m)  # q+1 by m
+  # gam <- [((2+q)*m+1):((3+q)*m)]
+  # out.h0$coefficients[(M+1):((2+q)*M)]
   
   count = count + 1
   print("*************************************")
@@ -182,10 +212,8 @@ for (each.code in ind.code)  {
   AIC.df.3[count,] <- AIC.df[3,]
   BIC.df.3[count, ] <- BIC.df[3, ]
   
-  sink(paste("results/Empirical/Additional/Chile_Crit_", ind.name,"_", model ,".txt",sep=""))
-  print(paste("Chilean Producer Data: Estimated LR for", ind.name))
-  print(coef.df)
-  print(estimate.df)
+  sink(paste("results/Empirical/Additional/",model ,"_statistics.txt",sep=""))
+
   stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
   sink()
   
