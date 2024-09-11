@@ -1070,6 +1070,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
       out.p <- cppRegPanelmixPMLE(b, y, x, matrix(0), mu0, sigma0, m, p, t, an, maxit, ninits, epsilon, tau, h, k)
     else
     {
+      # cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, eps=eps)
       out.p <- cppRegPanelmixPMLE(b, y, x, z, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon, tau, h, k)
       # Adjust y
       y <- as.vector(y - z %*% gam)
