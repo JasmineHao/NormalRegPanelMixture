@@ -752,7 +752,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   t  <- nrow(y)
   n  <- ncol(y)
   nt <- n*t
-  
+  y.mat <- y  
   y   <- as.vector(y)
   x   <- as.matrix(x)   # n by (q1-1) matrix
   
@@ -899,6 +899,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
     if ((! is.null(in.coefficient)) & (dim(b1)[1]==length(in.coefficient)) ){
       b1[,components] <- in.coefficient
     }
+
     out <- cppRegPanelmixPMLE(b1, y, x, ztilde, mu.0, sigma.0, m, p, t, an, maxit, ninits, epsilon)
     # End of non-AR1 case
   } 
@@ -965,7 +966,7 @@ regpanelmixPMLE <- function (y, x, m = 2, z = NULL, vcov.method = c("Hessian", "
   if (vcov.method == "none") {
     vcov <- NULL
   } else {
-    vcov <- regpanelmixVcov(y = y, x = x, coefficients = coefficients, z = z , vcov.method = vcov.method)
+    vcov <- regpanelmixVcov(y = y.mat, x = x, coefficients = coefficients, z = z , vcov.method = vcov.method)
   }
 
   a <- list(coefficients = coefficients, parlist = parlist, vcov = vcov, loglik = loglik,
@@ -1011,8 +1012,9 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
   #  vcov: variance-covariance matrix
   t  <- nrow(y)
   n  <- ncol(y)
+  nt <- n * t
   y     <- as.vector(y)
-
+  x <- as.matrix(x)
   len   <- length(coefficients)
   p     <- 0
   gam <- NULL
@@ -1056,7 +1058,7 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
     # m >= 2
     # Compute posterior probabilities, and adjust y if z is present
     sigma0  <- rep(1, m)  # dummy
-    mu0     <- double(m)  # dummy
+    mu0     <- double(m+1)  # dummy
     an      <- 1/n  # penalty term for variance
     h       <- 0
     tau     <- 0.5
@@ -1071,7 +1073,8 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
     else
     {
       # cppRegPanelmixPMLE(b, y, x, ztilde, mu0h, sigma0h, m1, p, t, an, maxit, ninits, epsilon, tau, h, k, eps=eps)
-      out.p <- cppRegPanelmixPMLE(b, y, x, z, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon, tau, h, k)
+      
+      out.p <- cppRegPanelmixPMLE(b, y, x, z, mu0, sigma0, m, p, t, an, maxit, ninits, epsilon, tau, h, k, eps=0.05)
       # Adjust y
       y <- as.vector(y - z %*% gam)
     }
