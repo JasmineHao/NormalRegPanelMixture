@@ -68,12 +68,13 @@ BIC.df.3 <- matrix(0,nr=length(ind.code),nc=10)
 rownames(BIC.df.3) <- ind.names
 colnames(BIC.df.3) <-  c("M=1","M=2","M=3","M=4","M=5", "M=6","M=7","M=8","M=9","M=10")
 
-count <- 0
 
 bs_degree <- 2
 
-model <- "k_dummy_imex_ciiu"
+count <- 1
 
+model <- "k_dummy_imex_ciiu"
+model_M_list <- c(7,6,6)
 # candidate models
 # c("k_dummy", "k_dummy_imex", "k_dummy_ciiu", ”k_dummy_imex_ciiu“)
 
@@ -109,14 +110,6 @@ for (each.code in ind.code)  {
     ind.each <- cbind(ind.each, bs_columns)
   }
   
-  
-  coef.df <- matrix(0,nr=5,nc=10)
-  estimate.df <- matrix(0,nr=5,nc=10)
-  AIC.df <- matrix(0,nr=5,nc=10)
-  BIC.df <- matrix(0, nr = 5, nc = 10)
-  Nonpar.df <- matrix(0, nr = 5, nc = 10)
-  crit.df <- matrix(0, nr = 5, nc = 10)
-  result.df <- matrix(0,nr=5,nc=10)
   
   T <- 3
   year.list <- sort(unique(ind.each$year))
@@ -178,7 +171,7 @@ for (each.code in ind.code)  {
   estimate.crit <- 1
   
   # Estimate the null model
-  M <- 5
+  M <- model_M_list[count]
   out.h0 <- regpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "Hessian",in.coefficient=NULL, ninits=5)
   
   q       <- ncol(data$X)
@@ -187,15 +180,19 @@ for (each.code in ind.code)  {
   sigma   <- out.h0$parlist$sigma  # m-vector
   gam     <- out.h0$parlist$gam
   
+  
+  estim_df <- array(0, dim=c(M, nrow(x.type)))
+  var_df   <- array(0, dim=c(M, nrow(x.type)))
   for (m in 1:M){
-    # for (t in 1:nrow(x.type)){
-    for (t in 1:1){
+    for (t in 1:nrow(x.type)){
       mubeta_ind <- array(0, dim = dim(mubeta))
       mubeta_ind[1,m] <- 1
       mubeta_ind[2:(q+1),m] <- as.vector(x.type[t,])
       coef_ind = array(0, dim=length(out.h0$coefficients))
       coef_ind[(M+1):((2+q)*M)] <- as.vector(mubeta_ind )
-      print(coef_ind)
+      coef_ind[((3+q)*M + 1):length(coef_ind)] <- 1 / length(gam)
+      estim_df[m,t] <- coef_ind %*% out.h0$coefficients
+      var_df[m,t] <- coef_ind %*% out.h0$vcov %*% coef_ind
     }
   }
   
@@ -204,18 +201,11 @@ for (each.code in ind.code)  {
   # out.h0$coefficients[(M+1):((2+q)*M)]
   
   count = count + 1
-  print("*************************************")
-  print(paste("Finished", ind.name))
-  print( Sys.time() - t)
-  print("*************************************")
-  estimate.LR.df.3[count,] <- estimate.df[3,]
-  AIC.df.3[count,] <- AIC.df[3,]
-  BIC.df.3[count, ] <- BIC.df[3, ]
   
-  sink(paste("results/Empirical/Additional/",model ,"_statistics.txt",sep=""))
+  write.csv(cbind(estim_df,var_df), 
+            paste("results/Empirical/Additional/",model, "_", ind.name ,"_statistics.csv",sep=""))
 
-  stargazer(crit.df, type = "text", title = paste("Simulated crit for ", ind.name, each.code))
-  sink()
+  stargazer(cbind(estim_df,var_df), type = "text")
   
 }
 

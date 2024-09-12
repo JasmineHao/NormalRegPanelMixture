@@ -1206,12 +1206,13 @@ regpanelmixVcov <- function(y, x, coefficients, z = NULL, vcov.method = c("Hessi
     }  # end if (method=="OPG")
 
     vcov <- try(solve(I))
-    tmp <- (class(vcov) == "try-error")
-    if  (any(class(vcov) == "try-error") || any(diag(vcov) <0) ) {
+    # if  (any(class(vcov) == "try-error") || any(diag(vcov) <0) ) {
+    if  (any(class(vcov) == "try-error") ) {
       vcov <- matrix(NaN, nrow = (2+q1)*m-1+p, ncol = (2+q1)*m-1+p)
       warning("Fisher information matrix is singular and/or the
               variance is estimated to be negative. Consider using vcov.method=\"",other.method,"\".")
     }
+    
 
     # Because the variance is parameterized as sigma^2, we convert it to sigma
 
