@@ -73,8 +73,18 @@ bs_degree <- 2
 
 count <- 1
 
-model <- "k_dummy_imex_ciiu"
-model_M_list <- c(7,6,6)
+# model <- "k_dummy_imex_ciiu"
+# model_M_list <- c(7,6,6)
+
+model <- "k_dummy_ciiu"
+model_M_list <- c(7,7,9)
+
+# model <- "k_dummy_imex"
+# model_M_list <- c(7,5,5)
+
+# model <- "k_dummy"
+# model_M_list <- c(9,8,9)
+
 # candidate models
 # c("k_dummy", "k_dummy_imex", "k_dummy_ciiu", ”k_dummy_imex_ciiu“)
 
@@ -144,13 +154,13 @@ for (each.code in ind.code)  {
   
   # c("k_dummy", "k_dummy_imex", "k_dummy_ciiu", ”k_dummy_imex_ciiu“)
   if (model == "k_dummy"){
-    data <- list(Y = t(ind.each.y), X = ind.each.k_hl*1,  Z = NULL)
+    data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl*1) ,  Z = NULL)
     
   }else if (model == "k_dummy_imex"){
     data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl*1, ind.each.t[, c("import","export")])  ,  Z = NULL)
     
   }else if (model == "k_dummy_ciiu"){
-    data <- list(Y = t(ind.each.y), X = ind.each.k_hl*1 ,  Z = ind.each.ciiu_dummy)
+    data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl*1) ,  Z = ind.each.ciiu_dummy)
     
   }else if (model == "k_dummy_imex_ciiu"){
     data <- list(Y = t(ind.each.y), X = cbind(ind.each.k_hl*1, ind.each.t[, c("import","export")])  ,  Z = ind.each.ciiu_dummy)
@@ -158,13 +168,32 @@ for (each.code in ind.code)  {
   
   if (model == "k_dummy" || model == "k_dummy_ciiu"){
     x.type <- expand.grid(c(0,1))
-      
+    
+    data_X <- data.frame(data$X)
+    x.type <- as.matrix(x.type)
+    
+    colnames(data_X) <- c("A")
+    # Use dplyr to assign group numbers by matching the rows
+    df_grouped <-  data_X %>%
+      left_join(data.frame(x.type) %>% mutate(group_num = row_number()), 
+                by = c("A" = "Var1"))
+    
   } else if (model == "k_dummy_imex" || model == "k_dummy_imex_ciiu"){
     x.type <- expand.grid(c(0,1),c(0,1),c(0,1))
+    
+    data_X <- data.frame(data$X)
+    x.type <- as.matrix(x.type)
+    
+    colnames(data_X) <- c("A", "B", "C")
+    # Use dplyr to assign group numbers by matching the rows
+    df_grouped <-  data_X %>%
+      left_join(data.frame(x.type) %>% mutate(group_num = row_number()), 
+                by = c("A" = "Var1", "B" = "Var2", "C" = "Var3"))
+    
   }
   
-  x.type <- as.matrix(x.type)
   N <- dim(ind.each.y)[1]
+  
   
   h1.coefficient = NULL
   
@@ -183,6 +212,24 @@ for (each.code in ind.code)  {
   
   estim_df <- array(0, dim=c(M, nrow(x.type)))
   var_df   <- array(0, dim=c(M, nrow(x.type)))
+  
+  # store the post probability dim(out.h0$postprobs)
+  
+  # Convert out.h0$postprobs to a dataframe
+  postprobs_df <- as.data.frame(out.h0$postprobs)
+  postprobs_df <- postprobs_df[rep(1:nrow(postprobs_df), each = 3), ]
+  
+  # Bind df_grouped$group_num as a new column to the dataframe
+  postprobs_df$group_num <- df_grouped$group_num
+  
+  # Group by group_num and calculate the mean for each group
+  mean_by_type <- postprobs_df %>%
+    group_by(group_num) %>%
+    summarise(across(everything(), mean, na.rm = TRUE))
+  
+  # Print the result
+  print(mean_by_type)
+  
   for (m in 1:M){
     for (t in 1:nrow(x.type)){
       mubeta_ind <- array(0, dim = dim(mubeta))
@@ -190,7 +237,9 @@ for (each.code in ind.code)  {
       mubeta_ind[2:(q+1),m] <- as.vector(x.type[t,])
       coef_ind = array(0, dim=length(out.h0$coefficients))
       coef_ind[(M+1):((2+q)*M)] <- as.vector(mubeta_ind )
-      coef_ind[((3+q)*M + 1):length(coef_ind)] <- 1 / length(gam)
+      if (length(gam) > 0){
+        coef_ind[((3+q)*M + 1):length(coef_ind)] <- 1 / length(gam)
+      }
       estim_df[m,t] <- coef_ind %*% out.h0$coefficients
       var_df[m,t] <- coef_ind %*% out.h0$vcov %*% coef_ind
     }
@@ -201,6 +250,7 @@ for (each.code in ind.code)  {
   # out.h0$coefficients[(M+1):((2+q)*M)]
   
   count = count + 1
+  write.csv(mean_by_type, paste("results/Empirical/Additional/",model, "_", ind.name ,"_type_prob.csv",sep=""))
   
   write.csv(cbind(estim_df,var_df), 
             paste("results/Empirical/Additional/",model, "_", ind.name ,"_statistics.csv",sep=""))
