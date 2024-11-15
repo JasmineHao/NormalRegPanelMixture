@@ -2,7 +2,7 @@ library(NormalRegPanelMixture)
 library(foreach)
 library(Matrix)
 library(expm)
-
+library(MASS)
 
 #Generate Data
 M <- 2 #Number of Type
@@ -62,7 +62,7 @@ matrix_sqrt_svd <- function(mat) {
   sqrt_singular_values <- sqrt(svd_decomp$d)
   
   # Construct the square root matrix using the SVD components
-  sqrt_mat <- svd_decomp$u %*% diag(sqrt_singular_values) %*% t(svd_decomp$v)
+  sqrt_mat <- svd_decomp$u %*% diag(sqrt_singular_values,nrow=nrow(mat),ncol=ncol(mat)) %*% t(svd_decomp$v)
   
   return(sqrt_mat)
 }
@@ -107,7 +107,7 @@ calculate_P_matrix_modified <- function(data_c, n.grid=3){
       result_matrix[n, ] <- kronecker_t
     }
     P_k <- t(indicator_list[[k]]) %*% result_matrix
-    P_k_list[[k]] <- P_k
+    P_k_list[[k]] <- P_k / N
   }
   P_k_list
 }
@@ -119,58 +119,91 @@ calculate_W_P_modified <- function(data, n.grid=3, BB=199){
   data_c <- data$Y
   n_size <- ncol(data_c)
   
-  P_k_list <- calculate_P_matrix_modified(data_c, n.grid=3)
-  Sigma_k_list <- list()
+  P_k_list <- calculate_P_matrix_modified(data_c, n.grid=n.grid)
+  
+  P_k <- P_k_list[[1]]
+  Q_k <- P_k %*% t(P_k)
+  n_element <- length(as.vector(P_k))
+  n_element_q <- length(as.vector(Q_k))
+  
+  # init the matrix for estimating Omega / Sigma
+  vec_P_b <- matrix(0, nrow = BB, ncol = n_element * T)
+  vec_Q_b <- matrix(0, nrow = BB, ncol = n_element_q * T)
+  vec_P_b_list <- list()
+  vec_Q_b_list <- list()
   for (k in 1:T){
-    P_k <- P_k_list[[k]]
-    Q_k <- P_k %*% t(P_k)
-    ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
-    n_element <- length(as.vector(P_k))
-    
-    # Initialize the vec_P_b matrix
-    vec_P_b <- matrix(0, nrow = BB, ncol = n_element)
-    # Loop to generate vec_P_b
-    for (i in 1:BB) {
-      index <- ceiling(ru[, i] * n_size)
-      data_b <- data$Y[,index]
-      P_b_list <- calculate_P_matrix_modified(data_b, n.grid=n.grid)
-      vec_P_b[i, ] <- as.vector(P_b_list[[k]])
-    }
-    
-    # Calculate mean_vec_P_b
-    mean_vec_P_b <- as.vector(P_k) # colMeans(vec_P_b)
-    
-    # Initialize the W_b matrix
-    W_b <- matrix(0, nrow =  n_element, ncol = n_element)
-    
-    # Fill the W_b matrix
-    for (i in 1:n_element) {
-      for (j in i:n_element) {
-        if (i == j) {
-          W_b[i, i] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i])^2)
-        } else {
-          W_b[i, j] <- (1 / (BB - 1)) * sum((vec_P_b[, i] - mean_vec_P_b[i]) * (vec_P_b[, j] - mean_vec_P_b[j]))
-          W_b[j, i] <- W_b[i, j]
-        }
-      }
-    }
-    W_c = n_size*W_b 
-    Sigma_k_list[[k]] <- W_c
+    vec_P_b_list[[k]] <- matrix(0, nrow = BB, ncol = n_element)
+    vec_Q_b_list[[k]] <- matrix(0, nrow = BB, ncol = n_element_q)
   }
   
-  return(list(P_k_list = P_k_list, Sigma_k_list = Sigma_k_list))
+  # draw the bootstrap sample
+  ru <- matrix(runif(n_size * BB), nrow = n_size, ncol = BB)
+  # record the bootstrapped P and Q
+  for (i in 1:BB) {
+    index <- ceiling(ru[, i] * n_size)
+    data_b <- data$Y[,index]
+    P_b_list <- calculate_P_matrix_modified(data_b, n.grid=n.grid)
+    # Loop to generate vec_P_b
+    for (k in 1:T){
+      P_b_k <- P_b_list[[k]]
+      Q_b_k <- P_b_k%*% t(P_b_k)
+      vec_P_b_list[[k]][i, ] <- as.vector(P_b_k)
+      vec_Q_b_list[[k]][i, ] <- as.vector(Q_b_k)
+      vec_P_b[i, ((k-1)*n_element+1):(k*n_element)] <- as.vector(P_b_k)
+      vec_Q_b[i, ((k-1)*n_element_q+1):(k*n_element_q)] <- as.vector(Q_b_k)
+    }
+  }
+  
+  # Calculate mean_vec_P_b
+  Sigma_P_k_list <- list()
+  Sigma_Q_k_list <- list()
+  mean_vec_P <- matrix(0, nrow = 1, ncol = n_element * T)
+  mean_vec_Q <- matrix(0, nrow = 1, ncol = n_element_q * T)
+  for (k in 1:T){
+    P_k <- P_k_list[[k]]
+    Q_k <-P_k %*% t(P_k)
+    mean_vec_P_b <- as.vector(P_k) # colMeans(vec_P_b)
+    mean_vec_Q_b <- as.vector(Q_k) # colMeans(vec_P_b)
+    mean_vec_P[1, ((k-1)*n_element+1):(k*n_element)] <- mean_vec_P_b
+    mean_vec_Q[1, ((k-1)*n_element_q+1):(k*n_element_q)] <- mean_vec_Q_b
+    
+    diff_q <- sweep(vec_Q_b_list[[k]], 2, mean_vec_Q_b, FUN = "-")
+    W_Q_b <- ( t(diff_q) %*% diff_q ) / (BB - 1)
+    
+    diff_p <- sweep(vec_P_b_list[[k]], 2, mean_vec_P_b, FUN = "-")
+    W_P_b <- ( t(diff_p) %*% diff_p ) / (BB - 1)
+    
+    Sigma_P_k_list[[k]] <- W_P_b
+    Sigma_Q_k_list[[k]] <- W_Q_b
+    
+  }
+  
+  diff_q <- sweep(vec_Q_b, 2, mean_vec_Q_b, FUN = "-")
+  diff_p <- sweep(vec_P_b, 2, mean_vec_P_b, FUN = "-")
+  Sigma_Q <- ( t(diff_q) %*% diff_q ) / (BB - 1)
+  Sigma_P <- ( t(diff_p) %*% diff_p ) / (BB - 1)
+    
+  return(list(P_k_list = P_k_list, Sigma_P_k_list = Sigma_P_k_list, Sigma_Q_k_list= Sigma_Q_k_list, Sigma_P=Sigma_P, Sigma_Q=Sigma_Q))
+    
 }
-
-
+  
 
 construct_stat_KP_modified <- function(data, data_P_W, r.test){
   
   P_k_list <- data_P_W$P_k_list
-  Sigma_k_list <- data_P_W$Sigma_k_list
+  Sigma_P_k_list <- data_P_W$Sigma_P_k_list
+  Sigma_Q_k_list <- data_P_W$Sigma_Q_k_list
+  Sigma_P <- data_P_W$Sigma_P
+  Sigma_Q <- data_P_W$Sigma_Q
+  n_size <- ncol(data$Y)
+
+  
+  lambda_M_k_list <- list()
+  Omega_M_k_sqrt_list <- list()
   
   for (k in 1:T){  
-    P_k <- P_k_list[[k]]
-    Sigma_k <- Sigma_k_list[[k]]
+    P_k <- P_k_list[[k]] 
+    Sigma_Q_k <- Sigma_Q_k_list[[k]]
     Q_k <- P_k %*% t(P_k)
     Q_svd <- svd(Q_k)
     D <- Q_svd$d
@@ -190,8 +223,21 @@ construct_stat_KP_modified <- function(data, data_P_W, r.test){
     sqrtm_u_22_square <- svd_U22_square$u %*% diag(svd_U22_square$d, nrow=(dim(Q_k)[1] - r.test), ncol=(dim(Q_k)[1] - r.test)) %*% t(svd_U22_square$u)
     inv_u_22 <- svd_U22$u %*% diag(1/svd_U22$d, nrow=(dim(Q_k)[1] - r.test), ncol=(dim(Q_k)[1] - r.test)) %*% t(svd_U22$v)
     A_rk <- rbind(U_12, U_22) %*% inv_u_22 %*% sqrtm_u_22_square
-    Lambda_km <- as.vector( t(A_rk) %*% Q_k %*% A_rk)
+    A_rk_kron <- kronecker(A_rk, A_rk)
+    
+    Omega_M_k <- t(A_rk_kron) %*% Sigma_Q_k %*% A_rk_kron
+    Omega_M_k_sqrt <- matrix_sqrt_svd(Omega_M_k)
+    Omega_M_k_sqrt_list[[k]] <- Omega_M_k_sqrt
+    Lambda_M_k <- t(A_rk) %*% Q_k %*% A_rk
+    lambda_M_k_list[[k]] <- as.vector(Lambda_M_k)
+    # rk_list[[k]] <- n_size * t(lambda_M_k) %*% solve(Omega_M_k)  %*% lambda_M_k
   }
+  lambda_M <- as.matrix(unlist(lambda_M_k_list))
+  Omega_M_sqrt_vec <- do.call(rbind, Omega_M_k_sqrt_list)
+  
+  Omega_M <- Omega_M_sqrt_vec %*% t(Omega_M_sqrt_vec)
+  Omega_M_pinv <- ginv(Omega_M)
+  return(t(lambda_M) %*% Omega_M_pinv %*% lambda_M)
 }
 
 
@@ -207,12 +253,10 @@ for (r in 1:nNT){
   T <-  NTset[r,2]
   
   # Create a sequence from 1 to T
-  T.sequence <- 1:T
   
   # Partition the sequence into even and odd numbers
   # T.even <- T.sequence[T.sequence %% 2 == 0]
   # T.odd <- T.sequence[T.sequence %% 2 == 1]
-  
   for (count in 1:nPar){
     t <- Sys.time()
     mu <- Parset[count,1][[1]]
@@ -236,11 +280,10 @@ for (r in 1:nNT){
     results <- foreach (k = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
       #for (k in 1:nrep) { 
       data <- Data[,k]
-      data_P_W <- calculate_W_P_modified(data, n.grid = 3)
+      data_P_W <- calculate_W_P_modified(data, n.grid = 4)
+      rk_c <- construct_stat_KP_modified(data, data_P_W, r.test = 2)
       
-      rk_c <- construct_stat_KP_modified(data, data_P_W, r.test)
-      
-      list(rk_c = rk_c, P_c = P_c)
+      list(rk_c = rk_c)
     }
     
     rk_c_all <- matrix(0, nrow = nrep, ncol = 1)
