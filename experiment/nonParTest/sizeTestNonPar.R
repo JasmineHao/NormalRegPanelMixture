@@ -7,7 +7,7 @@ library(MASS)
 #Generate Data
 M <- 2 #Number of Type
 r.test <- 2 # test the null hypothesis of 2
-n.grid <- 2 # partition each t into 2 intervals
+n.grid <- 3 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
@@ -168,25 +168,26 @@ calculate_W_P_modified <- function(data, n.grid=3, BB=199){
     mean_vec_Q[1, ((k-1)*n_element_q+1):(k*n_element_q)] <- mean_vec_Q_b
     
     diff_q <- sweep(vec_Q_b_list[[k]], 2, mean_vec_Q_b, FUN = "-")
-    W_Q_b <- ( t(diff_q) %*% diff_q ) / (BB - 1)
+    W_Q_b <- n_size * ( t(diff_q) %*% diff_q ) / (BB - 1)
     
     diff_p <- sweep(vec_P_b_list[[k]], 2, mean_vec_P_b, FUN = "-")
-    W_P_b <- ( t(diff_p) %*% diff_p ) / (BB - 1)
+    W_P_b <- n_size * ( t(diff_p) %*% diff_p ) / (BB - 1)
     
     Sigma_P_k_list[[k]] <- W_P_b
     Sigma_Q_k_list[[k]] <- W_Q_b
     
   }
   
-  diff_q <- sweep(vec_Q_b, 2, mean_vec_Q_b, FUN = "-")
-  diff_p <- sweep(vec_P_b, 2, mean_vec_P_b, FUN = "-")
-  Sigma_Q <- ( t(diff_q) %*% diff_q ) / (BB - 1)
-  Sigma_P <- ( t(diff_p) %*% diff_p ) / (BB - 1)
+  diff_q <- sweep(vec_Q_b, 2, mean_vec_Q, FUN = "-")
+  diff_p <- sweep(vec_P_b, 2, mean_vec_P, FUN = "-")
+  Sigma_Q <- n_size * ( t(diff_q) %*% diff_q ) / (BB - 1)
+  Sigma_P <- n_size * ( t(diff_p) %*% diff_p ) / (BB - 1)
     
   return(list(P_k_list = P_k_list, Sigma_P_k_list = Sigma_P_k_list, Sigma_Q_k_list= Sigma_Q_k_list, Sigma_P=Sigma_P, Sigma_Q=Sigma_Q))
     
 }
   
+# data_P_W <- calculate_W_P_modified(data, n.grid=3, BB=199)
 
 construct_stat_KP_modified <- function(data, data_P_W, r.test){
   
@@ -197,10 +198,10 @@ construct_stat_KP_modified <- function(data, data_P_W, r.test){
   Sigma_Q <- data_P_W$Sigma_Q
   n_size <- ncol(data$Y)
 
-  
+  q_size <- dim(Sigma_Q_k_list[[1]])[1]
   lambda_M_k_list <- list()
-  Omega_M_k_sqrt_list <- list()
-  
+  #Omega_M_k_sqrt_list <- list()
+  A_rk_kron_list <- list()
   for (k in 1:T){  
     P_k <- P_k_list[[k]] 
     Sigma_Q_k <- Sigma_Q_k_list[[k]]
@@ -224,20 +225,28 @@ construct_stat_KP_modified <- function(data, data_P_W, r.test){
     inv_u_22 <- svd_U22$u %*% diag(1/svd_U22$d, nrow=(dim(Q_k)[1] - r.test), ncol=(dim(Q_k)[1] - r.test)) %*% t(svd_U22$v)
     A_rk <- rbind(U_12, U_22) %*% inv_u_22 %*% sqrtm_u_22_square
     A_rk_kron <- kronecker(A_rk, A_rk)
-    
-    Omega_M_k <- t(A_rk_kron) %*% Sigma_Q_k %*% A_rk_kron
-    Omega_M_k_sqrt <- matrix_sqrt_svd(Omega_M_k)
-    Omega_M_k_sqrt_list[[k]] <- Omega_M_k_sqrt
+    A_rk_kron_list[[k]] <- A_rk_kron
+    # Omega_M_k <- t(A_rk_kron) %*% Sigma_Q_k %*% A_rk_kron
+    # Omega_M_k_sqrt <- matrix_sqrt_svd(Omega_M_k)
+    # Omega_M_k_sqrt_list[[k]] <- Omega_M_k_sqrt
     Lambda_M_k <- t(A_rk) %*% Q_k %*% A_rk
     lambda_M_k_list[[k]] <- as.vector(Lambda_M_k)
     # rk_list[[k]] <- n_size * t(lambda_M_k) %*% solve(Omega_M_k)  %*% lambda_M_k
   }
-  lambda_M <- as.matrix(unlist(lambda_M_k_list))
-  Omega_M_sqrt_vec <- do.call(rbind, Omega_M_k_sqrt_list)
   
-  Omega_M <- Omega_M_sqrt_vec %*% t(Omega_M_sqrt_vec)
+  lambda_size <- dim(A_rk_kron_list[[1]])[2]
+  Omega_M <- matrix(0, nrow = T * lambda_size, ncol = T * lambda_size )
+  for (k in 1:T){
+    for (j in 1:T){
+      Omega_M[((k-1)*lambda_size +1):(k*lambda_size), ((j-1)*lambda_size +1):(j*lambda_size) ] <- t(A_rk_kron_list[[k]]) %*% Sigma_Q[((k-1)*q_size +1):(k*q_size), ((j-1)*q_size +1):(j*q_size)] %*% A_rk_kron_list[[j]]
+    }
+  }
+  lambda_M <- as.matrix(unlist(lambda_M_k_list))
+  # Omega_M_sqrt_vec <- do.call(rbind, Omega_M_k_sqrt_list)
+  
+  # Omega_M <- Omega_M_sqrt_vec %*% t(Omega_M_sqrt_vec)
   Omega_M_pinv <- ginv(Omega_M)
-  return(t(lambda_M) %*% Omega_M_pinv %*% lambda_M)
+  return(n_size *  t(lambda_M) %*% Omega_M_pinv %*% lambda_M)
 }
 
 
@@ -277,22 +286,22 @@ for (r in 1:nNT){
     
     
     registerDoParallel(cl)
-    results <- foreach (k = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
+    results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
       #for (k in 1:nrep) { 
-      data <- Data[,k]
-      data_P_W <- calculate_W_P_modified(data, n.grid = 4)
+      data <- Data[,ii]
+      data_P_W <- calculate_W_P_modified(data, n.grid = 3)
       rk_c <- construct_stat_KP_modified(data, data_P_W, r.test = 2)
       
       list(rk_c = rk_c)
     }
     
     rk_c_all <- matrix(0, nrow = nrep, ncol = 1)
-    P_c_list <- vector("list", nrep)  # List to store all P_c matrices
+    # P_c_list <- vector("list", nrep)  # List to store all P_c matrices
     
     # Extract results from the list
     for (k in 1:nrep) {
       rk_c_all[k] <- results[[k]]$rk_c
-      P_c_list[[k]] <- results[[k]]$P_c
+      # P_c_list[[k]] <- results[[k]]$P_c
     }
     
     # Stop the parallel backend
