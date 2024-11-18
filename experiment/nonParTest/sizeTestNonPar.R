@@ -5,9 +5,9 @@ library(expm)
 library(MASS)
 
 #Generate Data
-M <- 2 #Number of Type
-r.test <- 2 # test the null hypothesis of 2
-n.grid <- 3 # partition each t into 2 intervals
+M <- 1 #Number of Type
+r.test <- 1 # test the null hypothesis of 2
+n.grid <- 2 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
@@ -18,7 +18,9 @@ Nset <- c(200,400)
 Tset <- c(5)
 
 alphaset <- list(c(0.5,0.5),c(0.2,0.8))
+alphaset <- list(c(1))
 muset <- list(c(-1,1),c(-0.5,0.5))
+muset <- list(c(0))
 sigmaset <- list(c(0.8,1.2))
 
 
@@ -286,7 +288,7 @@ for (r in 1:nNT){
     
     
     registerDoParallel(cl)
-    results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture"))%dopar% {
+    results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture", "MASS"))%dopar% {
       #for (k in 1:nrep) { 
       data <- Data[,ii]
       data_P_W <- calculate_W_P_modified(data, n.grid = 3)
@@ -301,18 +303,19 @@ for (r in 1:nNT){
     # Extract results from the list
     for (k in 1:nrep) {
       rk_c_all[k] <- results[[k]]$rk_c
-      # P_c_list[[k]] <- results[[k]]$P_c
+      #   P_c_list[[k]] <- results[[k]]$P_c
     }
     
     # Stop the parallel backend
+    quantile_95 <- qchisq(0.95, df = T)
     
     
-    s_1 <- dim(P_c_list[[1]])[1]
-    s_2 <- dim(P_c_list[[2]])[2]
-    df <- (s_1 - r.test) * (s_2 - r.test)
-    crit.0.95 <- qchisq(0.95, df)
+    # s_1 <- dim(P_c_list[[1]])[1]
+    # s_2 <- dim(P_c_list[[2]])[2]
+    # df <- (s_1 - r.test) * (s_2 - r.test)
+    # crit.0.95 <- qchisq(0.95, df)
     
-    result[r, count] <- mean(rk_c_all > crit.0.95)
+    result[r, count] <- mean(rk_c_all > quantile_95)
     print(Sys.time() - t)
     
   }
