@@ -13,8 +13,6 @@ q <- 0 #Number of X
 nrep <- 500
 cl <- makeCluster(15)
 
-N <- 200 
-T <- 4
 
 alpha <- c(0.5,0.5)
 sigma <- c(0.8,1.2)
@@ -122,19 +120,54 @@ calculate_P_matrix_t_pair <- function(data_c, T.pair.list, n.grid=3){
   return(list(P_k_list=P_k_list,Sigma_P_k_list = Sigma_P_k_list))
 }
 
-
-    
-  # for (k in 1:T){
-  #   P_k <- P_k_list[[k]]
-  #   Q_k <-P_k %*% t(P_k)
-  #   P_k_vec <- as.vector(P_k)
-  #   W_P_s <- (diag(P_k_vec) - P_k_vec %*% t(P_k_vec)) 
-  #   J_P_k <- kronecker( P_k ,diag(1, nrow = n.grid)) + kronecker(diag(1, nrow = n.grid),P_k)
-  #   W_Q_s <- J_P_k %*% W_P_s %*% t(J_P_k) #use delta method to obtain 
-  #   Sigma_P_k_list[[k]] <- W_P_s 
-  #   Sigma_Q_k_list[[k]] <- W_Q_s
-  # }
+calculate_P_matrix_modified <- function(data_c, n.grid=3){
   
+  T <- nrow(data_c)
+  N <- ncol(data_c)
+  # Create a list to store the indicator matrices
+  indicator_list <- list()  
+  for (t in 1:T){
+      # Calculate the quantiles
+      quantiles <- quantile(data_c[t,], probs = seq(0, 1, length.out = n.grid + 1))
+      quantiles[1] <- -Inf
+      quantiles[n.grid+1] <- Inf
+      # Create the indicator matrix
+      indicator_matrix <- matrix(0, nrow = N, ncol = n.grid)
+      for (n in 1:length(data_c[t,])) {
+        for (m in 1:n.grid) {
+          if (data_c[t,n] > quantiles[m] & data_c[t,n] <= quantiles[m + 1]) {
+            indicator_matrix[n, m] <- 1
+          }
+        }
+      }
+      # Add the indicator matrix to the list
+    indicator_list[[t]] <- indicator_matrix
+  }
+   
+  # Initialize the result matrix
+  k <- 1
+  P_dim = length(Reduce(kronecker, lapply( (1:T)[-k], function(t) indicator_list[[t]][1, ])))
+  
+  # Iterate over the rows and compute the Kronecker product for each row
+  P_k_list <- list()
+  Q_k_list <- list()
+  Sigma_P_k_list <- list()
+  Sigma_Q_k_list <- list()
+  for (k in 1:T){
+    result_matrix <- matrix(0, nrow = N, ncol = P_dim)
+    for (n in 1:N) {
+      kronecker_t <- Reduce(kronecker, lapply((1:T)[-k], function(t) indicator_list[[t]][n, ]))
+      # Add the Kronecker product to the result matrix
+      result_matrix[n, ] <- kronecker_t
+    }
+    P_k <- t(indicator_list[[k]]) %*% result_matrix / N
+    P_k_list[[k]] <- P_k
+    Q_k_list[[k]] <- P_k %*% t(P_k) 
+  }
+  list(P_k_list = P_k_list, Q_k_list = Q_k_list)
+}
+
+
 invert_matrix <- function(mat, epsilon = 1e-8) {
   # Check if the matrix is square
   if (!is.matrix(mat) || nrow(mat) != ncol(mat)) {
@@ -153,7 +186,7 @@ invert_matrix <- function(mat, epsilon = 1e-8) {
   return(solve(mat))
 }
 
-construct_stat_KP <- function(P, Sigma_P, r.test, n_size){
+construct_stat_KP <- function(P, Sigma_P, r.test, n_size, lambda_c=0){
   # Perform SVD decomposition of the matrix
   P_svd <- svd(P)
   tol_s <- 1e-10
@@ -171,35 +204,26 @@ construct_stat_KP <- function(P, Sigma_P, r.test, n_size){
   # Construct the A_q_o and B_q_o matrix.
   A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% invert_matrix(t(U_22)) %*% cbind(t(U_12), t(U_22)))
   B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% invert_matrix(t(V_22)) %*% cbind(t(V_12), t(V_22))
-  lambda_q <- t(A_q_o) %*% P %*% t(B_q_o)
+  lambda_q <- t(A_q_o) %*% P %*% t(B_q_o) - lambda_c
   kron_BA_o <- kronecker(B_q_o, t(A_q_o))
   Omega_q <-  kron_BA_o %*% Sigma_P %*% t(kron_BA_o)
 
   # if (qr(Omega_q)$rank == nrow(Omega_q)) {
   r <- nrow(Omega_q)
   rk_c <- n_size * sum(as.vector(lambda_q) * invert_matrix(Omega_q) %*% as.vector(lambda_q))
-  # } else {
-  #   svd_result <- svd(Omega_q)
-  #   s <- svd_result$d
-  #   r <- sum(s > tol_s * max(s))
-  #   if (min(s[1:r]) < 1e-8){
-  #     inv_Omega_q <- svd_result$v[, 1:r] %*% diag(1 / (s[1:r] + 1e-8 )) %*%  t(svd_result$u[, 1:r])
-  #   } else{
-  #     inv_Omega_q <- svd_result$v[, 1:r] %*% diag(1 / (s[1:r] )) %*%  t(svd_result$u[, 1:r])
-  #   }
-    
-  #   rk_c <- n_size * sum( t(as.vector(lambda_q)) %*% inv_Omega_q %*% as.vector(lambda_q))
-  # }
 
   AIC_c = rk_c - 2*r
   BIC_c = rk_c - log(n_size)*r
   HQ_c  = rk_c - 2*log(log(n_size))*r
-  return(rk_c)
+
+  return(list(rk_c = rk_c, lambda_c=lambda_q, Omega_q = Omega_q))
 }
-  
-  
 
 
+set.seed(123)  # Set the random seed
+start_time <- Sys.time()
+N <- 2000
+T <- 3
 # Begin simulation
 phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL, beta = NULL, N = N, T = T, M = M, p = p, q = q)
 phi.data.pair <- GenerateSample(phi,nrep)
@@ -211,46 +235,65 @@ BB <- 199
 T.pair.list <- pairwise_combinations(1:T)
 
 registerDoParallel(cl)
-# 
-
-set.seed(123)  # Set the random seed
-start_time <- Sys.time()
 
 # for (ii in 1:nrep){
 results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture", "MASS"))%dopar% {
   # Record the start time
-  data <- Data[,ii]    
+  data <- Data[, ii]
+  data_P_W_modified <- calculate_P_matrix_modified(data$Y, n.grid = 3)
+  
   data_P_W <- calculate_P_matrix_t_pair(data$Y, T.pair.list, n.grid=3) 
-  rk <- numeric( length(T.pair.list) ) 
+  rk <- numeric(length(T.pair.list))
+  lambda_c <- numeric(length(T.pair.list))
+  omega_c <- numeric(length(T.pair.list))
   for (k in 1:length(T.pair.list)){
     P_k <- data_P_W$P_k_list[[k]]
     Sigma_P_k <- data_P_W$Sigma_P_k_list[[k]]
-    rk[k] <- construct_stat_KP(P_k, Sigma_P_k, r.test, N)
+    stat_KP <- construct_stat_KP(P_k, Sigma_P_k, r.test, N)
+    rk[k] <- stat_KP$rk_c
+    lambda_c[k] <- stat_KP$lambda_c
+    omega_c[k] <- stat_KP$Omega_q
   }
-
   # draw the bootstrap sample
   ru <- matrix(runif(N * BB), nrow = N, ncol = BB)
-  rk_b <- matrix(0, nrow = BB, ncol = length(T.pair.list) ) 
-  phi.data.pair.B <- GenerateSample(phi,BB)
-
+  rk_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))
+  lambda_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))
+  omega_b <- matrix(0, nrow = BB, ncol = length(T.pair.list) ) 
+  # phi.data.pair.B <- GenerateSample(phi,BB)
   # record the bootstrapped P and Q
   for (i in 1:BB) {
-    # index <- ceiling(ru[, i] * N)
-    # data_b <- data$Y[,index]
-    data_b <- phi.data.pair.B$Data[,i]$Y
-    data_P_W_b <- calculate_P_matrix_t_pair(data_b, T.pair.list, n.grid=3) 
-    for (k in 1:length(T.pair.list)){
+    index <- ceiling(ru[, i] * N)
+    data_b <- data$Y[, index]
+    # data_b <- phi.data.pair.B$Data[, i]$Y
+    data_P_W_b <- calculate_P_matrix_t_pair(data_b, T.pair.list, n.grid = 3)
+    for (k in 1:length(T.pair.list)) {
       P_k <- data_P_W_b$P_k_list[[k]]
-      Sigma_P_k <- data_P_W$Sigma_P_k_list[[k]]
-      rk_b[i,k] <- construct_stat_KP(P_k, Sigma_P_k, r.test, N)
+      Sigma_P_k <- data_P_W_b$Sigma_P_k_list[[k]]
+      stat_KP <- construct_stat_KP(P_k, Sigma_P_k, r.test, N, lambda_c=lambda_c[k])
+
+      rk_b[i, k] <- stat_KP$rk_c
+      lambda_b[i, k] <- stat_KP$lambda_c
+      omega_b[i, k] <- stat_KP$Omega_q
     }
-  }
+  }  
+  # Check, these should be of the same scale
+  # tmp <- sweep(lambda_b, 2, sqrt(omega_c / (N * diag(cov(lambda_b)))), "*")
+  # print(N * diag(cov(tmp)))
+  # print(N * diag(cov(lambda_b)))
+  # omega_c
+  # colMeans(omega_b)
   # Record the end time
-  list(rk = rk,rk_b = rk_b)
+  # list(rk = rk, rk_b = sweep(
+    # rk_b, 2, omega_c / (N * diag(cov(lambda_b))), "*"
+  # ), omega_c = omega_c)
+  list(rk = rk, rk_b = rk_b, omega_c = omega_c)
 }
 
-end_time <- Sys.time()
+# quantile(rk_b * omega_c / ( N * diag(cov(lambda_b)) ) ,0.95)
+# qchisq(0.95, 1)
+
 # Calculate the duration
+end_time <- Sys.time()
 duration <- end_time - start_time
 print(duration)  # Prints the time difference
 
@@ -259,18 +302,17 @@ rk_max  <- matrix(0, nrow = nrep, ncol = 1)
 rk_mean <- matrix(0, nrow = nrep, ncol = 1)
 
 rk_1.crit  <- matrix(0, nrow = nrep, ncol = 1)
-
 rk_max.crit  <- matrix(0, nrow = nrep, ncol = 1)
 rk_mean.crit <- matrix(0, nrow = nrep, ncol = 1)
 
 for (k in 1:nrep) {
-  rk_1[k] <- results[[k]]$rk[2]
+  rk_1[k] <- results[[k]]$rk[1]
   rk_max[k] <- max(results[[k]]$rk) 
   rk_max.crit[k] <- quantile( apply(results[[k]]$rk_b, 1, max), 0.95)
-  rk_1.crit[k] <- quantile(results[[k]]$rk_b[,2], 0.95)
+  rk_1.crit[k] <- quantile(results[[k]]$rk_b[,1], 0.95)
   
   rk_mean[k] <- mean(results[[k]]$rk) 
-  rk_mean.crit[k] <- quantile( rowMeans(results[[k]]$rk_b), 0.95)
+  rk_mean.crit[k] <- quantile(rowMeans(results[[k]]$rk_b), 0.95)
 }
 
 mean(rk_1 > qchisq(0.95,1))
