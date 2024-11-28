@@ -5,15 +5,13 @@ library(expm)
 library(MASS)
 
 #Generate Data
-M <- 2 #Number of Type
+M <- 3 #Number of Type
 r.test <- 2 # test the null hypothesis of 2
 n.grid <- 3 # partition each t into 2 intervals
 p <- 0 #Number of Z
 q <- 0 #Number of X
 nrep <- 500
 cl <- makeCluster(15)
-
-
 
 GenerateSample <- function(phi,nrep){
   p = phi$p
@@ -52,7 +50,6 @@ matrix_sqrt_svd <- function(mat) {
   
   return(sqrt_mat)
 }
-
 
 # Function to return all pairwise combinations of elements in a list or array
 pairwise_combinations <- function(input_array) {
@@ -215,19 +212,16 @@ construct_stat_KP <- function(P, Sigma_P, r.test, n_size, lambda_c=0){
   return(list(rk_c = rk_c, lambda_c=lambda_q, Omega_q = Omega_q))
 }
 
-
-
 set.seed(123)  # Set the random seed
 start_time <- Sys.time()
 T <- 2
-alpha <- c(0.5,0.5)
-sigma <- c(0.8,1.2)
-mu <- c(-1,1)
-
+alpha <- c(0.3,0.4,0.3)
+sigma <- c(0.8,0.8,0.8)
+mu <- c(-2,0,2)
 
 N <- 200
 for (N in c(200, 400, 800)){
-  for (mu in list(c(-1,1), c(-2,2))){
+  for (mu in list(c(-1,0,1), c(-2,0,2))){
     print(mu)
     print(N)
     # Begin simulation
