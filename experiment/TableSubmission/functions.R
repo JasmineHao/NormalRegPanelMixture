@@ -305,3 +305,47 @@ construct_stat_KP_P_bootstrap  <- function(P_k_list, Sigma_P_list, T.pair.list, 
     omega_b = omega_b
   ))
 }
+
+# Define the function
+compute_rk_statistics_pairwise_T <- function(data, T.pair.list, N, r.test,   n.grid = 3) {
+  # Initialize weights
+  weights <- rep(1 / N, N)
+  
+  # Compute P and Sigma matrices based on T.pair.list
+  data_P_W <- calculate_P_matrix_t_pair(data$Y, T.pair.list, weights, n.grid = n.grid)
+  
+  # Initialize vectors and lists to store results
+  rk <- numeric(length(T.pair.list))
+  lambda_c <- numeric(length(T.pair.list))
+  omega_c <- numeric(length(T.pair.list))
+  
+  Sigma_P_list <- list()
+  P_k_list <- list()
+  
+  # Loop through T.pair.list to compute statistics
+  for (k in 1:length(T.pair.list)) {
+    # Extract P_k and Sigma_P_k from the data_P_W object
+    P_k <- data_P_W$P_k_list[[k]]
+    Sigma_P_k <- data_P_W$Sigma_P_k_list[[k]]
+    
+    # Compute KP statistics for the k-th pair
+    stat_KP <- construct_stat_KP(P_k, Sigma_P_k, r.test, N, transform = "P")
+    
+    # Store results
+    rk[k] <- stat_KP$rk_c
+    lambda_c[k] <- stat_KP$lambda_c
+    omega_c[k] <- stat_KP$Omega_q
+    Sigma_P_list[[k]] <- Sigma_P_k
+    P_k_list[[k]] <- P_k
+  }
+  
+  # Return results as a list
+  return(list(
+    rk = rk,
+    lambda_c = lambda_c,
+    omega_c = omega_c,
+    Sigma_P_list = Sigma_P_list,
+    P_k_list = P_k_list
+  ))
+}
+
