@@ -13,18 +13,18 @@ source(file.path(current_file_dir, "functions.R"))
 #Generate Data
 r.test <- 2 # test the null hypothesis of 2
 n.grid <- 3 # partition each t into 2 intervals
-M <- 2 #Number of Type
+M <- 3 #Number of Type
 p <- 0 #Number of Z
 q <- 0 #Number of X
 
 
 Nset <- c(200,400)
 T <- 3
-alphaset <- list(c(0.5,0.5))
-muset <- list(c(-1,1),c(-0.5,0.5))
+alphaset <- list(c(1/3,1/3,1/3))
+muset <- list(c(-0.5,0,1.5),c(-1.5,0,1.5))
 sigmaset <- list(c(0.8,1.2))
-alpha <- c(0.5,0.5)
-sigma <- c(0.8,1.2)
+alpha <- alphaset[[1]]
+sigma <- c(1,1,1)
 
 
 nrep <- 500
