@@ -264,7 +264,7 @@ construct_stat_KP_smoothed_nonpar_bootstrap  <- function(data, T.pair.list, N, B
 
 
 
-construct_stat_KP_P_bootstrap  <- function(P_k_list, Sigma_P_list, T.pair.list, N, BB, lambda_c, n.grid = 3, transform="P") {
+construct_stat_KP_P_bootstrap  <- function(P_k_list, Sigma_P_list, T.pair.list, N, BB, lambda_c, r.test=2 , n.grid = 3, transform="P") {
   # Initialize result matrices
   rk_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))
   lambda_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))

@@ -94,7 +94,7 @@ for (N in Nset){
     for (ii in 1:nrep) {
       
       rk_max[ii] <- max(results[[ii]]$rk) 
-      rk_max.crit[ii] <- quantile( apply(results[[ii]]$rk_b, 1, max), 0.95)
+      rk_max.crit[ii] <- quantile(apply(results[[ii]]$rk_b, 1, max), 0.95)
       lr_stat[ii] <- results[[ii]]$lr.m
 
       rk_mean[ii] <- mean(results[[ii]]$rk) 
