@@ -58,7 +58,7 @@ for (N in Nset){
     results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture", "MASS"))%dopar% {
       # Record the start time
       data <- Data[, ii]
-      result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, M,   n.grid = 3)
+      result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, r.test,   n.grid = 3)
       stats_KP_boot <-  construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, n.grid = n.grid, transform="P")
       
       out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=M,vcov.method = "none")
@@ -94,7 +94,7 @@ for (N in Nset){
     for (ii in 1:nrep) {
       
       rk_max[ii] <- max(results[[ii]]$rk) 
-      rk_max.crit[ii] <- quantile( apply(results[[ii]]$rk_b, 1, max), 0.95)
+      rk_max.crit[ii] <- quantile(apply(results[[ii]]$rk_b, 1, max), 0.95)
       lr_stat[ii] <- results[[ii]]$lr.m
 
       rk_mean[ii] <- mean(results[[ii]]$rk) 
