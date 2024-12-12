@@ -392,8 +392,8 @@ calculate_P_matrix_t_triplet <- function(data_c, T.triplet.list, weights, n.grid
   for (k in 1:length(T.triplet.list)){
     T.triplet <- T.triplet.list[[k]]
     result_matrix <- t(sapply(1:N, function(n) Reduce(kronecker, lapply(T.triplet[-1], function(t) indicator_list.Y[[t]][n, ]))))
-    P_k <- t(weights * indicator_list.Y.ngrid[[triplet_k[1]]]) %*% result_matrix
-    P_k_list[[k]] <- P_k 
+    P_k <- t( weights * indicator_list.Y.ngrid[[T.triplet[1]]] ) %*% result_matrix
+    P_k_list[[k]] <- P_k
     
     P_k_vec <- as.vector(P_k)
     W_P_s <- (diag(P_k_vec) - P_k_vec %*% t(P_k_vec)) 
@@ -402,7 +402,6 @@ calculate_P_matrix_t_triplet <- function(data_c, T.triplet.list, weights, n.grid
   
   return(list(P_k_list=P_k_list,Sigma_P_k_list = Sigma_P_k_list))
 }
-
 
 
 # Define the function
