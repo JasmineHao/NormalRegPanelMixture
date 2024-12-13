@@ -56,7 +56,7 @@ for (N in Nset){
       data <- Data[, ii]
       result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, M,   n.grid = 3)
       # stats_KP_boot <-  construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, n.grid = n.grid, transform="P")
-      stats_KP_boot <- construct_stat_KP_smoothed_nonpar_bootstrap(data, T.triplet.list, N, BB, r.test, result_rk$lambda_c,  n.grid = 3)
+      stats_KP_boot <- construct_stat_KP_smoothed_nonpar_bootstrap(data, T.pair.list, N, BB, r.test, result_rk$lambda_c,  n.grid = 3)
       
       result_rk_triplet <- compute_rk_statistics_triplet_T(data, T.triplet.list, N, M,  n.grid = 3)
       # stats_KP_triplet_boot <- construct_stat_KP_P_triplet_bootstrap(result_rk_triplet$P_k_list, result_rk_triplet$Sigma_P_list, T.triplet.list, N, BB, lambda_c, n.grid = 3)
