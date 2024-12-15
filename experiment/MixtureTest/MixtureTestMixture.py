@@ -97,7 +97,7 @@ def log_likelihood_array(y, mu, sigma):
     return log_likelihoods
 
 # %%
-def reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsilon=0.05):
+def EM_optimization(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsilon=0.05):
 
     tau_penalty = 0.5
     
@@ -114,6 +114,7 @@ def reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, ep
         x1 = np.hstack((np.ones((x.shape[0], 1)), x))
         q1 = x1.shape[1]
     else:
+        x1 = np.ones((nt,1))
         q = 0
         q1 = 1
     ninits = initial_pars['alpha'].shape[1]
@@ -168,7 +169,7 @@ def reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, ep
                 l_m_k[mm] = log_likelihood_array(res[mm], 0, sigma[mm])
                 min_l_m_k = l_m_k[mm].min(axis=0)
                 # update weight conditional on type mm 
-                l_m_k_weighted = tau[mm][:, None] * np.exp(l_m_k[mm] - min_l_m_k)
+                l_m_k_weighted = tau[mm][:, None] * np.exp( np.clip(l_m_k[mm] - min_l_m_k, a_min=None, a_max=700) )
                 # l_m_k_weighted_2 = tau[mm][:, None] * np.exp(l_m_k[mm])
                 w_m[mm] = l_m_k_weighted / np.sum(l_m_k_weighted,axis=0)    
                 w_m[mm] = np.nan_to_num(w_m[mm], nan=0.5)
@@ -178,7 +179,8 @@ def reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, ep
                 # (np.log(np.sum(l_m_k_weighted_2,axis=0)) ).reshape((n,t)).T.sum(axis=0)
             
             min_l_m = l_m.min(axis=0)
-            l_m_weighted = alpha[:,None] * np.exp(l_m - min_l_m)
+            
+            l_m_weighted = alpha[:,None] * np.exp( np.clip(l_m - min_l_m, a_min=None, a_max=700))
             
             # update weight
             w = l_m_weighted / np.sum(l_m_weighted,axis=0)
@@ -269,8 +271,8 @@ def reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, ep
 
 
 # %%
-def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_short=1e-2, maxit_short=500):
-    # Extract the generated data
+def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_short=1e-2, maxit_short=500):    # Extract the generated data
+    
     t,n = data["Y"].shape
     nt = n * t
     
@@ -284,6 +286,7 @@ def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_sh
         x1 = np.hstack((np.ones((x.shape[0], 1)), x))
         q1 = x1.shape[1]
     else:
+        x1 = np.ones((nt,1))
         q = 0
         q1 = 1
     
@@ -349,8 +352,9 @@ def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_sh
         for mm in range(m):
              initial_pars['tau'][mm] = np.random.uniform(size=(k, ninits_short))
              initial_pars['tau'][mm] = initial_pars['tau'][mm] / initial_pars['tau'][mm].sum(axis=0)
-        if p > 0:
-            initial_pars['gam'] = np.random.uniform(0.5, 1.5, size=(p, ninits_short)) * gam0[:, None]
+        
+        initial_pars['gam'] = np.random.uniform(0.5, 1.5, size=(p, ninits_short)) * gam0[:, None] if z is not None else None
+        
         minMU = np.min(y - xz @ ls_out[0]) + mubeta0[0]
         maxMU = np.max(y - xz @ ls_out[0]) + mubeta0[0]
         initial_pars['mubeta'] = [np.zeros((q1 * k, ninits_short)) for mm in range(m)]
@@ -364,21 +368,50 @@ def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_sh
             initial_pars['mubeta'][mm] = mubeta_m        
         sigma_0 = np.full(m, sd0)
         
-        out_short = reg_panelmix_pmle(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsilon=0.05)
+        out_short = EM_optimization(data,initial_pars,m,k, sigma_0, maxit=100, tol = 1e-8, epsilon=0.05)
 
         components = np.argsort(out_short["penloglikset"])[::-1][:ninits]
-        if z is not None:
-            long_pars = {'alpha': initial_pars['alpha'][:,components], 'mubeta': initial_pars['mubeta'][:,components], 'sigma': initial_pars['sigma'][:,components], 'gam': initial_pars['gam'][:,components]}
-        else:
-            long_pars = {'alpha': initial_pars['alpha'][:,components], 'mubeta': initial_pars['mubeta'][:,components], 'sigma': initial_pars['sigma'][:,components], 'gam': None}
+        long_pars = {
+            'alpha': initial_pars['alpha'][:, components],
+            'mubeta': [initial_pars['mubeta'][mm][:, components] for mm in range(m)],
+            'tau': [initial_pars['tau'][mm][:, components] for mm in range(m)],
+            'sigma': initial_pars['sigma'][:, components],
+            'gam': initial_pars['gam'][:, components] if z is not None else None}
         
+        out = EM_optimization(data,long_pars, m,k, sigma_0, maxit=maxit, tol = 1e-8, epsilon=0.05)
+
+        
+        index = np.argmax(out["penloglikset"])
+        alpha = long_pars['alpha'][:,index]
+        sigma = long_pars['sigma'][:,index]
+        mubeta = [long_pars['mubeta'][mm][:,index] for mm in range(m)]
+        tau = [long_pars['tau'][mm][:,index] for mm in range(m)]
+        
+        
+        penloglik = out["penloglikset"][index]
+        loglik = out["loglikset"][index]
+        postprobs = out["post"][:, index].reshape(n, -1)
+        
+        aic = -2 * loglik + 2 * npar
+        bic = -2 * loglik + np.log(n) * npar
+        
+        k_order = [np.argsort(mubeta[mm].reshape(q1,k)[0]) for mm in range(m)]
+        m_order =  np.argsort([mubeta[mm].reshape(q1,k)[0].min() for mm in range(m)])
+        alpha = alpha[m_order]
+        sigma = sigma[m_order]
+        mubeta = np.array([mubeta[mm].reshape(q1,k)[:,k_order[mm]] for mm in range(m) ])[m_order]
+        tau = np.array([tau[mm][k_order[mm]] for mm in range(m) ])[m_order]
+        
+
+
 # %%
 # Define parameters
 alpha = [0.5, 0.5]  # Category probabilities (for M categories)
-mu = [[2, 4], [1, 3]]  # Mean values for each subcategory (M x K)
+mu = [[1, 3], [2, 4]]  # Mean values for each subcategory (M x K)
 sigma = [1, 2]  # Standard deviation for each category (length M)
 tau = [[0.6, 0.4], [0.7, 0.3]]  # Subcategory probabilities for each M (M x K)
-beta = [[1, 0.5], [0.2, 0.3]]  # Coefficients for q covariates (M x q)
+beta = None  # Coefficients for q covariates (M x q)
+# beta = [[1, 0.5], [0.2, 0.3]]  # Coefficients for q covariates (M x q)
 gam = None  # Coefficients for p covariates (length p)
 
 N = 100  # Number of individuals
@@ -386,11 +419,25 @@ T = 5  # Number of time periods
 M = 2  # Number of categories
 K = 2  # Number of subcategories per category
 p = 0  # Number of covariates in z
-q = 2  # Number of covariates in x
+q = 0  # Number of covariates in x
 
 # Call the function
 data = generate_data(alpha, mu, sigma, tau, N, T, M, K, p, q)
 
+# %%
+np.set_printoptions(
+    precision=3,
+    threshold=None,
+    edgeitems=None,
+    linewidth=100,
+    suppress=True,
+    nanstr=None,
+    infstr=None,
+    formatter=None,
+    sign=None,
+    floatmode=None,
+    legacy=None
+)
 # %%
 # Input Parameters
 
