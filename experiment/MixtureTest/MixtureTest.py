@@ -72,7 +72,7 @@ from numpy.linalg import inv, cond
 SINGULAR_EPS = 1e-10  # Criteria for matrix singularity
 M_LN_SQRT_2PI = 0.9189385332046727  # log(sqrt(2*pi))
 
-def reg_panelmix_pmle(y, x, z, mu_0, sigma_0, initial_pars, m, t, an, maxit=2000, ninits=10, tol=1e-8, tau=0.5, h=0, k=0, epsilon=0.05):
+def EM_optimization(y, x, z, mu_0, sigma_0, initial_pars, m, t, an, maxit=2000, ninits=10, tol=1e-8, tau=0.5, h=0, k=0, epsilon=0.05):
     nt = len(y)
     n = nt // t
     
@@ -352,7 +352,7 @@ def regpanelmixPMLEinit(y, x, z=None, ninits=1, m=2):
     }
     
 # %%
-def regpanelmixPMLE(y, x, m=2, z=None, vcov_method="Hessian", ninits=10, epsilon=1e-8, maxit=2000, epsilon_short=1e-2, maxit_short=500, binit=None):
+def regpanelmixPMLE(y, x, m=2, z=None, ninits=10, epsilon=1e-8, maxit=2000, epsilon_short=1e-2, maxit_short=500, binit=None):
     
     
     t = y.shape[0]
@@ -432,7 +432,7 @@ def regpanelmixPMLE(y, x, m=2, z=None, vcov_method="Hessian", ninits=10, epsilon
     
         ztilde = np.zeros_like(z) if z is not None else None
         
-        out_short = reg_panelmix_pmle(y,x,z, mu_0, sigma_0, initial_pars, m, t, an )
+        out_short = EM_optimization(y,x,z, mu_0, sigma_0, initial_pars, m, t, an )
         
         
         components = np.argsort(out_short["penloglikset"])[::-1][:ninits]
@@ -441,7 +441,7 @@ def regpanelmixPMLE(y, x, m=2, z=None, vcov_method="Hessian", ninits=10, epsilon
         else:
             long_pars = {'alpha': initial_pars['alpha'][:,components], 'mubeta': initial_pars['mubeta'][:,components], 'sigma': initial_pars['sigma'][:,components], 'gam': None}
             
-        out = reg_panelmix_pmle(y,x,z, mu_0, sigma_0, long_pars, m, t, an)
+        out = EM_optimization(y,x,z, mu_0, sigma_0, long_pars, m, t, an)
     
         index = np.argmax(out["penloglikset"])
         alpha = long_pars['alpha'][:,index]

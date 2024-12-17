@@ -1,4 +1,5 @@
 # %%
+from site import execusercustomize
 from types import NoneType
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,21 +15,22 @@ def generate_data(alpha, mu, sigma, tau, N, T, M, K, p, q, x=None, z=None):
     prior = np.random.uniform(size=N)
     alpha_cum = np.cumsum([0] + list(alpha))
     R = np.ones((N, M))
+    R_T = np.ones((N*T, M)) 
     if M > 1:
         for mm in range(M):
             lb = alpha_cum[mm]
             ub = alpha_cum[mm + 1]
             R[:, mm] = ((prior > lb) & (prior <= ub)).astype(int)
-    
+            R_T[:,mm] = np.repeat(R[:,mm],T)
     R_sub = {}
-    mu_R_sub = np.zeros((N, M))
+    mu_R_sub = np.zeros((N*T, M))
     if q > 0:
-        beta_R_sub = np.zeros((N, M, q))
+        beta_R_sub = np.zeros((N*T, M, q))
     
     for mm in range(M):
-        prior_m = np.random.uniform(size=N)
+        prior_m = np.random.uniform(size=N*T)
         tau_cum = np.cumsum([0] + list(tau[mm]))
-        R_sub[mm] = np.zeros((N,M))
+        R_sub[mm] = np.zeros((N*T,M))
         for kk in range(K):
             lb = tau_cum[kk]
             ub = tau_cum[kk + 1]
@@ -37,23 +39,22 @@ def generate_data(alpha, mu, sigma, tau, N, T, M, K, p, q, x=None, z=None):
         if q > 0:
             beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
     
-    sigma_R = np.dot(R, sigma)    
-    mu_R = (R * mu_R_sub).sum(axis=1)
+    sigma_R = np.dot(R_T, sigma)    
+    mu_R = (R_T * mu_R_sub).sum(axis=1)
     
     if q > 0:
-        beta_R = (R[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
+        beta_R = (R_T[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
     u = np.random.normal(size=(T, N))
     Y = np.zeros((T, N))
     
     for nn in range(N):
-        y_nn = np.zeros(T)
-        y_nn = mu_R[nn] + sigma_R[nn] * u[:, nn]
+        y_nn = mu_R[(T * nn):(T * (nn + 1))] + sigma_R[(T * nn):(T * (nn + 1))] * u[:, nn]
         if q > 0:
-            y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[nn, :])
+            y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[(T * nn):(T * (nn + 1)), :])
         if p > 1:
             y_nn += np.dot(z[(T * nn):(T * (nn + 1)), :], gam)
         Y[:, nn] = y_nn
-    return {"Y": Y, "Z": z, "X": x}
+    return {"Y": Y, "Z": z, "X": x, "R_sub": R_sub, "R": R}
 
 def log_likelihood_normal(y, mu, sigma):
     """
@@ -172,7 +173,6 @@ def EM_optimization(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsi
                 l_m_k_weighted = tau[mm][:, None] * np.exp( np.clip(l_m_k[mm] - min_l_m_k, a_min=None, a_max=700) )
                 # l_m_k_weighted_2 = tau[mm][:, None] * np.exp(l_m_k[mm])
                 w_m[mm] = l_m_k_weighted / np.sum(l_m_k_weighted,axis=0)    
-                w_m[mm] = np.nan_to_num(w_m[mm], nan=0.5)
             
                 # compute f_i conditional on alpha
                 l_m[mm] = (np.log(np.sum(l_m_k_weighted,axis=0)) + min_l_m_k ).reshape((n,t)).T.sum(axis=0)
@@ -184,7 +184,7 @@ def EM_optimization(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsi
             
             # update weight
             w = l_m_weighted / np.sum(l_m_weighted,axis=0)
-            w = np.nan_to_num(w, nan=0.5)
+            
             penloglik = (np.log(np.sum(l_m_weighted,axis=0)) + min_l_m).sum()
             
             for mm in range(m):
@@ -246,7 +246,6 @@ def EM_optimization(data,initial_pars,m,k, sigma_0, maxit=1000, tol = 1e-8, epsi
                 
         # if np.any(np.isnan(alpha)):
         #     print(jn)
-            
             
         penloglikset[jn] = penloglik.sum()
         loglikset[jn] = penloglik.sum()
@@ -381,35 +380,68 @@ def regpanelmixPMLE(data, m, k,  ninits=10, epsilon=1e-8, maxit=2000, epsilon_sh
         out = EM_optimization(data,long_pars, m,k, sigma_0, maxit=maxit, tol = 1e-8, epsilon=0.05)
 
         
-        index = np.argmax(out["penloglikset"])
-        alpha = long_pars['alpha'][:,index]
-        sigma = long_pars['sigma'][:,index]
-        mubeta = [long_pars['mubeta'][mm][:,index] for mm in range(m)]
-        tau = [long_pars['tau'][mm][:,index] for mm in range(m)]
-        
-        
-        penloglik = out["penloglikset"][index]
-        loglik = out["loglikset"][index]
-        postprobs = out["post"][:, index].reshape(n, -1)
-        
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        
-        k_order = [np.argsort(mubeta[mm].reshape(q1,k)[0]) for mm in range(m)]
-        m_order =  np.argsort([mubeta[mm].reshape(q1,k)[0].min() for mm in range(m)])
-        alpha = alpha[m_order]
-        sigma = sigma[m_order]
-        mubeta = np.array([mubeta[mm].reshape(q1,k)[:,k_order[mm]] for mm in range(m) ])[m_order]
-        tau = np.array([tau[mm][k_order[mm]] for mm in range(m) ])[m_order]
-        
-
+    index = np.argmax(out["penloglikset"])
+    alpha = long_pars['alpha'][:,index]
+    sigma = long_pars['sigma'][:,index]
+    mubeta = [long_pars['mubeta'][mm][:,index] for mm in range(m)]
+    tau = [long_pars['tau'][mm][:,index] for mm in range(m)]
+    
+    penloglik = out["penloglikset"][index]
+    loglik = out["loglikset"][index]
+    postprobs = out["post"][:, index].reshape(n, -1)
+    
+    aic = -2 * loglik + 2 * npar
+    bic = -2 * loglik + np.log(n) * npar
+    
+    k_order = [np.argsort(mubeta[mm].reshape(q1,k)[0]) for mm in range(m)]
+    m_order =  np.argsort([mubeta[mm].reshape(q1,k)[0].min() for mm in range(m)])
+    alpha = alpha[m_order]
+    sigma = sigma[m_order]
+    mubeta = np.array([mubeta[mm].reshape(q1,k)[:,k_order[mm]] for mm in range(m) ])[m_order]
+    tau = np.array([tau[mm][k_order[mm]] for mm in range(m) ])[m_order]
+    
+    postprobs = postprobs[:,m_order]
+    
+    parlist = {
+        "alpha": alpha,
+        "tau": tau,
+        "mubeta": mubeta,
+        "sigma": sigma,
+        "gam": gam
+    }
+    
+    result = {
+    "parlist": parlist,
+    "loglik": loglik,
+    "penloglik": penloglik,
+    "aic": aic,
+    "bic": bic,
+    "postprobs": postprobs,
+    "m": m,
+    }
+    return result
 
 # %%
+# 
+# Set print options
+np.set_printoptions(
+    precision=3,
+    threshold=None,
+    edgeitems=None,
+    linewidth=100,
+    suppress=True,
+    nanstr=None,
+    infstr=None,
+    formatter=None,
+    sign=None,
+    floatmode=None,
+    legacy=None
+)
 # Define parameters
 alpha = [0.5, 0.5]  # Category probabilities (for M categories)
-mu = [[1, 3], [2, 4]]  # Mean values for each subcategory (M x K)
-sigma = [1, 2]  # Standard deviation for each category (length M)
-tau = [[0.6, 0.4], [0.7, 0.3]]  # Subcategory probabilities for each M (M x K)
+mu = [[-4, -2], [2, 4]]  # Mean values for each subcategory (M x K)
+sigma = [0.5,0.8]  # Standard deviation for each category (length M)
+tau = [[0.5, 0.5], [0.6, 0.4]]  # Subcategory probabilities for each M (M x K)
 beta = None  # Coefficients for q covariates (M x q)
 # beta = [[1, 0.5], [0.2, 0.3]]  # Coefficients for q covariates (M x q)
 gam = None  # Coefficients for p covariates (length p)
@@ -424,22 +456,8 @@ q = 0  # Number of covariates in x
 # Call the function
 data = generate_data(alpha, mu, sigma, tau, N, T, M, K, p, q)
 
-# %%
-np.set_printoptions(
-    precision=3,
-    threshold=None,
-    edgeitems=None,
-    linewidth=100,
-    suppress=True,
-    nanstr=None,
-    infstr=None,
-    formatter=None,
-    sign=None,
-    floatmode=None,
-    legacy=None
-)
-# %%
-# Input Parameters
 
-
-regpanelmixPMLE(data, M, K)
+estim_result = regpanelmixPMLE(data, M, K)
+# %%
+# data['R'] - estim_result['postprobs']
+# %%
