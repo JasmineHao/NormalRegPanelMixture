@@ -50,6 +50,8 @@ getResult <- function(Data,nrep,an,cl, M, parlist){
   
   T <- nrow(Data[,1]$Y)
   T.pair.list <- pairwise_combinations(1:T)
+  T.triplet.list <- triplets_combinations(1:T)
+  
   for (ii in 1:nrep){
     # library(NormalRegPanelMixture)
     t <- Sys.time()
@@ -86,12 +88,15 @@ getResult <- function(Data,nrep,an,cl, M, parlist){
         crit <- c(Inf,Inf,Inf) 
       }
       
-      result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, m, n.grid = (m + 1))
-      
+      result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, m,  n.grid = (m+1))
+        # compute_rk_statistics_triplet_T(data, T.triplet.list, N, m,  n.grid = (m + 1))
+        
       rk.mean[m] <- mean(result_rk$rk)
       rk.max[m] <- max(result_rk$rk)
       if (test.rk) {
-        stats_KP_boot <- construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, r.test = m, n.grid = (m + 1), transform = "P")
+        stats_KP_boot <- construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, r.test=m, n.grid = (m+1), transform="P")
+        
+          # construct_stat_KP_smoothed_nonpar_triplet_bootstrap(data, T.triplet.list, N, BB, m, result_rk$lambda_c,  n.grid = (m + 1))
         crit.rk.mean[m] <- quantile(rowMeans(stats_KP_boot$rk_b), 0.95)
         crit.rk.max[m]  <- quantile(apply(stats_KP_boot$rk_b, 1, max), 0.95)
       } else {
@@ -129,10 +134,6 @@ getResult <- function(Data,nrep,an,cl, M, parlist){
     print(paste("simulation", ii, "out of", nrep))
     print(Sys.time() - t) 
  }
-
-  # Find the model where AIC stops decreasing (local minimum)
-  differences <- diff(aic_values)  # Calculate differences between consecutive AIC values
-  model_stop <- which(differences > 0)[1]  # Find the first instance where AIC starts increasing
 
   
   aic_freq <- apply(aic_table,1,find_model_stop)
