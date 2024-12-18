@@ -12,7 +12,6 @@ source(file.path(current_file_dir, "functions.R"))
 
 
 
-Copy
 # Function to find the model where AIC stops decreasing
 find_model_stop <- function(aic_values) {
   # Calculate differences between consecutive AIC values
@@ -78,9 +77,9 @@ getResult <- function(Data,nrep,an,cl, M, parlist){
       out.h1 <- normalpanelmixMaxPhi(y=data$Y,parlist=out.h0$parlist,an=(an),parallel = FALSE)
       lr.estim[m] <- 2 * max(out.h1$penloglik - out.h0$loglik)
       if (test) {
-        crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = FALSE, nrep=1000)$crit)
+        crit <- try(NormalRegPanelMixture::regpanelmixCrit(y=data$Y, x=data$X, parlist=out.h0$parlist, z = data$Z, parallel = TRUE, cl=cl, nrep=1000)$crit)
         if (class(crit) == "try-error"){
-          crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = FALSE)$crit
+          crit <- NormalRegPanelMixture::regpanelmixCritBoot(y=data$Y, x=data$X, parlist=out.h0$parlist, an = an, z = data$Z, parallel = TRUE, cl = cl)$crit
         }
         
       } else {
@@ -165,6 +164,9 @@ q <- 0 #Number of X
 M_max <- 7
 
 count <- 1
+nrep <- 100
+BB <- 199
+
 alpha = Parset[[count]][[1]]
 mu = Parset[[count]][[2]]
 sigma = Parset[[count]][[3]]
@@ -176,8 +178,6 @@ phi = list(alpha = alpha,mu = mu,sigma = sigma, gamma = NULL,
 phi.data.pair <- GenerateSample(phi,nrep)
 Data = phi.data.pair$Data
 phi = phi.data.pair$phi
-nrep <- 500
-BB <- 199
 
 result <- getResult(Data,nrep,an,cl,M, parlist)
 
@@ -194,3 +194,4 @@ rownames(result_freq_table) <- c("aic", "bic", "lr 1%", "lr 5%", "lr 10%", "rk m
 colnames(result_freq_table) <- c("M=1","M=2","M=3","M=4","M=5","M=6","M=7")
 
 write.csv(100 * result_freq_table, "empirical_test_M3.csv", row.names = TRUE)
+
