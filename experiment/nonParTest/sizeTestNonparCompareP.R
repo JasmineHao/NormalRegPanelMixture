@@ -1,4 +1,3 @@
-
 # Get the current file path
 current_file_path <- this.path::this.path()
 
@@ -27,7 +26,6 @@ BB <- 199
 
 cl <- makeCluster(15)
 
-# for (N in c(200, 400, 800)){
 count <- 0
 result_matrix <- matrix(0, nrow = 4, ncol = 4)
 
@@ -55,11 +53,10 @@ for (N in Nset){
     # for (ii in 1:nrep){
     results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture", "MASS"))%dopar% {
       # Record the start time
-      # ii <- 1
       data <- Data[, ii]
       result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, M,   n.grid = 3)
       # stats_KP_boot <-  construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, n.grid = n.grid, transform="P")
-      stats_KP_boot <- construct_stat_KP_smoothed_nonpar_bootstrap(data, T.triplet.list, N, BB, r.test, result_rk$lambda_c,  n.grid = 3)
+      stats_KP_boot <- construct_stat_KP_smoothed_nonpar_bootstrap(data, T.pair.list, N, BB, r.test, result_rk$lambda_c,  n.grid = 3)
       
       result_rk_triplet <- compute_rk_statistics_triplet_T(data, T.triplet.list, N, M,  n.grid = 3)
       # stats_KP_triplet_boot <- construct_stat_KP_P_triplet_bootstrap(result_rk_triplet$P_k_list, result_rk_triplet$Sigma_P_list, T.triplet.list, N, BB, lambda_c, n.grid = 3)
@@ -109,7 +106,7 @@ for (N in Nset){
   }
 }
 
-colnames(result_matrix) <- c('rk mean', 'rk max', 'lr stat', 'aic', 'bic')
+colnames(result_matrix) <- c('rk mean', 'rk max', 'rk mean P triplet', 'rk max P triplet')
 rownames(result_matrix) <- c('200,-1,1', '200,-0.5,0.5', '400,-1,1', '400,-0.5,0.5')
 
 write.csv(100 * result_matrix, "size_test_M2.csv", row.names = TRUE)
