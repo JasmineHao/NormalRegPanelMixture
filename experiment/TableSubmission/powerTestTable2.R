@@ -52,14 +52,17 @@ for (N in Nset){
 
     ii <- 1
     T.pair.list <- pairwise_combinations(1:T)
+    T.triplet.list <- triplets_combinations(1:T)
     registerDoParallel(cl)
 
     # for (ii in 1:nrep){
     results <- foreach (ii = 1:nrep, .packages = c("expm", "Matrix", "NormalRegPanelMixture", "MASS"))%dopar% {
       # Record the start time
       data <- Data[, ii]
-      result_rk <- compute_rk_statistics_pairwise_T(data, T.pair.list, N, r.test,  n.grid = 3)
-      stats_KP_boot <-  construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, n.grid = n.grid, transform="P")
+      result_rk <- compute_rk_statistics_triplet_T(data, T.triplet.list, N, 2,  n.grid = 3)
+        # compute_rk_statistics_pairwise_T(data, T.pair.list, N, r.test,  n.grid = 3)
+      stats_KP_boot <-  construct_stat_KP_smoothed_nonpar_triplet_bootstrap(data, T.triplet.list, N, BB, r.test, result_rk$lambda_c,  n.grid = 3)
+        # construct_stat_KP_P_bootstrap(result_rk$P_k_list, result_rk$Sigma_P_list, T.pair.list, N, BB, result_rk$lambda_c, n.grid = n.grid, transform="P")
       
       out.h0 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=2,vcov.method = "none")
       out.h1 <- normalpanelmixPMLE(y=data$Y,x=data$X, z = data$Z,m=3,vcov.method = "none")
