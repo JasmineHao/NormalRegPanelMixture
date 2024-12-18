@@ -115,3 +115,38 @@ def main():
 if __name__ == "__main__":
     main()
 # %%
+# %%
+
+import ipyparallel as ipp
+import time
+
+# Create a client to connect to the ipyparallel cluster
+client = ipp.Client()
+dview = client[:]
+
+# Define a function to compute the sum of squares for a range of numbers
+def compute_sum_of_squares(n):
+    return sum(i**2 for i in range(n))
+
+# Test parameters
+n_values = [10**6] * 20  # List of 20 tasks, each computing sum of squares for 1 million numbers
+
+# Serial computation
+start_serial = time.time()
+serial_results = [compute_sum_of_squares(n) for n in n_values]
+end_serial = time.time()
+print(f"Serial computation time: {end_serial - start_serial:.2f} seconds")
+
+# Parallel computation
+start_parallel = time.time()
+parallel_results = dview.map_sync(compute_sum_of_squares, n_values)
+end_parallel = time.time()
+print(f"Parallel computation time: {end_parallel - start_parallel:.2f} seconds")
+
+# Verify the results are the same
+assert serial_results == parallel_results, "Results don't match!"
+
+# Print speedup
+speedup = (end_serial - start_serial) / (end_parallel - start_parallel)
+print(f"Speedup: {speedup:.2f}x")
+# %%

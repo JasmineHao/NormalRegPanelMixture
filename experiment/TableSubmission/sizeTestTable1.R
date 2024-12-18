@@ -114,6 +114,6 @@ for (N in Nset){
 colnames(result_matrix) <- c('rk mean', 'rk max', 'lr stat', 'aic', 'bic')
 rownames(result_matrix) <- c('200,-1,1', '200,-0.5,0.5', '400,-1,1', '400,-0.5,0.5')
   
-write.csv(100 * result_matrix, "size_test_M2.csv", row.names = TRUE)
+write.csv(100 * result_matrix, file.path(current_file_dir, "size_test_M2.csv"), row.names = TRUE)
 
 
