@@ -164,11 +164,9 @@ matrix_svd_decomposition <- function(P, r.test) {
   
   # Construct the A_q_o and B_q_o matrices
   A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% invert_matrix(t(U_22)) %*% cbind(t(U_12), t(U_22)))
-  if (nrow(P) - r.test==1){
-    B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% invert_matrix(t(V_22)) %*% cbind(as.matrix(V_12), t(V_22))
-  } else {
-    B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% invert_matrix(t(V_22)) %*% cbind(t(V_12), t(V_22))
-  }
+  
+  B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% invert_matrix(t(V_22)) %*% cbind(t(V_12), t(V_22))
+  
   # Compute the Kronecker product of B_q_o and t(A_q_o)
   kron_BA_o <- kronecker(B_q_o, t(A_q_o))
   

@@ -108,13 +108,13 @@ def invert_matrix(mat, epsilon=1e-8):
 def matrix_svd_decomposition(P, m):
     # Perform SVD
     U, S, VT = svd(P, full_matrices=True)
-    
+    V = VT.T
     # Submatrices of U and VT
     U_12 = U[:m, m:]
-    V_12 = VT[:m, m:]
+    V_12 = V[:m, m:]
     
     U_22 = U[m:, m:]
-    V_22 = VT[m:, m:]
+    V_22 = V[m:, m:]
     
     # Construct A_q_o and B_q_o matrices
     A_q_o = np.transpose(
@@ -233,7 +233,7 @@ def calculate_P_matrix(data_c, weights, n_grid=3):
         P_k_list.append(P_k)
         
         # Compute Sigma_P_k
-        P_k_vec = P_k.flatten()
+        P_k_vec = P_k.T.flatten()
         W_P_s = np.diag(P_k_vec) - np.outer(P_k_vec, P_k_vec)
         Sigma_P_k_list.append(W_P_s)
     
@@ -242,6 +242,7 @@ def calculate_P_matrix(data_c, weights, n_grid=3):
         "Sigma_P_k_list": Sigma_P_k_list
     }
 
+# %%
 # Function to compute rk statistics for triplet T
 def compute_rk_statistics(data, N, m, n_grid=3):
     # Initialize weights
@@ -384,7 +385,7 @@ def construct_stat_KP_P_triplet_bootstrap_combined(
     return {
         "rk_b": rk_b
     }
-
+# %%
 
 def compute_statistics_for_rep(ii, Data, N, M, BB, r_test=2, n_grid=3):
     """
@@ -416,9 +417,11 @@ def compute_statistics_for_rep(ii, Data, N, M, BB, r_test=2, n_grid=3):
         "omega_c": result_rk["omega_c"],
         
     }
+
 # Define a regular function to replace the lambda
 def execute_compute_statistics(ii, Data, N, M, BB, r_test=2, n_grid=3):
     return compute_statistics_for_rep(ii, Data, N, M, BB, r_test, n_grid)
+
 
 # %%
 import concurrent.futures
