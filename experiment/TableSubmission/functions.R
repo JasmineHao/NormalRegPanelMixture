@@ -164,6 +164,7 @@ matrix_svd_decomposition <- function(P, r.test) {
   
   # Construct the A_q_o and B_q_o matrices
   A_q_o <- t(sqrtm(U_22 %*% t(U_22)) %*% invert_matrix(t(U_22)) %*% cbind(t(U_12), t(U_22)))
+  
   B_q_o <- sqrtm(V_22 %*% t(V_22)) %*% invert_matrix(t(V_22)) %*% cbind(t(V_12), t(V_22))
   
   # Compute the Kronecker product of B_q_o and t(A_q_o)
@@ -265,7 +266,7 @@ construct_stat_KP_smoothed_nonpar_bootstrap  <- function(data, T.pair.list, N, B
 
 
 
-construct_stat_KP_P_bootstrap  <- function(P_k_list, Sigma_P_list, T.pair.list, N, BB, lambda_c, n.grid = 3, transform="P") {
+construct_stat_KP_P_bootstrap  <- function(P_k_list, Sigma_P_list, T.pair.list, N, BB, lambda_c, r.test = 2, n.grid = 3, transform="P") {
   # Initialize result matrices
   rk_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))
   lambda_b <- matrix(0, nrow = BB, ncol = length(T.pair.list))
