@@ -2,7 +2,6 @@
 # %%
 import numpy as np
 
-
 # Function to generate data
 def generate_data(alpha, mu, sigma, gam, beta, N, T, M, p, q, x=None, z=None):
     # print(f"N = {N}")
@@ -10,6 +9,7 @@ def generate_data(alpha, mu, sigma, gam, beta, N, T, M, p, q, x=None, z=None):
 
     R = np.zeros((N, M))
     if sum(alpha) != 1:
+        
         alpha = np.array(alpha) / sum(alpha)
 
     if len(alpha) != M or len(mu) != M:
@@ -137,6 +137,12 @@ def matrix_svd_decomposition(P, m):
         "B_q_o": B_q_o,
         "kron_BA_o": kron_BA_o,
     }
+
+# matrix = np.array([[1, 2, 3],
+#                    [4, 5, 6],
+#                    [7, 8, 9],
+#                    [10,11,12]])
+# matrix_svd_decomposition(matrix, 2)
 
 # Function to construct the statistic KP
 def construct_stat_KP(P, Sigma_P, m, n_size, lambda_c=0, transform="P"):
@@ -327,7 +333,7 @@ def construct_stat_KP_P_triplet_bootstrap_combined(
             
             # Generate bootstrap samples from multivariate normal
             vec_BB = rng.multivariate_normal(
-                mean=vec_k_0.flatten(),
+                mean=vec_k_0.T.flatten(),
                 cov=Sigma_k_0 / N,
                 size=BB
             )
@@ -386,6 +392,11 @@ def construct_stat_KP_P_triplet_bootstrap_combined(
         "rk_b": rk_b
     }
 # %%
+import numpy as np
+import concurrent.futures
+import time
+
+
 
 def compute_statistics_for_rep(ii, Data, N, M, BB, r_test=2, n_grid=3):
     """
@@ -426,12 +437,15 @@ def execute_compute_statistics(ii, Data, N, M, BB, r_test=2, n_grid=3):
 # %%
 import concurrent.futures
 from functools import partial
+import time
 
 # Input Parameters
 Nset = [200, 400]
 Tset = [3, 5, 8]
-alphaset = [[0.5, 0.5], [0.2, 0.8]]
+# alphaset = [[0.5, 0.5], [0.2, 0.8]]
+alphaset = [[0.5, 0.5]]
 muset = [[-1, 1], [-0.5, 0.5]]
+# muset = [[-1, 1]]
 sigmaset = [[0.8, 1.2]]
 
 # Test panel mixture
@@ -448,17 +462,19 @@ q = 0
 nrep = 100
 BB = 199
 
-import numpy as np
-import concurrent.futures
-import time
-
+alpha = alphaset[0]
+mu = muset[0]
+# Generate data
+Data = [generate_data(alpha, mu, sigma, gam, beta, N, T, M, p, q) for _ in range(nrep)]
+ii = 0 
+data = Data[ii]
 # Initialize result matrix
 result_matrix = np.zeros((len(alphaset) * len(muset), 2))  # Adjust dimensions based on `alphaset` and `muset`
 count = 0
 
 # Loop over parameters
-for alpha in alphaset:
-    for mu in muset:
+for alpha in alphaset[:1]:
+    for mu in muset[:1]:
         start_time = time.time()  # Start timer for this iteration
         
         # Generate data

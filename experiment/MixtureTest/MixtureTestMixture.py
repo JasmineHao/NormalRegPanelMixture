@@ -446,7 +446,7 @@ beta = None  # Coefficients for q covariates (M x q)
 # beta = [[1, 0.5], [0.2, 0.3]]  # Coefficients for q covariates (M x q)
 gam = None  # Coefficients for p covariates (length p)
 
-N = 100  # Number of individuals
+N = 200  # Number of individuals
 T = 5  # Number of time periods
 M = 2  # Number of categories
 K = 2  # Number of subcategories per category
@@ -455,7 +455,6 @@ q = 0  # Number of covariates in x
 
 # Call the function
 data = generate_data(alpha, mu, sigma, tau, N, T, M, K, p, q)
-
 
 estim_result = regpanelmixPMLE(data, M, K)
 # %%
