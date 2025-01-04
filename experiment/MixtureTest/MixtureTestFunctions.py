@@ -1,14 +1,12 @@
-# %%
 import numpy as np
 from numba import njit, prange
 from numba.typed import Dict, List
 from numba.core import types
 
-# %%
 # Functions for Numba
 # ----------------------------------------------------------
 @njit
-def invert_matrix(mat, epsilon=1e-6):
+def invert_matrix(mat, epsilon=1e-8):
     """
     Numba-compatible function to compute the inverse of a square matrix.
     If the determinant is close to zero, the matrix is regularized by adding
@@ -136,6 +134,18 @@ def generate_random_uniform(low, high, size):
             out[i, j] = low + (high - low) * np.random.random()
     return out
 
+@njit
+def matrix_sqrt(A):
+    """Compute the square root of a matrix using eigen-decomposition."""
+    # Eigen-decomposition of the matrix
+    vals, vecs = np.linalg.eigh(A)
+    vals[vals < 0] = 0
+    # Compute the square root of eigenvalues
+    sqrt_vals = np.sqrt(vals)
+    # Reconstruct the matrix square root
+    sqrt_A = vecs @ np.diag(sqrt_vals) @ vecs.T
+    return sqrt_A
+
 
 # %%
 # Function to generate data
@@ -213,39 +223,107 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q):
     return(Y, x, z)
 
 
+@njit(parallel=True)
+def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p, q):
+
+    R = np.ones((N, M))
+    R_T = np.ones((N*T, M)) 
+    alpha_sum = np.sum(alpha)
+    if alpha_sum != 1:
+        alpha = alpha / alpha_sum
+    
+    prior = np.random.uniform(size=N)
+    alpha_cum = np.zeros(M + 1)
+    for m in range(M):
+        alpha_cum[m + 1] = alpha_cum[m] + alpha[m]
+    
+    if M > 1:
+        for m in range(M):
+            lb = alpha_cum[m]
+            ub = alpha_cum[m + 1]
+            for n in prange(N):
+                R[n, m] = 1 if lb < prior[n] <= ub else 0
+                R_T[:,mm] = np.repeat(R[:,mm],T)
+                
+    else:
+        R[:] = 1
+
+    # return(R)
+
+# %%  
+    R_sub = {}
+    mu_R_sub = np.zeros((N*T, M))
+    if q > 0:
+        beta_R_sub = np.zeros((N*T, M, q))
+    
+    for mm in range(M):
+        prior_m = np.random.uniform(size=N*T)
+        tau_cum = np.cumsum([0] + list(tau[mm]))
+        R_sub[mm] = np.zeros((N*T,M))
+        for kk in range(K):
+            lb = tau_cum[kk]
+            ub = tau_cum[kk + 1]
+            R_sub[mm][:, kk] = ((prior_m > lb) & (prior_m <= ub)).astype(int)
+        mu_R_sub[:, mm] = np.dot(R_sub[mm], mu[mm])
+        if q > 0:
+            beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
+    
+    sigma_R = np.dot(R_T, sigma)    
+    mu_R = (R_T * mu_R_sub).sum(axis=1)
+    
+    if q > 0:
+        beta_R = (R_T[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
+    u = np.random.normal(size=(T, N))
+    Y = np.zeros((T, N))
+    
+    for nn in range(N):
+        y_nn = mu_R[(T * nn):(T * (nn + 1))] + sigma_R[(T * nn):(T * (nn + 1))] * u[:, nn]
+        if q > 0:
+            y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[(T * nn):(T * (nn + 1)), :])
+        if p > 1:
+            y_nn += np.dot(z[(T * nn):(T * (nn + 1)), :], gam)
+        Y[:, nn] = y_nn
+    return {"Y": Y, "Z": z, "X": x, "R_sub": R_sub, "R": R}
+
+
 # %%
 # Nonparametric test
 # ----------------------------------------------------------
-
 @njit
 def create_indicator_list(data_c, T, N, n_bins):
     """
     Create a list of indicator matrices based on quantiles for each time period.
     """
     indicator_list = List()
+    
     for t in range(T):
-        # Calculate quantiles manually
+        # Calculate quantiles
         quantiles = np.empty(n_bins + 1)
         sorted_data = np.sort(data_c[t, :])
-        for i in range(n_bins + 1):
-            if i == 0:
-                quantiles[i] = -np.inf
-            elif i == n_bins:
-                quantiles[i] = np.inf
-            else:
-                quantiles[i] = sorted_data[int(i * N / n_bins)]
-
+        
+        # Define quantile boundaries
+        quantiles[0] = -np.inf
+        quantiles[n_bins] = np.inf
+        step = N / n_bins
+        for i in range(1, n_bins):
+            index = int(round(i * step)) - 1  # Use rounding for more stable indexing
+            quantiles[i] = sorted_data[index]
+        
+        # print(quantiles)
+        
         # Create indicator matrix
         indicator_matrix = np.zeros((N, n_bins))
         for n in range(N):
             for b in range(n_bins):
+                # Assign data to bin based on quantile boundaries
                 if quantiles[b] <= data_c[t, n] < quantiles[b + 1]:
                     indicator_matrix[n, b] = 1
                     break
         indicator_list.append(indicator_matrix)
+    
     return indicator_list
 
-
+# %%
 @njit
 def calculate_P_matrix(data_c, weights, n_grid=3, n_bins=2):
     """
@@ -291,19 +369,6 @@ def calculate_P_matrix(data_c, weights, n_grid=3, n_bins=2):
         "Sigma_P_k_list": Sigma_P_k_list
     }
 
-
-
-@njit
-def matrix_sqrt(A):
-    """Compute the square root of a matrix using eigen-decomposition."""
-    # Eigen-decomposition of the matrix
-    vals, vecs = np.linalg.eigh(A)
-    vals[vals < 0] = 0
-    # Compute the square root of eigenvalues
-    sqrt_vals = np.sqrt(vals)
-    # Reconstruct the matrix square root
-    sqrt_A = vecs @ np.diag(sqrt_vals) @ vecs.T
-    return sqrt_A
 
 
 
@@ -381,6 +446,7 @@ def matrix_svd_decomposition(P, m):
     numba_dict["kron_BA_o"] = kron_BA_o
 
     return numba_dict
+
 
 
     
@@ -503,6 +569,7 @@ def NonParTestParallel(data_nopar, N, T, M, p, q, nrep, n_grid, BB, r_test):
                 Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
                 # Compute KP statistics for the k-th triplet
                 rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+                # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
         # Compute max and mean values for rk and rk_b
         rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
         rk_b_max_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
@@ -516,16 +583,14 @@ def NonParTestParallel(data_nopar, N, T, M, p, q, nrep, n_grid, BB, r_test):
         result_rk_each[ii, 1] = 1 * (rk_mean > rk_b_mean_95)
     return result_rk_each
 
-# %%
-
 @njit
-def calculate_P_matrix_with_covariates(y, x, weights, ngrid=3, n_bins=2):
+def calculate_P_matrix_with_covariates(y, x, weights, n_grid=3, n_bins=2):
+    
     T = y.shape[0]
     N = y.shape[1]
     indicator_list_Y = create_indicator_list(y, T, N, n_bins=n_bins)
     indicator_list_Y_ngrid = create_indicator_list(y, T, N, n_bins=n_grid)
-    
-    indicator_list_X = create_indicator_list(x, T, N, n_bins=n_bins)
+    indicator_list_X = create_indicator_list(x.reshape((N,T)).T, T, N, n_bins=n_bins)
     
     # Initialize the result lists
     P_k_list = List()
@@ -552,8 +617,9 @@ def calculate_P_matrix_with_covariates(y, x, weights, ngrid=3, n_bins=2):
         for kk in range(n_partition):
             data_partition_kk = data_partition_matrix_x[:,kk]
             weights_adj = data_partition_kk * weights 
-            weights_adj_sum = max(np.sum(weights_adj), 1e-6)
-            weights_adj = weights_adj / np.sum(weights_adj)
+            weights_adj = weights
+            weights_adj_sum = max(np.sum(weights_adj), 1e-5)
+            weights_adj = weights_adj / weights_adj_sum
             # Compute P_k
             P_k = (weights_adj * indicator_list_Y_ngrid[k].T) @ data_partition_matrix_y
             P_k_list.append(P_k)
@@ -561,14 +627,14 @@ def calculate_P_matrix_with_covariates(y, x, weights, ngrid=3, n_bins=2):
             P_k_vec = P_k.T.flatten()
             W_P_s = np.diag(P_k_vec) - np.outer(P_k_vec, P_k_vec)
             Sigma_P_k_list.append(W_P_s)
+    # print(P_k_list)
     
     return {
         "P_k_list": P_k_list,
         "Sigma_P_k_list": Sigma_P_k_list
     }
-
+    
 # %%
-
 @njit
 def NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid, BB, r_test, n_bins=2):
     # Result array
@@ -577,14 +643,14 @@ def NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid, BB, r_test, n
     n_partition = (n_bins ** (T - 1))
     n_stats = n_partition * T
     rk_array = np.empty((nrep,n_stats))
-    for ii in range(nrep):        
+    for ii in range(nrep):     
+        
         data = Data[ii]
         y = data[0]
         x = data[1]
         z = data[2]
         # Compute P and Sigma matrices
-        data_P_W = calculate_P_matrix_with_covariates(y, x, weights_equal, ngrid=3, n_bins=2)
-        
+        data_P_W = calculate_P_matrix_with_covariates(y, x, weights_equal, n_grid=n_grid, n_bins=n_bins)
         # Initialize results
         rk = np.zeros(n_stats)
         lambda_c_list = List()
@@ -617,14 +683,14 @@ def NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid, BB, r_test, n
         ru /= row_sums
         
         for bb in range(BB):
-            data_P_W_b = calculate_P_matrix_with_covariates(y, x, ru[bb, :], ngrid=3, n_bins=2)
+            data_P_W_b = calculate_P_matrix_with_covariates(y, x, ru[bb, :], n_grid=n_grid, n_bins=n_bins)
             
             for k in range(n_stats):
                 P_k = data_P_W_b['P_k_list'][k]
                 Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
                 # Compute KP statistics for the k-th triplet
-                # rk_b[bb, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
-                rk_b[bb, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
+                rk_b[bb, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+                # rk_b[bb, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
         # Compute max and mean values for rk and rk_b
         rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
         rk_b_max_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
@@ -636,6 +702,7 @@ def NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid, BB, r_test, n
         result_rk_each[ii, 1] = 1 * (rk_mean > rk_b_mean_95)
         
     return result_rk_each
+
 
 # %%
 # LR test functions
@@ -703,7 +770,7 @@ def log_likelihood_array(y, mu, sigma):
 
 
 @njit
-def compute_residual_normal_reg(m, n, t, sigma_jn, ytilde, mubeta_jn):
+def compute_residual_normal_reg(m, n, t, sigma_jn, res):
     """
     Compute residuals for the EM optimization loop in a Numba-compatible way.
 
@@ -712,9 +779,8 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, ytilde, mubeta_jn):
     - n: Number of groups (int)
     - t: Number of time points per group (int)
     - sigma_jn: Array of current sigma values (1D array of floats, shape (m,))
-    - ytilde: Adjusted response variable (1D array of floats, shape (n * t,))
-    - mubeta_jn: Array of current beta means (1D array of floats, shape (m,))
-
+    - res: Adjusted response variable (2D array of floats, shape (m, n * t))
+    
     Returns:
     - r: Residuals array (2D array of floats, shape (m, n))
     """
@@ -731,7 +797,7 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, ytilde, mubeta_jn):
             # Loop over each time point within the group (t)
             for k in range(t):
                 idx = i * t + k  # Compute the flattened index
-                diff = ytilde[idx] - mubeta_jn[j]
+                diff = res[j, idx]
                 r_t = (1.0 / sigma_jn[j]) * diff
                 sum_r_t += 0.5 * (r_t**2)
 
@@ -762,6 +828,7 @@ def EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw,
     ub = np.zeros(m)
     l_j = np.zeros(m)
     w = np.zeros((m, nt))
+    res = np.zeros((m, nt))
     post = np.zeros((m * n, ninits))
     notcg = np.zeros(ninits)
     penloglikset = np.zeros(ninits)
@@ -770,10 +837,11 @@ def EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw,
     
     for jn in range(ninits):
         alpha_jn = alpha_draw[:, jn]
-        mubeta_jn = mubeta_draw[:, jn]
+        mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
         gamma_jn = gamma_draw[:, jn]  # Likely float64
-    
+
+        mubeta_jn_mat = mubeta_jn.reshape((q+1,m)).T
         oldpenloglik = -np.inf
         emit = 0
         diff = 1.0
@@ -787,7 +855,9 @@ def EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw,
             else:
                 ytilde = y
             
-            r = compute_residual_normal_reg(m, n, t, sigma_jn, ytilde, mubeta_jn)
+            for j in range(m):
+                res[j] = ytilde - x1 @ mubeta_jn_mat[j]
+            r = compute_residual_normal_reg(m, n, t, sigma_jn, res)
             
             minr = min_along_axis_0(r)
             
@@ -821,7 +891,7 @@ def EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw,
             for j in range(m):
                 s0j = sigma_0[j] / sigma_jn[j]
                 penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
-                penloglik += min(np.log(alpha_jn[j]), np.log(1 - alpha_jn[j]))
+                # penloglik += min(np.log(alpha_jn[j]), np.log(1 - alpha_jn[j]))
             diff = penloglik - oldpenloglik
             oldpenloglik = penloglik
             emit += 1
@@ -877,10 +947,9 @@ def EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw,
             gamma_draw[:, jn] = gamma_jn
     return(alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
                 
-
-# %%
+                
 @njit
-def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon=1e-8, maxit=2000, epsilon_short=1e-2, maxit_short=500)  : 
+def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
     
     t,n = y.shape
     nt = n * t
@@ -899,7 +968,8 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon=1e-8, maxit=2000, epsilon
     residuals = y - xz @ out_coef
     stdR = np.std(residuals)
     npar = m - 1 + (q1 + 1) * m + p
-    ninits_short = ninits * 10 * (q1 + p) * m
+    # ninits_short = ninits * 10 * (q1 + p) * m
+    ninits_short = ninits * 10 
     
     if (m == 1) :
         mubeta = out_coef[:q1]
@@ -998,98 +1068,99 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon=1e-8, maxit=2000, epsilon
         return result_dict
 
 # %%
-@njit
-def regpanelmixPMLE_Bootstrap(y,x,z, p, q, m, alpha_hat, mubeta_hat, sigma_hat, gamma_hat, test_h0 = 1, ninits=10, epsilon=1e-8, maxit=2000)  : 
-    # The bootstrap computation should be faster
-    t,n = y.shape
-    nt = n * t
-    y = y.T.flatten()
+# @njit
+# def regpanelmixPMLE_Bootstrap(y,x,z, p, q, m, alpha_hat, mubeta_hat, sigma_hat, gamma_hat, test_h0 = 1, ninits=1, epsilon=1e-6, maxit=2000)  : 
+#     # The bootstrap computation should be faster
+#     t,n = y.shape
+#     nt = n * t
+#     y = y.T.flatten()
     
-    # Handle x
+#     # Handle x
     
-    x1 = np.hstack((np.ones((nt, 1)), x))
-    q1 = q + 1
+#     x1 = np.hstack((np.ones((nt, 1)), x))
+#     q1 = q + 1
     
-    xz = np.hstack((x1, z))
-    out_coef = solve_least_squares(xz, y)  # Replace np.linalg.lstsq
-    residuals = y - xz @ out_coef
-    stdR = np.std(residuals)
-    npar = m - 1 + (q1 + 1) * m + p
+#     xz = np.hstack((x1, z))
+#     out_coef = solve_least_squares(xz, y)  # Replace np.linalg.lstsq
+#     residuals = y - xz @ out_coef
+#     stdR = np.std(residuals)
+#     npar = m - 1 + (q1 + 1) * m + p
     
-    if (m == 1) :
-        mubeta = out_coef[:q1]
-        if p > 0:
-            gamma = out_coef[q1:(q1 + p)]
-        else:
-            gamma = np.array([0.0])
-        res = y - xz @ out_coef
-        sigma = np.sqrt(np.mean(res**2))
-        loglik = log_likelihood_normal(res,0,sigma)
+#     if (m == 1) :
+#         mubeta = out_coef[:q1]
+#         if p > 0:
+#             gamma = out_coef[q1:(q1 + p)]
+#         else:
+#             gamma = np.array([0.0])
+#         res = y - xz @ out_coef
+#         sigma = np.sqrt(np.mean(res**2))
+#         loglik = log_likelihood_normal(res,0,sigma)
 
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        penloglik = loglik
-        alpha = np.array([1])
-        postprobs = np.ones(n)
-    else: 
-        # First draw random start point
-        if p > 0:
-            # Perform least squares regression with both x and z
-            gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits)) * gamma_hat
-            y = y - z @ gamma
-        else:
-            # Perform least squares regression with x only
-            gamma_draw = np.zeros((1,ninits), dtype=np.float64)
+#         aic = -2 * loglik + 2 * npar
+#         bic = -2 * loglik + np.log(n) * npar
+#         penloglik = loglik
+#         alpha = np.array([1])
+#         postprobs = np.ones(n)
+#     else: 
+#         # First draw random start point
+#         if p > 0:
+#             # Perform least squares regression with both x and z
+#             gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits)) * gamma_hat
+#             y = y - z @ gamma
+#         else:
+#             # Perform least squares regression with x only
+#             gamma_draw = np.zeros((1,ninits), dtype=np.float64)
 
-        if test_h0:
-            # Initialize alpha
-            alpha_draw = generate_random_uniform(0, 1, (m, ninits))
-            alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
+#         if test_h0:
+#             # Initialize alpha
+#             alpha_draw = generate_random_uniform(0, 1, (m, ninits))
+#             alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
 
-            # Initialize mubeta
+#             # Initialize mubeta
             
-            mubeta_draw = np.empty((q1 * m, ninits))
-            for jj in range((q1 * m)):
-                mubeta_draw[jj, :] = np.random.uniform(0.5, 2, size=ninits) * mubeta_hat[jj]
+#             mubeta_draw = np.empty((q1 * m, ninits))
+#             for jj in range((q1 * m)):
+#                 mubeta_draw[jj, :] = np.random.uniform(0.5, 2, size=ninits) * mubeta_hat[jj]
             
-            an = 1 / n    
-            sigma_0 = np.full(m, stdR)
+#             an = 1 / n    
+#             sigma_0 = np.full(m, stdR)
         
-            # Initialize sigma
-            sigma_draw = generate_random_uniform(0.01, 1, (m, ninits)) * stdR
+#             # Initialize sigma
+#             sigma_draw = generate_random_uniform(0.01, 1, (m, ninits)) * stdR
             
-            alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=epsilon)
+#             alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=epsilon)
         
             
-        else:
-            # Initialize alpha
-            alpha_draw = generate_random_uniform(0, 1, (m+1, ninits))
-            alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
-            # Initialize mubeta
+#         else:
+#             # Initialize alpha
+#             alpha_draw = generate_random_uniform(0, 1, (m+1, ninits))
+#             alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
+#             # Initialize mubeta
             
-            mubeta_draw = np.empty((q1 * (m+1), ninits))
-            for jj in range((q1 * (m+1))):
-                mubeta_draw[jj, :] = np.random.uniform(0.5, 2, size=ninits) * mubeta_hat[jj]
+#             mubeta_draw = np.empty((q1 * (m+1), ninits))
+#             for jj in range((q1 * (m+1))):
+#                 mubeta_draw[jj, :] = np.random.uniform(0.5, 2, size=ninits) * mubeta_hat[jj]
             
-            an = 1 / n    
-            sigma_0 = np.full((m+1), stdR)
+#             an = 1 / n    
+#             sigma_0 = np.full((m+1), stdR)
         
-            # Initialize sigma
-            sigma_draw = generate_random_uniform(0.01, 1, (m+1, ninits)) * stdR
+#             # Initialize sigma
+#             sigma_draw = generate_random_uniform(0.01, 1, (m+1, ninits)) * stdR
             
-            alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m+1, t, an, maxit=maxit, tol=epsilon)
-        penloglik = np.max(penloglikset)
-    return(penloglik)
+#             alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m+1, t, an, maxit=maxit, tol=epsilon)
+#         penloglik = np.max(penloglikset)
+#     return(penloglik)
 
-# %%
 
 @njit(parallel=True)
-def compute_lr_BB(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T,  m, p, q, BB):
-    
-    mubeta_hat_mat = np.empty((m,q+1)) 
-    mubeta_hat_mat[:,0] = mu_hat
-    mubeta_hat_mat[:,1:] = beta_hat
+def compute_lr_BB(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, BB):
+    # Preallocate a matrix and initialize it with values
+    mubeta_hat_mat = np.empty((m, q+1)) 
+    mubeta_hat_mat[:, 0] = mu_hat
+    mubeta_hat_mat[:, 1:] = beta_hat
     mubeta_hat = mubeta_hat_mat.T.flatten()
+
+    # Generate data for bootstrap
     Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in range(BB)]
     
     # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -1102,13 +1173,15 @@ def compute_lr_BB(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T,  m, p
         z_bb = data[2]
         
         # Call regpanelmixPMLE for m components
-        penloglik = regpanelmixPMLE_Bootstrap(y_bb, x_bb, z_bb, p, q, m, alpha_hat, mubeta_hat, sigma_hat, gamma_hat)
-        # Call regpanelmixPMLE for m+1 components
-        penloglik_m1 = regpanelmixPMLE_Bootstrap(y_bb, x_bb, z_bb, p, q, m, alpha_hat, mubeta_hat, sigma_hat, gamma_hat,test_h0=0)
+        out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m)
+        out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1)
+        penloglik_h0 = out_h0['penloglik'][0, 0]
+        penloglik_h1 = out_h1['penloglik'][0, 0]
+        
         # Compute likelihood ratio statistic
-        lr_stat_bb[bb] = -2 * (penloglik_m1 - penloglik)
+        lr_stat_bb[bb] = -2 * (penloglik_h0 - penloglik_h1)
+    
     return lr_stat_bb
-
 
 @njit(parallel=True)
 def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
@@ -1128,114 +1201,23 @@ def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
         penloglik_h1 = out_h1['penloglik'][0,0]
         # print(out_h0[0])        
         lr_stat = -2 * (penloglik_h0 - penloglik_h1)
-        lr_stat_bb =  compute_lr_BB(alpha, mu, sigma, gamma, beta, N, T, M, p, q, BB)
+        
+        mubeta_hat = np.ascontiguousarray(mubeta_hat)
+        mubeta_hat_mat = mubeta_hat.reshape((q+1,M)).T
+        beta_hat = mubeta_hat_mat[:,1:]
+        mu_hat =  mubeta_hat_mat[:,0]
+
+        lr_stat_bb =  compute_lr_BB(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, M, p, q, BB)
         lr_95 = compute_quantile(lr_stat_bb, 0.95)
         result_lr_each[ii,0] = 1 * ( lr_stat >  lr_95)
     return(result_lr_each)
-# q1 = q + 1yu709tr
-# mubeta_hat_mat = mubeta_hat.reshape((q1,m)).T
-# beta_hat = mubeta_hat_mat[:,1:]
-# mu_hat =  mubeta_hat_mat[:,0]
-
-# %%
-# Simulation
-# ------------------------------------------
-   
-import time
-# Input Parameters
-Nset = [200, 400]
-Tset = [3, 5, 8]
-alphaset = [np.array([0.5, 0.5]), np.array([0.2, 0.8])]
-muset = [np.array([-1.0, 1.0]), np.array([-0.5, 0.5])]
-sigmaset = [np.array([0.8, 1.2])]
-beta = np.array([[1.0],[1.0]])
-gamma = np.array([0.0])
-
-# Test panel mixture
-N = 200
-T = 3
-M = 2
-p = 0
-q = 0
-nrep = 100
-BB = 199
-
-alpha = alphaset[0]
-mu = muset[0]
-sigma = sigmaset[0]
-n_grid=3
-r_test=2
-# Generate data
-weights_equal = np.full(N, 1 / N)
-
-# Data = [generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q) for _ in range(nrep)]
-# %%
- # Determine the total number of parameter combinations
-total_combinations = len(alphaset) * len(muset)
-
-# Initialize the result matrix to store mean results for each parameter combination
-simulation_result_matrix = np.zeros((total_combinations, 2))
-
-# Optional: Track parameter combinations (for debugging or analysis)
-parameter_combinations = []
-count = 0
-# Loop over parameters
-for alpha in alphaset:
-    for mu in muset:       
-        start_time = time.time()
-        result_rk_each = np.zeros((nrep,2))
-        Data = [generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q) for _ in range(nrep)]
-        data_nopar = [data[0] for data in Data]
-        # Nonparametric test
-        result_rk_each = NonParTestParallel(data_nopar, N, T, M, p, q, nrep, n_grid, BB, r_test)
-        
-        # Compute the mean results across replications and store them
-        simulation_result_matrix[count, :] = result_rk_each.mean(axis=0)
-        
-         # Print execution time for this parameter combination
-        print(f"Execution time for alpha={alpha}, mu={mu}: {time.time() - start_time:.2f} seconds")
-
-        # Increment the counter
-        count += 1
-
-# Print the final result matrix
-print("Simulation Result Matrix:")
-print(simulation_result_matrix)
-
 
 # %%
 
-
-nrep = 100
-Data = [generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q) for _ in range(nrep)]
-
-start_time = time.time()
-result_lr_each = LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199)
-print(f"Execution time for alpha={alpha}, mu={mu}: {time.time() - start_time:.2f} seconds")
-# %%
-
-# Test panel mixture
-N = 800
-T = 3
-M = 2
-p = 0
-q = 1
-nrep = 100
-BB = 199
-
-alpha = alphaset[0]
-mu = np.array([-5.0, 5.0])
-sigma = np.array([0.5, 0.5])
-beta = np.array([[0.0],[0.0]])
-n_grid=3
-r_test=2
-# Generate data
-weights_equal = np.full(N, 1 / N)
-
-Data = [generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q) for _ in range(nrep)]
-
-result_rk_each = NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid=3, BB=BB, r_test=2, n_bins=2)
-
-result_rk_each.mean(axis=0)
-
-# %%
+# @njit
+# def reshape_example(mubeta_hat, q, M):
+#     # Ensure the array is contiguous
+#     mubeta_hat = np.ascontiguousarray(mubeta_hat)
+#     # Perform the reshape
+#     mubeta_hat_mat = mubeta_hat.reshape((q + 1, M)).T
+#     return mubeta_hat_mat
