@@ -146,6 +146,15 @@ def matrix_sqrt(A):
     sqrt_A = vecs @ np.diag(sqrt_vals) @ vecs.T
     return sqrt_A
 
+@njit
+def repeat_column(R, T, mm):
+    n_rows = R.shape[0]
+    R_T = np.empty((n_rows * T,), dtype=R.dtype)  # Create an empty array for the result
+    for i in range(n_rows):
+        for t in range(T):
+            R_T[i * T + t] = R[i, mm]
+    return R_T
+
 
 # %%
 # Function to generate data
@@ -224,7 +233,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q):
 
 
 @njit(parallel=True)
-def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p, q):
+def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p=0, q=0):
 
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
@@ -232,58 +241,53 @@ def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p, q):
     if alpha_sum != 1:
         alpha = alpha / alpha_sum
     
-    prior = np.random.uniform(size=N)
+    prior = np.random.random(size=N)
     alpha_cum = np.zeros(M + 1)
-    for m in range(M):
-        alpha_cum[m + 1] = alpha_cum[m] + alpha[m]
-    
-    if M > 1:
-        for m in range(M):
-            lb = alpha_cum[m]
-            ub = alpha_cum[m + 1]
-            for n in prange(N):
-                R[n, m] = 1 if lb < prior[n] <= ub else 0
-                R_T[:,mm] = np.repeat(R[:,mm],T)
+    for mm in range(M):
+        alpha_cum[mm + 1] = alpha_cum[mm] + alpha[mm]
+        lb = alpha_cum[mm]
+        ub = alpha_cum[mm + 1]
+        for n in prange(N):
+            R[n, mm] = 1 if lb < prior[n] <= ub else 0
+            R_T[:,mm] = repeat_column(R, T, mm)
                 
-    else:
-        R[:] = 1
 
-    # return(R)
-
-# %%  
-    R_sub = {}
+    R_sub = np.zeros((N * T, M, K))
     mu_R_sub = np.zeros((N*T, M))
-    if q > 0:
-        beta_R_sub = np.zeros((N*T, M, q))
+    # if q > 0:
+    #     beta_R_sub = np.zeros((N*T, M, q))
     
     for mm in range(M):
-        prior_m = np.random.uniform(size=N*T)
+        prior_m = np.random.random(size=N*T)
         tau_cum = np.cumsum([0] + list(tau[mm]))
-        R_sub[mm] = np.zeros((N*T,M))
-        for kk in range(K):
+        
+        for kk  in range(K):
             lb = tau_cum[kk]
             ub = tau_cum[kk + 1]
-            R_sub[mm][:, kk] = ((prior_m > lb) & (prior_m <= ub)).astype(int)
-        mu_R_sub[:, mm] = np.dot(R_sub[mm], mu[mm])
-        if q > 0:
-            beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
+            R_sub[:,mm, kk] = ((prior_m > lb) & (prior_m <= ub)).astype(int)
+        mu_R_sub[:, mm] = np.dot(R_sub[:,mm], mu[mm])
+        # if q > 0:
+        #     beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
     
     sigma_R = np.dot(R_T, sigma)    
     mu_R = (R_T * mu_R_sub).sum(axis=1)
     
-    if q > 0:
-        beta_R = (R_T[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
+    # if q > 0:
+    #     beta_R = (R_T[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
     u = np.random.normal(size=(T, N))
     Y = np.zeros((T, N))
     
     for nn in range(N):
         y_nn = mu_R[(T * nn):(T * (nn + 1))] + sigma_R[(T * nn):(T * (nn + 1))] * u[:, nn]
-        if q > 0:
-            y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[(T * nn):(T * (nn + 1)), :])
-        if p > 1:
-            y_nn += np.dot(z[(T * nn):(T * (nn + 1)), :], gam)
+        # if q > 0:
+        #     y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[(T * nn):(T * (nn + 1)), :])
+        # if p > 1:
+        #     y_nn += np.dot(z[(T * nn):(T * (nn + 1)), :], gam)
         Y[:, nn] = y_nn
-    return {"Y": Y, "Z": z, "X": x, "R_sub": R_sub, "R": R}
+    x = np.zeros((N * T, 1), dtype=np.float64)
+    z = np.zeros((N * T, 1), dtype=np.float64)
+    return(Y, x, z)
+
 
 
 # %%
