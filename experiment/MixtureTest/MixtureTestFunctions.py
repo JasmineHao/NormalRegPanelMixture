@@ -1602,7 +1602,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
     ninits = alpha_draw.shape[1]
     x1 = np.hstack((np.ones((nt, 1)), x))
     q1 = q + 1
-
+    
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
@@ -1660,7 +1660,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
                 
                 for i in prange(nt):
                     for kk in prange(k):
-                        w_m[kk, i] = l_m_k[kk, i] / sum_l_m_k[i]
+                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 0.01)
                 
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 
@@ -1710,7 +1710,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             w_mk = fill_nan(w_mk, 1)
             # Make sure w_mk each row add up to 1
             for i in prange(nt):
-                w_mk[:,i] = w_mk[:,i] / np.sum(w_mk[:,i])
+                w_mk[:,i] = w_mk[:,i] / max(np.sum(w_mk[:,i]), 0.01)
             
             # Update parameters
             for mm in prange(m):
@@ -1733,9 +1733,9 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
                 
                 for kk in prange(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / sum_tau_jn
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.01)
                 
-                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / (np.sum(w_mk_sum) )  )
+                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.01)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
             
             # update alpha
@@ -1812,7 +1812,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=20
         #     mubeta_hat = out_coef[:q1]
         #     y = y - z @ gamma
         # else:
-        
+        # %%
         gamma_hat = np.zeros(p)
         mubeta_hat = out_coef[:]
 
@@ -1843,7 +1843,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=20
         sigma_0 = np.full(m, stdR)
         
         alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=epsilon_short)
-
+        # %%
         components = np.argsort(penloglikset)[::-1][:ninits]
         alpha_draw = alpha_draw[:,components]
         mubeta_draw = mubeta_draw[:,components]
