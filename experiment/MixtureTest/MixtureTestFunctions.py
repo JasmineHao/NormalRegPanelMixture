@@ -752,6 +752,10 @@ def NonParTestParallel(data_nopar, N, T, M, p, q, nrep, n_grid, BB, r_test):
         result_rk_each[ii, 1] = 1 * (rk_mean > rk_b_mean_95)
     return result_rk_each
 
+
+
+
+# %%
 @njit
 def calculate_P_matrix_with_covariates(y, x, weights, n_grid=3, n_bins=2):
     
@@ -871,7 +875,6 @@ def NonParTestParallelCovariate(Data, N, T, M, p, q, nrep, n_grid, BB, r_test, n
         result_rk_each[ii, 1] = 1 * (rk_mean > rk_b_mean_95)
         
     return result_rk_each
-
 
 # %%
 # LR test functions
@@ -1007,7 +1010,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         emit = 0
         diff = 1.0
         
-        for iter_ii in prange(maxit):
+        for iter_ii in range(maxit):
             
             
             if p > 0:
@@ -1015,18 +1018,18 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             else:
                 ytilde = y_c
             r = np.zeros((m,nt))
-            for mm in prange(m):
+            for mm in range(m):
                 res = ytilde - x1 @ mubeta_jn_mat[mm]
                 r[mm] = log_likelihood_array(res, 0.0, sigma_jn[mm])
             
             
             r_sum = np.zeros((m,n))
-            for mm in prange(m):
-                for nn in prange(n):
-                    for tt in prange(t):
+            for mm in range(m):
+                for nn in range(n):
+                    for tt in range(t):
                         r_sum[mm,nn] += r[mm, nn * t + tt ]
             
-            minr = max_along_axis_0(r)
+            minr = max_along_axis_0(r_sum)
             
             # Initialize arrays
             l_j = np.zeros((m,n))  # Same shape as `r`
@@ -1035,24 +1038,24 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             ll = 0.0                # Log-likelihood accumulator
 
             # Compute l_j = alpha_jn[:, None] * exp(minr - r)
-            for nn in prange(n):
-                for mm in prange(m):
+            for nn in range(n):
+                for mm in range(m):
                     l_j[mm, nn] = alpha_jn[mm] * np.exp(r_sum[mm,nn] - minr[nn])
                     sum_l_j[nn] += l_j[mm, nn]
                     
             
             # Compute w = l_j / sum_l_j
-            for nn in prange(n):
-                for mm in prange(m):
+            for nn in range(n):
+                for mm in range(m):
                     w[mm, nn] = l_j[mm, nn]  / sum_l_j[nn]
             
             # Compute ll += np.sum(np.log(sum_l_j) - minr)
-            for nn in prange(n):
+            for nn in range(n):
                 ll += np.log(sum_l_j[nn]) + minr[nn]
             
             penloglik = ll + np.log(2.0) 
             
-            for mm in prange(m):
+            for mm in range(m):
                 s0j = sigma_0[mm] / sigma_jn[mm]
                 penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
                 # penloglik += min(np.log(alpha_jn[j]), np.log(1 - alpha_jn[j]))
@@ -1066,14 +1069,14 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             # Update parameters
             # mubeta_jn_mat = np.zeros((m,q1),dtype=np.float64)
             wtilde = np.zeros(nt)
-            for mm in prange(m):
+            for mm in range(m):
                 alpha_jn[mm] = np.mean(w[mm, :])
                 wtilde = w[mm, :].T
                 w_j = np.zeros(nt)
-                for nn in prange(n):
+                for nn in range(n):
                     w_j[nn * t : (nn + 1) * t] = wtilde[nn]
                 xtilde = np.zeros((nt, q1))
-                for ii in prange(q1):
+                for ii in range(q1):
                     xtilde[:, ii] = w_j * x1[:, ii]
                 
                 mubeta_jn_mat[mm,:] = solve_linear_system_safe(xtilde.T @ x1, xtilde.T @ ytilde)
@@ -1082,11 +1085,11 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
             
             # update alpha
-            for j in prange(m):
+            for j in range(m):
                 alpha_jn[j] = max(0.01, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
-            for j in prange(m):
+            for j in range(m):
                 alpha_jn[j] = alpha_jn[j] / total_alpha
             
             # update gamma
@@ -1094,15 +1097,15 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
                 ztilde = np.zeros((nt, p), dtype=np.float64) 
                 zz = np.zeros((p, p), dtype=np.float64) 
                 ze = np.zeros((p, 1), dtype=np.float64) 
-                for j in prange(m):
+                for j in range(m):
                     wtilde = w[j, :]
                     w_j = np.zeros(nt)
-                    for i in prange(n):
+                    for i in range(n):
                         w_j[i * t : (i + 1) * t] = wtilde[i]
-                    for ii in prange(p):
+                    for ii in range(p):
                         ztilde[:, ii] = w_j * z[:, ii]
                     zz += ztilde.T @ z / (sigma_jn[j]**2)
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
         
         penloglikset[jn] = penloglik
@@ -1114,9 +1117,8 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
-    return(alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
-                
-# %%   
+    return(alpha_draw,mubeta_draw,sigma_draw,gamma_draw, penloglikset, loglikset ,post)
+
 @njit
 def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
     
@@ -1137,23 +1139,41 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
     npar = m - 1 + (q1 + 1) * m + p
     # ninits_short = ninits * 10 * (q1 + p) * m
     ninits_short = ninits * 10 
-    
+    # ninits = 10
     if (m == 1) :
         mubeta_hat = out_coef[:q1]
         if p > 0:
-            gamma = out_coef[q1:(q1 + p)]
+            gamma_hat = out_coef[q1:(q1 + p)]
         else:
-            gamma = np.zeros(p)
+            gamma_hat = np.zeros(p)
         res = y_c - xz @ out_coef
         sigma_val = np.sqrt(np.mean(res**2))
         loglik = log_likelihood_normal(res,0,sigma_val)
 
-        sigma_hat = np.array(sigma_val)
+        sigma_hat = np.array([sigma_val])
         aic = -2 * loglik + 2 * npar
         bic = -2 * loglik + np.log(n) * npar
         penloglik = loglik
         alpha_hat = np.array([1.0])
         postprobs = np.ones(n)
+        
+        # Create a Numba-compatible dictionary to store results
+        result_dict = Dict.empty(
+            key_type=types.unicode_type,  # Keys are strings
+            value_type=types.float64[:, :],  # Values are 2D arrays
+        )
+        
+        result_dict['penloglik'] = np.array([[penloglik]])
+        result_dict['loglik'] = np.array([[loglik]])
+        result_dict['aic'] = np.array([[aic]])
+        result_dict['bic'] = np.array([[bic]])
+        
+        result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+        result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+        result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+        result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+        
+        return result_dict
     else: 
         
         # First draw random start point
@@ -1172,12 +1192,12 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
 
         mubeta_draw = np.zeros((q1 * m, ninits_short))
         y_mean = y_c - x @ mubeta_hat[1:]
-        for mm in prange(m):
+        for mm in range(m):
             lb = compute_quantile(y_mean, mm/(m))
             ub = compute_quantile(y_mean, (mm+1)/(m))
             
             mubeta_draw[mm, :] = np.random.uniform(lb, ub, size=ninits_short)
-            for qq in prange(1, q1):
+            for qq in range(1, q1):
                 mubeta_draw[qq * m + mm, :] = mubeta_hat[qq] * np.random.uniform(-2, 2, size=ninits_short)
         
         an = 1 / n    
@@ -1491,6 +1511,26 @@ def regpanelmixPMLEAR1(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
         penloglik = loglik
         alpha_hat = np.array([1])
         
+        # Create a Numba-compatible dictionary to store results
+        result_dict = Dict.empty(
+            key_type=types.unicode_type,  # Keys are strings
+            value_type=types.float64[:, :],  # Values are 2D arrays
+        )
+        
+        result_dict['penloglik'] = np.array([[penloglik]])
+        result_dict['loglik'] = np.array([[loglik]])
+        result_dict['aic'] = np.array([[aic]])
+        result_dict['bic'] = np.array([[bic]])
+        
+        result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+        result_dict['rho_hat']  = rho_hat[np.newaxis,:]
+        result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+        result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+        result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+        
+        result_dict['sigma_0_hat']  = sigma_0_hat[np.newaxis,:]
+        result_dict['mubeta_0_hat'] = mubeta_0_hat[np.newaxis,:]
+        result_dict['gamma_0_hat'] = gamma_0_hat[np.newaxis,:]
     else: 
         
         # First draw random start point
@@ -1567,8 +1607,8 @@ def regpanelmixPMLEAR1(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
         post = post[:, index]
         penloglik = penloglikset[index]
         loglik = loglikset[index]
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
+        aic = -2 * loglik + 2 * (npar + npar_0)
+        bic = -2 * loglik + np.log(n) * (npar + npar_0)
         
         # Create a Numba-compatible dictionary to store results
         result_dict = Dict.empty(
@@ -1812,7 +1852,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=20
         #     mubeta_hat = out_coef[:q1]
         #     y = y - z @ gamma
         # else:
-        # %%
+        
         gamma_hat = np.zeros(p)
         mubeta_hat = out_coef[:]
 
@@ -2057,7 +2097,120 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
     return(result_lr_each)
 
 # %%
+# For sequential test
+# %%
 
+@njit
+def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
+    weights_equal = np.full(N, 1 / N)
+    
+    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
+        
+    # Initialize results
+    rk = np.zeros(T)
+    lambda_c_list = List()
+    omega_c = List()
+    Sigma_P_list = List()
+    P_k_list = List()
+    
+    # Loop through T periods to compute statistics
+    for k in prange(T):
+        # Extract P_k and Sigma_P_k from the data_P_W object
+        P_k = data_P_W["P_k_list"][k]
+        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
+        
+        # Compute KP statistics for the k-th triplet
+        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+        
+        # Store results
+        rk[k] = stat_KP["rk_c"][0,0]
+        lambda_c_list.append(stat_KP["lambda_c"])
+        omega_c.append(stat_KP["Omega_q"])
+        Sigma_P_list.append(Sigma_P_k)
+        P_k_list.append(P_k)
+    # Initialize result matrix
+    rk_b = np.zeros((BB, T))
+    
+    # Smoothed Nonparametric Bootstrap
+    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
+    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
+    ru /= row_sums
+    
+    for i in prange(BB):
+        # Calculate bootstrapped P and Sigma_P matrices
+        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
+        
+        for k in prange(T):
+            P_k = data_P_W_b['P_k_list'][k]
+            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
+            # Compute KP statistics for the k-th triplet
+            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
+    # Compute max and mean values for rk and rk_b
+    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
+    rk_b_max_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
+
+    
+    # Store results
+
+    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
+    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
+    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
+    return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
+
+# %%
+
+@njit
+def LRTestNoCovariates(y, x, z, p, q, m, N, T, cov = True, BB= 199):
+    out_h0 = regpanelmixPMLE(y,x,z, p, q, m)
+    out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1)
+    alpha_hat  = out_h0['alpha_hat'][0]
+    mubeta_hat = out_h0['mubeta_hat'][0]
+    sigma_hat  = out_h0['sigma_hat'][0]
+    gamma_hat  = out_h0['gamma_hat'][0]
+    penloglik_h0 = out_h0['penloglik'][0,0]
+    aic = out_h0['aic'][0,0]
+    bic = out_h0['bic'][0,0]
+    penloglik_h1 = out_h1['penloglik'][0,0]
+    # print(out_h0[0])        
+    lr_stat = -2 * (penloglik_h0 - penloglik_h1)
+    
+    mubeta_hat = np.ascontiguousarray(mubeta_hat)
+    mubeta_hat_mat = mubeta_hat.reshape((q+1,m)).T
+    beta_hat = mubeta_hat_mat[:,1:]
+    mu_hat =  mubeta_hat_mat[:,0]
+    
+    if cov:
+        # Generate data for bootstrap
+        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in prange(BB)]
+        
+        # Preallocate lr_stat as a 1D array (Numba-compatible)
+        lr_stat_bb = np.zeros(BB, dtype=np.float64)
+        
+        for bb in prange(BB):
+            data = Data[bb]
+            y_bb = data[0]
+            x_bb = data[1]
+            z_bb = data[2]
+            
+            # Call regpanelmixPMLE for m components
+            out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m)
+            out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1)
+            penloglik_h0 = out_h0['penloglik'][0, 0]
+            penloglik_h1 = out_h1['penloglik'][0, 0]
+            
+            # Compute likelihood ratio statistic
+            lr_stat_bb[bb] = -2 * (penloglik_h0 - penloglik_h1)
+        
+        lr_99 = compute_quantile(lr_stat_bb, 0.99)
+        lr_95 = compute_quantile(lr_stat_bb, 0.95)
+        lr_90 = compute_quantile(lr_stat_bb, 0.90)
+    else:
+        lr_99 = 1e10
+        lr_95 = 1e10
+        lr_90 = 1e10
+    return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
+    
 # @njit
 # def reshape_example(mubeta_hat, q, M):
 #     # Ensure the array is contiguous
@@ -2065,3 +2218,4 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
 #     # Perform the reshape
 #     mubeta_hat_mat = mubeta_hat.reshape((q + 1, M)).T
 #     return mubeta_hat_mat
+# %%
