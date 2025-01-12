@@ -2161,7 +2161,7 @@ def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
 # %%
 
 @njit
-def LRTestNoCovariates(y, x, z, p, q, m, N, T, cov = True, BB= 199):
+def LRTestNoCovariates(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199):
     out_h0 = regpanelmixPMLE(y,x,z, p, q, m)
     out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1)
     alpha_hat  = out_h0['alpha_hat'][0]
@@ -2180,7 +2180,7 @@ def LRTestNoCovariates(y, x, z, p, q, m, N, T, cov = True, BB= 199):
     beta_hat = mubeta_hat_mat[:,1:]
     mu_hat =  mubeta_hat_mat[:,0]
     
-    if cov:
+    if bootstrap:
         # Generate data for bootstrap
         Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in prange(BB)]
         
@@ -2210,7 +2210,62 @@ def LRTestNoCovariates(y, x, z, p, q, m, N, T, cov = True, BB= 199):
         lr_95 = 1e10
         lr_90 = 1e10
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
+   
+# %%
+@njit
+def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
+    out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, m, k)
+    out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, m+1, k)
+    alpha_hat  = out_h0['alpha_hat'][0]
+    tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
+    mubeta_hat = out_h0['mubeta_hat'][0]
+    sigma_hat  = out_h0['sigma_hat'][0]
+    gamma_hat  = out_h0['gamma_hat'][0]
+    penloglik_h0 = out_h0['penloglik'][0,0]
+    aic = out_h0['aic'][0,0]
+    bic = out_h0['bic'][0,0]
+    penloglik_h1 = out_h1['penloglik'][0,0]
+    # print(out_h0[0])        
+    lr_stat = -2 * (penloglik_h0 - penloglik_h1)
     
+    mubeta_hat = np.ascontiguousarray(mubeta_hat)
+    mubeta_hat_mat = mubeta_hat.reshape((q+1,m*k)).T
+    beta_hat = mubeta_hat_mat[:,1:]
+    mu_hat =  np.ascontiguousarray(mubeta_hat_mat[:,0]).reshape(m,k)
+
+    
+    if bootstrap:
+        # Generate data for bootstrap
+        Data = [generate_data_mixture(alpha_hat, mu_hat, sigma_hat, tau_hat, N, T, m, k, p, q) for _ in prange(BB)]
+        
+        
+        # Preallocate lr_stat as a 1D array (Numba-compatible)
+        lr_stat_bb = np.zeros(BB, dtype=np.float64)
+        
+        for bb in prange(BB):
+            data = Data[bb]
+            y_bb = data[0]
+            x_bb = data[1]
+            z_bb = data[2]
+            
+            # Call regpanelmixPMLE for m components
+            out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k)
+            out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k)
+            penloglik_h0 = out_h0['penloglik'][0, 0]
+            penloglik_h1 = out_h1['penloglik'][0, 0]
+            
+            # Compute likelihood ratio statistic
+            lr_stat_bb[bb] = -2 * (penloglik_h0 - penloglik_h1)
+        
+        lr_99 = compute_quantile(lr_stat_bb, 0.99)
+        lr_95 = compute_quantile(lr_stat_bb, 0.95)
+        lr_90 = compute_quantile(lr_stat_bb, 0.90)
+    else:
+        lr_99 = 1e10
+        lr_95 = 1e10
+        lr_90 = 1e10
+    return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
+     
 # @njit
 # def reshape_example(mubeta_hat, q, M):
 #     # Ensure the array is contiguous
