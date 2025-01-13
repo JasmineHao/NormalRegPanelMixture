@@ -1675,7 +1675,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
         oldpenloglik = -np.inf
         diff = 1.0
         
-        for iter_ii in prange(maxit):
+        for iter_ii in range(maxit):
             
             ll = - nt * M_LN_SQRT_2PI
             
@@ -1688,7 +1688,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             sigma_jn_rep = repeat_elements(sigma_jn, k)
             res = np.zeros((mk, nt))
             
-            for j in prange(mk):
+            for j in range(mk):
                 res[j] = ytilde - x1 @ mubeta_jn_mat[j]
                 r[j,:] = log_likelihood_array(res[j], 0.0, sigma_jn_rep[j])
                 # r[j,:] = log_likelihood_array(res[j], 0.0, sigma_jn_rep[0])
@@ -1697,32 +1697,32 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             l_m = np.zeros((m,n))  # Same shape as `r`
             w_mk = np.zeros((mk,nt))    # Weights
                 
-            for mm in prange(m):
+            for mm in range(m):
                 r_m = r[ mm*k: (mm+1)*k, :]
                 tau_m = tau_jn[ mm*k: (mm+1)*k] 
                 minr = max_along_axis_0(r_m) 
                 w_m = np.zeros((k,nt))    # Weights
                 
                 l_m_k = np.zeros((k,nt))  # Same shape as `r`                            
-                for i in prange(nt):
-                    for kk in prange(k):
+                for i in range(nt):
+                    for kk in range(k):
                         l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
 
                 sum_l_m_k = np.zeros(nt)   # Sum along axis 0
-                for i in prange(nt):
-                    for kk in prange(k):
+                for i in range(nt):
+                    for kk in range(k):
                         sum_l_m_k[i] += l_m_k[kk, i]
                 
-                for i in prange(nt):
-                    for kk in prange(k):
+                for i in range(nt):
+                    for kk in range(k):
                         w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 0.01)
                 
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 
                 # compute l_m 
-                for nn in prange(n):
+                for nn in range(n):
                     sum_l_m_k_nn = 0.0
-                    for tt in prange(t):
+                    for tt in range(t):
                         idx = nn * t + tt  # Compute the flattened index
                         sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
                     l_m[mm,nn] = sum_l_m_k_nn
@@ -1731,28 +1731,28 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             l_m_weighted = np.zeros((m,n))
             w = np.zeros((m, n))
             min_l_m = max_along_axis_0(l_m)
-            for i in prange(n):
-                for mm in prange(m):
+            for i in range(n):
+                for mm in range(m):
                     l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
                     sum_l_m[i] += l_m_weighted[mm, i]
                         
             # update weight
             # Compute w = l_j / sum_l_j
-            for i in prange(n):
-                for mm in prange(m):
+            for i in range(n):
+                for mm in range(m):
                     w[mm, i] = l_m_weighted[mm, i] / sum_l_m[i]
                     w_mk[mm*k: (mm+1)*k, i * t: (i+1)*t] = w_mk[mm*k: (mm+1)*k, i * t: (i+1)*t] * w[mm, i]
             
-            for i in prange(n):
+            for i in range(n):
                 ll += np.log(sum_l_m[i]) + min_l_m[i]
             
             penloglik = ll + np.log(2.0) 
             
-            # for mm in prange(m):
+            # for mm in range(m):
             #     s0j = sigma_0[mm] / sigma_jn[mm]
             #     penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
             
-            # for j in prange(mk):
+            # for j in range(mk):
             #     penloglik += min(np.log(tau_jn[j]), np.log(1 - tau_jn[j]))
             
             diff = penloglik - oldpenloglik
@@ -1764,21 +1764,21 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             # Fill w_mk nan values, for the program to run
             w_mk = fill_nan(w_mk, 1)
             # Make sure w_mk each row add up to 1
-            for i in prange(nt):
+            for i in range(nt):
                 w_mk[:,i] = w_mk[:,i] / max(np.sum(w_mk[:,i]), 0.01)
             
             # Update parameters
-            for mm in prange(m):
+            for mm in range(m):
                 
                 alpha_jn[mm] = np.mean(w[mm])
                 res_mm_sq = np.zeros(nt)
                 w_mk_sum = np.zeros(nt)
                 
                 sum_tau_jn = 0 
-                for kk in prange(k):
+                for kk in range(k):
                     idx_type = mm * k + kk
                     xtilde = np.zeros((nt, q1))
-                    for ii in prange(q1):
+                    for ii in range(q1):
                         xtilde[:, ii] = w_mk[idx_type] * x1[:, ii]    
                     mubeta_jn_mat[idx_type,:] = solve_linear_system_safe(xtilde.T @ x1, xtilde.T @ ytilde)
                     res_mm_sq +=  w_mk[idx_type] * (ytilde - x1 @ mubeta_jn_mat[idx_type,:])**2
@@ -1786,7 +1786,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
                     tau_jn[idx_type] = np.mean(w_mk[idx_type] )
                     sum_tau_jn += tau_jn[idx_type]
                 
-                for kk in prange(k):
+                for kk in range(k):
                     idx_type = mm * k + kk
                     tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.01)
                 
@@ -1794,11 +1794,11 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
             
             # update alpha
-            for mm in prange(m):
+            for mm in range(m):
                 alpha_jn[mm] = min(max(0.01, alpha_jn[mm]), 0.99)
             
             total_alpha = np.sum(alpha_jn)
-            for mm in prange(m):
+            for mm in range(m):
                 alpha_jn[mm] = alpha_jn[mm] / total_alpha
             # print(diff)
             # print(tau_jn)
@@ -1818,7 +1818,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
 
 # %%
 @njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200):    # Extract the generated data
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=50):    # Extract the generated data
     
     t,n = y.shape
     nt = n * t
