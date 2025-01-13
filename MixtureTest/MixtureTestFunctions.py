@@ -4,6 +4,20 @@ from numba.typed import Dict, List
 from numba.core import types
 import math
 
+np.set_printoptions(
+    precision=3,
+    threshold=None,
+    edgeitems=None,
+    linewidth=100,
+    suppress=True,
+    nanstr=None,
+    infstr=None,
+    formatter=None,
+    sign=None,
+    floatmode=None,
+    legacy=None
+)
+
 # Functions for Numba
 # ----------------------------------------------------------
 @njit
@@ -1118,6 +1132,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
     return(alpha_draw,mubeta_draw,sigma_draw,gamma_draw, penloglikset, loglikset ,post)
+
 
 @njit
 def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
@@ -2273,4 +2288,87 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
 #     # Perform the reshape
 #     mubeta_hat_mat = mubeta_hat.reshape((q + 1, M)).T
 #     return mubeta_hat_mat
+# %%
+import numpy as np
+import pandas as pd
+import time
+
+def process_chilean_data(df, each_code, T=3, p=0):
+    """
+    Process Chilean dataset given a specific `each_code` and `T`.
+    
+    Parameters:
+    - df (pd.DataFrame): The input DataFrame containing the Chilean dataset.
+    - each_code (str): The specific 'ciiu_3d' code to filter the dataset.
+    - T (int): The time window to reshape the panel data (default is 3).
+    - p (int): Dimensionality of the Z matrix (default is 1).
+    
+    Returns:
+    - dict: A dictionary containing processed data and results.
+    """
+    t = time.time()  # Start timer
+
+    # Filter dataset for the code
+    ind_each = df.loc[df['ciiu_3d'] == each_code, :].copy()  # Subset the DataFrame
+    ind_name = ind_each['ciiu3d_descr'].iloc[0]  # Get the name
+
+    # Log transformations
+    ind_each.loc[:, 'y'] = np.log(ind_each['GO'])
+    ind_each.loc[:, 'lnm'] = np.log(ind_each['WI'])
+    ind_each.loc[:, 'lnl'] = np.log(ind_each['L'])
+    ind_each.loc[:, 'lnk'] = np.log(ind_each['K'])
+
+    ######################################################
+    # Describe the data
+    ######################################################
+    desc_each = ind_each[ind_each['L'] != 0][['si', 'y', 'lnm', 'lnl', 'lnk']]
+    year_list = sorted(ind_each['year'].unique())
+    T_cap = max(year_list)
+
+    # Initialize result storage
+    coef_df = np.zeros((5, 10))
+    lr_df = np.zeros((5, 10), dtype=object)
+    AIC_df = np.zeros((5, 10))
+    BIC_df = np.zeros((5, 10))
+
+    ######################################################
+    # For panel data
+    ######################################################
+    
+    t_start = T_cap - T + 1
+
+    # Reshape the data
+    ind_each_t = ind_each[ind_each['year'] >= t_start].dropna()
+    ind_each_y = ind_each_t.pivot(index='id', columns='year', values='si')
+    id_list = ind_each_y.dropna().index  # Get balanced panel IDs
+    ind_each_t = ind_each_t[ind_each_t['id'].isin(id_list)].sort_values(['id', 'year'])
+
+    # Reshape Y
+    ind_each_y = ind_each_t.pivot(index='id', columns='year', values='si').drop(columns='id', errors='ignore')
+    ind_each_y = (ind_each_y - ind_each_t['si'].mean()) / ind_each_t['si'].std()
+
+    # Normalize X
+    ind_each_x = (ind_each_t['lnk'] - ind_each_t['lnk'].mean()) / ind_each_t['lnk'].std()
+
+    # Prepare data
+    y = ind_each_y.T.to_numpy()  # Transpose Y
+    x_k = ind_each_x.to_numpy().reshape(-1, 1)  # X as a matrix
+    N = ind_each_y.shape[0]
+    z = np.zeros((N * T, p))
+    x = np.zeros((N * T, 0))
+
+        # Example: Return bootstrap flag (optional logic here)
+
+    # Return processed data and results
+    results = {
+        'ind_name': ind_name,
+        'desc_each': desc_each,
+        'year_list': year_list,
+        'processed_y': y,
+        'processed_x': x,
+        'processed_z': z,
+        'execution_time': time.time() - t
+    }
+
+    return results
 # %%

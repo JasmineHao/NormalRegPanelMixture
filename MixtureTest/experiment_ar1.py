@@ -3,19 +3,6 @@ from MixtureTestFunctions import *
 import time
 
 # Set print options
-np.set_printoptions(
-    precision=3,
-    threshold=None,
-    edgeitems=None,
-    linewidth=100,
-    suppress=True,
-    nanstr=None,
-    infstr=None,
-    formatter=None,
-    sign=None,
-    floatmode=None,
-    legacy=None
-)
 # Define parameters
 
 # alpha = np.array([0.5, 0.5])  # Category probabilities (for M categories)
