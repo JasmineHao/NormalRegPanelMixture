@@ -8,6 +8,18 @@ import numpy as np
 import math
 import time
 from numba import njit, prange
+from numba import set_num_threads, get_num_threads
+
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "64"
+
+# Your code here
+# Set the number of threads you want Numba to use
+set_num_threads(64)
+
+# Verify the number of threads
+print(f"Numba is using {get_num_threads()} threads.")
+
 
 result = pyreadr.read_r('ChileanClean.rds')  # Load the RDS file
 df = result[None]  # Extract the dataframe
@@ -20,6 +32,7 @@ y = processed_data['processed_y']
 x = processed_data['processed_x']
 z = processed_data['processed_z']
 
+# %%
 
 
 # Assuming these functions are already implemented:
@@ -141,7 +154,7 @@ if __name__ == "__main__":
     K = 2
     p = 0
     q = 0
-    T, N = 10, 100  # Example dimensions
+    T, N = 3, 196  # Example dimensions
     M_max = 7
     nrep = 100
     BB = 199
