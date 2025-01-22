@@ -60,7 +60,7 @@ for ii in prange(nrep):
         n_bins =  math.ceil((m+1)**(1/(T - 1)))
         rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
         # lr test
-        [lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov] = LRTestNoCovariates(y, x, z, p, q, m, N, T, bootstrap = bootstrap_nocov, BB= 199)
+        [lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov] = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = bootstrap_nocov, BB= 199)
         
         [lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture] = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap = bootstrap_mixture, BB= 199)
         # record

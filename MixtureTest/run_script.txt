@@ -1,0 +1,1 @@
+nohup python experiment_with_x.py > output.log 2>&1

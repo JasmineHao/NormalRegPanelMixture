@@ -11,11 +11,11 @@ from numba import njit, prange
 from numba import set_num_threads, get_num_threads
 
 import os
-os.environ["OPENBLAS_NUM_THREADS"] = "64"
+# os.environ["OPENBLAS_NUM_THREADS"] = "64"
 
 # Your code here
 # Set the number of threads you want Numba to use
-set_num_threads(64)
+# set_num_threads(64)
 
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
@@ -39,7 +39,7 @@ z = processed_data['processed_z']
 # generate_data_mixture, regpanelmixmixturePMLE, NonParTestNoCovariates, LRTestNormal, LRTestMixture
 
 @njit(parallel=True)  # Numba JIT compilation with parallelization
-def parallel_processing(nrep, M_max, BB, alpha, mu, sigma, tau, N, T, M, K, p, q):
+def parallel_processing(nrep, M_max, BB, alpha, tau, mu, beta, rho, sigma, gamma, mu_0, beta_0, sigma_0, gamma_0, N, T, M, K, p, q):
     # Initialize result tables
     aic_table = np.zeros((nrep, M_max))
     bic_table = np.zeros((nrep, M_max))
@@ -57,7 +57,7 @@ def parallel_processing(nrep, M_max, BB, alpha, mu, sigma, tau, N, T, M, K, p, q
     lr_10_table_mixture = np.zeros((nrep, M_max))
 
     # Generate data for all repetitions
-    Data = [generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p, q) for _ in range(nrep)]
+    Data = [generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q) for _ in prange(nrep)]
 
     # Parallel loop
     for ii in prange(nrep):  # Use prange for parallel execution
@@ -77,11 +77,11 @@ def parallel_processing(nrep, M_max, BB, alpha, mu, sigma, tau, N, T, M, K, p, q
             rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
 
             # LR test for no-covariates model
-            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_results_nocov = LRTestNormalAR1(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
             lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
 
             # LR test for mixture model
-            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
+            lr_results_mixture = LRTestAR1Mixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
             lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
 
             # Record results
@@ -160,20 +160,25 @@ if __name__ == "__main__":
     BB = 199
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixmixturePMLE(y, x, z, p=p, q=q, m=M, k=K)
-    alpha = out_dgp['alpha_hat'][0]
-    tau = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M, K)
-    mubeta = np.ascontiguousarray(out_dgp['mubeta_hat'][0])
-    sigma = out_dgp['sigma_hat'][0]
-    gamma = out_dgp['gamma_hat'][0]
+    out_dgp = regpanelmixAR1mixturePMLE(y, x, z, p, q, M, K)
+    alpha  = out_dgp['alpha_hat'][0]
+    tau  = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M,K)
+    
+    mu = np.ascontiguousarray(out_dgp['mu_hat'][0]).reshape(M,K)
+    beta = out_dgp['beta_hat']
+    rho = out_dgp['rho_hat'][0]
+    sigma  = out_dgp['sigma_hat'][0]
+    gamma  = out_dgp['gamma_hat'][0]
+    
+    mu_0 = np.ascontiguousarray(out_dgp['mu_0_hat']).reshape(M,K) 
+    beta_0 = out_dgp['beta_0_hat']
 
-    mubeta_mat = mubeta.reshape((q + 1, M * K)).T
-    beta = mubeta_mat[:, 1:]
-    mu = np.ascontiguousarray(mubeta_mat[:, 0]).reshape(M, K)
-
+    sigma_0  = out_dgp['sigma_0_hat'][0]
+    gamma_0  = out_dgp['gamma_0_hat'][0]
+    
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing(nrep, M_max, BB, alpha, mu, sigma, tau, N, T, M, K, p, q)
+    results = parallel_processing(nrep, M_max, BB, alpha, tau, mu, beta, rho, sigma, gamma, mu_0, beta_0, sigma_0, gamma_0, N, T, M, K, p, q)
     end_time = time.time()
 
     print("Parallel processing completed in:", end_time - start_time, "seconds")
@@ -198,6 +203,6 @@ if __name__ == "__main__":
     # Set row and column names
 
     # Save to CSV
-    result_freq_table.to_csv("empirical_test_dgp_mixture_M3.csv")
+    result_freq_table.to_csv("empirical_test_dgp_ar1_mixture_M3.csv")
 
 # %%
