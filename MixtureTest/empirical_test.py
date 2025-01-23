@@ -7,11 +7,24 @@ import pyreadr
 import warnings
 warnings.filterwarnings("ignore")
 
+from numba import set_num_threads, get_num_threads
+
+import os
+# os.environ["OPENBLAS_NUM_THREADS"] = "64"
+
+# Your code here
+# Set the number of threads you want Numba to use
+# set_num_threads(64)
+
+# Verify the number of threads
+print(f"Numba is using {get_num_threads()} threads.")
+
 MODEL = "plain" 
 MODEL_list = ["plain", "plain mixture", "k", "k spline", "kl", "kl spline", "ar1 plain", "ar1 plain mixture", "ar1 k", "ar1 kl"]
 # candidate models ["plain", "k", "k spline", "kl", "kl spline", "ar1 plain", "ar1 k", "ar1 kl"]
 COUNTRY = "chile"
 COUNTRY_list = ['japan', 'chile']
+BB = 19
 
 # %%
 def find_model_stop(aic_values):
@@ -127,29 +140,31 @@ for COUNTRY in COUNTRY_list:
             # for m in range(1, 3):  # Loop for M = 1 to 10
             for m in range(1, 11):  # Loop for M = 1 to 10
                 # Estimate the null model
-                # M = 1        
+                # M = 1
+                start_time_model_m = time.time()
+                    
                 match MODEL:
                     case "plain":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     case "plain mixture":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                     case "k":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     case "k spline":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= 199, spline=True)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                     case "kl":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     case "kl spline":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= 199, spline=True)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                     case "ar1 plain":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     case "ar1 plain mixture":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
                         
                     case "ar1 k":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     case "ar1 kl":
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= 199)
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     
                     case _:
                         print("Model Not Recognized")
@@ -163,6 +178,9 @@ for COUNTRY in COUNTRY_list:
                 lr_df[m -1] = lr_stat_k > lr_95_k
                 lr_estim[m -1] = f'{lr_stat_k:.4f}' 
                 lr_crit[m -1] = ", ".join(f"{x:.4f}" for x in [lr_90_k, lr_95_k, lr_99_k]) 
+                end_time_model_m = time.time()
+                print(COUNTRY, INDNAME, MODEL, m, end_time_model_m - start_time_model_m)
+                
             
             result_each_df = pd.DataFrame([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), find_model_stop(AIC_df), find_model_stop(BIC_df), find_first_zero(lr_df) ]).T
             result_df = pd.concat([result_df, result_each_df],axis=0 )
