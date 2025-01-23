@@ -3052,9 +3052,9 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
         lr_95 = compute_quantile(lr_stat_bb, 0.95)
         lr_90 = compute_quantile(lr_stat_bb, 0.90)
     else:
-        lr_99 = 1e10
-        lr_95 = 1e10
-        lr_90 = 1e10
+        lr_99 = np.inf
+        lr_95 = np.inf
+        lr_90 = np.inf
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
    
 # %%
@@ -3107,9 +3107,9 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
         lr_95 = compute_quantile(lr_stat_bb, 0.95)
         lr_90 = compute_quantile(lr_stat_bb, 0.90)
     else:
-        lr_99 = 1e10
-        lr_95 = 1e10
-        lr_90 = 1e10
+        lr_99 = np.inf
+        lr_95 = np.inf
+        lr_90 = np.inf
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
@@ -3168,9 +3168,9 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
         lr_95 = compute_quantile(lr_stat_bb, 0.95)
         lr_90 = compute_quantile(lr_stat_bb, 0.90)
     else:
-        lr_99 = 1e10
-        lr_95 = 1e10
-        lr_90 = 1e10
+        lr_99 = np.inf
+        lr_95 = np.inf
+        lr_90 = np.inf
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
@@ -3238,9 +3238,9 @@ def LRTestNormalAR1(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
         lr_95 = compute_quantile(lr_stat_bb, 0.95)
         lr_90 = compute_quantile(lr_stat_bb, 0.90)
     else:
-        lr_99 = 1e10
-        lr_95 = 1e10
-        lr_90 = 1e10
+        lr_99 = np.inf
+        lr_95 = np.inf
+        lr_90 = np.inf
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
           
 # %%
