@@ -24,6 +24,8 @@ MODEL_list = ["plain", "plain mixture", "k", "k spline", "kl", "kl spline", "ar1
 
 MODEL_list = ["plain mixture", "ar1 plain mixture", "plain", "k", "k spline", "kl", "kl spline", "ar1 plain",  "ar1 k", "ar1 kl"]
 
+MODEL_list = ["ar1 plain mixture", "plain", "k", "k spline", "kl", "kl spline", "ar1 plain",  "ar1 k", "ar1 kl"]
+
 # MODEL_list = ["plain mixture"] 
 # candidate models ["plain", "k", "k spline", "kl", "kl spline", "ar1 plain", "ar1 k", "ar1 kl"]
 COUNTRY = "chile"
@@ -32,6 +34,7 @@ MODEL = "plain mixture"
 COUNTRY_list = ['japan', 'chile']
 BB = 199
 
+print("Simulation Start")
 # %%
 def find_model_stop(aic_values):
     differences = np.diff(aic_values)
@@ -182,7 +185,7 @@ for MODEL in MODEL_list:
             statistics_df.append([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), 'AIC'] + list(AIC_df))
             statistics_df.append([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), 'BIC'] + list(BIC_df))
             statistics_df.append([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), 'LR'] + list(lr_estim))
-
+            statistics_df.append([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), 'LR Crit'] + list(lr_crit))
             end_time = time.time()
             print(COUNTRY, INDNAME, end_time - start_time)
             print(result_each_df)
