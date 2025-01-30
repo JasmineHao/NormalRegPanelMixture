@@ -1226,7 +1226,7 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, res):
 
 # %%
 @njit
-def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.05):
+def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.2):
     
     nt = len(y_c)
     n = nt // t
@@ -1332,7 +1332,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.01, alpha_jn[j] )
+                alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -1496,7 +1496,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
 # %%
 
 @njit
-def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05):
+def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.2):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     # Handle x
@@ -1630,7 +1630,7 @@ def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_d
             mubeta_0_jn = mubeta_0_jn_mat[:,:q+1].T.flatten()
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.01, alpha_jn[j] )
+                alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -1872,7 +1872,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
 # %%
 
 @njit
-def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05):
+def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.2):
     nt = n * (t-1)
     mk = int(m*k)
     ninits = alpha_draw.shape[1]
@@ -2090,12 +2090,12 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.01)
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.05)
 
-                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.01)  )
+                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.05)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
 
-                sigma_0_jn[mm] = np.sqrt(( np.sum(res_mm_0_sq) ) / max(np.sum(w_mk_0_sum), 0.01)  )
+                sigma_0_jn[mm] = np.sqrt(( np.sum(res_mm_0_sq) ) / max(np.sum(w_mk_0_sum), 0.05)  )
                 sigma_0_jn[mm] = max(sigma_0_jn[mm], epsilon * sigma_0[mm])
                 
                 
@@ -2103,7 +2103,7 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
             mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.01, alpha_jn[j] )
+                alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -2381,7 +2381,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
     return result_dict 
 # %%
 @njit
-def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon =0.05):
+def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon =0.2):
     
     nt = len(y_c)
     n = nt // t
@@ -2497,7 +2497,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             w_mk = fill_nan(w_mk, 1)
             # Make sure w_mk each row add up to 1
             for i in range(nt):
-                w_mk[:,i] = w_mk[:,i] / max(np.sum(w_mk[:,i]), 0.01)
+                w_mk[:,i] = w_mk[:,i] / max(np.sum(w_mk[:,i]), 0.05)
             
             # Update parameters
             for mm in range(m):
@@ -2520,14 +2520,14 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.01)
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.05)
                 
-                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.01)  )
+                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.05)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
             
             # update alpha
             for mm in range(m):
-                alpha_jn[mm] = min(max(0.01, alpha_jn[mm]), 0.99)
+                alpha_jn[mm] = min(max(0.05, alpha_jn[mm]), 0.95)
             
             total_alpha = np.sum(alpha_jn)
             for mm in range(m):

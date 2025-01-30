@@ -1,0 +1,6 @@
+Country,,Chile,Chile,Chile
+Industry,,Fabricated metal products,Food products,Textiles
+,Model,,,
+AIC,Kl spline,9,7,9
+BIC,Kl spline,9,7,9
+LR,Kl spline,6,5,6
