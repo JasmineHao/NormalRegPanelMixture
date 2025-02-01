@@ -22,17 +22,17 @@ import os
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
 
-# MODEL_list = ["plain", "plain mixture", "k", "k spline", "kl", "kl spline", "ar1 plain", "ar1 plain mixture", "ar1 k", "ar1 kl"]
+# MODEL_list = ["plain", "plain_mixture", "k", "k_spline", "kl", "kl_spline", "ar1_plain", "ar1_plain_mixture", "ar1_k", "ar1_kl"]
 
-MODEL_list = ["plain mixture", "k mixture", "kl mixture", "kl mixture spline", "ar1 plain mixture", "ar1 k mixture", "ar1 kl mixture", "ar1 kl mixture spline"]
-MODEL_list = ['plain', 'k', 'kl', 'kl spline']
+MODEL_list = ["plain_mixture", "k_mixture", "kl_mixture", "kl_mixture_spline", "ar1_plain_mixture", "ar1_k_mixture", "ar1_kl_mixture", "ar1_kl_mixture_spline"]
+MODEL_list = ['plain', 'k', 'kl', 'kl_spline']
 
 COUNTRY = "chile"
 COUNTRY_list = ['japan', 'chile']
 
 print(sys.argv)
 if len(sys.argv) < 2:
-    MODEL = "plain mixture" 
+    MODEL = "plain_mixture" 
 else:
     MODEL = sys.argv[1]
 
@@ -143,44 +143,45 @@ for COUNTRY in COUNTRY_list:
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 case "k":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                case "k spline":
+                case "k_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                 case "kl":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                case "kl spline":
+                case "kl_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                     
-                case "plain mixture":
+                case "plain_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
-                case "k mixture":
+                case "k_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
-                case "kl mixture":
+                case "kl_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
-                case "kl mixture spline":
+                case "kl_mixture_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB, spline=True)
                     
                 
-                case "ar1 plain":
+                case "ar1_plain":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 
-                case "ar1 plain mixture":
+                case "ar1_plain_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                case "ar1 k mixture":
+                case "ar1_k_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                case "ar1 kl mixture":
+                case "ar1_kl_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)            
-                case "ar1 kl mixture spline":
+                case "ar1_kl_mixture_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB, spline=True)
                     
-                case "ar1 k":
+                case "ar1_k":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                case "ar1 kl":
+                case "ar1_kl":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 
                 case _:
                     print("Model Not Recognized")
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = [0,0,0,0,0,0,0]
 
+            
             if lr_stat_k < lr_95_k:
                 bootstrap_k_cov = False
 
@@ -191,7 +192,7 @@ for COUNTRY in COUNTRY_list:
             lr_crit[m - 1] = ", ".join(f"{x:.4f}" for x in [lr_90_k, lr_95_k, lr_99_k])
 
             end_time_model_m = time.time()
-            print(COUNTRY, INDNAME, MODEL, m, end_time_model_m - start_time_model_m)
+            print(f"Country: {COUNTRY}, Industry: {INDNAME}, Model: {MODEL}, M: {m}, Time Taken: {end_time_model_m - start_time_model_m:.2f} seconds, LR Stat: {lr_stat_k:.4f}")
 
         # Append results to lists
         result_each_df = [COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), find_model_stop(AIC_df), find_model_stop(BIC_df), find_first_zero(lr_df)]

@@ -14,7 +14,10 @@ dataframes_jp = pd.DataFrame()
 dataframes_cl = pd.DataFrame()
 for csv_file in csv_files:
     file_path = os.path.join(folder_path, csv_file)
-    _, country, model = csv_file.strip('.csv').split('_')
+    csv_file_name = csv_file.strip('.csv').split('_')
+    country = csv_file_name[1]
+    model = ' '.join(csv_file_name[2:])
+    
     df = pd.read_csv(file_path, header=1, index_col=0)
     df = df[df.columns[1:]]    
     df_row = df.loc[['AIC','BIC','LR'],:].stack().to_frame().T

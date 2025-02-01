@@ -3007,7 +3007,7 @@ def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
 
 # %%
 
-@njit(parallel=False) 
+@njit(parallel=True) 
 def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3101,7 +3101,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
    
 # %%
-@njit(parallel=False)
+@njit(parallel=True)
 def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3184,7 +3184,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
-@njit(parallel=False) 
+@njit(parallel=True) 
 def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3279,7 +3279,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
-@njit(parallel=False)
+@njit(parallel=True)
 def LRTestNormalAR1(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
     out_h0 = regpanelmixAR1PMLE(y,x,z, p, q, m)
     out_h1 = regpanelmixAR1PMLE(y,x,z, p, q, m+1)
