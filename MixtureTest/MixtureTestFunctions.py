@@ -3118,8 +3118,8 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m,k)
-        out_h1 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
+        out_h0 = regpanelmixmixturePMLE(y,x_spline,z, p, q_spline, m,k)
+        out_h1 = regpanelmixmixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
     else:
         out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, m, k)
         out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, m+1, k)
