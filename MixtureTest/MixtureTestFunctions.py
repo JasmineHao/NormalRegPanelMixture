@@ -4,6 +4,8 @@ from numba.typed import Dict, List
 from numba.core import types
 import math
 
+from numpy._typing._array_like import NDArray
+
 np.set_printoptions(
     precision=3,
     threshold=None,
@@ -531,7 +533,7 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q):
+def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False):
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
     
@@ -555,9 +557,6 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
     mu_R_sub = np.zeros((N*T, M))
     mu_R_sub_0 = np.zeros((N, M))
     
-    # if q > 0:
-    #     beta_R_sub = np.zeros((N*T, M, q))
-    
     for mm in range(M):
         prior_m = np.random.random(size=N*T)
         prior_m_0 = np.random.random(size=N)
@@ -571,9 +570,7 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
             R_sub_0[:, mm, kk] = ((prior_m_0 > lb) & (prior_m_0 <= ub)) 
         mu_R_sub[:, mm] = np.dot(R_sub[:,mm].astype(np.float64), mu[mm])
         mu_R_sub_0[:, mm] = np.dot(R_sub_0[:,mm].astype(np.float64), mu_0[mm])
-        # if q > 0:
-        #     beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
-    
+        
     
     mu_R = (R_T * mu_R_sub).sum(axis=1)
     mu_0_R = (R * mu_R_sub_0).sum(axis=1)  # Use np.dot for matrix multiplication
@@ -596,7 +593,33 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
     else:
         x = np.zeros((N * T, 0), dtype=np.float64)
         x_0 = np.zeros((N, 0), dtype=np.float64)
+    
+    if spline:
+        bs_degree = 2    
+        x_spline = np.zeros((N*T, 0))
+        for qq in range(q):
+            quantiles = np.quantile(x[:,qq], [0.33, 0.67])
+            knots = np.concatenate((
+                np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                quantiles,
+                np.array([quantiles[1]] * (bs_degree))  # This is fine
+            ))
+            # Generate B-spline basis columns
+            bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
+            x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         
+        x_0_spline = np.zeros((N, 0))
+        for qq in range(q):
+            quantiles = np.quantile(x_0[:,qq], [0.33, 0.67])
+            knots = np.concatenate((
+                np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                quantiles,
+                np.array([quantiles[1]] * (bs_degree))  # This is fine
+            ))
+            # Generate B-spline basis columns
+            bs_columns = generate_b_spline_basis(x_0[:,qq], knots, bs_degree)
+            x_0_spline = np.concatenate((x_0_spline, bs_columns),axis=1)
+            
     if p > 0:
         z = np.empty((N * T, p))
         z_0 = np.empty((N, p))
@@ -625,7 +648,10 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
     # Generate Y0 
     for nn in range(N):
         Y_0[nn,:] += mu_0_R[nn] + sigma_0_R[nn] * u_0[nn]
-        Y_0[nn,:] += x_0[nn] @ beta_0_R[nn,:]
+        if spline:
+            Y_0[nn,:] += x_0_spline[nn] @ beta_0_R[nn,:]
+        else:
+            Y_0[nn,:] += x_0[nn] @ beta_0_R[nn,:]
         
     Y[0,:] = Y_0.T
     # Generate Y
@@ -633,14 +659,17 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
         for tt in range(T):
             Y[tt+1, nn] += mu_R[(T * nn + tt)] + sigma_R[nn] * u[tt, nn]
             Y[tt+1, nn] += Y[tt, nn] * rho_R[nn]
-            Y[tt+1, nn] += x[(T * nn + tt), :] @ beta_R[nn, :]
+            if spline:
+                Y[tt+1, nn] += x_spline[(T * nn + tt), :] @ beta_R[nn, :]
+            else:
+                Y[tt+1, nn] += x[(T * nn + tt), :] @ beta_R[nn, :]
             Y[tt+1, nn] += z[(T * nn + tt), :] @ gamma
-            
     Y = Y[1:,:]
     return(Y, x, z)
+
 # %%
 @njit(parallel=False)
-def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p=0, q=0):
+def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False):
 
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
@@ -650,53 +679,77 @@ def generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p=0, q=0):
     
     prior = np.random.random(size=N)
     alpha_cum = np.zeros(M + 1)
-    for mm in prange(M):
+    for mm in range(M):
         alpha_cum[mm + 1] = alpha_cum[mm] + alpha[mm]
         lb = alpha_cum[mm]
         ub = alpha_cum[mm + 1]
-        for n in prange(N):
+        for n in range(N):
             R[n, mm] = 1 if lb < prior[n] <= ub else 0
             R_T[:,mm] = repeat_column(R, T, mm)
-                
-
+    
     R_sub = np.zeros((N * T, M, K))
     mu_R_sub = np.zeros((N*T, M))
-    # if q > 0:
-    #     beta_R_sub = np.zeros((N*T, M, q))
     
-    for mm in prange(M):
+    for mm in range(M):
         prior_m = np.random.random(size=N*T)
+        
         tau_cum = np.cumsum(np.concatenate((np.array([0]), tau[mm])))
 
-        
-        for kk  in prange(K):
+        for kk  in range(K):
             lb = tau_cum[kk]
             ub = tau_cum[kk + 1]
             R_sub[:,mm, kk] = ((prior_m > lb) & (prior_m <= ub)) 
         mu_R_sub[:, mm] = np.dot(R_sub[:,mm].astype(np.float64), mu[mm])
-        # if q > 0:
-        #     beta_R_sub[:,mm,:] = np.dot(R_sub[mm], beta[mm])[:,None]
     
-    sigma_R = np.dot(R_T, sigma)    
+    sigma_R = np.dot(R, sigma)  # Use np.dot for matrix multiplication
     mu_R = (R_T * mu_R_sub).sum(axis=1)
+    beta_R = np.dot(R, beta) 
     
-    # if q > 0:
-    #     beta_R = (R_T[:,:,np.newaxis] * beta_R_sub).sum(axis=1)
-    u = np.empty((T, N), dtype=np.float64)
-    for t in prange(T):
-        for n in prange(N):
-            u[t, n] = np.random.normal(0.0, 1.0)  # Mean=0, StdDev=1
+    if q > 0:
+        x = np.empty((N * T, q))
+        for i in range(N * T):
+            for j in range(q):
+                x[i, j] = np.random.normal()  # Generate one value at a time
+    else:
+        x = np.zeros((N * T, 0), dtype=np.float64)
+    
+    if spline:
+        bs_degree = 2    
+        x_spline = np.zeros((N*T, 0))
+        for qq in range(q):
+            quantiles = np.quantile(x[:,qq], [0.33, 0.67])
+            knots = np.concatenate((
+                np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                quantiles,
+                np.array([quantiles[1]] * (bs_degree))  # This is fine
+            ))
+            # Generate B-spline basis columns
+            bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
+            x_spline = np.concatenate((x_spline, bs_columns),axis=1)
+    
+    if p > 0:
+        z = np.empty((N * T, p))
+        for i in range(N * T):
+            for j in range(p):
+                z[i, j] = np.random.normal()  # Generate one value at a time
+    else:
+        z = np.zeros((N * T, 0), dtype=np.float64)
+    
+    u = np.empty((T, N))
+    for nn in range(N):
+        for tt in range(T):
+            u[tt, nn] = np.random.normal()  # Generate one value at a time
+    
     Y = np.zeros((T, N))
     
-    for nn in prange(N):
-        y_nn = mu_R[(T * nn):(T * (nn + 1))] + sigma_R[(T * nn):(T * (nn + 1))] * u[:, nn]
-        # if q > 0:
-        #     y_nn += np.dot(x[(T * nn):(T * (nn + 1)), :], beta_R[(T * nn):(T * (nn + 1)), :])
-        # if p > 1:
-        #     y_nn += np.dot(z[(T * nn):(T * (nn + 1)), :], gam)
-        Y[:, nn] = y_nn
-    x = np.zeros((N * T, q), dtype=np.float64)
-    z = np.zeros((N * T, p), dtype=np.float64)
+    for nn in range(N):
+        for tt in range(T):
+            Y[tt, nn] += mu_R[(T * nn + tt)] + sigma_R[nn] * u[tt, nn]
+            if spline:
+                Y[tt, nn] += x_spline[(T * nn + tt), :] @ beta_R[nn, :]
+            else:
+                Y[tt, nn] += x[(T * nn + tt), :] @ beta_R[nn, :]
+            Y[tt, nn] += z[(T * nn + tt), :] @ gamma
     return(Y, x, z)
 
 
@@ -1226,7 +1279,7 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, res):
 
 # %%
 @njit
-def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.2):
+def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.1):
     
     nt = len(y_c)
     n = nt // t
@@ -1367,7 +1420,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
 
 
 @njit
-def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
+def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
     
     t,n = y.shape
     nt = n * t
@@ -1453,7 +1506,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
         # Initialize sigma
         sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
         
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=epsilon_short)
+        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short)
 
         components = np.argsort(penloglikset)[::-1][:ninits]
         alpha_draw = alpha_draw[:,components]
@@ -1462,7 +1515,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
         gamma_draw = gamma_draw[:,components]
         
         
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=epsilon_long)
+        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long)
         
         index = np.argmax(penloglikset)
         alpha_hat = alpha_draw[:,index]
@@ -1496,7 +1549,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, ep
 # %%
 
 @njit
-def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.2):
+def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     # Handle x
@@ -1603,7 +1656,8 @@ def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_d
                 
                 coef_jn = solve_linear_system_safe(xtilde.T @ xz, xtilde.T @ y_c)
                 coef_0_jn = solve_linear_system_safe(xtilde_0.T @ xz_0, xtilde_0.T @ y_0)
-                                
+                
+                # update rho              
                 if coef_jn[-1] > 0.99:
                     coef_jn[-1] = 0.99
                 if coef_jn[-1] < 0.01:
@@ -1670,7 +1724,7 @@ def EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_d
 
 # %%
 @njit
-def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
+def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
     t,n = y.shape
     nt = n * (t-1)
     
@@ -1804,19 +1858,19 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
             mubeta_0_draw[mm, :] = np.random.uniform(minMU_0, maxMU_0, size=ninits_short)
             if q > 0:
                 for j in range(q):
-                    mubeta_draw[ m*(j+1)+mm , :] = out_coef[1+j] * np.random.uniform(-2, 2, size=ninits_short)
+                    mubeta_draw[ m*(j+1)+mm , :] = out_coef[1+j] * np.random.uniform(-0.5, 0.5, size=ninits_short)
                     mubeta_draw[ m*(j+q+1)+mm , :] = mubeta_draw[ m*(j+1)+mm , :] * mubeta_draw[m*(q1 - 1)+mm, :]  
-                    mubeta_0_draw[ m*(j+1)+mm , :] = out_coef_0[1+j] * np.random.uniform(-2, 2, size=ninits_short)
+                    mubeta_0_draw[ m*(j+1)+mm , :] = out_coef_0[1+j] * np.random.uniform(-0.5, 0.5, size=ninits_short)
                     
         an = 1 / n    
         sigma_0 = np.full(m, stdR)
     
         # Initialize sigma
-        sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
-        sigma_0_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR_0
+        sigma_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR
+        sigma_0_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR_0
         
         
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=epsilon_short)
+        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short)
 
         components = np.argsort(penloglikset)[::-1][:ninits]
         alpha_draw = alpha_draw[:,components]
@@ -1827,9 +1881,8 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
         sigma_0_draw = sigma_0_draw[:,components]
         gamma_0_draw = gamma_0_draw[:,components]
         
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=epsilon_short)
+        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit, tol=tol_long)
 
-        
         index = np.argmax(penloglikset)
         mubeta_mat =  np.ascontiguousarray(mubeta_draw[:,index]).reshape((q1,m)).T
         alpha_hat = alpha_draw[:,index]
@@ -1872,14 +1925,13 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, epsilon_long=1e-6, maxit=200
 # %%
 
 @njit
-def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.2):
+def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1):
     nt = n * (t-1)
     mk = int(m*k)
     ninits = alpha_draw.shape[1]
     # Handle x
     q1 = 2 * q + 2
     # Initialize variables    
-    l_j = np.zeros(m)
     w = np.zeros((m, n * (t-1)))
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
@@ -2024,18 +2076,19 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
                 for ii in range(1, xz.shape[1]):
                     xtilde[:, (ii-1)] = w_m * xz[:, ii]
                 
-                
                 w_mk_sum = np.zeros(nt)
                 w_mk_0_sum = np.zeros(n)
                 
                 mu_mk_weighted = np.zeros(nt)
                 mu_mk_0_weighted = np.zeros(n)
+                
                 for kk in range(k):
                     idx_type = mm * k + kk
                     mu_mk_weighted += w_mk[idx_type] * mu_jn[idx_type]
                     mu_mk_0_weighted += w_mk_0[idx_type] * mu_0_jn[idx_type]
                     w_mk_sum += w_mk[idx_type]
                     w_mk_0_sum += w_mk_0[idx_type]
+                    
                 w_mk_sum[w_mk_sum < 1e-3] = 1e-3
                 w_mk_0_sum[w_mk_0_sum < 1e-3] = 1e-3
                 mu_mk_weighted = mu_mk_weighted / w_mk_sum
@@ -2049,14 +2102,15 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
                     for ii in range(1, xz_0.shape[1]):
                         xtilde_0[:, ii-1] = wtilde * xz_0[:, ii]
                     coef_0_jn = solve_linear_system_safe(xtilde_0.T @ xz_0[:,1:], xtilde_0.T @ (y_0 - mu_mk_0_weighted))
-                                
+                
+                # update rho
                 if coef_jn[-1] > 0.99:
                     coef_jn[-1] = 0.99
                 if coef_jn[-1] < 0.01:
                     coef_jn[-1] = 0.01
                 # Hard constraint such that the corresponding beta should be bounded.
-                for qq in range(q):
-                    coef_jn[q + qq] = coef_jn[qq] * coef_jn[-1]
+                # for qq in range(q):
+                #     coef_jn[q + qq] = coef_jn[qq] * coef_jn[-1]
                 
                 # Estimate mu: mk-specific
                 ytilde = y_c - xz[:,1:] @ coef_jn
@@ -2067,14 +2121,11 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
                 else:
                     ytilde_0 = y_0
                     
-                # w_mk_sum = np.zeros(nt)
-                # w_mk_0_sum = np.zeros(n)
-                
+                w_mk_sum = np.zeros(nt)
+                w_mk_0_sum = np.zeros(n)                
                 res_mm_sq = np.zeros(nt)
-                res_mm_0_sq = np.zeros(n)
-                
-                sum_tau_jn = 0 
-                
+                res_mm_0_sq = np.zeros(n)                
+                sum_tau_jn = 0                 
                 for kk in range(k):
                     idx_type = mm * k + kk
                     mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 0.01)
@@ -2082,15 +2133,15 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
                     res_mm_0_sq += w_mk_0[idx_type,:] * (ytilde_0 - mu_0_jn[idx_type])**2
-                    # w_mk_sum += w_mk[idx_type,:]
-                    # w_mk_0_sum += w_mk_0[idx_type,:]
+                    w_mk_sum += w_mk[idx_type,:]
+                    w_mk_0_sum += w_mk_0[idx_type,:]
                     
-                    tau_jn[idx_type] = np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:])))
+                    tau_jn[idx_type] = max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),0.1)
                     sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.05)
+                    tau_jn[idx_type] = tau_jn[idx_type] / sum_tau_jn
 
                 sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.05)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
@@ -2137,17 +2188,15 @@ def EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, t
         mubeta_0_draw[:, jn] = mubeta_0_jn_mat[:,:(q+1)].T.flatten()
         sigma_0_draw[:, jn] = sigma_0_jn
         
-
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
     return(alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 # %%  
 @njit
-def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=200)  : 
+def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
     t,n = y.shape
     nt = n * (t-1)
-    
     y_l = y[:-1,:]
     y_0 = y[0,:]
     y_c = y[1:,:]
@@ -2239,8 +2288,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
         result_dict['sigma_0_hat']  = sigma_0_hat[np.newaxis,:]
         result_dict['mubeta_0_hat'] = mubeta_0_hat[np.newaxis,:]
         result_dict['gamma_0_hat'] = gamma_0_hat[np.newaxis,:]
-    else: 
-        
+    else:         
         # First draw random start point
         if p > 0:
             gamma_hat = out_coef[q1:(q1 + p)]
@@ -2297,9 +2345,9 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
             
             if q > 0:
                 for j in range(q):
-                    mubeta_draw[ m*(j+1)+mm , :] = out_coef[1+j] * np.random.uniform(-2, 2, size=ninits_short)
+                    mubeta_draw[ m*(j+1)+mm , :] = out_coef[1+j] * np.random.uniform(-0.5, 0.5, size=ninits_short)
                     mubeta_draw[ m*(j+q+1)+mm , :] = mubeta_draw[ m*(j+1)+mm , :] * mubeta_draw[m*(q1 - 1)+mm, :]  
-                    mubeta_0_draw[ m*(j+1)+mm , :] = out_coef_0[1+j] * np.random.uniform(-2, 2, size=ninits_short)
+                    mubeta_0_draw[ m*(j+1)+mm , :] = out_coef_0[1+j] * np.random.uniform(-0.5, 0.5, size=ninits_short)
                     
         an = 1 / n    
         sigma_0 = np.full(m, stdR)
@@ -2308,8 +2356,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
         sigma_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR
         sigma_0_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR_0
         
-        
-        alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=epsilon_short)
+        alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short)
 
         components = np.argsort(penloglikset)[::-1][:ninits]
         alpha_draw = alpha_draw[:,components]
@@ -2324,7 +2371,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
         sigma_0_draw = sigma_0_draw[:,components]
         gamma_0_draw = gamma_0_draw[:,components]
         
-        alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=epsilon_short)
+        alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit, tol=tol_long)
 
         
         index = np.argmax(penloglikset)
@@ -2381,7 +2428,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, epsilon_long=1e-6,
     return result_dict 
 # %%
 @njit
-def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon =0.2):
+def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 0.1):
     
     nt = len(y_c)
     n = nt // t
@@ -2393,16 +2440,17 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
-    
+          
     for jn in prange(ninits):        
         
         alpha_jn = alpha_draw[:, jn]
         tau_jn   = tau_draw[:, jn]
+        mu_jn = mu_draw[:, jn]
         mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
         gamma_jn = gamma_draw[:, jn]  # Likely float64
 
-        mubeta_jn_mat = mubeta_jn.reshape((q+1,m*k)).T
+        mubeta_jn_mat = mubeta_jn.reshape((q+1,m)).T
         
         oldpenloglik = -np.inf
         diff = 1.0
@@ -2416,15 +2464,11 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             else:
                 ytilde = y_c
             
-            r = np.zeros((mk,nt)) 
-            sigma_jn_rep = repeat_elements(sigma_jn, k)
-            res = np.zeros((mk, nt))
-            
-            for j in range(mk):
-                res[j] = ytilde - x1 @ mubeta_jn_mat[j]
-                r[j,:] = log_likelihood_array(res[j], 0.0, sigma_jn_rep[j])
-                # r[j,:] = log_likelihood_array(res[j], 0.0, sigma_jn_rep[0])
-                
+            r = np.zeros((mk, nt))
+            for mm in range(m):
+                for kk in range(k):     
+                    res = ytilde - x1 @ mubeta_jn_mat[mm] - mu_jn[mm*k + kk]
+                    r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
             
             l_m = np.zeros((m,n))  # Same shape as `r`
             w_mk = np.zeros((mk,nt))    # Weights
@@ -2432,33 +2476,37 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             for mm in range(m):
                 r_m = r[ mm*k: (mm+1)*k, :]
                 tau_m = tau_jn[ mm*k: (mm+1)*k] 
-                minr = max_along_axis_0(r_m) 
+                minr = max_along_axis_0(r_m)
+                 
                 w_m = np.zeros((k,nt))    # Weights
+                l_m_k = np.zeros((k,nt))  # Same shape as `r`
                 
-                l_m_k = np.zeros((k,nt))  # Same shape as `r`                            
+                                            
                 for i in range(nt):
                     for kk in range(k):
                         l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
-
+                        
                 sum_l_m_k = np.zeros(nt)   # Sum along axis 0
                 for i in range(nt):
                     for kk in range(k):
                         sum_l_m_k[i] += l_m_k[kk, i]
                 
+                
                 for i in range(nt):
                     for kk in range(k):
                         w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 0.01)
-                
+                                
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 
                 # compute l_m 
                 for nn in range(n):
                     sum_l_m_k_nn = 0.0
                     for tt in range(t):
-                        idx = nn * t + tt  # Compute the flattened index
+                        idx = nn * (t) + tt  # Compute the flattened index
                         sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
                     l_m[mm,nn] = sum_l_m_k_nn
             
+            # construct 
             sum_l_m = np.zeros(n)   # Sum along axis 0
             l_m_weighted = np.zeros((m,n))
             w = np.zeros((m, n))
@@ -2472,20 +2520,13 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             # Compute w = l_j / sum_l_j
             for i in range(n):
                 for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] / sum_l_m[i]
-                    w_mk[mm*k: (mm+1)*k, i * t: (i+1)*t] = w_mk[mm*k: (mm+1)*k, i * t: (i+1)*t] * w[mm, i]
-            
+                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 0.01)
+                    w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
+                    
             for i in range(n):
                 ll += np.log(sum_l_m[i]) + min_l_m[i]
             
             penloglik = ll + np.log(2.0) 
-            
-            # for mm in range(m):
-            #     s0j = sigma_0[mm] / sigma_jn[mm]
-            #     penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
-            
-            # for j in range(mk):
-            #     penloglik += min(np.log(tau_jn[j]), np.log(1 - tau_jn[j]))
             
             diff = penloglik - oldpenloglik
             oldpenloglik = penloglik
@@ -2493,65 +2534,83 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mube
             if abs(diff) < tol:
                 break
             
-            # Fill w_mk nan values, for the program to run
-            w_mk = fill_nan(w_mk, 1)
-            # Make sure w_mk each row add up to 1
-            for i in range(nt):
-                w_mk[:,i] = w_mk[:,i] / max(np.sum(w_mk[:,i]), 0.05)
-            
+           
             # Update parameters
             for mm in range(m):
+                alpha_jn[mm] = np.mean(w[mm, :])
                 
-                alpha_jn[mm] = np.mean(w[mm])
-                res_mm_sq = np.zeros(nt)
+                # First estimate beta, rho (mm-specific)
+                wtilde = w[mm, :].T
+                # estimate param
+                w_m = np.zeros(nt)
+                for i in range(n):
+                    w_m[i * (t) : (i + 1) * (t)] = wtilde[i]
+                xtilde = np.zeros((nt,q1-1)) # remove the constant term
+                for ii in range(1, x1.shape[1]):
+                    xtilde[:, (ii-1)] = w_m * x1[:, ii]
+                
                 w_mk_sum = np.zeros(nt)
                 
-                sum_tau_jn = 0 
+                mu_mk_weighted = np.zeros(nt)
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    xtilde = np.zeros((nt, q1))
-                    for ii in range(q1):
-                        xtilde[:, ii] = w_mk[idx_type] * x1[:, ii]    
-                    mubeta_jn_mat[idx_type,:] = solve_linear_system_safe(xtilde.T @ x1, xtilde.T @ ytilde)
-                    res_mm_sq +=  w_mk[idx_type] * (ytilde - x1 @ mubeta_jn_mat[idx_type,:])**2
+                    mu_mk_weighted += w_mk[idx_type] * mu_jn[idx_type]
                     w_mk_sum += w_mk[idx_type]
-                    tau_jn[idx_type] = np.mean(w_mk[idx_type] )
-                    sum_tau_jn += tau_jn[idx_type]
+                w_mk_sum[w_mk_sum < 1e-3] = 1e-3
+                mu_mk_weighted = mu_mk_weighted / w_mk_sum
+                
+                coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted ) )
+                
+                
+                # Estimate mu: mk-specific
+                ytilde = y_c - x1[:,1:] @ coef_jn
+                mubeta_jn_mat[mm,1:q1] = coef_jn[:q1-1]
+                    
+                
+                res_mm_sq = np.zeros(nt)
+                
+                sum_tau_jn = 0 
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 0.01)
+                
+                    res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
+                    
+                    tau_jn[idx_type] = max(np.mean(w_mk[idx_type,:]), 0.1)
+                    sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
                     tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.05)
-                
-                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 0.05)  )
+
+                sigma_jn[mm] = np.sqrt( np.sum(res_mm_sq) / np.sum(w_mk_sum)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
-            
+
+            mubeta_jn = mubeta_jn_mat.T.flatten()
             # update alpha
-            for mm in range(m):
-                alpha_jn[mm] = min(max(0.05, alpha_jn[mm]), 0.95)
+            for j in range(m):
+                alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
-            for mm in range(m):
-                alpha_jn[mm] = alpha_jn[mm] / total_alpha
-            # print(diff)
-            # print(tau_jn)
-            # print(mubeta_jn)
-            # print(sigma_jn)
+            for j in range(m):
+                alpha_jn[j] = alpha_jn[j] / total_alpha
             
         # print(iter_ii)
         penloglikset[jn] = penloglik
         loglikset[jn] = ll
         post[:, jn] = w.T.flatten()
         alpha_draw[:, jn] = alpha_jn
+        mu_draw[:, jn] = mu_jn
         mubeta_draw[:, jn] = mubeta_jn_mat.T.flatten()
         sigma_draw[:, jn] = sigma_jn
         tau_draw[:, jn] = tau_jn
         
-    return(alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
+    return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
 # %%
 @njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=2000, epsilon_short=1e-2, maxit_short=50):    # Extract the generated data
-    
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50):    # Extract the generated data
     t,n = y.shape
     nt = n * t
     y_c = y.T.flatten()
@@ -2572,86 +2631,68 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=20
     # ninits_short = ninits * 10 * (q1 + p) * m
     ninits_short = ninits * 10 
     
-    if (m == 1) & (k == 1):
-        mubeta_hat = out_coef[:q1]
-        if p > 0:
-            gamma = out_coef[q1:(q1 + p)]
-        else:
-            gamma = np.array([0.0])
-        res = y_c - xz @ out_coef
-        sigma_hat_0 = np.sqrt(np.mean(res**2))
-        loglik = log_likelihood_normal(res,0,sigma_hat_0)
 
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        penloglik = loglik
-        alpha_hat = np.array([1.0])
-        sigma_hat = np.array([sigma_hat_0])
-        postprobs = np.ones(n)
-        
-    else: #either m >=2 or k >= 2
-        
-        # disregard p > 0  case
-        # if p > 0:
-        #     gamma = out_coef[q1:(q1 + p)]
-        #     # Perform least squares regression with both x and z
-        #     gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma
-        #     mubeta_hat = out_coef[:q1]
-        #     y = y - z @ gamma
-        # else:
-        
-        gamma_hat = np.zeros(p)
-        mubeta_hat = out_coef[:]
+    alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
+    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
 
-        alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
-        alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
-
-        # Draw mubeta and tau
-        # minMU = np.min(y)
-        # maxMU = np.max(y)
-        mk = m * k 
-        mubeta_draw = np.zeros((q1 * m * k, ninits_short))
-        tau_draw = np.zeros((m * k, ninits_short))
-        for mm in range(m):
-            tau_draw_m = generate_random_uniform(0, 1, (k, ninits_short))
-            tau_draw_m = (tau_draw_m / np.sum(tau_draw_m, axis=0))
-            tau_draw[(mm * k):((mm +1) * k),:] = tau_draw_m
+    mk = m * k 
+    mu_draw = np.zeros((m * k, ninits_short))
+    tau_draw = np.zeros((m * k, ninits_short))
+    for mm in range(m):
+        tau_draw_m = generate_random_uniform(0, 1, (k, ninits_short))
+        tau_draw_m = (tau_draw_m / np.sum(tau_draw_m, axis=0))
+        tau_draw[(mm * k):((mm +1) * k),:] = tau_draw_m
+        
+        for kk in range(k):
+            idx_type = mm * k + kk 
+            lb = compute_quantile(y_c, idx_type/(mk+1))
+            ub = compute_quantile(y_c, (idx_type+1)/(mk+1))
             
-            for kk in range(k):
-                idx_type = mm * k + kk 
-                lb = compute_quantile(y_c, idx_type/(mk+1))
-                ub = compute_quantile(y_c, (idx_type+1)/(mk+1))
+            mu_draw[( mm * k + kk ), :] = np.random.uniform(lb, ub, size=ninits_short)
+    
+    mubeta_draw = np.zeros((q1 * m, ninits_short))
+    
+    for mm in range(m):
+        mubeta_draw[mm, :] = 0 #leave mu blank for mubeta draw    
+        mubeta_draw[m*(q1 - 1)+mm, :] = np.random.uniform(0.2, 0.8, size=ninits_short)  #draw rho
+        
+        if q > 0:
+            for j in range(q):
+                mubeta_draw[ m*(j+1)+mm , :] = out_coef[1+j] * np.random.uniform(-0.5, 0.5, size=ninits_short)
                 
-                mubeta_draw[q1 * ( mm * k + kk ), :] = np.random.uniform(lb, ub, size=ninits_short)
-        
-        sigma_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR
-        gamma_draw = np.zeros((1,ninits_short), dtype=np.float64)
-        an = 1 / n    
-        sigma_0 = np.full(m, stdR)
-        
-        alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=epsilon_short)
-        # %%
-        components = np.argsort(penloglikset)[::-1][:ninits]
-        alpha_draw = alpha_draw[:,components]
-        mubeta_draw = mubeta_draw[:,components]
-        sigma_draw = sigma_draw[:,components]
-        gamma_draw = gamma_draw[:,components]
-        tau_draw = tau_draw[:,components]
-        
-        alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=epsilon)
-        
-        index = np.argmax(penloglikset)
-        alpha_hat = alpha_draw[:,index]
-        tau_hat = tau_draw[:,index]
-        mubeta_hat = mubeta_draw[:,index]
-        sigma_hat = sigma_draw[:,index]
-        gamma_hat = gamma_draw[:,index]
-        post = post[:, index]
-        penloglik = penloglikset[index]
-        loglik = loglikset[index]
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        
+    sigma_draw = generate_random_uniform(0.1, 0.2, (m, ninits_short)) * stdR
+    gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
+    an = 1 / n    
+    sigma_0 = np.full(m, stdR)
+    
+    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short)
+
+    components = np.argsort(penloglikset)[::-1][:ninits]
+    alpha_draw = alpha_draw[:,components]
+    mu_draw = mu_draw[:,components]
+    mubeta_draw = mubeta_draw[:,components]
+    sigma_draw = sigma_draw[:,components]
+    gamma_draw = gamma_draw[:,components]
+    tau_draw = tau_draw[:,components]
+    
+    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol)
+    
+    index = np.argmax(penloglikset)
+    alpha_hat = alpha_draw[:,index]
+    tau_hat = tau_draw[:,index]
+    mu_hat = mu_draw[:,index]
+    
+    mubeta_mat =  np.ascontiguousarray(mubeta_draw[:,index]).reshape((q1,m)).T
+    beta_hat = mubeta_mat[:,1:(q+1)]
+    
+    sigma_hat = sigma_draw[:,index]
+    gamma_hat = gamma_draw[:,index]
+    post = post[:, index]
+    penloglik = penloglikset[index]
+    loglik = loglikset[index]
+    aic = -2 * loglik + 2 * npar
+    bic = -2 * loglik + np.log(n) * npar
+    
     # ----
     # Create a Numba-compatible dictionary to store results
     result_dict = Dict.empty(
@@ -2666,7 +2707,8 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, epsilon=1e-6, maxit=20
     result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
     result_dict['tau_hat']  = tau_hat[np.newaxis,:]
     result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-    result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+    result_dict['mu_hat'] = mu_hat[np.newaxis,:]
+    result_dict['beta_hat'] = beta_hat    
     result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
     return result_dict
 
@@ -2878,7 +2920,7 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
 
 
         # Generate data for bootstrap        
-        Data_bb = [generate_data_mixture(alpha_hat, mu_hat, sigma_hat, tau_hat, N, T, M, K, p, q) for _ in prange(BB)]
+        Data_bb = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, M, K, p, q) for _ in prange(BB)]
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
         lr_stat_bb = np.zeros(BB, dtype=np.float64)
@@ -2987,6 +3029,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     else:
         out_h0 = regpanelmixPMLE(y,x,z, p, q, m)
         out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1)
+        # -2 * (out_h0['penloglik'] - out_h1['penloglik'])
     alpha_hat  = out_h0['alpha_hat'][0]
     mubeta_hat = out_h0['mubeta_hat'][0]
     sigma_hat  = out_h0['sigma_hat'][0]
@@ -3059,12 +3102,31 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
    
 # %%
 @njit(parallel=False)
-def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
-    out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, m, k)
-    out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, m+1, k)
+def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
+    if (spline) & (q > 0):    
+        bs_degree = 2                # Replace with the degree of the B-spline
+        # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
+        x_spline = np.zeros((N*T, 0))
+        for qq in range(q):
+            quantiles = np.quantile(x[:,qq], [0.33, 0.67])
+            knots = np.concatenate((
+                np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                quantiles,
+                np.array([quantiles[1]] * (bs_degree))  # This is fine
+            ))
+            # Generate B-spline basis columns
+            bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
+            x_spline = np.concatenate((x_spline, bs_columns),axis=1)
+        q_spline = x_spline.shape[1]
+        out_h0 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m,k)
+        out_h1 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
+    else:
+        out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, m, k)
+        out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, m+1, k)
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
-    mubeta_hat = out_h0['mubeta_hat'][0]
+    mu_hat = np.ascontiguousarray(out_h0['mu_hat'][0]).reshape(m, k)
+    beta_hat = out_h0['beta_hat']
     sigma_hat  = out_h0['sigma_hat'][0]
     gamma_hat  = out_h0['gamma_hat'][0]
     penloglik_h0 = out_h0['penloglik'][0,0]
@@ -3074,15 +3136,9 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
     # print(out_h0[0])        
     lr_stat = -2 * (penloglik_h0 - penloglik_h1)
     
-    mubeta_hat = np.ascontiguousarray(mubeta_hat)
-    mubeta_hat_mat = mubeta_hat.reshape((q+1,m*k)).T
-    beta_hat = mubeta_hat_mat[:,1:]
-    mu_hat =  np.ascontiguousarray(mubeta_hat_mat[:,0]).reshape(m,k)
-
-    
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_mixture(alpha_hat, mu_hat, sigma_hat, tau_hat, N, T, m, k, p, q) for _ in prange(BB)]
+        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3094,9 +3150,24 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
             x_bb = data[1]
             z_bb = data[2]
             
-            # Call regpanelmixPMLE for m components
-            out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k)
-            out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k)
+            if (spline) & (q > 0):
+                # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
+                x_spline_bb = np.zeros((N*T, 0))
+                for qq in range(q):
+                    quantiles = np.quantile(x_bb[:,qq], [0.33, 0.67])
+                    knots = np.concatenate((
+                        np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                        quantiles,
+                        np.array([quantiles[1]] * (bs_degree))  # This is fine
+                    ))
+                    # Generate B-spline basis columns
+                    bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
+                    x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
+                out_h0 = regpanelmixmixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, k)
+                out_h1 = regpanelmixmixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, k)
+            else:               # Call regpanelmixPMLE for m components
+                out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k)
+                out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -3114,9 +3185,27 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
 
 # %%
 @njit(parallel=False) 
-def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
-    out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k)
-    out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m+1, k)
+def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
+    if (spline) & (q > 0):    
+        bs_degree = 2                # Replace with the degree of the B-spline
+        # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
+        x_spline = np.zeros((N*T, 0))
+        for qq in range(q):
+            quantiles = np.quantile(x[:,qq], [0.33, 0.67])
+            knots = np.concatenate((
+                np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                quantiles,
+                np.array([quantiles[1]] * (bs_degree))  # This is fine
+            ))
+            # Generate B-spline basis columns
+            bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
+            x_spline = np.concatenate((x_spline, bs_columns),axis=1)
+        q_spline = x_spline.shape[1]
+        out_h0 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m,k)
+        out_h1 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
+    else:
+        out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k)
+        out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m+1, k)
     
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m, k)
@@ -3143,7 +3232,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3155,9 +3244,25 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199):
             x_bb = data[1]
             z_bb = data[2]
             
-            # Call regpanelmixPMLE for m components
-            out_h0 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m, k) 
-            out_h1 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k) 
+            if (spline) & (q > 0):
+                # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
+                x_spline_bb = np.zeros((N*T, 0))
+                for qq in range(q):
+                    quantiles = np.quantile(x_bb[:,qq], [0.33, 0.67])
+                    knots = np.concatenate((
+                        np.array([quantiles[0]] * (bs_degree)),  # This is fine
+                        quantiles,
+                        np.array([quantiles[1]] * (bs_degree))  # This is fine
+                    ))
+                    # Generate B-spline basis columns
+                    bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
+                    x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
+                out_h0 = regpanelmixAR1mixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, k)
+                out_h1 = regpanelmixAR1mixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, k)
+            else:
+                # Call regpanelmixPMLE for m components
+                out_h0 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m, k) 
+                out_h1 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k) 
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
