@@ -1,6 +1,6 @@
 Country,,Japan,Japan,Japan
 Industry,,Electronics,Petro,Transportation equipment
 ,Model,,,
-AIC,K,7,7,8
-BIC,K,7,6,6
-LR,K,7,7,5
+AIC,K,10,10,10
+BIC,K,9,10,9
+LR,K,-1,-1,-1

@@ -1,6 +1,6 @@
 Country,,Japan,Japan,Japan
 Industry,,Electronics,Petro,Transportation equipment
 ,Model,,,
-AIC,Kl,10,7,10
-BIC,Kl,10,4,8
-LR,Kl,-1,6,-1
+AIC,Kl_mixture_spline,6,10,10
+BIC,Kl_mixture_spline,6,7,8
+LR,Kl_mixture_spline,6,8,9

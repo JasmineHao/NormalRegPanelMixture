@@ -1,6 +1,6 @@
 Country,,Japan,Japan,Japan
 Industry,,Electronics,Petro,Transportation equipment
 ,Model,,,
-AIC,Kl,10,7,10
-BIC,Kl,10,4,8
-LR,Kl,-1,6,-1
+AIC,Ar1_plain_mixture,10,4,7
+BIC,Ar1_plain_mixture,3,2,3
+LR,Ar1_plain_mixture,2,2,2
