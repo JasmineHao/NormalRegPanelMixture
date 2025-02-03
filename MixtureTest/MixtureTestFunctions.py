@@ -1783,8 +1783,10 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
         
         sigma_hat = np.array([np.sqrt(np.mean(res**2))],  dtype=np.float64)
         mubeta_hat = out_coef[:q+1]
-        rho_hat = out_coef[q+1:]
-        
+        rho_hat = out_coef[2*q+1:]
+        rho_hat[rho_hat > 0.99] = 0.99
+        rho_hat[rho_hat < 0.01] = 0.01
+            
         mubeta_0_hat = out_coef_0[:q1]
         gamma_0_hat = out_coef_0[(q1):]
         
@@ -2715,7 +2717,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
 # %%
 
 
-@njit(parallel=True)
+@njit(parallel=False)
 def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
     result_lr_each = np.zeros((nrep,1))
     for ii in prange(nrep): 
@@ -3007,7 +3009,7 @@ def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
 
 # %%
 
-@njit(parallel=True) 
+@njit(parallel=False) 
 def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3101,7 +3103,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
    
 # %%
-@njit(parallel=True)
+@njit(parallel=False)
 def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3184,7 +3186,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
-@njit(parallel=True) 
+@njit(parallel=False) 
 def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
@@ -3279,7 +3281,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 
 # %%
-@njit(parallel=True)
+@njit(parallel=False)
 def LRTestNormalAR1(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
     out_h0 = regpanelmixAR1PMLE(y,x,z, p, q, m)
     out_h1 = regpanelmixAR1PMLE(y,x,z, p, q, m+1)
