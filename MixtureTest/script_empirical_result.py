@@ -29,7 +29,18 @@ for csv_file in csv_files:
         dataframes_cl = pd.concat([dataframes_cl, df_row])
 
 
+# %%
+# combined = pd.concat([dataframes_jp.set_index('model'), dataframes_cl.set_index('model')],axis=1)
+combined = dataframes_cl.set_index('model')
+combined = combined.replace(-1,'10+')
+model_order= ['Plain', 'Plain mixture', 'K', 'Kl', 'Kl spline',  'K mixture', 'Kl mixture', 'Kl mixture spline', 'Ar1 plain', 'Ar1 k', 'Ar1 kl', 'Ar1 plain mixture']
 
-combined = pd.concat([dataframes_jp.set_index('model'), dataframes_cl.set_index('model')],axis=1)
+combined = combined.loc[model_order,:]
+combined.index = ['No Covariate Normal', 'No Covariate 2-component mixture', 'K Normal', 'Kl Normal', 'Kl spline Normal',  'K 2-component mixture', 'Kl 2-component mixture', 'Kl spline 2-component mixture', 'Ar1 Normal', 'Ar1 k Normal', 'Ar1 kl Normal', 'Ar1 2-component mixture']
+
+print(combined)
+# %%
 combined.to_csv('result_empirical.csv')
 # %%
+
+model_not_included = ['Plain mixture']

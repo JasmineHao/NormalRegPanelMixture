@@ -28,7 +28,7 @@ MODEL_list = ["plain_mixture", "k_mixture", "kl_mixture", "kl_mixture_spline", "
 MODEL_list = ['plain', 'k', 'kl', 'kl_spline']
 
 COUNTRY = "chile"
-COUNTRY_list = ['japan', 'chile']
+COUNTRY_list = ['chile']
 
 print(sys.argv)
 if len(sys.argv) < 2:
@@ -39,7 +39,7 @@ else:
 
 BB = 199
 p = 0
-epsilon_truncation = 0.001
+epsilon_truncation = 0.01
 
 print("Simulation Start")
 print(f"Model: {MODEL}")    
@@ -121,10 +121,10 @@ for COUNTRY in COUNTRY_list:
 
 
         y = ind_each_y.T.to_numpy()
-        # y_ub = np.quantile(y, 1 - epsilon_truncation)
-        # y_lb = np.quantile(y, epsilon_truncation)
-        # y[y > y_ub] = y_ub
-        # y[y < y_lb] = y_lb
+        y_ub = np.quantile(y, 1 - epsilon_truncation)
+        y_lb = np.quantile(y, epsilon_truncation)
+        y[y > y_ub] = y_ub
+        y[y < y_lb] = y_lb
         
         x_k = ind_each_xk.to_numpy().reshape(-1, 1)
         x_kl = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_xl.to_numpy().reshape(-1, 1)]
@@ -221,5 +221,4 @@ for COUNTRY in COUNTRY_list:
 # 3 industries in Japan, different model specifications. 
 # result_df_chile.to_csv("empirical_statistics_chile.csv")
 # statistics_df_chile.to_csv("empirical_result_chile.csv")
-
 
