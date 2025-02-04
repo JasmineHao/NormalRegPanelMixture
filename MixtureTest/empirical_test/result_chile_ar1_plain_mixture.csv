@@ -1,6 +1,6 @@
 Country,,Chile,Chile,Chile
 Industry,,Fabricated metal products,Food products,Textiles
 ,Model,,,
-AIC,Kl_mixture_spline,10,10,10
-BIC,Kl_mixture_spline,8,10,8
-LR,Kl_mixture_spline,8,6,7
+AIC,Ar1_plain_mixture,5,7,4
+BIC,Ar1_plain_mixture,2,4,2
+LR,Ar1_plain_mixture,2,2,2

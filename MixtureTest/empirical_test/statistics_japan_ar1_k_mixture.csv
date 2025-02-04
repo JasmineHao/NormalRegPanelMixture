@@ -1,0 +1,13 @@
+,Country,Industry,Model,Stat,M=1,M=2,M=3,M=4,M=5,M=6,M=7,M=8,M=9,M=10
+0,Japan,Petro,Ar1_k_mixture,AIC,-395.4,-471.56,-485.67,-497.75,-510.59,-526.97,-551.5,-544.73,-577.4,-588.71
+1,Japan,Petro,Ar1_k_mixture,BIC,-376.91,-431.5,-424.04,-414.55,-405.82,-400.63,-403.59,-375.25,-386.35,-376.09
+2,Japan,Petro,Ar1_k_mixture,LR,90.1609,27.1148,43.5836,38.7886,55.8283,42.6825,13.6950,31.4673,19.1332,15.0608
+3,Japan,Petro,Ar1_k_mixture,LR Crit,"46.2249, 48.7142, 55.9082","44.4125, 45.6013, 55.2180","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+4,Japan,Transportation equipment,Ar1_k_mixture,AIC,-196.99,-329.78,-356.72,-372.31,-393.14,-405.25,-408.79,-420.58,-426.43,-450.57
+5,Japan,Transportation equipment,Ar1_k_mixture,BIC,-178.73,-290.22,-295.85,-290.14,-289.66,-280.47,-262.71,-253.19,-237.74,-240.58
+6,Japan,Transportation equipment,Ar1_k_mixture,LR,146.7916,40.9372,34.9154,40.4516,24.2600,18.5331,28.2414,23.7537,37.1785,12.4138
+7,Japan,Transportation equipment,Ar1_k_mixture,LR Crit,"43.9753, 47.1749, 50.9297","41.8878, 44.8988, 48.3464","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+8,Japan,Electronics,Ar1_k_mixture,AIC,-345.8,-497.64,-523.4,-551.84,-553.8,-587.09,-606.01,-609.6,-617.7,-623.54
+9,Japan,Electronics,Ar1_k_mixture,BIC,-327.42,-457.83,-462.15,-469.15,-449.67,-461.52,-459.0,-441.15,-427.81,-412.22
+10,Japan,Electronics,Ar1_k_mixture,LR,165.8439,39.7550,30.5710,28.9889,32.4400,15.8234,12.1700,10.2646,31.5341,19.1378
+11,Japan,Electronics,Ar1_k_mixture,LR Crit,"44.0088, 47.5321, 51.6370","45.6485, 50.2366, 56.6903","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
