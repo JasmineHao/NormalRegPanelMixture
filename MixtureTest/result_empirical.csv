@@ -1,12 +1,16 @@
-Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country
-,Electronics,Petro,Transportation equipment,Electronics,Petro,Transportation equipment,Electronics,Petro,Transportation equipment,,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,
-model,,,,,,,,,,,,,,,,,,,,
-Ar1 k,7.0,7.0,7.0,7.0,7.0,6.0,6.0,7.0,5.0,Japan,9.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,6.0,Chile
-Plain,7.0,7.0,8.0,7.0,7.0,6.0,6.0,7.0,5.0,Japan,9.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,6.0,Chile
-Ar1 kl,7.0,7.0,7.0,7.0,7.0,6.0,6.0,7.0,5.0,Japan,9.0,7.0,9.0,7.0,7.0,9.0,6.0,5.0,7.0,Chile
-Ar1 plain,7.0,7.0,6.0,7.0,6.0,6.0,6.0,8.0,5.0,Japan,9.0,8.0,9.0,9.0,8.0,9.0,6.0,5.0,7.0,Chile
-K,7.0,7.0,8.0,7.0,6.0,6.0,7.0,7.0,5.0,Japan,9.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,6.0,Chile
-K spline,7.0,7.0,7.0,7.0,6.0,6.0,6.0,6.0,5.0,Japan,9.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,7.0,Chile
-Kl,7.0,7.0,7.0,7.0,7.0,6.0,6.0,7.0,5.0,Japan,9.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,7.0,Chile
-Ar1 plain mixture,7.0,7.0,8.0,7.0,6.0,6.0,6.0,6.0,5.0,Japan,7.0,8.0,9.0,7.0,8.0,9.0,6.0,5.0,7.0,Chile
-Kl spline,7.0,7.0,8.0,7.0,7.0,6.0,7.0,7.0,5.0,Japan,9.0,7.0,9.0,9.0,7.0,9.0,6.0,5.0,6.0,Chile
+Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country
+,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,
+No Covariate Normal,10.0,10.0,10.0,10.0,10.0,10.0,9.0,9.0,10+,Chile
+No Covariate 2-component mixture,1.0,2.0,4.0,1.0,2.0,4.0,4.0,2.0,3.0,Chile
+K Normal,9.0,10.0,10.0,9.0,10.0,8.0,9.0,9.0,8.0,Chile
+Kl Normal,6.0,10.0,8.0,6.0,9.0,6.0,8.0,10+,6.0,Chile
+Kl spline Normal,10.0,10.0,10.0,6.0,10.0,8.0,8.0,10+,9.0,Chile
+K 2-component mixture,8.0,8.0,7.0,7.0,8.0,7.0,7.0,7.0,6.0,Chile
+Kl 2-component mixture,6.0,9.0,8.0,5.0,9.0,5.0,5.0,7.0,6.0,Chile
+Kl spline 2-component mixture,10.0,10.0,10.0,7.0,10.0,8.0,7.0,6.0,7.0,Chile
+Ar1 Normal,4.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,Chile
+Ar1 k Normal,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,Chile
+Ar1 kl Normal,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,Chile
+Ar1 No Covariate 2-component mixture,5.0,7.0,4.0,2.0,4.0,2.0,2.0,2.0,2.0,Chile
+Ar1 k 2-component mixture,4.0,6.0,3.0,2.0,2.0,2.0,3.0,3.0,2.0,Chile
+Ar1 kl 2-component mixture,2.0,2.0,4.0,2.0,2.0,2.0,3.0,4.0,2.0,Chile
