@@ -1,0 +1,10 @@
+Numba is using 12 threads.
+['empirical_test.py', 'kl_mixture_spline']
+Simulation Start
+Model: kl_mixture_spline
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 1, Time Taken: 49.59 seconds, LR Stat: 2442.6039
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 2, Time Taken: 5.88 seconds, LR Stat: 592.8236
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 3, Time Taken: 8.93 seconds, LR Stat: 563.5823
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 4, Time Taken: 7.33 seconds, LR Stat: 336.6697
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 5, Time Taken: 9.23 seconds, LR Stat: 406.2983
+Country: chile, Industry: Food products, Model: kl_mixture_spline, M: 6, Time Taken: 7.58 seconds, LR Stat: 129.2577

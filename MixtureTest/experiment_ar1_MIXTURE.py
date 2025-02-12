@@ -13,7 +13,7 @@ sigma = np.array([0.5,0.5])  # Standard deviation for each category (length M)
 
 # beta = np.array([[0.0], [0.0]])  # Coefficients for q covariates (M x q)
 
-N = 200  # Number of individuals
+N = 1000  # Number of individuals
 T = 5  # Number of time periods
 M = 2  # Number of categories
 K = 2  # Number of sub-categories 
@@ -28,8 +28,55 @@ beta = np.zeros((M,q))
 gamma = np.zeros(p) # Coefficients for p covariates (length p)
 # beta = [[1, 0.5], [0.2, 0.3]]  # Coefficients for q covariates (M x q)
 
+# %%
+# Test the function
+test = True
 
+if test:
+    mu = muset[0]
+    alpha = alphaset[0]
+    rho = rhoset[0]
 
+    # Initial period distribution
+    # q = 2
+    # beta = np.array([[1, 0.5], [0.2, 0.3]])  # Coefficients for q covariates (M x q)
+    # beta = np.array([[1, 0.5], [1, 0.5]])  # Coefficients for q covariates (M x q)    
+    q = 1
+    beta = np.array([[0.2], [0.3]]) 
+    
+    q = 0
+    beta = np.zeros((M,q))
+    sigma = np.array([0.1, 0.1])
+    #mubeta
+    mu_0 = mu
+    beta_0 = beta
+            
+    # sigma
+    sigma_0 = np.array([0.5, 0.5])
+    gamma_0 = gamma
+
+    result_rk_each = np.zeros((nrep,2))
+
+    data = generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q)
+
+    y = data[0]
+    x = data[1]
+    z = data[2]
+
+    estim_result = regpanelmixAR1mixturePMLE(y, x, z, p, q, M, K)
+
+    print('alpha', estim_result["alpha_hat"], alpha)
+    print('tau',estim_result["tau_hat"], tau)
+    print('rho',estim_result["rho_hat"], rho)
+    print('sigma',estim_result["sigma_hat"], sigma)
+    print('mu',estim_result["mu_hat"], mu)
+    print('mu_0',estim_result["mu_0_hat"], mu_0)
+    print('beta',estim_result["beta_hat"], beta)
+    print('beta',estim_result["beta_0_hat"], beta_0)
+
+    print('sigma_0',estim_result["sigma_0_hat"], sigma_0)
+
+# %%
 # Call the function
 
  # Determine the total number of parameter combinations
@@ -42,10 +89,7 @@ simulation_result_matrix = np.zeros((total_combinations, 2))
 parameter_combinations = []
 count = 0
 
-mu = muset[0]
-alpha = alphaset[0]
-rho = rhoset[0]
-# %%
+
 # Loop over parameters
 for alpha in alphaset:
     for rho in rhoset:       
@@ -99,5 +143,8 @@ np.savetxt("TestStatAR1Mixture.txt", 100 * simulation_result_matrix, delimiter='
 
 
 
+
+
+# LRTestAR1Mixture(y, x, z, p, q, M, K, N, T, bootstrap = True, BB= 199)
 
 # %%

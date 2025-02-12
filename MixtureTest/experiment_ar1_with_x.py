@@ -27,6 +27,33 @@ beta = np.zeros((M,q))
 gamma = np.zeros(p) # Coefficients for p covariates (length p)
 beta = np.array([[1.0], [-1.0]])  # Coefficients for q covariates (M x q)
 
+# %%
+# Test the function
+test = False
+
+if test:
+    # Initial period distribution
+    alpha = alphaset[0]
+    rho = rhoset[0]
+    mu_0 = mu / (1 - rho)
+    beta_0 = np.zeros(beta.shape)
+    # beta 
+    sigma_0_sq = sigma**2 / (1 - rho**2)
+    for mm in range(M):
+        for j in range(q):
+            beta_0[mm, j] = beta[mm, j] / (1- rho[mm])
+            sigma_0_sq[mm] += beta[mm, j]**2 / (1- rho[mm]**2)
+    sigma_0 = np.sqrt(sigma_0_sq)
+    gamma_0 = gamma
+
+    N = 500
+    data = generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, p, q)
+
+    y = data[0]
+    x = data[1]
+    z = data[2]
+    
+    print(regpanelmixAR1PMLE(y, x, z, p, q, M))
 
 # %%
 # Call the function
@@ -51,8 +78,8 @@ for alpha in alphaset:
         beta_0 = np.zeros(beta.shape)
         # beta 
         sigma_0_sq = sigma**2 / (1 - rho**2)
-        for mm in prange(M):
-            for j in prange(q):
+        for mm in range(M):
+            for j in range(q):
                 beta_0[mm, j] = beta[mm, j] / (1- rho[mm])
                 sigma_0_sq[mm] += beta[mm, j]**2 / (1- rho[mm]**2)
         sigma_0 = np.sqrt(sigma_0_sq)
@@ -78,8 +105,6 @@ print("Simulation Result Matrix:")
 print(simulation_result_matrix)
 
 np.savetxt("TestStatAR1.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')
-
-
 
 
 # %%

@@ -56,8 +56,10 @@ def parallel_processing(nrep, M_max, BB, alpha, mu, sigma, tau, N, T, M, K, p, q
     lr_5_table_mixture = np.zeros((nrep, M_max))
     lr_10_table_mixture = np.zeros((nrep, M_max))
 
+    beta = np.zeros((M,q))
+    gamma = np.zeros(p)
     # Generate data for all repetitions
-    Data = [generate_data_mixture(alpha, mu, sigma, tau, N, T, M, K, p, q) for _ in range(nrep)]
+    Data = [generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p, q) for _ in range(nrep)]
 
     # Parallel loop
     for ii in prange(nrep):  # Use prange for parallel execution

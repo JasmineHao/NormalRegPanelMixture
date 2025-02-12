@@ -35,14 +35,17 @@ if len(sys.argv) < 2:
     MODEL = "plain_mixture" 
 else:
     MODEL = sys.argv[1]
+    T = int(sys.argv[2])
 
 
 BB = 199
+# T = 5
 p = 0
 epsilon_truncation = 0.01
 
 print("Simulation Start")
 print(f"Model: {MODEL}")    
+print(f"T: {T}")    
 
 def find_model_stop(aic_values):
     differences = np.diff(aic_values)
@@ -62,9 +65,9 @@ def find_first_zero(sequence):
 # %%
 
 for COUNTRY in COUNTRY_list:
+    # %%
     statistics_df = []
     result_df = []
-
     match COUNTRY:
         case "chile":
             chile_data = pyreadr.read_r('ChileanClean.rds')
@@ -109,7 +112,7 @@ for COUNTRY in COUNTRY_list:
         year_list = sorted(ind_each['year'].unique())
         T_cap = max(year_list)
 
-        T = 3
+        
         t_start = T_cap - T + 1
         ind_each_t = ind_each[ind_each['year'] >= t_start].dropna()
         ind_each_y = ind_each_t.pivot(index='id', columns='year', values='y').dropna()
@@ -121,10 +124,10 @@ for COUNTRY in COUNTRY_list:
 
 
         y = ind_each_y.T.to_numpy()
-        y_ub = np.quantile(y, 1 - epsilon_truncation)
-        y_lb = np.quantile(y, epsilon_truncation)
-        y[y > y_ub] = y_ub
-        y[y < y_lb] = y_lb
+        # y_ub = np.quantile(y, 1 - epsilon_truncation)
+        # y_lb = np.quantile(y, epsilon_truncation)
+        # y[y > y_ub] = y_ub
+        # y[y < y_lb] = y_lb
         
         x_k = ind_each_xk.to_numpy().reshape(-1, 1)
         x_kl = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_xl.to_numpy().reshape(-1, 1)]
@@ -134,6 +137,7 @@ for COUNTRY in COUNTRY_list:
         z = np.zeros((N * T, p))
 
         bootstrap_k_cov = True
+        # %%
         for m in range(1, 11):
             start_time_model_m = time.time()
 
@@ -152,8 +156,16 @@ for COUNTRY in COUNTRY_list:
                     
                 case "plain_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
+                case "plain_mixture_3":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
                 case "k_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
+                case "k_mixture_3":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
                 case "kl_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                 case "kl_mixture_spline":
@@ -161,7 +173,7 @@ for COUNTRY in COUNTRY_list:
                     
                 
                 case "ar1_plain":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 
                 case "ar1_plain_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
@@ -173,9 +185,9 @@ for COUNTRY in COUNTRY_list:
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB, spline=True)
                     
                 case "ar1_k":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 case "ar1_kl":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormalAR1(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 
                 case _:
                     print("Model Not Recognized")
@@ -212,8 +224,8 @@ for COUNTRY in COUNTRY_list:
     statistics_df = pd.DataFrame(statistics_df, columns=['Country', 'Industry', 'Model', 'Stat'] + [f'M={d}' for d in range(1, 11)])
 
     # Save results to CSV
-    statistics_df.to_csv(f"empirical_test/statistics_{COUNTRY}_{MODEL}.csv")
-    result_df.groupby(['Country', 'Industry', 'Model']).first().unstack(level="Model").T.to_csv(f"empirical_test/result_{COUNTRY}_{MODEL}.csv")
+    statistics_df.to_csv(f"empirical_test/statistics_{COUNTRY}_{MODEL}_{T}.csv")
+    result_df.groupby(['Country', 'Industry', 'Model']).first().unstack(level="Model").T.to_csv(f"empirical_test/result_{COUNTRY}_{MODEL}_{T}.csv")
 
 # %%
 # ToDo: Create a table that record the following model index (m)

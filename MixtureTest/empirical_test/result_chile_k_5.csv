@@ -1,0 +1,6 @@
+Country,,Chile,Chile,Chile
+Industry,,Fabricated metal products,Food products,Textiles
+,Model,,,
+AIC,K,10,10,8
+BIC,K,9,10,8
+LR,K,8,-1,10

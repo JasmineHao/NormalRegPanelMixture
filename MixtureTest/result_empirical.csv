@@ -1,16 +1,21 @@
-Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country
-,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,
-No Covariate Normal,10.0,10.0,10.0,10.0,10.0,10.0,9.0,9.0,10+,Chile
-No Covariate 2-component mixture,1.0,2.0,4.0,1.0,2.0,4.0,4.0,2.0,3.0,Chile
-K Normal,9.0,10.0,10.0,9.0,10.0,8.0,9.0,9.0,8.0,Chile
-Kl Normal,6.0,10.0,8.0,6.0,9.0,6.0,8.0,10+,6.0,Chile
-Kl spline Normal,10.0,10.0,10.0,6.0,10.0,8.0,8.0,10+,9.0,Chile
-K 2-component mixture,8.0,8.0,7.0,7.0,8.0,7.0,7.0,7.0,6.0,Chile
-Kl 2-component mixture,6.0,9.0,8.0,5.0,9.0,5.0,5.0,7.0,6.0,Chile
-Kl spline 2-component mixture,10.0,10.0,10.0,7.0,10.0,8.0,7.0,6.0,7.0,Chile
-Ar1 Normal,4.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,Chile
-Ar1 k Normal,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,Chile
-Ar1 kl Normal,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,Chile
-Ar1 No Covariate 2-component mixture,5.0,7.0,4.0,2.0,4.0,2.0,2.0,2.0,2.0,Chile
-Ar1 k 2-component mixture,4.0,6.0,3.0,2.0,2.0,2.0,3.0,3.0,2.0,Chile
-Ar1 kl 2-component mixture,2.0,2.0,4.0,2.0,2.0,2.0,3.0,4.0,2.0,Chile
+Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country,T,Model
+,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,,,
+model,,,,,,,,,,,,
+Plain,10.0,10.0,10.0,10.0,10.0,10.0,10+,8.0,10+,Chile,3,No Covariate Normal
+Plain,10.0,10.0,10.0,10.0,10.0,10.0,10+,9.0,10+,Chile,5,No Covariate Normal
+Plain mixture,8.0,10.0,9.0,8.0,10.0,7.0,8.0,8.0,8.0,Chile,3,No Covariate 2-component mixture
+Plain mixture,8.0,10.0,10.0,8.0,10.0,9.0,8.0,9.0,7.0,Chile,5,No Covariate 2-component mixture
+Plain mixture 3,7.0,8.0,7.0,7.0,8.0,7.0,7.0,7.0,6.0,Chile,3,No Covariate 3-component mixture
+K,10.0,10.0,10.0,8.0,9.0,10.0,10.0,10+,7.0,Chile,3,K Normal
+K,10.0,10.0,8.0,9.0,10.0,8.0,8.0,10+,10.0,Chile,5,K Normal
+K mixture,7.0,9.0,6.0,7.0,9.0,5.0,6.0,8.0,7.0,Chile,3,K 2-component mixture
+K mixture,7.0,10.0,8.0,7.0,10.0,8.0,7.0,8.0,7.0,Chile,5,K 2-component mixture
+K mixture 3,5.0,8.0,6.0,5.0,8.0,6.0,5.0,5.0,5.0,Chile,3,K 3-component mixture
+Ar1 plain,3.0,4.0,3.0,3.0,4.0,2.0,3.0,4.0,2.0,Chile,3,Ar1 Normal
+Ar1 plain,3.0,5.0,3.0,3.0,5.0,2.0,2.0,3.0,3.0,Chile,5,Ar1 Normal
+Ar1 k,3.0,4.0,4.0,2.0,3.0,2.0,2.0,4.0,2.0,Chile,3,Ar1 k Normal
+Ar1 k,3.0,3.0,2.0,3.0,3.0,2.0,3.0,3.0,2.0,Chile,5,Ar1 k Normal
+Ar1 plain mixture,1.0,2.0,2.0,1.0,2.0,2.0,1.0,2.0,1.0,Chile,3,Ar1 No Covariate 2-component mixture
+Ar1 plain mixture,2.0,2.0,2.0,2.0,2.0,2.0,1.0,2.0,1.0,Chile,5,Ar1 No Covariate 2-component mixture
+Ar1 k mixture,1.0,2.0,1.0,1.0,2.0,1.0,1.0,1.0,1.0,Chile,3,Ar1 K 2-component mixture
+Ar1 k mixture,2.0,1.0,2.0,2.0,1.0,2.0,1.0,1.0,1.0,Chile,5,Ar1 K 2-component mixture

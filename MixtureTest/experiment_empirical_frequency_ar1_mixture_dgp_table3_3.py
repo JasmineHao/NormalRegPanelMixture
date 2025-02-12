@@ -77,7 +77,7 @@ def parallel_processing(nrep, M_max, BB, alpha, tau, mu, beta, rho, sigma, gamma
             rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
 
             # LR test for no-covariates model
-            lr_results_nocov = LRTestNormalAR1(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_results_nocov = LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
             lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
 
             # LR test for mixture model

@@ -165,7 +165,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q):
         for m in range(M):
             lb = alpha_cum[m]
             ub = alpha_cum[m + 1]
-            for n in prange(N):
+            for n in range(N):
                 R[n, m] = 1 if lb < prior[n] <= ub else 0
     else:
         R[:] = 1
@@ -202,7 +202,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q):
             u[t, n] = np.random.normal()  # Generate one value at a time
 
     # Generate Y
-    for nn in prange(N):
+    for nn in range(N):
         y_nn = np.zeros(T)
         y_nn = mu_R[nn] + sigma_R[nn] * u[:, nn]
         
