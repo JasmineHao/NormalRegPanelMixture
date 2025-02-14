@@ -41,6 +41,28 @@ nrep = 99
 BB = 199
 gamma = np.zeros(p) # Coefficients for p covariates (length p)
 
+# %%
+test = True
+if test:
+    # Generate data
+    p = 1
+    gamma = np.array([0.5])
+    data = generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p, q)
+    y = data[0]
+    x = data[1]
+    z = data[2]
+    
+    # Estimate the model
+    estim_result = regpanelmixmixturePMLE(y, x, z, p, q, M, K)
+    print('alpha',estim_result["alpha_hat"], alpha)
+    print('tau',estim_result["tau_hat"], tau)
+    print('beta',estim_result["beta_hat"], beta)
+    print('sigma',estim_result["sigma_hat"], sigma)
+    print('mu',estim_result["mu_hat"], mu)
+    print('gamma',estim_result["gamma_hat"], gamma)
+
+
+# %%
  # Determine the total number of parameter combinations
 total_combinations = len(alphaset) * len(muset) * len(sigmaset)
 
@@ -51,17 +73,6 @@ simulation_result_matrix = np.zeros((total_combinations, 2))
 parameter_combinations = []
 count = 0
 
-data = generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p, q) 
-y = data[0]
-x = data[1]
-z = data[2]
-
-estim_result = regpanelmixmixturePMLE(y,x,z, p, q, M, K)
-
-print('alpha',estim_result["alpha_hat"], alpha)
-print('tau',estim_result["tau_hat"], tau)
-print('sigma',estim_result["sigma_hat"], sigma)
-print('mu',estim_result["mu_hat"], mu)
 
 # %%
 # Loop over parameters

@@ -29,7 +29,7 @@ beta = np.array([[1.0], [-1.0]])  # Coefficients for q covariates (M x q)
 
 # %%
 # Test the function
-test = False
+test = True
 
 if test:
     # Initial period distribution
@@ -44,16 +44,17 @@ if test:
             beta_0[mm, j] = beta[mm, j] / (1- rho[mm])
             sigma_0_sq[mm] += beta[mm, j]**2 / (1- rho[mm]**2)
     sigma_0 = np.sqrt(sigma_0_sq)
+    gamma = np.array([2.0])
     gamma_0 = gamma
 
     N = 500
-    data = generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, p, q)
+    data = generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, 1, q)
 
     y = data[0]
     x = data[1]
     z = data[2]
     
-    print(regpanelmixAR1PMLE(y, x, z, p, q, M))
+    print(regpanelmixAR1PMLE(y, x, z, 1, q, M))
 
 # %%
 # Call the function

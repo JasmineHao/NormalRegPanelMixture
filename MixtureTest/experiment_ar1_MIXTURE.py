@@ -39,13 +39,14 @@ if test:
 
     # Initial period distribution
     # q = 2
-    # beta = np.array([[1, 0.5], [0.2, 0.3]])  # Coefficients for q covariates (M x q)
-    # beta = np.array([[1, 0.5], [1, 0.5]])  # Coefficients for q covariates (M x q)    
+    # beta = np.array([[1, 0.5], [1, 0.5]])  # Coefficients for q covariates (M x q) 
+    
+    # beta    
     q = 1
     beta = np.array([[0.2], [0.3]]) 
     
-    q = 0
-    beta = np.zeros((M,q))
+    # q = 0
+    # beta = np.zeros((M,q))
     sigma = np.array([0.1, 0.1])
     #mubeta
     mu_0 = mu
@@ -53,6 +54,10 @@ if test:
             
     # sigma
     sigma_0 = np.array([0.5, 0.5])
+    
+    # gamma
+    p = 1
+    gamma = np.array([2.0])
     gamma_0 = gamma
 
     result_rk_each = np.zeros((nrep,2))
@@ -75,6 +80,7 @@ if test:
     print('beta',estim_result["beta_0_hat"], beta_0)
 
     print('sigma_0',estim_result["sigma_0_hat"], sigma_0)
+    print('gamma_hat',estim_result["gamma_hat"], gamma)
 
 # %%
 # Call the function

@@ -80,7 +80,7 @@ for csv_file in csv_files_stats:
     else:
         dataframes_cl_stats = pd.concat([dataframes_cl_stats, df])
 
-
+result_combined = dataframes_cl_stats
 # %%
 # Output test result
 
@@ -106,36 +106,63 @@ mapping = dict(zip(model_order, model_name))
 result_output = result_output.loc[model_order,:]
 result_output['Model'] = result_output.index
 result_output['Model'] = result_output['Model'].replace(mapping)
-
+result_output = result_output.sort_values('T')
 result_output.to_csv('result_empirical.csv')
 # %%
+# Filter data for LR and LR Crit statistics with models in `model_order`
+LR_stat = dataframes_cl_stats[
+    (dataframes_cl_stats['Stat'] == 'LR') &
+    (dataframes_cl_stats['Model'].isin(model_order))  # Using .isin() for readability
+]
 
-LR_stat = dataframes_cl_stats[(dataframes_cl_stats['Stat']=='LR')&(dataframes_cl_stats['Model'].apply(lambda x : x in model_order))]
-LR_crit_stat = dataframes_cl_stats[(dataframes_cl_stats['Stat']=='LR Crit')&(dataframes_cl_stats['Model'].apply(lambda x : x in model_order))]
+LR_crit_stat = dataframes_cl_stats[
+    (dataframes_cl_stats['Stat'] == 'LR Crit') &
+    (dataframes_cl_stats['Model'].isin(model_order))  # Using .isin() for readability
+]
 
+# Function to reformat the critical values string
 def reformat_crit(crit_str):
+    """Reformats the 'crit_str'. Converts 'inf, inf, inf' to '-' or rounds numeric values."""
     if crit_str == 'inf, inf, inf':
-        crit_str='-'
+        return '-'
     else:
         crit_list = crit_str.split(',')
-        crit_str = ', '.join([f'{round(float(each),1)}' for each in crit_list])
-    return crit_str
-M_columns = [each for each in LR_crit_stat.columns if each.startswith('M=')]
+        return ', '.join([f'{round(float(each), 1)}' for each in crit_list])
+
+# Select columns that start with 'M='
+M_columns = [col for col in LR_crit_stat.columns if col.startswith('M=')]
+
+# Apply the reformat_crit function to the relevant columns
 LR_crit_stat[M_columns] = LR_crit_stat[M_columns].applymap(reformat_crit)
-ind_names = ['Fabricated metal products','Food products', 'Textiles']
-LR_stat_report = pd.concat([LR_stat,LR_crit_stat]).sort_values(['Industry','Model'])
-each_model = model_order[0]
+
+# Define the industry names
+ind_names = ['Fabricated metal products', 'Food products', 'Textiles']
+
+# Combine LR_stat and LR_crit_stat, then sort by 'Industry' and 'Model'
+LR_stat_report = pd.concat([LR_stat, LR_crit_stat]).sort_values(['Industry', 'Model'])
+
+# Iterate over models and industries to adjust LR statistics
+result_output_T = result_output[result_output['T'] == '3']
 for each_model in model_order:
     for each_ind in ind_names:
-        number_chosen = result_combined.loc[each_model,('LR',each_ind)]
+        # Retrieve the chosen number for the current model and industry
+        number_chosen = result_output_T.replace('10+', -1).loc[each_model, ('LR', each_ind)]
+        
+        # If '10+' was replaced with -1, set number_chosen to 10
         if number_chosen == -1:
             number_chosen = 10
-            pass
-        else:
-            for m_col in M_columns:
-                if int(m_col.strip('M=')) > number_chosen:
-                    LR_stat_report.loc[(LR_stat_report['Industry']==each_ind)&(LR_stat_report['Model']==each_model)&(LR_stat_report['Stat']=='LR'), m_col] = '-'
+        
+        # Update LR_stat_report for columns where M > number_chosen
+        for m_col in M_columns:
+            if int(m_col.strip('M=')) > number_chosen:
+                LR_stat_report.loc[
+                    (LR_stat_report['Industry'] == each_ind) &
+                    (LR_stat_report['Model'] == each_model) &
+                    (LR_stat_report['Stat'] == 'LR'),
+                    m_col
+                ] = '-'
 
+# Export the final DataFrame to a CSV file
 LR_stat_report.to_csv("LR_stat_report.csv")
 
 # %%

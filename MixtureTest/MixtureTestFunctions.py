@@ -1504,6 +1504,12 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
+
+    x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
+    z1 = np.hstack((z_c, z_l))
+    
+    x1_0 = xz_0[:, :(q+1)]
+    z_0 = xz_0[:, (q+1):]
     
     for jn in prange(ninits):    
         alpha_jn = alpha_draw[:, jn]    
@@ -1527,8 +1533,8 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
             r = np.zeros((m, nt))
             r_0 = np.zeros((m, n))
             for mm in range(m):
-                res = y_c - xz @ mubeta_jn_mat[mm]
-                res_0 = y_0 - xz_0 @ mubeta_0_jn_mat[mm]
+                res = y_c - x1 @ mubeta_jn_mat[mm] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1]
+                res_0 = y_0 - x1_0 @ mubeta_0_jn_mat[mm] - z_0 @ gamma_0_jn
                 r[mm] = log_likelihood_array(res, 0.0, sigma_jn[mm])
                 r_0[mm] = log_likelihood_array(res_0, 0.0, sigma_0_jn[mm])
             
@@ -1591,7 +1597,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 rho_estim = mubeta_jn_mat[j, -1]
                     
                 # # Step 1: estimate beta given rho 
-                y_tmp = y_c - rho_estim * y_l
+                y_tmp = y_c - rho_estim * y_l - z_c @ gamma_jn + z_l @ gamma_jn * rho_estim
                 x_tmp = np.hstack(( (1 - rho_estim) * np.ones((nt, 1)), x_c - rho_estim * x_l)) 
 
                 x_tmp_w = np.zeros(x_tmp.shape)
@@ -1601,8 +1607,8 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 mubeta_estim = solve_linear_system_safe(x_tmp_w.T @ x_tmp, x_tmp_w.T @ y_tmp)
                 
                 # # Step 2: estimate rho given beta
-                y_tmp = y_c - np.hstack((np.ones((nt, 1)), x_c)) @ mubeta_estim
-                x_tmp = y_l - np.hstack((np.ones((nt, 1)), x_l)) @ mubeta_estim
+                y_tmp = y_c - np.hstack((np.ones((nt, 1)), x_c)) @ mubeta_estim - z_c @ gamma_jn
+                x_tmp = y_l - np.hstack((np.ones((nt, 1)), x_l)) @ mubeta_estim - z_l @ gamma_jn
                 
                 if np.abs(np.sum(w_j)) < 1e-3:
                     w_j[w_j < 1e-5] = 1e-5
@@ -1617,20 +1623,19 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 mubeta_jn_mat[j,-1] = rho_estim
                 
                                 
-                # estimate param_0 for initial period
-                xtilde_0 = np.zeros(xz_0.shape)
-                for ii in range(xz_0.shape[1]):
-                    xtilde_0[:, ii] = wtilde * xz_0[:, ii]
+                # estimate mubeta_0 for initial period
+                xtilde_0 = np.zeros(x1_0.shape)
+                for ii in range(x1_0.shape[1]):
+                    xtilde_0[:, ii] = wtilde * x1_0[:, ii]
                 
-                
-                coef_0_jn = solve_linear_system_safe(xtilde_0.T @ xz_0, xtilde_0.T @ y_0)
+                coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0, xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn))
                 
                 mubeta_0_jn_mat[j,:(q+1)] = coef_0_jn[:(q+1)]
-                
+
                 
                 # print(coef_jn)
-                ssr_j = np.sum(w_j * (y_c - xz @ mubeta_jn_mat[j,:])**2)
-                ssr_j_0 = np.sum(wtilde * (y_0 - xz_0 @ coef_0_jn)**2)
+                ssr_j = np.sum(w_j * (y_c - x1 @ mubeta_jn_mat[j] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[j,-1])**2)
+                ssr_j_0 = np.sum(wtilde * (y_0 - x1_0 @ mubeta_0_jn_mat[j] - z_0 @ gamma_0_jn)**2)
                 sigma_jn[j] = np.sqrt((ssr_j + 2.0 * an * sigma_0[j]**2) / (np.sum(w_j) + 2.0 * an))
                 sigma_jn[j] = max(sigma_jn[j], epsilon * sigma_0[j])
                 
@@ -1638,33 +1643,32 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 sigma_0_jn[j] = max(sigma_0_jn[j], epsilon * sigma_0[j])
                 
                 
-            mubeta_jn = mubeta_jn_mat.T.flatten()
-            
+            mubeta_jn = mubeta_jn_mat.T.flatten() 
             mubeta_0_jn = mubeta_0_jn_mat[:,:q+1].T.flatten()
-            # update alpha
+            
             for j in range(m):
                 alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
                 alpha_jn[j] = alpha_jn[j] / total_alpha
-            # print(rho_jn, alpha_jn)
-            # print(diff)
+
             # update gamma
-            # if p > 0:
-            #     ztilde = np.zeros((nt, p), dtype=np.float64) 
-            #     zz = np.zeros((p, p), dtype=np.float64) 
-            #     ze = np.zeros((p, 1), dtype=np.float64) 
-            #     for j in range(m):
-            #         wtilde = w[j, :]
-            #         w_j = np.zeros(nt)
-            #         for i in range(n):
-            #             w_j[i * t : (i + 1) * t] = wtilde[i]
-            #         for ii in range(p):
-            #             ztilde[:, ii] = w_j * z[:, ii]
-            #         zz += ztilde.T @ z / (sigma_jn[j]**2)
-            #         ze += ztilde.T @( y - x1 @ mubeta_jn_mat[j,:]) / (sigma_jn[j]**2)
-            #     gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+            if p > 0:
+                ztilde = np.zeros((nt, p), dtype=np.float64) 
+                zz = np.zeros((p, p), dtype=np.float64) 
+                ze = np.zeros((p, 1), dtype=np.float64) 
+                for j in range(m):
+                    wtilde = w[j, :]
+                    w_j = np.zeros(nt)
+                    for i in range(n):
+                        w_j[i * (t - 1) : (i + 1) * (t - 1)] = wtilde[i]
+                    for ii in range(p):
+                        ztilde[:, ii] = w_j * (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1])
+                    zz += ztilde.T @ (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1]) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
+                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+                   
         
         penloglikset[jn] = penloglik
         loglikset[jn] = ll
@@ -1675,9 +1679,9 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
         
         mubeta_0_draw[:, jn] = mubeta_0_jn_mat[:,:(q+1)].T.flatten()
         sigma_0_draw[:, jn] = sigma_0_jn
-
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
+            gamma_0_draw[:, jn] = gamma_0_jn
     return(alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 # %%
@@ -1716,7 +1720,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
         z_c[:,j] = z_j_mat[1:,:].T.flatten()
         
     x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
-    xz = np.hstack((x1, z_l, z_c))
+    xz = np.hstack((x1, z_c, z_l))
     q1 = 2*q + 2
     
     xz_0 = np.hstack((np.ones((n, 1)), x_0, z_0) )
@@ -1738,7 +1742,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
         gamma_0_hat = out_coef_0[(q+1):]
         # Perform least squares regression with both x and z
         gamma_0_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_0_hat
-        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_0_hat    
+        gamma_draw = generate_random_uniform(-1, 1, (p, ninits_short)) * gamma_0_hat    
     else:
         # Perform least squares regression with x only
         gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
@@ -1782,7 +1786,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
     sigma_draw = generate_random_uniform(0.5, 1.5, (m, ninits_short)) * stdR
     sigma_0_draw = generate_random_uniform(0.5, 1.5, (m, ninits_short)) * stdR_0
     
-    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw,   mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -1848,7 +1852,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
 # %%
 
 @njit
-def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1):
+def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1):
     
     nt = n * (t-1)
     mk = int(m*k)
@@ -1861,6 +1865,11 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
     
+    x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
+    z1 = np.hstack((z_c, z_l))
+    
+    x1_0 = xz_0[:, :(q+1)]
+    z_0 = xz_0[:, (q+1):]
     for jn in prange(ninits):
         
         alpha_jn = alpha_draw[:, jn]
@@ -1889,15 +1898,14 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
         sing = 0
         
         for iter_ii in range(maxit):
-            # %%
             
             r = np.zeros((mk, nt))
             r_0 = np.zeros((mk, n))
             for mm in range(m):
                 for kk in range(k):
                     
-                    res = y_c - xz @ mubeta_jn_mat[mm] - mu_jn[mm*k + kk] * ( 1 - mubeta_jn_mat[mm,-1])
-                    res_0 = y_0 - xz_0 @ mubeta_0_jn_mat[mm] - mu_0_jn[mm*k + kk]
+                    res =  y_c - x1 @ mubeta_jn_mat[mm] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] - mu_jn[mm*k + kk] * ( 1 - mubeta_jn_mat[mm,-1])
+                    res_0 = y_0 - x1_0 @ mubeta_0_jn_mat[mm] - z_0 @ gamma_0_jn - mu_0_jn[mm*k + kk]
                     r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
                     r_0[mm*k + kk] = log_likelihood_array(res_0, 0.0, sigma_0_jn[mm])
             
@@ -1979,7 +1987,6 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
             for i in range(n):
                 ll += np.log(sum_l_m[i]) + min_l_m[i]
             
-            # %%
             penloglik = ll + np.log(2.0)
             
             # for j in range(m):
@@ -1992,44 +1999,44 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
             
             if abs(diff) < tol:
                 break
-            # %%
+            
+            mu_mk_weighted = np.zeros((m, nt))
+            mu_mk_0_weighted = np.zeros((m, n))
+                
+            # 
             # Update parameters
             for mm in range(m):
                 alpha_jn[mm] = np.mean(w[mm, :])
                 # First estimate beta, rho (mm-specific)
                 wtilde = w[mm, :].T
                 # estimate param
-                w_m = np.zeros(nt)
-                for i in range(n):
-                    w_m[i * (t-1) : (i + 1) * (t-1)] = wtilde[i]
-                xtilde = np.zeros((nt,q1-1)) # remove the constant term
-                for ii in range(1, xz.shape[1]):
-                    xtilde[:, (ii-1)] = w_m * xz[:, ii]
                 
                 w_mk_sum = np.zeros(nt)
                 w_mk_0_sum = np.zeros(n)
                 
                 # First compute mu_mk_weighted
-                mu_mk_weighted = np.zeros(nt)
-                mu_mk_0_weighted = np.zeros(n)
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    mu_mk_weighted += w_mk[idx_type] * mu_jn[idx_type]
-                    mu_mk_0_weighted += w_mk_0[idx_type] * mu_0_jn[idx_type]
+                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
+                    mu_mk_0_weighted[mm] += w_mk_0[idx_type] * mu_0_jn[idx_type]
                     w_mk_sum += w_mk[idx_type]
                     w_mk_0_sum += w_mk_0[idx_type]
                     
                 w_mk_sum[w_mk_sum < 1e-12] = 1e-12
                 w_mk_0_sum[w_mk_0_sum < 1e-12] = 1e-12
-                mu_mk_weighted = mu_mk_weighted / w_mk_sum
-                mu_mk_0_weighted = mu_mk_0_weighted / w_mk_0_sum
+                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
+                mu_mk_0_weighted[mm] = mu_mk_0_weighted[mm] / w_mk_0_sum
                 
                 # Step 1: estimate beta given rho 
                 
                 rho_estim = mubeta_jn_mat[mm, -1]
-                y_tmp = y_c - rho_estim * y_l - mu_mk_weighted * (1 - rho_estim)
+                y_tmp = y_c - rho_estim * y_l - mu_mk_weighted[mm] * (1 - rho_estim) - z_c @ gamma_jn + z_l @ gamma_jn * rho_estim
                 x_tmp = ( x_c - rho_estim * x_l) 
+                
+                w_m = np.zeros(nt)
+                for i in range(n):
+                    w_m[i * (t-1) : (i + 1) * (t-1)] = wtilde[i]
                 
                 x_tmp_w = np.zeros(x_tmp.shape)
                 for ii in range(x_tmp.shape[1]):
@@ -2038,8 +2045,8 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
                 mubeta_estim = solve_linear_system_safe(x_tmp_w.T @ x_tmp, x_tmp_w.T @ y_tmp)
                 
                 # # Step 2: estimate rho given beta
-                y_tmp = y_c - mu_mk_weighted - x_c @ mubeta_estim
-                x_tmp = y_l - mu_mk_weighted - x_l @ mubeta_estim
+                y_tmp = y_c - mu_mk_weighted[mm] - x_c @ mubeta_estim - z_c @ gamma_jn
+                x_tmp = y_l - mu_mk_weighted[mm] - x_l @ mubeta_estim - z_l @ gamma_jn
                 if np.abs(np.sum(w_m)) < 1e-6:
                     w_m[w_m < 1e-12] = 1e-12
                 # np.sum(y_tmp * w_m) / np.sum(x_tmp * w_m)                
@@ -2052,26 +2059,29 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
                 mubeta_jn_mat[mm,-1] = rho_estim
                 
                 # estimate param_0 for initial period
-                xtilde_0 = np.zeros(xz_0.shape)
-                for ii in range(xz_0.shape[1]):
-                    xtilde_0[:, ii] = wtilde * xz_0[:, ii]
-                
-                coef_0_jn = solve_linear_system_safe(xtilde_0.T @ xz_0, xtilde_0.T @ y_0)
-                mubeta_0_jn_mat[mm,:(q+1)] = coef_0_jn[:(q+1)]
                 
                 # Estimate mu: mk-specific
-                ytilde = y_c - xz[:,1:] @ mubeta_jn_mat[mm,1:]
+                ytilde = y_c - x1[:,1:] @ mubeta_jn_mat[mm,1:] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] 
                 if q > 0:
-                    mubeta_0_jn_mat[mm,1:(q+1)] = coef_0_jn[1:(q+1)]
-                    ytilde_0 = y_0 - xz_0[:,1:] @ coef_0_jn[1:(q+1)]
+                    xtilde_0 = np.zeros((n,q))
+                    for ii in range(q):
+                        xtilde_0[:, ii] = wtilde * x1_0[:, (ii+1)]
+                    
+                    coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0[:, 1:], xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn - mu_mk_0_weighted[mm]) )
+                    
+                    mubeta_0_jn_mat[mm,1:(q+1)] = coef_0_jn[:(q)]
+                    
+                    ytilde_0 = y_0 - z_0 @ gamma_0_jn  - x1_0[:, 1:] @ coef_0_jn
+                    
                 else:
-                    ytilde_0 = y_0
+                    ytilde_0 = y_0 - z_0 @ gamma_0_jn
                     
                 w_mk_sum = np.zeros(nt)
                 w_mk_0_sum = np.zeros(n)                
                 res_mm_sq = np.zeros(nt)
                 res_mm_0_sq = np.zeros(n)                
                 sum_tau_jn = 0                 
+                
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
@@ -2097,13 +2107,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
 
                 sigma_0_jn[mm] = np.sqrt(( np.sum(res_mm_0_sq) ) / max(np.sum(w_mk_0_sum), 1e-6)  )
                 sigma_0_jn[mm] = max(sigma_0_jn[mm], epsilon * sigma_0[mm])
-            
-            # print(alpha_jn)
-            # print(tau_jn)
-            # print(mu_jn)
-            # print(mu_0_jn)
-            # print(sigma_jn)
-            # print(mubeta_jn_mat)
+           
                 
             mubeta_jn = mubeta_jn_mat.T.flatten()
             mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
@@ -2114,24 +2118,34 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
                 alpha_jn[j] = alpha_jn[j] / total_alpha
-            # %%
-            # print(rho_jn, alpha_jn)
-            # print(diff)
+             
             # update gamma
-            # if p > 0:
-            #     ztilde = np.zeros((nt, p), dtype=np.float64) 
-            #     zz = np.zeros((p, p), dtype=np.float64) 
-            #     ze = np.zeros((p, 1), dtype=np.float64) 
-            #     for j in range(m):
-            #         wtilde = w[j, :]
-            #         w_j = np.zeros(nt)
-            #         for i in range(n):
-            #             w_j[i * t : (i + 1) * t] = wtilde[i]
-            #         for ii in range(p):
-            #             ztilde[:, ii] = w_j * z[:, ii]
-            #         zz += ztilde.T @ z / (sigma_jn[j]**2)
-            #         ze += ztilde.T @( y - x1 @ mubeta_jn_mat[j,:]) / (sigma_jn[j]**2)
-            #     gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+            if p > 0:
+                ztilde = np.zeros((nt, p), dtype=np.float64) 
+                ztilde_0 = np.zeros((n, p), dtype=np.float64) 
+                zz = np.zeros((p, p), dtype=np.float64) 
+                ze = np.zeros((p, 1), dtype=np.float64) 
+                
+                zz_0 = np.zeros((p, p), dtype=np.float64) 
+                ze_0 = np.zeros((p, 1), dtype=np.float64) 
+                for j in range(m):
+                    wtilde = w[j, :]
+                    w_j = np.zeros(nt)
+                    for i in range(n):
+                        w_j[i * (t - 1) : (i + 1) * (t - 1)] = wtilde[i]
+                    
+                    for ii in range(p):
+                        ztilde[:, ii] = w_j * (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1])
+                        ztilde_0[:, ii] = wtilde * z_0[:, ii]
+                        
+                    zz += ztilde.T @ (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1]) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,0.01)
+                    
+                    zz_0 += ztilde_0.T @ z_0 / (sigma_0_jn[j]**2)
+                    ze_0 += ztilde_0.T @( y_0 - x1_0 @ mubeta_0_jn_mat[j,:] - mu_mk_0_weighted[j]) / max(sigma_0_jn[j]**2,0.01)
+                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+                gamma_0_jn = solve_linear_system_safe(zz_0,ze_0).flatten()
+                
         penloglikset[jn] = penloglik
         loglikset[jn] = ll
         post[:, jn] = w.T.flatten()
@@ -2146,6 +2160,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_
         
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
+            gamma_0_draw[:, jn] = gamma_0_jn
     
     return(alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
@@ -2183,11 +2198,11 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
         z_c[:,j] = z_j_mat[1:,:].T.flatten()
         
     x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
-    xz = np.hstack((x1, z_l, z_c))
+    xz = np.hstack((x1, z_c, z_l))
     q1 = 2*q + 2
     
     xz_0 = np.hstack((np.ones((n, 1)), x_0, z_0) )
-        
+    
     out_coef = solve_least_squares(xz, y_c)  # Replace np.linalg.lstsq
     out_coef_0 = solve_least_squares(xz_0, y_0)  # Replace np.linalg.lstsq
     residuals = y_c - xz @ out_coef
@@ -2200,7 +2215,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     ninits_short = ninits * 10 
     
     # -----
-    estim_init = regpanelmixAR1PMLE(y, x, z, p, q, m, k)
+    estim_init = regpanelmixAR1PMLE(y, x, z, p, q, m)
     alpha_hat  = estim_init['alpha_hat'][0]
     mubeta_hat = estim_init['mubeta_hat'][0]
     mubeta_hat = np.ascontiguousarray(mubeta_hat)
@@ -2249,8 +2264,8 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
         quantile_cutoff = np.linspace(0, 1, k+1)
         for kk in range(k):
             idx_type = mm * k + kk 
-            mu_draw[( mm * k + kk ), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
-            mu_0_draw[( mm * k + kk ), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
+            mu_draw[( idx_type), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
+            mu_0_draw[( idx_type), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
     
     # Initialize mubeta
     mubeta_draw = np.zeros((q1 * m, ninits_short))
@@ -2277,7 +2292,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     sigma_draw = (generate_random_uniform(0.1,0.2, (m, ninits_short)).T * sigma_hat).T
     sigma_0_draw = (generate_random_uniform(0.1, 0.2, (m, ninits_short)).T * sigma_0_hat).T        
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2292,7 +2307,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     sigma_0_draw = sigma_0_draw[:,components]
     gamma_0_draw = gamma_0_draw[:,components]
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit, tol=tol_long)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit, tol=tol_long)
 
     
     index = np.argmax(penloglikset)
@@ -2361,16 +2376,14 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
-          
-    for jn in prange(ninits):        
-        
+              
+    for jn in prange(ninits):            
         alpha_jn = alpha_draw[:, jn]
         tau_jn   = tau_draw[:, jn]
         mu_jn = mu_draw[:, jn]
         mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
         gamma_jn = gamma_draw[:, jn]  # Likely float64
-
         mubeta_jn_mat = mubeta_jn.reshape((q+1,m)).T
         
         oldpenloglik = -np.inf
@@ -2455,8 +2468,8 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
             if abs(diff) < tol:
                 break
             
-           
             # Update parameters
+            mu_mk_weighted = np.zeros((m, nt))
             for mm in range(m):
                 alpha_jn[mm] = np.mean(w[mm, :])
                 
@@ -2471,23 +2484,22 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                     xtilde[:, (ii-1)] = w_m * x1[:, ii]
                 
                 w_mk_sum = np.zeros(nt)
-                
-                mu_mk_weighted = np.zeros(nt)
+                               
+                mu_mk_weighted[mm] = np.zeros(nt)
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    mu_mk_weighted += w_mk[idx_type] * mu_jn[idx_type]
+                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
                     w_mk_sum += w_mk[idx_type]
                 w_mk_sum[w_mk_sum < 1e-3] = 1e-3
-                mu_mk_weighted = mu_mk_weighted / w_mk_sum
+                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
                 
-                coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted ) )
+                coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted[mm] - z @ gamma_jn ) )
                 
                 
                 # Estimate mu: mk-specific
-                ytilde = y_c - x1[:,1:] @ coef_jn
+                ytilde = y_c - x1[:,1:] @ coef_jn - z @ gamma_jn
                 mubeta_jn_mat[mm,1:q1] = coef_jn[:q1-1]
                     
-                
                 res_mm_sq = np.zeros(nt)
                 
                 sum_tau_jn = 0 
@@ -2517,6 +2529,24 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
             for j in range(m):
                 alpha_jn[j] = alpha_jn[j] / total_alpha
             
+                    
+            # update gamma
+            if p > 0:
+                ztilde = np.zeros((nt, p), dtype=np.float64) 
+                zz = np.zeros((p, p), dtype=np.float64) 
+                ze = np.zeros((p, 1), dtype=np.float64) 
+                for j in range(m):
+                    wtilde = w[j, :]
+                    w_j = np.zeros(nt)
+                    for i in range(n):
+                        w_j[i * (t) : (i + 1) * (t )] = wtilde[i]
+                    for ii in range(p):
+                        ztilde[:, ii] = w_j * z[:, ii]
+                         
+                    zz += ztilde.T @ (z) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,0.01)
+                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+                
         # print(iter_ii)
         penloglikset[jn] = penloglik
         loglikset[jn] = ll
@@ -2526,7 +2556,8 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
         mubeta_draw[:, jn] = mubeta_jn_mat.T.flatten()
         sigma_draw[:, jn] = sigma_jn
         tau_draw[:, jn] = tau_jn
-        
+        gamma_draw[:, jn] = gamma_jn
+    
     return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
 # %%
@@ -2572,7 +2603,6 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     alpha_draw = (alpha_hat +  generate_random_uniform(0, 0.1, (m, ninits_short)).T).T
     alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
 
-
     mk = m * k 
     mu_draw = np.zeros((m * k, ninits_short))
     tau_draw = np.zeros((m * k, ninits_short))
@@ -2581,11 +2611,10 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
         tau_draw_m = (tau_draw_m / np.sum(tau_draw_m, axis=0))
         tau_draw[(mm * k):((mm +1) * k),:] = tau_draw_m
         
+        quantile_cutoff = np.linspace(0, 1, k+1)
         for kk in range(k):
             idx_type = mm * k + kk 
-            # lb = compute_quantile(y_c, idx_type/(mk+1))
-            # ub = compute_quantile(y_c, (idx_type+1)/(mk+1))
-            mu_draw[( mm * k + kk ), :] = np.random.uniform(0.9, 1.1, size=ninits_short) * mu_hat[mm]
+            mu_draw[( idx_type), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
     
     mubeta_draw = np.zeros((q1 * m, ninits_short))
     
