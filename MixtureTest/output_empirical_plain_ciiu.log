@@ -1,0 +1,45 @@
+Numba is using 12 threads.
+['empirical_test.py', 'plain', '3', 'ciiu']
+Simulation Start
+Model: plain
+T: 3
+Include CIIU: True
+Country: chile, Industry: Food products, Model: plain, M: 1, Time Taken: 3871.14 seconds, LR Stat: -25357.4779
+Country: chile, Industry: Food products, Model: plain, M: 2, Time Taken: 63.91 seconds, LR Stat: 26344.1540
+Country: chile, Industry: Food products, Model: plain, M: 3, Time Taken: 81.76 seconds, LR Stat: 1569.0456
+Country: chile, Industry: Food products, Model: plain, M: 4, Time Taken: 108.47 seconds, LR Stat: -103.0074
+Country: chile, Industry: Food products, Model: plain, M: 5, Time Taken: 137.54 seconds, LR Stat: 414.7659
+Country: chile, Industry: Food products, Model: plain, M: 6, Time Taken: 161.50 seconds, LR Stat: 355.9602
+Country: chile, Industry: Food products, Model: plain, M: 7, Time Taken: 180.26 seconds, LR Stat: 233.5721
+Country: chile, Industry: Food products, Model: plain, M: 8, Time Taken: 201.05 seconds, LR Stat: 174.4842
+Country: chile, Industry: Food products, Model: plain, M: 9, Time Taken: 226.68 seconds, LR Stat: 124.9173
+Country: chile, Industry: Food products, Model: plain, M: 10, Time Taken: 254.53 seconds, LR Stat: 39.4838
+chile Food products 5286.950459957123
+['Chile', 'Food products', 'Plain', np.int64(1), np.int64(1), 1]
+------------------------------
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 1, Time Taken: 244.42 seconds, LR Stat: 429.7230
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 2, Time Taken: 252.61 seconds, LR Stat: 304.1521
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 3, Time Taken: 462.66 seconds, LR Stat: 181.0048
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 4, Time Taken: 548.36 seconds, LR Stat: 144.2513
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 5, Time Taken: 720.40 seconds, LR Stat: 97.1227
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 6, Time Taken: 1063.03 seconds, LR Stat: 34.0093
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 7, Time Taken: 1400.65 seconds, LR Stat: 57.8746
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 8, Time Taken: 1810.59 seconds, LR Stat: 58.6938
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 9, Time Taken: 1544.89 seconds, LR Stat: 20.0240
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 10, Time Taken: 6.54 seconds, LR Stat: 27.4195
+chile Fabricated metal products 8054.194401264191
+['Chile', 'Fabricated metal products', 'Plain', 10, 10, 9]
+------------------------------
+Country: chile, Industry: Textiles, Model: plain, M: 1, Time Taken: 160.94 seconds, LR Stat: 294.5613
+Country: chile, Industry: Textiles, Model: plain, M: 2, Time Taken: 636.35 seconds, LR Stat: 239.7014
+Country: chile, Industry: Textiles, Model: plain, M: 3, Time Taken: 3.61 seconds, LR Stat: -19.1257
+Country: chile, Industry: Textiles, Model: plain, M: 4, Time Taken: 5.27 seconds, LR Stat: 366.9375
+Country: chile, Industry: Textiles, Model: plain, M: 5, Time Taken: 7.32 seconds, LR Stat: -19.1257
+Country: chile, Industry: Textiles, Model: plain, M: 6, Time Taken: 10.11 seconds, LR Stat: 230.9487
+Country: chile, Industry: Textiles, Model: plain, M: 7, Time Taken: 15.14 seconds, LR Stat: 28.7814
+Country: chile, Industry: Textiles, Model: plain, M: 8, Time Taken: 17.24 seconds, LR Stat: 7.1499
+Country: chile, Industry: Textiles, Model: plain, M: 9, Time Taken: 22.67 seconds, LR Stat: 37.7222
+Country: chile, Industry: Textiles, Model: plain, M: 10, Time Taken: 22.70 seconds, LR Stat: 62.1023
+chile Textiles 901.3769054412842
+['Chile', 'Textiles', 'Plain', np.int64(3), np.int64(3), 2]
+------------------------------

@@ -1,0 +1,45 @@
+Numba is using 12 threads.
+['empirical_test.py', 'plain_mixture_4', '3']
+Simulation Start
+Model: plain_mixture_4
+T: 3
+Include CIIU: False
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 1, Time Taken: 1025.84 seconds, LR Stat: 1827.4839
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 2, Time Taken: 1679.06 seconds, LR Stat: 17.7963
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 3, Time Taken: 2464.93 seconds, LR Stat: -649.6669
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 4, Time Taken: 21.24 seconds, LR Stat: -693.9864
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 5, Time Taken: 15.38 seconds, LR Stat: 522.4523
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 6, Time Taken: 22.55 seconds, LR Stat: -479.6751
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 7, Time Taken: 34.77 seconds, LR Stat: -509.3591
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 8, Time Taken: 50.69 seconds, LR Stat: -106.7246
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 9, Time Taken: 45.91 seconds, LR Stat: 149.1710
+Country: chile, Industry: Food products, Model: plain_mixture_4, M: 10, Time Taken: 47.42 seconds, LR Stat: 219.1581
+chile Food products 5407.896854877472
+['Chile', 'Food products', 'Plain_mixture_4', np.int64(4), np.int64(2), 3]
+------------------------------
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 1, Time Taken: 138.09 seconds, LR Stat: 151.0711
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 2, Time Taken: 196.97 seconds, LR Stat: 158.8445
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 3, Time Taken: 1.42 seconds, LR Stat: 28.7118
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 4, Time Taken: 2.41 seconds, LR Stat: -18.7674
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 5, Time Taken: 2.58 seconds, LR Stat: -120.4410
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 6, Time Taken: 4.26 seconds, LR Stat: -218.3418
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 7, Time Taken: 7.79 seconds, LR Stat: 177.9116
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 8, Time Taken: 8.95 seconds, LR Stat: 18.3390
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 9, Time Taken: 9.00 seconds, LR Stat: 10.3598
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture_4, M: 10, Time Taken: 10.31 seconds, LR Stat: -64.2373
+chile Fabricated metal products 381.8388514518738
+['Chile', 'Fabricated metal products', 'Plain_mixture_4', np.int64(3), np.int64(3), 2]
+------------------------------
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 1, Time Taken: 216.04 seconds, LR Stat: 131.9495
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 2, Time Taken: 197.23 seconds, LR Stat: -12.7304
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 3, Time Taken: 2.44 seconds, LR Stat: -78.0267
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 4, Time Taken: 3.69 seconds, LR Stat: 4.1407
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 5, Time Taken: 3.24 seconds, LR Stat: 6.7913
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 6, Time Taken: 4.46 seconds, LR Stat: 14.2107
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 7, Time Taken: 6.42 seconds, LR Stat: 34.8899
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 8, Time Taken: 8.35 seconds, LR Stat: -82.6857
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 9, Time Taken: 8.02 seconds, LR Stat: 20.5949
+Country: chile, Industry: Textiles, Model: plain_mixture_4, M: 10, Time Taken: 7.05 seconds, LR Stat: -80.8638
+chile Textiles 456.9660544395447
+['Chile', 'Textiles', 'Plain_mixture_4', np.int64(3), np.int64(3), 2]
+------------------------------

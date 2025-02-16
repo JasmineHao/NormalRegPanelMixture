@@ -1,0 +1,45 @@
+Numba is using 12 threads.
+['empirical_test.py', 'plain_mixture', '3', 'ciiu']
+Simulation Start
+Model: plain_mixture
+T: 3
+Include CIIU: True
+Country: chile, Industry: Food products, Model: plain_mixture, M: 1, Time Taken: 3990.90 seconds, LR Stat: -77.4788
+Country: chile, Industry: Food products, Model: plain_mixture, M: 2, Time Taken: 76.24 seconds, LR Stat: -67.9314
+Country: chile, Industry: Food products, Model: plain_mixture, M: 3, Time Taken: 100.39 seconds, LR Stat: 181.2270
+Country: chile, Industry: Food products, Model: plain_mixture, M: 4, Time Taken: 144.47 seconds, LR Stat: 377.5705
+Country: chile, Industry: Food products, Model: plain_mixture, M: 5, Time Taken: 168.31 seconds, LR Stat: 667.6734
+Country: chile, Industry: Food products, Model: plain_mixture, M: 6, Time Taken: 178.88 seconds, LR Stat: 149.0663
+Country: chile, Industry: Food products, Model: plain_mixture, M: 7, Time Taken: 231.18 seconds, LR Stat: 727.2252
+Country: chile, Industry: Food products, Model: plain_mixture, M: 8, Time Taken: 247.54 seconds, LR Stat: -1020.3523
+Country: chile, Industry: Food products, Model: plain_mixture, M: 9, Time Taken: 262.09 seconds, LR Stat: -4133.8528
+Country: chile, Industry: Food products, Model: plain_mixture, M: 10, Time Taken: 313.44 seconds, LR Stat: 328.0814
+chile Food products 5713.565918445587
+['Chile', 'Food products', 'Plain_mixture', np.int64(2), np.int64(2), 1]
+------------------------------
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 1, Time Taken: 402.02 seconds, LR Stat: 303.9590
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 2, Time Taken: 333.61 seconds, LR Stat: 185.7469
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 3, Time Taken: 724.87 seconds, LR Stat: -21.9556
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 4, Time Taken: 10.33 seconds, LR Stat: 170.2114
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 5, Time Taken: 15.50 seconds, LR Stat: -57.0300
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 6, Time Taken: 15.44 seconds, LR Stat: 187.3542
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 7, Time Taken: 26.15 seconds, LR Stat: -66.1434
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 8, Time Taken: 14.93 seconds, LR Stat: 41.2940
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 9, Time Taken: 22.89 seconds, LR Stat: -57.9689
+Country: chile, Industry: Fabricated metal products, Model: plain_mixture, M: 10, Time Taken: 22.89 seconds, LR Stat: 2.7867
+chile Fabricated metal products 1588.6930298805237
+['Chile', 'Fabricated metal products', 'Plain_mixture', np.int64(3), np.int64(3), 3]
+------------------------------
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 1, Time Taken: 773.95 seconds, LR Stat: -19.1257
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 2, Time Taken: 3.89 seconds, LR Stat: 562.8490
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 3, Time Taken: 6.79 seconds, LR Stat: 184.5690
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 4, Time Taken: 13.43 seconds, LR Stat: 192.3823
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 5, Time Taken: 12.58 seconds, LR Stat: 100.4209
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 6, Time Taken: 16.04 seconds, LR Stat: -86.1605
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 7, Time Taken: 30.31 seconds, LR Stat: 47.8361
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 8, Time Taken: 29.50 seconds, LR Stat: 38.5529
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 9, Time Taken: 49.93 seconds, LR Stat: 47.7610
+Country: chile, Industry: Textiles, Model: plain_mixture, M: 10, Time Taken: 60.20 seconds, LR Stat: 74.2052
+chile Textiles 996.7373511791229
+['Chile', 'Textiles', 'Plain_mixture', np.int64(1), np.int64(1), 1]
+------------------------------

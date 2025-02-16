@@ -46,10 +46,13 @@
 
 
 python -u empirical_test.py plain_mixture_3 5 > output_empirical_plain_mixture_3.log 2>&1 &
-python -u empirical_test.py k_mixture_3 5> output_empirical_k_mixture_3.log 2>&1 &
+python -u empirical_test.py k_mixture_3 5 > output_empirical_k_mixture_3.log 2>&1 &
 
 python -u empirical_test.py plain 3 > output_empirical_plain.log 2>&1 &
 python -u empirical_test.py plain_mixture 3 > output_empirical_plain_mixture.log 2>&1 &
+
+
+
 
 python -u empirical_test.py k 3 > output_empirical_k.log 2>&1 &
 python -u empirical_test.py k_mixture 3 > output_empirical_k_mixture.log 2>&1 &
@@ -61,3 +64,18 @@ python -u empirical_test.py ar1_plain_mixture 3 > output_empirical_ar1_plain_mix
 python -u empirical_test.py ar1_k 3 > output_empirical_ar1_k.log 2>&1 &
 python -u empirical_test.py ar1_k_mixture 3 > output_empirical_ar1_k_mixture.log 2>&1 & 
 
+
+# include ciiu
+python -u empirical_test.py plain 3 ciiu > output_empirical_plain_ciiu.log 2>&1 &
+python -u empirical_test.py plain_mixture 3 ciiu > output_empirical_plain_mixture_ciiu.log 2>&1 &
+python -u empirical_test.py plain_mixture_3 3 ciiu > output_empirical_plain_mixture_3_ciiu.log 2>&1 &
+python -u empirical_test.py plain_mixture_4 3 ciiu > output_empirical_plain_mixture_4_ciiu.log 2>&1 &
+
+python -u empirical_test.py k 3 ciiu > output_empirical_k_ciiu.log 2>&1 &
+python -u empirical_test.py k_mixture 3 ciiu > output_empirical_k_mixture_ciiu.log 2>&1 &
+python -u empirical_test.py k_mixture_3 3 ciiu > output_empirical_k_mixture_3_ciiu.log 2>&1 &
+python -u empirical_test.py k_mixture_4 3 ciiu > output_empirical_k_mixture_4_ciiu.log 2>&1 &
+
+# make up 
+python -u empirical_test.py plain_mixture_4 3 > output_empirical_plain_mixture_4.log 2>&1 &
+python -u empirical_test.py k_mixture_4 3 > output_empirical_k_mixture_4.log 2>&1 &

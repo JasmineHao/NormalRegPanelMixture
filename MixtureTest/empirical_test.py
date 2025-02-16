@@ -32,10 +32,21 @@ COUNTRY_list = ['chile']
 
 print(sys.argv)
 if len(sys.argv) < 2:
-    MODEL = "plain_mixture" 
+    MODEL = "plain_mixture"
+    T = 3 
+    include_ciiu = False
+
+elif len(sys.argv) <= 3:
+    MODEL = sys.argv[1]
+    T = int(sys.argv[2])
+    include_ciiu = False
 else:
     MODEL = sys.argv[1]
     T = int(sys.argv[2])
+    if sys.argv[3] == 'ciiu':
+        include_ciiu = True
+    else:
+        include_ciiu = False
 
 
 BB = 199
@@ -46,6 +57,7 @@ epsilon_truncation = 0.01
 print("Simulation Start")
 print(f"Model: {MODEL}")    
 print(f"T: {T}")    
+print(f"Include CIIU: {include_ciiu}")
 
 def find_model_stop(aic_values):
     differences = np.diff(aic_values)
@@ -73,6 +85,24 @@ for COUNTRY in COUNTRY_list:
             chile_data = pyreadr.read_r('ChileanClean.rds')
             ind_code = [311, 381, 321]
             df = chile_data[None]
+            
+            # Load the export data
+            df_0 = pd.read_stata("DATA_KL_EXIM5_2023.dta")
+            df_0['id'] = df_0['padron']
+
+            # Ensure 'id' and 'year' columns have the same data type in both DataFrames
+            df_0['id'] = pd.to_numeric(df_0['padron'], errors='coerce')
+            df_0['year'] = pd.to_numeric('19' + df_0['year'].astype(str), errors='coerce')
+            df_0['ciiu'] = df_0['ciiu'].astype(str)
+
+            df['id'] = pd.to_numeric(df['id'], errors='coerce')
+            df['year'] = pd.to_numeric(df['year'], errors='coerce')
+
+            # Select relevant columns from df_0
+            df_0 = df_0[['id', 'year', 'ciiu']]
+
+            # Perform the merge
+            df = pd.merge(df, df_0, on=['id', 'year'])
         case "japan":
             japan_data = pyreadr.read_r('JapanClean.rds')
             ind_code = [5, 13, 12]
@@ -96,6 +126,8 @@ for COUNTRY in COUNTRY_list:
                 ind_each['lnm'] = np.log(ind_each['WI'])
                 ind_each['lnl'] = np.log(ind_each['L'])
                 ind_each['lnk'] = np.log(ind_each['K'])
+                if include_ciiu:
+                    ind_each = ind_each[ind_each['ciiu'] != 'nan']
             case "japan":
                 ind_list = ["food", "textile", "wood", "paper", "chemical",
                             "petro", "plastic", "ceramics", "steel", "othermetal",
@@ -118,7 +150,7 @@ for COUNTRY in COUNTRY_list:
         ind_each_y = ind_each_t.pivot(index='id', columns='year', values='y').dropna()
         id_list = ind_each_y.index
         ind_each_t = ind_each_t[ind_each_t['id'].isin(id_list)].sort_values(['id', 'year'])
-
+        
         ind_each_xk = (ind_each_t['lnk'] - ind_each_t['lnk'].mean()) / ind_each_t['lnk'].std()
         ind_each_xl = (ind_each_t['lnl'] - ind_each_t['lnl'].mean()) / ind_each_t['lnl'].std()
 
@@ -134,7 +166,13 @@ for COUNTRY in COUNTRY_list:
 
         N = ind_each_y.shape[0]
         x_0 = np.zeros((N * T, 0))
-        z = np.zeros((N * T, p))
+        if include_ciiu:
+            z = 1 * pd.get_dummies(ind_each_t['ciiu'], prefix='category').values[:, 1:]
+            z = z.astype(np.float64)  # Convert z to float64
+            p = z.shape[1]
+        else:
+            p = 0
+            z = np.zeros((N * T, p))
 
         bootstrap_k_cov = True
         # %%
@@ -143,6 +181,11 @@ for COUNTRY in COUNTRY_list:
 
             # Use precompiled LRTest function
             match MODEL:
+                case "nonpar":
+                    n_grid = m + 1
+                    r_test = m 
+                    n_bins =  math.ceil((m+1)**(1/(T - 1)))
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k]  = NonParTest(y, N, T, n_grid, n_bins, BB, r_test)
                 case "plain":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 case "k":
@@ -151,6 +194,7 @@ for COUNTRY in COUNTRY_list:
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                 case "kl":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                                        
                 case "kl_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                     
@@ -159,6 +203,9 @@ for COUNTRY in COUNTRY_list:
                     
                 case "plain_mixture_3":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                
+                case "plain_mixture_4":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_0, z, p, 0, m, 4, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                     
                 case "k_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
@@ -166,8 +213,16 @@ for COUNTRY in COUNTRY_list:
                 case "k_mixture_3":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                     
+                case "k_mixture_4":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_k, z, p, 1, m, 4, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
                 case "kl_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    
+                case "kl_mixture_3":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 3, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                
+                    
                 case "kl_mixture_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestMixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB, spline=True)
                     
@@ -224,8 +279,12 @@ for COUNTRY in COUNTRY_list:
     statistics_df = pd.DataFrame(statistics_df, columns=['Country', 'Industry', 'Model', 'Stat'] + [f'M={d}' for d in range(1, 11)])
 
     # Save results to CSV
-    statistics_df.to_csv(f"empirical_test/statistics_{COUNTRY}_{MODEL}_{T}.csv")
-    result_df.groupby(['Country', 'Industry', 'Model']).first().unstack(level="Model").T.to_csv(f"empirical_test/result_{COUNTRY}_{MODEL}_{T}.csv")
+    if include_ciiu:
+        statistics_df.to_csv(f"empirical_test/statistics_{COUNTRY}_{MODEL}_ciiu_{T}.csv")
+        result_df.groupby(['Country', 'Industry', 'Model']).first().unstack(level="Model").T.to_csv(f"empirical_test/result_{COUNTRY}_{MODEL}_ciiu_{T}.csv")
+    else:
+        statistics_df.to_csv(f"empirical_test/statistics_{COUNTRY}_{MODEL}_{T}.csv")
+        result_df.groupby(['Country', 'Industry', 'Model']).first().unstack(level="Model").T.to_csv(f"empirical_test/result_{COUNTRY}_{MODEL}_{T}.csv")
 
 # %%
 # ToDo: Create a table that record the following model index (m)

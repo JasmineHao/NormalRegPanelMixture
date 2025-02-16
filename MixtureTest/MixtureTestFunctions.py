@@ -345,7 +345,7 @@ def fill_nan(arr, fill_value):
 
 
 @njit(parallel=False)
-def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False):
+def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_input = np.zeros(0)):
     R = np.zeros((N, M))
 
     # Normalize alpha if necessary
@@ -398,10 +398,13 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False):
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
     
     if p > 0:
-        z = np.empty((N * T, p))
-        for i in prange(N * T):
-            for j in prange(p):
-                z[i, j] = np.random.normal()  # Generate one value at a time
+        if (len(z_input) == 0):
+            z = np.empty((N * T, p))
+            for i in prange(N * T):
+                for j in prange(p):
+                    z[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            z = z_input
     else:
         z = np.zeros((N * T, 0), dtype=np.float64)
     
@@ -434,7 +437,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False):
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q):
+def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros(0)):
     # 
     # First compute the stationary distribution 
     # Generate random assignment
@@ -475,10 +478,13 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
         x = np.zeros((N * T, 0), dtype=np.float64)
         
     if p > 0:
-        z = np.empty((N * T, p))
-        for i in range(N * T):
-            for j in range(p):
-                z[i, j] = np.random.normal()  # Generate one value at a time
+        if len(z_input) == 0:
+            z = np.empty((N * T, p))
+            for i in range(N * T):
+                for j in range(p):
+                    z[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            z = z_input
     else:
         z = np.zeros((N * T, 0), dtype=np.float64)
         
@@ -516,7 +522,7 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False):
+def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False, z_input = np.zeros(0)):
     R = np.ones((N, M))
     R_T = np.ones((N*(T-1), M)) 
     
@@ -571,10 +577,13 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
         x = np.zeros((N * T, 0), dtype=np.float64)
         
     if p > 0:
-        z = np.empty((N * T, p))
-        for i in range(N * T):
-            for j in range(p):
-                z[i, j] = np.random.normal()  # Generate one value at a time
+        if len(z_input) == 0:
+            z = np.empty((N * T, p))
+            for i in range(N * T):
+                for j in range(p):
+                    z[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            z = z_input 
     else:
         z = np.zeros((N * T, 0), dtype=np.float64)
     
@@ -613,7 +622,7 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
 
 # %%
 @njit(parallel=False)
-def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False):
+def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False, z_input = np.zeros(0)):
 
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
@@ -672,10 +681,13 @@ def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
     
     if p > 0:
-        z = np.empty((N * T, p))
-        for i in range(N * T):
-            for j in range(p):
-                z[i, j] = np.random.normal()  # Generate one value at a time
+        if len(z_input) == 0:
+            z = np.empty((N * T, p))
+            for i in range(N * T):
+                for j in range(p):
+                    z[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            z = z_input
     else:
         z = np.zeros((N * T, 0), dtype=np.float64)
     
@@ -1425,7 +1437,9 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
         mubeta_hat = out_coef[:q1]
         if p > 0:
             # Perform least squares regression with both x and z
-            gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_hat
+            gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+            for pp in range(p):
+                gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
         else:
             # Perform least squares regression with x only
             gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
@@ -1741,8 +1755,13 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
         gamma_hat = out_coef[q1:(q1 + p)]
         gamma_0_hat = out_coef_0[(q+1):]
         # Perform least squares regression with both x and z
-        gamma_0_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_0_hat
-        gamma_draw = generate_random_uniform(-1, 1, (p, ninits_short)) * gamma_0_hat    
+        gamma_0_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+        gamma_draw = generate_random_uniform(-1, 1, (p, ninits_short))
+        
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+            gamma_0_draw[:,pp] = gamma_0_draw[:,pp] * gamma_0_hat[pp]
+       
     else:
         # Perform least squares regression with x only
         gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
@@ -2233,10 +2252,13 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     # -----
     # First draw random start point
     if p > 0:
-        gamma_0_hat = out_coef_0[(q+1):]
         # Perform least squares regression with both x and z
-        gamma_0_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_0_hat
-        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_hat
+        gamma_0_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+            gamma_0_draw[:,pp] = gamma_0_draw[:,pp] * gamma_0_hat[pp]
+       
         
     else:
         # Perform least squares regression with x only
@@ -2594,7 +2616,10 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     # -----
 
     if p > 0:
-        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) * gamma_hat
+        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short))
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+       
     else:
         # Perform least squares regression with x only
         gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
@@ -2677,7 +2702,6 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     return result_dict
 
 # %%
-
 
 @njit(parallel=False)
 def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
@@ -2970,6 +2994,71 @@ def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
     rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
     return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
 
+
+# %%
+@njit(parallel=False) 
+def NonParTest(y, N, T, n_grid, n_bins, BB, r_test):
+    weights_equal = np.full(N, 1 / N)
+    
+    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
+        
+    # Initialize results
+    rk = np.zeros(T)
+    lambda_c_list = List()
+    omega_c = List()
+    Sigma_P_list = List()
+    P_k_list = List()
+    
+    # Loop through T periods to compute statistics
+    for k in range(T):
+        # Extract P_k and Sigma_P_k from the data_P_W object
+        P_k = data_P_W["P_k_list"][k]
+        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
+        
+        # Compute KP statistics for the k-th triplet
+        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+        
+        # Store results
+        rk[k] = stat_KP["rk_c"][0,0]
+        lambda_c_list.append(stat_KP["lambda_c"])
+        omega_c.append(stat_KP["Omega_q"])
+        Sigma_P_list.append(Sigma_P_k)
+        P_k_list.append(P_k)
+    # Initialize result matrix
+    rk_b = np.zeros((BB, T))
+    
+    # Smoothed Nonparametric Bootstrap
+    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
+    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
+    ru /= row_sums
+    
+    for i in prange(BB):
+        # Calculate bootstrapped P and Sigma_P matrices
+        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
+        
+        for k in range(T):
+            P_k = data_P_W_b['P_k_list'][k]
+            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
+            # Compute KP statistics for the k-th triplet
+            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
+    # Compute max and mean values for rk and rk_b
+    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
+    lr_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
+    lr_90 = compute_quantile(rk_b_max, 0.90)  # 95th quantile of rk_b_max
+    lr_99 = compute_quantile(rk_b_max, 0.99)  # 95th quantile of rk_b_max
+    lr_stat = rk.max()      
+    aic = 0
+    bic = 0                   
+    
+    # Store results
+
+    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
+    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
+    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
+    # return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
+    return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
+   
 # %%
 
 @njit(parallel=False) 
@@ -3019,7 +3108,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline) for _ in prange(BB)]
+        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline, z_input=z) for _ in prange(BB)]
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
         lr_stat_bb = np.zeros(BB, dtype=np.float64)
@@ -3103,7 +3192,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
+        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline, z_input=z) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3197,7 +3286,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline, z_input=z) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3282,7 +3371,7 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q) for _ in prange(BB)]
+        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)

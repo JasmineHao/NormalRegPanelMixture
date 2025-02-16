@@ -25,7 +25,6 @@ Variables:
 - model_name: List of model names to be used as index in the final output DataFrame.
 """
 import os
-from re import L
 import pandas as pd
 
 # Specify the folder containing the CSV files
@@ -54,10 +53,11 @@ for csv_file in csv_files:
     df_row['country'] = country.capitalize()
     df_row['model'] = model.capitalize()
     df_row['T'] = T_length
-    if country == 'japan':
-        dataframes_jp = pd.concat([dataframes_jp, df_row])
-    else:
-        dataframes_cl = pd.concat([dataframes_cl, df_row])
+    if T_length == '3':
+        if country == 'japan':
+            dataframes_jp = pd.concat([dataframes_jp, df_row])
+        else:
+            dataframes_cl = pd.concat([dataframes_cl, df_row])
 
 result_output = dataframes_cl.set_index('model')
 result_output = result_output.replace(-1,'10+')
@@ -85,15 +85,27 @@ result_combined = dataframes_cl_stats
 # Output test result
 
 
-model_order= ['Plain', 'Plain mixture', 'Plain mixture 3', 'K', 'K mixture', 'K mixture 3', 'Ar1 plain', 'Ar1 k',  'Ar1 plain mixture', 'Ar1 k mixture']
+model_order= ['Plain', 'Plain mixture', 'Plain mixture 3', 'Plain mixture 4',
+              'Plain ciiu', 'Plain mixture ciiu', 'Plain mixture 3 ciiu', 'Plain mixture 4 ciiu', 'K ciiu', 'K mixture ciiu', 'K mixture 3 ciiu', 'K mixture 4 ciiu',  'K', 'K mixture', 'K mixture 3', 'K mixture 4', 
+              'Ar1 plain', 'Ar1 k',  'Ar1 plain mixture', 'Ar1 k mixture']
 
 model_name = [
     'No Covariate Normal',                     # Plain
     'No Covariate 2-Component Mixture',        # Plain mixture
     'No Covariate 3-Component Mixture',        # Plain mixture 3
+    'No Covariate 4-Component Mixture',        # Plain mixture 4
+    'No Covariate Normal control CIIU4',                     # Plain
+    'No Covariate 2-Component Mixture control CIIU4',        # Plain mixture
+    'No Covariate 3-Component Mixture control CIIU4',        # Plain mixture 3
+    'No Covariate 4-Component Mixture control CIIU4',        # Plain mixture 4
     'K Normal',                                # K
     'K 2-Component Mixture',                   # K mixture
     'K 3-Component Mixture',                   # K mixture 3
+    'K 4-Component Mixture',                   # K mixture 4
+    'K Normal control CIIU4',                                # K
+    'K 2-Component Mixture control CIIU4',                   # K mixture
+    'K 3-Component Mixture control CIIU4',                   # K mixture 3
+    'K 4-Component Mixture control CIIU4',                   # K mixture 4
     'AR1 No Covariate Normal',                 # Ar1 plain
     'AR1 K Normal',                            # Ar1 k
     'AR1 No Covariate 2-Component Mixture',    # Ar1 plain mixture
@@ -106,8 +118,9 @@ mapping = dict(zip(model_order, model_name))
 result_output = result_output.loc[model_order,:]
 result_output['Model'] = result_output.index
 result_output['Model'] = result_output['Model'].replace(mapping)
-result_output = result_output.sort_values('T')
+# result_output = result_output.sort_values('T')
 result_output.to_csv('result_empirical.csv')
+
 # %%
 # Filter data for LR and LR Crit statistics with models in `model_order`
 LR_stat = dataframes_cl_stats[
