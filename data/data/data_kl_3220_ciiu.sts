@@ -1,0 +1,17 @@
+// The following line should contain the complete path and name of your raw data file
+
+FILE C:\documents and settings\hkasahar\my documents\work\project\exportimport\data\data_kl_3220_ciiu.dat
+
+VARIABLES
+   padron          1-6  
+   year            7-8  
+   ciiu            9-12 
+   ry              13-20 
+   d_e             21-22 
+   d_m             23-24 
+   rexport         25-32 
+   rmi             33-40 
+   l               41-44 
+   rm              45-52 
+   markup          53-61 
+
