@@ -345,7 +345,7 @@ def fill_nan(arr, fill_value):
 
 
 @njit(parallel=False)
-def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_input = np.zeros(0)):
+def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
     R = np.zeros((N, M))
 
     # Normalize alpha if necessary
@@ -360,11 +360,11 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_
     # Generate prior and initialize R
     prior = np.random.random(size=N)
     alpha_cum = np.zeros(M + 1)
-    for m in prange(M):
+    for m in range(M):
         alpha_cum[m + 1] = alpha_cum[m] + alpha[m]
     
     if M > 1:
-        for m in prange(M):
+        for m in range(M):
             lb = alpha_cum[m]
             ub = alpha_cum[m + 1]
             for n in range(N):
@@ -376,10 +376,13 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_
     
     # Generate x and z if not provided
     if q > 0:
-        x = np.empty((N * T, q))
-        for i in prange(N * T):
-            for j in range(q):
-                x[i, j] = np.random.normal()  # Generate one value at a time
+        if len((x_input) == 0):
+            x = np.empty((N * T, q))
+            for i in prange(N * T):
+                for j in range(q):
+                    x[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            x = x_input
     else:
         x = np.zeros((N * T, 0), dtype=np.float64)
     
@@ -437,7 +440,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros(0)):
+def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros(0), x_input = np.zeros(0)):
     # 
     # First compute the stationary distribution 
     # Generate random assignment
@@ -470,10 +473,13 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
     
     # Generate x and z if not provided
     if q > 0:
-        x = np.empty((N * T, q))
-        for i in range(N * T):
-            for j in range(q):
-                x[i, j] = np.random.normal()  # Generate one value at a time
+        if len(x_input)==0:
+            x = np.empty((N * T, q))
+            for i in range(N * T):
+                for j in range(q):
+                    x[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            x = x_input
     else:
         x = np.zeros((N * T, 0), dtype=np.float64)
         
@@ -522,7 +528,7 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False, z_input = np.zeros(0)):
+def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
     R = np.ones((N, M))
     R_T = np.ones((N*(T-1), M)) 
     
@@ -569,10 +575,13 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
     
     # Generate x and z if not provided
     if q > 0:
-        x = np.empty((N * T, q))
-        for i in range(N * T):
-            for j in range(q):
-                x[i, j] = np.random.normal()  # Generate one value at a time
+        if len(x_input) == 0:
+            x = np.empty((N * T, q))
+            for i in range(N * T):
+                for j in range(q):
+                    x[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            x = x_input
     else:
         x = np.zeros((N * T, 0), dtype=np.float64)
         
@@ -622,7 +631,7 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
 
 # %%
 @njit(parallel=False)
-def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False, z_input = np.zeros(0)):
+def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
 
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
@@ -659,10 +668,13 @@ def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q
     beta_R = np.dot(R, beta) 
     
     if q > 0:
-        x = np.empty((N * T, q))
-        for i in range(N * T):
-            for j in range(q):
-                x[i, j] = np.random.normal()  # Generate one value at a time
+        if len(x_input)==0:
+            x = np.empty((N * T, q))
+            for i in range(N * T):
+                for j in range(q):
+                    x[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            x = x_input
     else:
         x = np.zeros((N * T, 0), dtype=np.float64)
     
@@ -1254,7 +1266,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
     
-    for jn in prange(ninits):
+    for jn in range(ninits):
         alpha_jn = alpha_draw[:, jn]
         mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
@@ -1396,113 +1408,114 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     # ninits_short = ninits * 10 * (q1 + p) * m
     ninits_short = ninits * 10 
     # ninits = 10
-    if (m == 1) :
-        mubeta_hat = out_coef[:q1]
-        if p > 0:
-            gamma_hat = out_coef[q1:(q1 + p)]
-        else:
-            gamma_hat = np.zeros(p)
-        res = y_c - xz @ out_coef
-        sigma_val = np.sqrt(np.mean(res**2))
-        loglik = log_likelihood_normal(res,0,sigma_val)
+    # if (m == 1) :
+    #     mubeta_hat = out_coef[:q1]
+    #     if p > 0:
+    #         gamma_hat = out_coef[q1:(q1 + p)]
+    #     else:
+    #         gamma_hat = np.zeros(p)
+    #     res = y_c - xz @ out_coef
+    #     sigma_val = np.sqrt(np.mean(res**2))
+    #     loglik = log_likelihood_normal(res,0,sigma_val)
 
-        sigma_hat = np.array([sigma_val])
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        penloglik = loglik
-        alpha_hat = np.array([1.0])
-        postprobs = np.ones(n)
+    #     sigma_hat = np.array([sigma_val])
+    #     aic = -2 * loglik + 2 * npar
+    #     bic = -2 * loglik + np.log(n) * npar
+    #     penloglik = loglik
+    #     alpha_hat = np.array([1.0])
+    #     postprobs = np.ones(n)
         
-        # Create a Numba-compatible dictionary to store results
-        result_dict = Dict.empty(
-            key_type=types.unicode_type,  # Keys are strings
-            value_type=types.float64[:, :],  # Values are 2D arrays
-        )
+    #     # Create a Numba-compatible dictionary to store results
+    #     result_dict = Dict.empty(
+    #         key_type=types.unicode_type,  # Keys are strings
+    #         value_type=types.float64[:, :],  # Values are 2D arrays
+    #     )
         
-        result_dict['penloglik'] = np.array([[penloglik]])
-        result_dict['loglik'] = np.array([[loglik]])
-        result_dict['aic'] = np.array([[aic]])
-        result_dict['bic'] = np.array([[bic]])
+    #     result_dict['penloglik'] = np.array([[penloglik]])
+    #     result_dict['loglik'] = np.array([[loglik]])
+    #     result_dict['aic'] = np.array([[aic]])
+    #     result_dict['bic'] = np.array([[bic]])
         
-        result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
-        result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-        result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
-        result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+    #     result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+    #     result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+    #     result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+    #     result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
         
-        return result_dict
-    else: 
+    #     return result_dict
+    # else: 
         
-        # First draw random start point
-        gamma_hat = out_coef[q1:(q1 + p)]
-        mubeta_hat = out_coef[:q1]
-        if p > 0:
-            # Perform least squares regression with both x and z
-            gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
-            for pp in range(p):
-                gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
-        else:
-            # Perform least squares regression with x only
-            gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
+    # First draw random start point
+    gamma_hat = out_coef[q1:(q1 + p)]
+    mubeta_hat = out_coef[:q1]
+    if p > 0:
+        # Perform least squares regression with both x and z
+        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+    else:
+        # Perform least squares regression with x only
+        gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
 
-        # Initialize alpha
-        alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
-        alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
+    # Initialize alpha
+    alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
+    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
 
-        mubeta_draw = np.zeros((q1 * m, ninits_short))
-        y_mean = y_c - x @ mubeta_hat[1:]
-        for mm in range(m):
-            lb = compute_quantile(y_mean, mm/(m))
-            ub = compute_quantile(y_mean, (mm+1)/(m))
-            
-            mubeta_draw[mm, :] = np.random.uniform(lb, ub, size=ninits_short)
-            for qq in range(1, q1):
-                mubeta_draw[qq * m + mm, :] = mubeta_hat[qq] * np.random.uniform(-2, 2, size=ninits_short)
+    mubeta_draw = np.zeros((q1 * m, ninits_short))
+    y_mean = y_c - x @ mubeta_hat[1:]
+    for mm in range(m):
+        lb = compute_quantile(y_mean, mm/(m))
+        ub = compute_quantile(y_mean, (mm+1)/(m))
         
-        an = 1 / n    
-        sigma_0 = np.full(m, stdR)
+        mubeta_draw[mm, :] = np.random.uniform(lb, ub, size=ninits_short)
+        for qq in range(1, q1):
+            mubeta_draw[qq * m + mm, :] = mubeta_hat[qq] * np.random.uniform(-2, 2, size=ninits_short)
     
-        # Initialize sigma
-        sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
-        
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short)
+    an = 1 / n    
+    sigma_0 = np.full(m, stdR)
 
-        components = np.argsort(penloglikset)[::-1][:ninits]
-        alpha_draw = alpha_draw[:,components]
-        mubeta_draw = mubeta_draw[:,components]
-        sigma_draw = sigma_draw[:,components]
-        gamma_draw = gamma_draw[:,components]
-        
-        
-        alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long)
-        
-        index = np.argmax(penloglikset)
-        alpha_hat = alpha_draw[:,index]
-        mubeta_hat = mubeta_draw[:,index]
-        sigma_hat = sigma_draw[:,index]
-        gamma_hat = gamma_draw[:,index]
-        post = post[:, index]
-        penloglik = penloglikset[index]
-        loglik = loglikset[index]
-        aic = -2 * loglik + 2 * npar
-        bic = -2 * loglik + np.log(n) * npar
-        
-        # Create a Numba-compatible dictionary to store results
-        result_dict = Dict.empty(
-            key_type=types.unicode_type,  # Keys are strings
-            value_type=types.float64[:, :],  # Values are 2D arrays
-        )
-        
-        result_dict['penloglik'] = np.array([[penloglik]])
-        result_dict['loglik'] = np.array([[loglik]])
-        result_dict['aic'] = np.array([[aic]])
-        result_dict['bic'] = np.array([[bic]])
-        
-        result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
-        result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-        result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
-        result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
-        
-        return result_dict
+    # Initialize sigma
+    sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
+    
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short)
+
+    components = np.argsort(penloglikset)[::-1][:ninits]
+    alpha_draw = alpha_draw[:,components]
+    mubeta_draw = mubeta_draw[:,components]
+    sigma_draw = sigma_draw[:,components]
+    gamma_draw = gamma_draw[:,components]
+    
+    
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long)
+    
+    index = np.argmax(penloglikset)
+    alpha_hat = alpha_draw[:,index]
+    mubeta_hat = mubeta_draw[:,index]
+    sigma_hat = sigma_draw[:,index]
+    gamma_hat = gamma_draw[:,index]
+    post = post[:, index]
+    penloglik = penloglikset[index]
+    loglik = loglikset[index]
+    aic = -2 * loglik + 2 * npar
+    bic = -2 * loglik + np.log(n) * npar
+    
+    # Create a Numba-compatible dictionary to store results
+    result_dict = Dict.empty(
+        key_type=types.unicode_type,  # Keys are strings
+        value_type=types.float64[:, :],  # Values are 2D arrays
+    )
+    
+    result_dict['penloglik'] = np.array([[penloglik]])
+    result_dict['loglik'] = np.array([[loglik]])
+    result_dict['aic'] = np.array([[aic]])
+    result_dict['bic'] = np.array([[bic]])
+    
+    result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+    result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+    result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+    result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
+    
+    return result_dict
 
 # %%
 
@@ -1846,6 +1859,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
     result_dict['loglik'] = np.array([[loglik]])
     result_dict['aic'] = np.array([[aic]])
     result_dict['bic'] = np.array([[bic]])
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
     
     sorted_indices = np.argsort(mu_hat)
 
@@ -2377,6 +2391,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     result_dict['mu_hat'] = mu_hat[np.newaxis,:]
     result_dict['beta_hat'] = beta_hat
     result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
     
     result_dict['mu_0_hat'] = mu_0_hat[np.newaxis,:]
     result_dict['beta_0_hat'] = beta_0_hat
@@ -2692,7 +2707,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     result_dict['loglik'] = np.array([[loglik]])
     result_dict['aic'] = np.array([[aic]])
     result_dict['bic'] = np.array([[bic]])
-    
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
     result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
     result_dict['tau_hat']  = tau_hat[np.newaxis,:]
     result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
@@ -3083,6 +3098,8 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     else:
         out_h0 = regpanelmixPMLE(y,x,z, p, q, m)
         out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1)
+        # print(out_h0)
+        # print(out_h1)
         # -2 * (out_h0['penloglik'] - out_h1['penloglik'])
     alpha_hat  = out_h0['alpha_hat'][0]
     mubeta_hat = out_h0['mubeta_hat'][0]
@@ -3108,7 +3125,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline, z_input=z) for _ in prange(BB)]
+        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
         lr_stat_bb = np.zeros(BB, dtype=np.float64)
@@ -3192,7 +3209,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline, z_input=z) for _ in prange(BB)]
+        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3286,7 +3303,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline, z_input=z) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3371,7 +3388,7 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z) for _ in prange(BB)]
+        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z,x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)

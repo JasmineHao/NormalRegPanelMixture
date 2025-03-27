@@ -44,7 +44,8 @@ for csv_file in csv_files:
     file_path = os.path.join(folder_path, csv_file)
     csv_file_name = csv_file.strip('.csv').split('_')
     country = csv_file_name[1]
-    model = ' '.join(csv_file_name[2:-1])
+    y_variable = csv_file_name[2]
+    model = ' '.join(csv_file_name[3:-1])
     T_length = csv_file_name[-1]
     
     df = pd.read_csv(file_path, header=1, index_col=0)
@@ -53,6 +54,7 @@ for csv_file in csv_files:
     df_row['country'] = country.capitalize()
     df_row['model'] = model.capitalize()
     df_row['T'] = T_length
+    df_row['Y'] = y_variable
     if T_length == '3':
         if country == 'japan':
             dataframes_jp = pd.concat([dataframes_jp, df_row])
@@ -70,11 +72,14 @@ for csv_file in csv_files_stats:
     file_path = os.path.join(folder_path, csv_file)
     csv_file_name = csv_file.strip('.csv').split('_')
     country = csv_file_name[1]
-    model = ' '.join(csv_file_name[2:-1])
+    y_variable = csv_file_name[2]
+
+    model = ' '.join(csv_file_name[3:-1])
     T_length = csv_file_name[-1]
     df = pd.read_csv(file_path, header=0, index_col=0)
     df['Model'] = model.capitalize()
     df['T'] = T_length
+    df['Y'] = y_variable
     if country == 'japan':
         dataframes_jp_stats = pd.concat([dataframes_jp_stats, df])
     else:
@@ -85,11 +90,14 @@ result_combined = dataframes_cl_stats
 # Output test result
 
 
-model_order= ['Plain', 'Plain mixture', 'Plain mixture 3', 'Plain mixture 4',
-              'Plain ciiu', 'Plain mixture ciiu', 'Plain mixture 3 ciiu', 'Plain mixture 4 ciiu', 'K ciiu', 'K mixture ciiu', 'K mixture 3 ciiu', 'K mixture 4 ciiu',  'K', 'K mixture', 'K mixture 3', 'K mixture 4', 
-              'Ar1 plain', 'Ar1 k',  'Ar1 plain mixture', 'Ar1 k mixture']
+model_order= ['Nonpar', 'Plain', 'Plain mixture', 'Plain mixture 3', 'Plain mixture 4',
+              'Plain ciiu', 'Plain mixture ciiu', 'Plain mixture 3 ciiu', 'Plain mixture 4 ciiu', 
+              'K', 'K mixture', 'K mixture 3', 'K mixture 4', 
+              'Kmshare', 'Kmshare mixture', 'Kmshare mixture 3', 'Kmshare mixture 4',
+              'K ciiu', 'K mixture ciiu', 'K mixture 3 ciiu', 'K mixture 4 ciiu',  
+              'Ar1 plain', 'Ar1 plain mixture', 'Ar1 plain mixture 3', 'Ar1 k',   'Ar1 k mixture', 'Ar1 k mixture 3' , 'Ar1 k ciiu',   'Ar1 k mixture ciiu', 'Ar1 k mixture 3 ciiu' ]
 
-model_name = [
+model_name = ['Nonparametric',
     'No Covariate Normal',                     # Plain
     'No Covariate 2-Component Mixture',        # Plain mixture
     'No Covariate 3-Component Mixture',        # Plain mixture 3
@@ -102,14 +110,23 @@ model_name = [
     'K 2-Component Mixture',                   # K mixture
     'K 3-Component Mixture',                   # K mixture 3
     'K 4-Component Mixture',                   # K mixture 4
+    'K Material Share Normal',                                # K
+    'K Material Share 2-Component Mixture',                   # K mixture
+    'K Material Share 3-Component Mixture',                   # K mixture
+    'K Material Share 4-Component Mixture',                   # K mixture
     'K Normal control CIIU4',                                # K
     'K 2-Component Mixture control CIIU4',                   # K mixture
     'K 3-Component Mixture control CIIU4',                   # K mixture 3
     'K 4-Component Mixture control CIIU4',                   # K mixture 4
     'AR1 No Covariate Normal',                 # Ar1 plain
-    'AR1 K Normal',                            # Ar1 k
     'AR1 No Covariate 2-Component Mixture',    # Ar1 plain mixture
-    'AR1 K 2-Component Mixture'                # Ar1 k mixture
+    'AR1 No Covariate 3-Component Mixture',    # Ar1 plain mixture
+    'AR1 K Normal',                            # Ar1 k
+    'AR1 K 2-Component Mixture',                # Ar1 k mixture
+    'AR1 K 3-Component Mixture',                # Ar1 k mixture
+    'AR1 K Normal control CIIU4',                            # Ar1 k
+    'AR1 K 2-Component Mixture control CIIU4',               # Ar1 k mixture
+    'AR1 K 3-Component Mixture control CIIU4'                # Ar1 k mixture
 ]
 
 # Create a mapping dictionary

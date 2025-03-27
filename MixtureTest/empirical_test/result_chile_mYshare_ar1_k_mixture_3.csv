@@ -1,0 +1,6 @@
+Country,,Chile,Chile,Chile
+Industry,,Fabricated metal products,Food products,Textiles
+,Model,,,
+AIC,Ar1_k_mixture,5,7,5
+BIC,Ar1_k_mixture,2,3,3
+LR,Ar1_k_mixture,2,2,2

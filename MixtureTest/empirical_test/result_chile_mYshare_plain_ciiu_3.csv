@@ -1,0 +1,6 @@
+Country,,Chile,Chile,Chile
+Industry,,Fabricated metal products,Food products,Textiles
+,Model,,,
+AIC,Plain,9,10,8
+BIC,Plain,5,8,6
+LR,Plain,5,-1,7
