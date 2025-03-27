@@ -1,0 +1,43 @@
+Numba is using 12 threads.
+['empirical_test.py', 'ar1_kl_mixture']
+Simulation Start
+Model: ar1_kl_mixture
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 1, Time Taken: 7777.06 seconds, LR Stat: 553.2308
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 2, Time Taken: 11854.01 seconds, LR Stat: 51.2711
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 3, Time Taken: 15363.66 seconds, LR Stat: 82.5259
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 4, Time Taken: 16010.72 seconds, LR Stat: 38.9855
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 5, Time Taken: 81.90 seconds, LR Stat: 28.6079
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 6, Time Taken: 95.60 seconds, LR Stat: 41.3656
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 7, Time Taken: 113.60 seconds, LR Stat: -93.3783
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 8, Time Taken: 134.47 seconds, LR Stat: 9.5086
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 9, Time Taken: 136.62 seconds, LR Stat: 75.6185
+Country: chile, Industry: Food products, Model: ar1_kl_mixture, M: 10, Time Taken: 159.29 seconds, LR Stat: -32.4011
+chile Food products 51727.1068816185
+['Chile', 'Food products', 'Ar1_kl_mixture', np.int64(2), np.int64(2), 4]
+------------------------------
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 1, Time Taken: 1262.39 seconds, LR Stat: 153.5659
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 2, Time Taken: 2007.66 seconds, LR Stat: 38.8233
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 3, Time Taken: 2957.07 seconds, LR Stat: 6.6956
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 4, Time Taken: 20.45 seconds, LR Stat: 27.0739
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 5, Time Taken: 25.58 seconds, LR Stat: -7.6948
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 6, Time Taken: 28.24 seconds, LR Stat: 23.3624
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 7, Time Taken: 33.59 seconds, LR Stat: 38.1264
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 8, Time Taken: 35.86 seconds, LR Stat: 55.1756
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 9, Time Taken: 40.99 seconds, LR Stat: 26.4733
+Country: chile, Industry: Fabricated metal products, Model: ar1_kl_mixture, M: 10, Time Taken: 42.82 seconds, LR Stat: 112.5421
+chile Fabricated metal products 6454.659154176712
+['Chile', 'Fabricated metal products', 'Ar1_kl_mixture', np.int64(2), np.int64(2), 3]
+------------------------------
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 1, Time Taken: 1025.25 seconds, LR Stat: 58.2555
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 2, Time Taken: 1843.30 seconds, LR Stat: 30.7960
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 3, Time Taken: 12.28 seconds, LR Stat: 23.7609
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 4, Time Taken: 16.89 seconds, LR Stat: 13.8621
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 5, Time Taken: 21.77 seconds, LR Stat: 8.1408
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 6, Time Taken: 25.78 seconds, LR Stat: 61.8330
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 7, Time Taken: 28.41 seconds, LR Stat: -17.7834
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 8, Time Taken: 30.64 seconds, LR Stat: 24.3278
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 9, Time Taken: 26.76 seconds, LR Stat: -6.4155
+Country: chile, Industry: Textiles, Model: ar1_kl_mixture, M: 10, Time Taken: 34.47 seconds, LR Stat: 23.4331
+chile Textiles 3065.5658206939697
+['Chile', 'Textiles', 'Ar1_kl_mixture', np.int64(4), np.int64(2), 2]
+------------------------------

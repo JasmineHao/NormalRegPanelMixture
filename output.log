@@ -1,0 +1,22 @@
+nohup: ignoring input
+/root/anaconda3/lib/python3.12/site-packages/pandas/core/arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+/root/normalRegTest/MixtureTestFunctions.py:1900: NumbaPerformanceWarning: [1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'C', False, aligned=True), Array(float64, 1, 'A', False, aligned=True))[0m[0m[0m
+  alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=epsilon_short)
+/root/normalRegTest/MixtureTestFunctions.py:1900: NumbaPerformanceWarning: [1m[1m[1mnp.dot() is faster on contiguous arrays, called on (Array(float64, 2, 'C', False, aligned=True), Array(float64, 1, 'A', False, aligned=True))[0m[0m[0m
+  alpha_draw,tau_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=epsilon_short)
+/root/normalRegTest/MixtureTestFunctions.py:2138: NumbaPerformanceWarning: [1m[1m[1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'A', False, aligned=True), Array(float64, 2, 'A', False, aligned=True))[0m[0m[0m[0m[0m
+  stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+/root/normalRegTest/MixtureTestFunctions.py:2138: NumbaPerformanceWarning: [1m[1m[1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'C', False, aligned=True), Array(float64, 2, 'A', False, aligned=True))[0m[0m[0m[0m[0m
+  stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+/root/normalRegTest/MixtureTestFunctions.py:2138: NumbaPerformanceWarning: [1m[1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 1, 'C', False, aligned=True), Array(float64, 2, 'A', False, aligned=True))[0m[0m[0m[0m
+  stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+/root/normalRegTest/MixtureTestFunctions.py:2138: NumbaPerformanceWarning: [1m[1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'A', False, aligned=True), Array(float64, 2, 'C', False, aligned=True))[0m[0m[0m[0m
+  stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+/root/normalRegTest/MixtureTestFunctions.py:2200: NumbaPerformanceWarning: [1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'A', False, aligned=True), Array(float64, 1, 'A', False, aligned=True))[0m[0m[0m
+  Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in prange(BB)]
+/root/normalRegTest/MixtureTestFunctions.py:2200: NumbaPerformanceWarning: [1m[1m[1m'@' is faster on contiguous arrays, called on (Array(float64, 2, 'A', False, aligned=True), Array(float64, 1, 'C', False, aligned=True))[0m[0m[0m
+  Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in prange(BB)]
+/root/normalRegTest/MixtureTestFunctions.py:2200: NumbaPerformanceWarning: [1m[1m[1mnp.dot() is faster on contiguous arrays, called on (Array(float64, 2, 'C', False, aligned=True), Array(float64, 2, 'A', False, aligned=True))[0m[0m[0m
+  Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q) for _ in prange(BB)]
+The time elapsed 91365.66715812683

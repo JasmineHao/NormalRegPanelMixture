@@ -1,0 +1,64 @@
+Numba is using 12 threads.
+['empirical_test.py', 'kmshare_mixture_3', '3', 'no_ciiu', 'mL_share']
+Simulation Start
+Model: kmshare_mixture_3
+T: 3
+Include CIIU: False
+Dependent Variable: mL_sh  Column Name          Mean  Standard Deviation      Minimum       Maximum
+0    mi_share      0.022539            0.086847     0.000000  9.757092e-01
+1    mY_share      0.606599            0.144188     0.008572  1.274605e+00
+2    mL_share      4.495650            4.891391     0.005548  5.541416e+01
+3           K  18764.202055        66941.549419 -1000.000000  1.091070e+06
+4           L    102.568827          201.074359     3.908544  2.985699e+03
+  Column Name          Mean  Standard Deviation      Minimum        Maximum
+0    mi_share      0.089924            0.186593     0.000000       0.998977
+1    mY_share      0.579093            0.214742     0.041222       1.401209
+2    mL_share      2.782062            3.323720     0.115734      46.710957
+3           K  13617.773909        40872.909495 -1000.000000  413694.562500
+4           L     86.667876          114.477280     7.352024     839.628967
+  Column Name          Mean  Standard Deviation      Minimum        Maximum
+0    mi_share      0.170753            0.241121     0.000000       1.000000
+1    mY_share      0.564243            0.207142     0.011568       1.245137
+2    mL_share      4.007905            5.291922     0.008655      58.350132
+3           K  16286.981067        50097.313576 -1000.000000  676255.312500
+4           L    108.895378          219.348007     9.203687    1781.524902
+794
+CounCountry: chile, Industry: Food products, Model: kmshare_mixture_3, M: 1, Time Taken: 4341.18 seconds, LR Stat: 1009.CountCountry: chile, Industry: Food products, Model: kmshare_mixture_3, M: 2, Time Taken: 4052.19 seconds, LR Stat: 564.Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 3, Time Taken: 5884.87 seconds, LR Stat: 366.7187
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 4, Time Taken: 8344.84 seconds, LR Stat: 250.6725
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 5, Time Taken: 10858.19 seconds, LR Stat: 118.9823
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 6, Time Taken: 11175.93 seconds, LR Stat: 20.0376
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 7, Time Taken: 117.97 seconds, LR Stat: 35.3140
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 8, Time Taken: 141.20 seconds, LR Stat: 43.6438
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 9, Time Taken: 159.28 seconds, LR Stat: -1.5897
+Country: chile, Industry: Food products, Model: kmshare_mixture_3, M: 10, Time Taken: 163.92 seconds, LR Stat: -9.2221
+chile Food products 45198.14067578316
+['Chile', 'Food products', 'Kmshare_mixture_3', 10, np.int64(7), 6]
+------------------------------
+225
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 1, Time Taken: 874.93 seconds, LR Stat: 277.2585
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 2, Time Taken: 834.45 seconds, LR Stat: 155.1407
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 3, Time Taken: 1311.34 seconds, LR Stat: 80.6889
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 4, Time Taken: 2021.56 seconds, LR Stat: 53.6875
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 5, Time Taken: 2303.85 seconds, LR Stat: 41.3250
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 6, Time Taken: 17.55 seconds, LR Stat: 16.2146
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 7, Time Taken: 19.83 seconds, LR Stat: 32.5688
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 8, Time Taken: 18.21 seconds, LR Stat: 21.5617
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 9, Time Taken: 29.13 seconds, LR Stat: 32.1415
+Country: chile, Industry: Fabricated metal products, Model: kmshare_mixture_3, M: 10, Time Taken: 26.21 seconds, LR Stat: 18.4032
+chile Fabricated metal products 7457.111691474915
+['Chile', 'Fabricated metal products', 'Kmshare_mixture_3', np.int64(6), np.int64(5), 5]
+------------------------------
+196
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 1, Time Taken: 391.97 seconds, LR Stat: 260.9912
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 2, Time Taken: 425.01 seconds, LR Stat: 157.4865
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 3, Time Taken: 972.34 seconds, LR Stat: 104.2420
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 4, Time Taken: 1197.76 seconds, LR Stat: 75.1201
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 5, Time Taken: 5.77 seconds, LR Stat: 46.5266
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 6, Time Taken: 6.36 seconds, LR Stat: 33.4916
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 7, Time Taken: 7.67 seconds, LR Stat: 15.4847
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 8, Time Taken: 13.84 seconds, LR Stat: 17.8426
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 9, Time Taken: 14.28 seconds, LR Stat: 20.2979
+Country: chile, Industry: Textiles, Model: kmshare_mixture_3, M: 10, Time Taken: 16.22 seconds, LR Stat: 54.4417
+chile Textiles 3051.255300283432
+['Chile', 'Textiles', 'Kmshare_mixture_3', np.int64(8), np.int64(7), 4]
+------------------------------

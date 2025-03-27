@@ -1,0 +1,13 @@
+,Country,Industry,Model,Stat,M=1,M=2,M=3,M=4,M=5,M=6,M=7,M=8,M=9,M=10
+0,Chile,Food products,Kmshare_mixture_3,AIC,5224.64,4332.58,3701.87,3351.12,3116.45,3013.46,2973.15,2969.62,2938.62,2916.98
+1,Chile,Food products,Kmshare_mixture_3,BIC,5262.06,4407.41,3814.12,3500.78,3303.54,3237.96,3235.07,3268.95,3275.37,3291.14
+2,Chile,Food products,Kmshare_mixture_3,LR,908.0644,646.7025,366.7187,250.6725,118.9823,20.0376,35.3140,43.6438,-1.5897,-9.2221
+3,Chile,Food products,Kmshare_mixture_3,LR Crit,"14.8527, 17.8027, 25.8310","15.9691, 17.9850, 25.4903","16.1795, 19.0181, 21.9433","17.7960, 20.1056, 25.7316","18.2311, 21.9579, 29.3666","17.0696, 20.4948, 23.3293","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+4,Chile,Fabricated metal products,Kmshare_mixture_3,AIC,1598.81,1337.56,1198.42,1151.51,1105.13,1079.8,1086.41,1081.86,1083.02,1077.13
+5,Chile,Fabricated metal products,Kmshare_mixture_3,BIC,1632.98,1399.05,1287.23,1267.65,1248.6,1250.61,1284.54,1307.33,1335.82,1357.25
+6,Chile,Fabricated metal products,Kmshare_mixture_3,LR,277.2585,155.1407,80.6889,53.6875,41.3250,16.2146,32.5688,21.5617,32.1415,18.4032
+7,Chile,Fabricated metal products,Kmshare_mixture_3,LR Crit,"21.8942, 25.3628, 32.4534","29.0210, 33.7043, 39.5540","26.0935, 30.1430, 40.9248","23.9720, 28.8949, 45.7323","42.9331, 67.9262, 109.8183","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+8,Chile,Textiles,Kmshare_mixture_3,AIC,1638.9,1393.91,1252.43,1127.8,1058.67,1028.11,989.43,987.78,1004.73,1016.36
+9,Chile,Textiles,Kmshare_mixture_3,BIC,1671.68,1452.92,1337.66,1239.25,1196.35,1192.02,1179.56,1204.14,1247.31,1285.16
+10,Chile,Textiles,Kmshare_mixture_3,LR,260.9912,157.4865,104.2420,75.1201,46.5266,33.4916,15.4847,17.8426,20.2979,54.4417
+11,Chile,Textiles,Kmshare_mixture_3,LR Crit,"21.7502, 24.1422, 32.0445","107.8021, 115.1523, 133.2930","27.3318, 31.3226, 61.4214","63.3709, 129.0135, 195.5897","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
