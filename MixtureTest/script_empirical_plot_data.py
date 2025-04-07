@@ -124,7 +124,7 @@ def darken_color(hex_color, factor=0.8):
     # Convert back to hex
     return "#{:02x}{:02x}{:02x}".format(*darkened_rgb)
 
-M_list = [4,4,6]
+M_list = [4,5,6]
 for (each_code, ind_count) in zip(ind_code, range(len(ind_code))):
     ind_each = df.loc[df['ciiu_3d'] == each_code, :]
     INDNAME = ind_code_dict[each_code]
@@ -179,12 +179,19 @@ for (each_code, ind_count) in zip(ind_code, range(len(ind_code))):
            
     x_k = ind_each_xk.to_numpy().reshape(-1, 1).astype(np.float64)
     x_kl = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_xl.to_numpy().reshape(-1, 1)].astype(np.float64)
-    
+    ind_each_m_share = ind_each_t['m_share']
+    x_kmshare = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_m_share.to_numpy().reshape(-1, 1)].astype(np.float64)
+        
     N = ind_each_y.shape[0]
     x_0 = np.zeros((N * T, 0))
     z_0 = np.zeros((N * T, 0))
+    ciiu_value_count = ind_each_t.groupby('ciiu')['ciiu'].count()
+    ciiu_combine = ciiu_value_count[ciiu_value_count < 0.1 * (N * T)].index
+    for each_ciiu in ciiu_combine:
+        ind_each_t.loc[ind_each_t['ciiu'] == each_ciiu, 'ciiu'] = 'other'
     z = 1 * pd.get_dummies(ind_each_t['ciiu'], prefix='category').values[:, 1:]
     z = z.astype(np.float64)  # Convert z to float64
+    
     print(N)
     
     m = M_list[ind_count]

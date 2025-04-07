@@ -22,10 +22,6 @@ import os
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
 
-# MODEL_list = ["plain", "plain_mixture", "k", "k_spline", "kl", "kl_spline", "ar1_plain", "ar1_plain_mixture", "ar1_k", "ar1_kl"]
-
-MODEL_list = ["plain_mixture", "k_mixture", "kl_mixture", "kl_mixture_spline", "ar1_plain_mixture", "ar1_k_mixture", "ar1_kl_mixture", "ar1_kl_mixture_spline"]
-MODEL_list = ['plain', 'k', 'kl', 'kl_spline']
 
 COUNTRY = "chile"
 COUNTRY_list = ['chile']
@@ -279,6 +275,7 @@ for COUNTRY in COUNTRY_list:
                 
                 case "kmshare":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_kmshare, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    
                 case "k_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB, spline=True)
                 case "kl":
@@ -335,20 +332,32 @@ for COUNTRY in COUNTRY_list:
                 
                 case "ar1_plain_mixture_3":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                    
+                
+                case "ar1_k":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                                        
                 case "ar1_k_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
                 
                 case "ar1_k_mixture_3":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                
+                case "ar1_kmshare":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kmshare, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                                        
+                case "ar1_kmshare_mixture":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                
+                case "ar1_kmshare_mixture_3":
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                
                     
                 case "ar1_kl_mixture":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)            
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)            
                 case "ar1_kl_mixture_spline":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB, spline=True)
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB, spline=True)
                     
-                case "ar1_k":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+
                     
                 case "ar1_kl":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)

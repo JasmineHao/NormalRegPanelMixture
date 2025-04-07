@@ -1,13 +1,13 @@
 ,Country,Industry,Model,Stat,M=1,M=2,M=3,M=4,M=5,M=6,M=7,M=8,M=9,M=10
-0,Chile,Food products,Kmshare_mixture_3,AIC,761.77,-360.6,-771.12,-951.43,-1137.68,-1161.17,-1106.54,-1169.58,-1233.07,-1275.35
-1,Chile,Food products,Kmshare_mixture_3,BIC,799.19,-285.77,-658.87,-801.76,-950.59,-936.67,-844.62,-870.24,-896.32,-901.18
-2,Chile,Food products,Kmshare_mixture_3,LR,1138.3760,442.5408,222.7283,201.4665,42.3916,61.9422,129.5902,56.7436,-113.3424,-189.0657
-3,Chile,Food products,Kmshare_mixture_3,LR Crit,"9.2460, 10.5950, 14.4774","9.0192, 11.2644, 20.8628","15.9832, 18.7743, 22.8791","17.4507, 19.8802, 23.7729","199.3378, 207.2189, 250.4568","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
-4,Chile,Fabricated metal products,Kmshare_mixture_3,AIC,702.42,529.56,473.11,461.06,438.45,441.54,430.51,445.45,421.76,445.17
-5,Chile,Fabricated metal products,Kmshare_mixture_3,BIC,736.58,591.05,561.93,577.21,581.93,612.34,628.65,670.91,674.55,725.29
-6,Chile,Fabricated metal products,Kmshare_mixture_3,LR,188.8579,63.3925,36.2738,29.5643,14.1775,16.0008,18.6223,35.5154,25.1043,33.4105
-7,Chile,Fabricated metal products,Kmshare_mixture_3,LR Crit,"21.8366, 23.7130, 30.3102","23.7349, 26.7299, 32.0914","25.7856, 31.2510, 38.0442","24.6851, 28.0131, 37.9784","33.9900, 40.4287, 50.9882","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
-8,Chile,Textiles,Kmshare_mixture_3,AIC,737.4,542.85,380.0,309.67,291.06,268.16,267.33,265.06,273.94,277.86
-9,Chile,Textiles,Kmshare_mixture_3,BIC,770.18,601.86,465.23,421.13,428.74,432.06,457.46,481.42,516.52,546.67
-10,Chile,Textiles,Kmshare_mixture_3,LR,210.5497,169.5108,86.3294,36.1611,37.4881,23.1297,9.3488,14.1342,18.3005,5.7612
-11,Chile,Textiles,Kmshare_mixture_3,LR Crit,"19.3020, 21.6576, 25.2530","23.4116, 27.8421, 44.5162","23.0611, 28.7000, 33.9352","21.2384, 26.1746, 34.5573","20.8128, 23.7535, 31.8762","22.1270, 26.8352, 53.7952","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+0,Chile,Food products,Kmshare_mixture_3,AIC,761.77,-360.6,-771.12,-981.29,-1136.92,-1151.27,-1118.12,-1153.0,-1115.93,-1135.91
+1,Chile,Food products,Kmshare_mixture_3,BIC,799.19,-285.77,-658.87,-831.62,-949.84,-926.77,-856.2,-853.66,-779.18,-761.74
+2,Chile,Food products,Kmshare_mixture_3,LR,1138.3761,442.5967,196.8003,170.2895,33.6779,-21.4359,51.8774,61.5630,80.7363,-47.7439
+3,Chile,Food products,Kmshare_mixture_3,LR Crit,"9.0784, 11.4983, 13.2481","11.6546, 15.9693, 22.3660","16.6032, 18.5112, 23.5508","14.9591, 18.0085, 23.1286","187.6819, 202.4045, 240.7654","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+4,Chile,Fabricated metal products,Kmshare_mixture_3,AIC,702.42,529.46,482.12,466.79,429.38,461.69,427.78,447.7,415.18,442.38
+5,Chile,Fabricated metal products,Kmshare_mixture_3,BIC,736.58,590.95,570.93,582.94,572.85,632.49,625.92,673.16,667.97,722.5
+6,Chile,Fabricated metal products,Kmshare_mixture_3,LR,188.8564,53.3718,45.2822,34.5876,10.4962,56.9033,-5.2519,23.1310,14.6039,27.8866
+7,Chile,Fabricated metal products,Kmshare_mixture_3,LR Crit,"21.7975, 25.7402, 36.4554","22.6458, 24.6433, 35.9953","25.6382, 29.5136, 34.4611","36.5992, 42.6378, 63.2600","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+8,Chile,Textiles,Kmshare_mixture_3,AIC,737.4,534.18,380.0,309.67,280.79,259.22,262.17,260.65,271.13,274.89
+9,Chile,Textiles,Kmshare_mixture_3,BIC,770.18,593.19,465.23,421.13,418.47,423.12,452.3,477.01,513.72,543.7
+10,Chile,Textiles,Kmshare_mixture_3,LR,210.5498,165.6356,86.3288,36.1039,28.6300,10.3063,12.6576,8.4656,5.4333,13.3876
+11,Chile,Textiles,Kmshare_mixture_3,LR Crit,"18.1451, 21.4598, 30.7943","24.7621, 28.4035, 39.0846","25.0640, 29.3482, 44.0538","22.5349, 26.6850, 33.1054","18.4708, 21.6750, 27.0508","20.7218, 26.7422, 37.7815","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"

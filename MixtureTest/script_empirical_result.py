@@ -90,49 +90,48 @@ result_combined = dataframes_cl_stats
 # Output test result
 
 
-model_order= ['Nonpar', 'Plain', 'Plain mixture', 'Plain mixture 3', 'Plain mixture 4',
-              'Plain ciiu', 'Plain mixture ciiu', 'Plain mixture 3 ciiu', 'Plain mixture 4 ciiu', 
-              'K', 'K mixture', 'K mixture 3', 'K mixture 4', 
-              'Kmshare', 'Kmshare mixture', 'Kmshare mixture 3', 'Kmshare mixture 4',
-              'K ciiu', 'K mixture ciiu', 'K mixture 3 ciiu', 'K mixture 4 ciiu',  
-              'Ar1 plain', 'Ar1 plain mixture', 'Ar1 plain mixture 3', 'Ar1 k',   'Ar1 k mixture', 'Ar1 k mixture 3' , 'Ar1 k ciiu',   'Ar1 k mixture ciiu', 'Ar1 k mixture 3 ciiu' ]
+mapping = {
+    'Nonpar': 'Nonparametric',
+    'Plain': 'No Covariate Normal',
+    'Plain mixture': 'No Covariate 2-Component Mixture',
+    'Plain mixture 3': 'No Covariate 3-Component Mixture',
+    'Plain mixture 4': 'No Covariate 4-Component Mixture',
+    'Plain ciiu': 'No Covariate Normal control CIIU4',
+    'Plain mixture ciiu': 'No Covariate 2-Component Mixture control CIIU4',
+    'Plain mixture 3 ciiu': 'No Covariate 3-Component Mixture control CIIU4',
+    'Plain mixture 4 ciiu': 'No Covariate 4-Component Mixture control CIIU4',
+    'K': 'K Normal',
+    'K mixture': 'K 2-Component Mixture',
+    'K mixture 3': 'K 3-Component Mixture',
+    'K mixture 4': 'K 4-Component Mixture',
+    'Kmshare': 'K Material Share Normal',
+    'Kmshare mixture': 'K Material Share 2-Component Mixture',
+    'Kmshare mixture 3': 'K Material Share 3-Component Mixture',
+    'Kmshare mixture 4': 'K Material Share 4-Component Mixture',
+    'Kmshare ciiu': 'K Material Share Normal control CIIU4',
+    'Kmshare mixture ciiu': 'K Material Share 2-Component Mixture control CIIU4',
+    'Kmshare mixture 3 ciiu': 'K Material Share 3-Component Mixture control CIIU4',
+    'Kmshare mixture 4 ciiu': 'K Material Share 4-Component Mixture control CIIU4',
+    'K ciiu': 'K Normal control CIIU4',
+    'K mixture ciiu': 'K 2-Component Mixture control CIIU4',
+    'K mixture 3 ciiu': 'K 3-Component Mixture control CIIU4',
+    'K mixture 4 ciiu': 'K 4-Component Mixture control CIIU4',
+    'Ar1 plain': 'AR1 No Covariate Normal',
+    'Ar1 plain mixture': 'AR1 No Covariate 2-Component Mixture',
+    'Ar1 plain mixture 3': 'AR1 No Covariate 3-Component Mixture',
+    'Ar1 k': 'AR1 K Normal',
+    'Ar1 k mixture': 'AR1 K 2-Component Mixture',
+    'Ar1 k mixture 3': 'AR1 K 3-Component Mixture',
+    'Ar1 k ciiu': 'AR1 K Normal control CIIU4',
+    'Ar1 k mixture ciiu': 'AR1 K 2-Component Mixture control CIIU4',
+    'Ar1 k mixture 3 ciiu': 'AR1 K 3-Component Mixture control CIIU4',
+    'Ar1 kmshare ciiu': 'AR1 kmshare Normal control CIIU4',
+    'Ar1 kmshare mixture ciiu': 'AR1 kmshare 2-Component Mixture control CIIU4',
+    'Ar1 kmshare mixture 3 ciiu': 'AR1 kmshare 3-Component Mixture control CIIU4'
 
-model_name = ['Nonparametric',
-    'No Covariate Normal',                     # Plain
-    'No Covariate 2-Component Mixture',        # Plain mixture
-    'No Covariate 3-Component Mixture',        # Plain mixture 3
-    'No Covariate 4-Component Mixture',        # Plain mixture 4
-    'No Covariate Normal control CIIU4',                     # Plain
-    'No Covariate 2-Component Mixture control CIIU4',        # Plain mixture
-    'No Covariate 3-Component Mixture control CIIU4',        # Plain mixture 3
-    'No Covariate 4-Component Mixture control CIIU4',        # Plain mixture 4
-    'K Normal',                                # K
-    'K 2-Component Mixture',                   # K mixture
-    'K 3-Component Mixture',                   # K mixture 3
-    'K 4-Component Mixture',                   # K mixture 4
-    'K Material Share Normal',                                # K
-    'K Material Share 2-Component Mixture',                   # K mixture
-    'K Material Share 3-Component Mixture',                   # K mixture
-    'K Material Share 4-Component Mixture',                   # K mixture
-    'K Normal control CIIU4',                                # K
-    'K 2-Component Mixture control CIIU4',                   # K mixture
-    'K 3-Component Mixture control CIIU4',                   # K mixture 3
-    'K 4-Component Mixture control CIIU4',                   # K mixture 4
-    'AR1 No Covariate Normal',                 # Ar1 plain
-    'AR1 No Covariate 2-Component Mixture',    # Ar1 plain mixture
-    'AR1 No Covariate 3-Component Mixture',    # Ar1 plain mixture
-    'AR1 K Normal',                            # Ar1 k
-    'AR1 K 2-Component Mixture',                # Ar1 k mixture
-    'AR1 K 3-Component Mixture',                # Ar1 k mixture
-    'AR1 K Normal control CIIU4',                            # Ar1 k
-    'AR1 K 2-Component Mixture control CIIU4',               # Ar1 k mixture
-    'AR1 K 3-Component Mixture control CIIU4'                # Ar1 k mixture
-]
+}
 
-# Create a mapping dictionary
-mapping = dict(zip(model_order, model_name))
-
-result_output = result_output.loc[model_order,:]
+result_output = result_output.loc[mapping.keys(),:]
 result_output['Model'] = result_output.index
 result_output['Model'] = result_output['Model'].replace(mapping)
 # result_output = result_output.sort_values('T')
