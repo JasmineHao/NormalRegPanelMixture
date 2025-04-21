@@ -60,4 +60,4 @@ for alpha in alphaset:
 print("Simulation Result Matrix:")
 print(simulation_result_matrix)
 
-np.savetxt("NonparTestNoCovariates.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')
+np.savetxt("TestStatNonparNoCovariates.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')

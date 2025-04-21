@@ -345,7 +345,7 @@ def fill_nan(arr, fill_value):
 
 
 @njit(parallel=False)
-def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
+def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
     R = np.zeros((N, M))
 
     # Normalize alpha if necessary
@@ -440,7 +440,7 @@ def generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q, spline=False, z_
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros(0), x_input = np.zeros(0)):
+def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
     # 
     # First compute the stationary distribution 
     # Generate random assignment
@@ -528,7 +528,7 @@ def generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0,
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
+def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, spline=False, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
     R = np.ones((N, M))
     R_T = np.ones((N*(T-1), M)) 
     
@@ -631,7 +631,7 @@ def generate_data_ar1_mixture(alpha, tau, rho, mu, sigma, beta, gamma, mu_0, sig
 
 # %%
 @njit(parallel=False)
-def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False, z_input = np.zeros(0), x_input = np.zeros(0)):
+def generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p=0, q=0, spline=False, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
 
     R = np.ones((N, M))
     R_T = np.ones((N*T, M)) 
@@ -1247,7 +1247,7 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, res):
 
 # %%
 @njit
-def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.1):
+def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.1, alpha_bound = 0.05):
     
     nt = len(y_c)
     n = nt // t
@@ -1353,7 +1353,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.05, alpha_jn[j] )
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -1388,7 +1388,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
 
 
 @njit
-def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
+def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
     
     t,n = y.shape
     nt = n * t
@@ -1407,42 +1407,6 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     npar = m - 1 + (q1 + 1) * m + p
     # ninits_short = ninits * 10 * (q1 + p) * m
     ninits_short = ninits * 10 
-    # ninits = 10
-    # if (m == 1) :
-    #     mubeta_hat = out_coef[:q1]
-    #     if p > 0:
-    #         gamma_hat = out_coef[q1:(q1 + p)]
-    #     else:
-    #         gamma_hat = np.zeros(p)
-    #     res = y_c - xz @ out_coef
-    #     sigma_val = np.sqrt(np.mean(res**2))
-    #     loglik = log_likelihood_normal(res,0,sigma_val)
-
-    #     sigma_hat = np.array([sigma_val])
-    #     aic = -2 * loglik + 2 * npar
-    #     bic = -2 * loglik + np.log(n) * npar
-    #     penloglik = loglik
-    #     alpha_hat = np.array([1.0])
-    #     postprobs = np.ones(n)
-        
-    #     # Create a Numba-compatible dictionary to store results
-    #     result_dict = Dict.empty(
-    #         key_type=types.unicode_type,  # Keys are strings
-    #         value_type=types.float64[:, :],  # Values are 2D arrays
-    #     )
-        
-    #     result_dict['penloglik'] = np.array([[penloglik]])
-    #     result_dict['loglik'] = np.array([[loglik]])
-    #     result_dict['aic'] = np.array([[aic]])
-    #     result_dict['bic'] = np.array([[bic]])
-        
-    #     result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
-    #     result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-    #     result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
-    #     result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
-        
-    #     return result_dict
-    # else: 
         
     # First draw random start point
     gamma_hat = out_coef[q1:(q1 + p)]
@@ -1476,7 +1440,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     # Initialize sigma
     sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
     
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short,alpha_bound=alpha_bound)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -1485,7 +1449,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     gamma_draw = gamma_draw[:,components]
     
     
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long)
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound)
     
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:,index]
@@ -2599,7 +2563,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
 
 # %%
 @njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50):    # Extract the generated data
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50,alpha_bound=0.05):    # Extract the generated data
     t,n = y.shape
     nt = n * t
     y_c = y.T.flatten()
@@ -2620,7 +2584,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     # ninits_short = ninits * 10 * (q1 + p) * m
     ninits_short = ninits * 10 
     # -----
-    estim_init = regpanelmixPMLE(y, x, z, p, q, m)
+    estim_init = regpanelmixPMLE(y, x, z, p, q, m, alpha_bound=alpha_bound)
     alpha_hat  = estim_init['alpha_hat'][0]
     mubeta_hat = estim_init['mubeta_hat'][0]
     mubeta_hat = np.ascontiguousarray(mubeta_hat)
@@ -2718,16 +2682,16 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
 
 # %%
 
-@njit(parallel=False)
-def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
-    result_lr_each = np.zeros((nrep,1))
+@njit(parallel=True)
+def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199, alpha_bound=0.05):
+    result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
         x = data[1]
         z = data[2]
-        out_h0 = regpanelmixPMLE(y,x,z, p, q, M)
-        out_h1 = regpanelmixPMLE(y,x,z, p, q, M+1)
+        out_h0 = regpanelmixPMLE(y,x,z, p, q, M, alpha_bound=alpha_bound)
+        out_h1 = regpanelmixPMLE(y,x,z, p, q, M+1, alpha_bound=alpha_bound)
         alpha_hat  = out_h0['alpha_hat'][0]
         mubeta_hat = out_h0['mubeta_hat'][0]
         sigma_hat  = out_h0['sigma_hat'][0]
@@ -2736,41 +2700,47 @@ def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199):
         penloglik_h1 = out_h1['penloglik'][0,0]
         # print(out_h0[0])        
         lr_stat = -2 * (penloglik_h0 - penloglik_h1)
-        
+        aic_crit = out_h1['aic'][0,0] < out_h0['aic'][0,0]
+        bic_crit = out_h1['bic'][0,0] < out_h0['bic'][0,0]
         mubeta_hat = np.ascontiguousarray(mubeta_hat)
         mubeta_hat_mat = mubeta_hat.reshape((q+1,M)).T
         beta_hat = mubeta_hat_mat[:,1:]
         mu_hat =  mubeta_hat_mat[:,0]
 
         # Generate data for bootstrap
-        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, M, p, q) for _ in prange(BB)]
+        Data_bb = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, M, p, q) for _ in prange(BB)]
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
         lr_stat_bb = np.zeros(BB, dtype=np.float64)
         
         for bb in prange(BB):
-            data = Data[bb]
+            data = Data_bb[bb]
             y_bb = data[0]
             x_bb = data[1]
             z_bb = data[2]
             
             # Call regpanelmixPMLE for m components
-            out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, M)
-            out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, M + 1)
+            out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, M, alpha_bound=alpha_bound)
+            out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, M + 1, alpha_bound=alpha_bound)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
             # Compute likelihood ratio statistic
             lr_stat_bb[bb] = -2 * (penloglik_h0 - penloglik_h1)
         
-        lr_95 = compute_quantile(lr_stat_bb, 0.95)
-        result_lr_each[ii,0] = 1 * ( lr_stat >  lr_95)
+        result_lr_each[ii,0] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.90))
+        result_lr_each[ii,1] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.95))
+        result_lr_each[ii,2] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.99))
+        result_lr_each[ii,3] = aic_crit
+        result_lr_each[ii,4] = bic_crit
+        result_lr_each[ii,5] = lr_stat
+        
     return(result_lr_each)
 # %%
 
 @njit(parallel=True)
 def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
-    result_lr_each = np.zeros((nrep,1))
+    result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
@@ -2791,11 +2761,12 @@ def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
         sigma_0_hat  = out_h0['sigma_0_hat'][0]
         gamma_0_hat  = out_h0['gamma_0_hat'][0]
         
-        
         penloglik_h0 = out_h0['penloglik'][0,0]
         penloglik_h1 = out_h1['penloglik'][0,0]
         # print(out_h0[0])        
         lr_stat = -2 * (penloglik_h0 - penloglik_h1)
+        aic_crit = out_h1['aic'][0,0] < out_h0['aic'][0,0]
+        bic_crit = out_h1['bic'][0,0] < out_h0['bic'][0,0]
         
         mubeta_hat = np.ascontiguousarray(mubeta_hat)
         mubeta_hat_mat = mubeta_hat.reshape((q+1,M)).T
@@ -2832,15 +2803,20 @@ def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
             
             # Compute likelihood ratio statistic
             lr_stat_bb[bb] = -2 * (penloglik_h0_bb - penloglik_h1_bb)
-        lr_95 = compute_quantile(lr_stat_bb, 0.95)
-        result_lr_each[ii,0] = 1 * ( lr_stat >  lr_95)
+        
+        result_lr_each[ii,0] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.90))
+        result_lr_each[ii,1] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.95))
+        result_lr_each[ii,2] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.99))
+        result_lr_each[ii,3] = aic_crit
+        result_lr_each[ii,4] = bic_crit
+        result_lr_each[ii,5] = lr_stat
     return(result_lr_each)
 
 
 # %%
 @njit(parallel=True)
 def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
-    result_lr_each = np.zeros((nrep,1))
+    result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
@@ -2868,7 +2844,8 @@ def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
         penloglik_h1 = out_h1['penloglik'][0,0]
         # print(out_h0[0])        
         lr_stat = -2 * (penloglik_h0 - penloglik_h1)
-        
+        aic_crit = out_h1['aic'][0,0] < out_h0['aic'][0,0]
+        bic_crit = out_h1['bic'][0,0] < out_h0['bic'][0,0]
 
         # Generate data for bootstrap        
         Data_bb = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, M, K, p, q) for _ in prange(BB)]
@@ -2890,14 +2867,18 @@ def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
             
             # Compute likelihood ratio statistic
             lr_stat_bb[bb] = -2 * (penloglik_h0_bb - penloglik_h1_bb)
-        lr_95 = compute_quantile(lr_stat_bb, 0.95)
-        result_lr_each[ii,0] = 1 * ( lr_stat >  lr_95)
+        result_lr_each[ii,0] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.90))
+        result_lr_each[ii,1] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.95))
+        result_lr_each[ii,2] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.99))
+        result_lr_each[ii,3] = aic_crit
+        result_lr_each[ii,4] = bic_crit
+        result_lr_each[ii,5] = lr_stat
     return(result_lr_each)
 
 # %%
 @njit(parallel=True)
 def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
-    result_lr_each = np.zeros((nrep,1))
+    result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
@@ -2915,7 +2896,8 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
         penloglik_h1 = out_h1['penloglik'][0,0]
         # print(out_h0[0])        
         lr_stat = -2 * (penloglik_h0 - penloglik_h1)
-        
+        aic_crit = out_h1['aic'][0,0] < out_h0['aic'][0,0]
+        bic_crit = out_h1['bic'][0,0] < out_h0['bic'][0,0]
         mubeta_hat = np.ascontiguousarray(mubeta_hat)
         mubeta_hat_mat = mubeta_hat.reshape((q+1,M*K)).T
         beta_hat = mubeta_hat_mat[:,1:]
@@ -2943,8 +2925,13 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
             
             # Compute likelihood ratio statistic
             lr_stat_bb[bb] = -2 * (penloglik_h0_bb - penloglik_h1_bb)
-        lr_95 = compute_quantile(lr_stat_bb, 0.95)
-        result_lr_each[ii,0] = 1 * ( lr_stat >  lr_95)
+        result_lr_each[ii,0] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.90))
+        result_lr_each[ii,1] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.95))
+        result_lr_each[ii,2] = 1 * ( lr_stat >  compute_quantile(lr_stat_bb, 0.99))
+        result_lr_each[ii,3] = aic_crit
+        result_lr_each[ii,4] = bic_crit
+        result_lr_each[ii,5] = lr_stat
+        
     return(result_lr_each)
 
 # %%

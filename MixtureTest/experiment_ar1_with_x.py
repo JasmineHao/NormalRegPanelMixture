@@ -105,7 +105,7 @@ for alpha in alphaset:
 print("Simulation Result Matrix:")
 print(simulation_result_matrix)
 
-np.savetxt("TestStatAR1.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')
+np.savetxt("TestStatAR1WithX.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')
 
 
 # %%

@@ -147,5 +147,5 @@ for kk in range(7):
 # Set row and column names
 
 # Save to CSV
-result_freq_table.to_csv("empirical_test_M3.csv")
+result_freq_table.to_csv("test_empirical_M3.csv")
 # %%

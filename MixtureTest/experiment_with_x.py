@@ -66,7 +66,7 @@ for alpha in alphaset:
 # Print the final result matrix
 import pandas as pd
 simulation_result_matrix_pd = pd.DataFrame(simulation_result_matrix, index=parameter_combinations, columns=['rk_mean','rk_max','lrt'])
-(100 * simulation_result_matrix_pd).to_csv('NonparTestWithCovariates.csv')
+(100 * simulation_result_matrix_pd).to_csv('test_size_with_x_compare.csv')
 # np.savetxt("NonparTestWithCovariates.txt", 100 * simulation_result_matrix, delimiter=',', fmt='%.1f')
 
 # %%
