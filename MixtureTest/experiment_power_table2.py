@@ -52,8 +52,8 @@ for N in Nset:
         for alpha_bound in alpha_bounds:           
             start_time = time.time()
             # Nonparametric test
-            result_rk_each = NonParTestParallel(data_nopar, N, T, M, p, q, nrep, n_grid, BB, r_test)
-            result_lr_each = LRTestParallel(Data, N, T, M, p, q, nrep, BB = BB, alpha_bound=alpha_bound)
+            result_rk_each = NonParTestParallel(data_nopar, N, T, 2, p, q, nrep, n_grid, BB, r_test)
+            result_lr_each = LRTestParallel(Data, N, T, 2, p, q, nrep, BB = BB, alpha_bound=alpha_bound)
                         
             # Compute the mean results across replications and store them
             simulation_result_matrix[count, :2] = result_rk_each.mean(axis=0)
