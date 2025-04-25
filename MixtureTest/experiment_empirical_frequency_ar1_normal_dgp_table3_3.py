@@ -1,3 +1,6 @@
+# Example DataFrame
+# %%
+
 # %%
 from MixtureTestFunctions import *
 import time
@@ -15,7 +18,7 @@ import os
 # Your code here
 # Set the number of threads you want Numba to use
 # set_num_threads(64)
-set_num_threads(15)
+# set_num_threads(12)
 
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
@@ -38,11 +41,11 @@ z = processed_data['processed_z']
 # Assuming these functions are already implemented:
 # generate_data_mixture, regpanelmixmixturePMLE, NonParTestNoCovariates, LRTestNormal, LRTestMixture
 
-
+# %%
 # Main script
 if __name__ == "__main__":
     # Parameters
-    M = 3
+    M = 2
     K = 2
     p = 0
     q = 0
@@ -53,34 +56,45 @@ if __name__ == "__main__":
     BB = 199
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixmixturePMLE(y, x, z, p=p, q=q, m=M, k=K)
+    out_dgp = regpanelmixAR1PMLE(y,x,z, p, q, m=M)
+    
     alpha = out_dgp['alpha_hat'][0]
-    tau = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M, K)
-    # mubeta = np.ascontiguousarray(out_dgp['mubeta_hat'][0])
+    mubeta = out_dgp['mubeta_hat'][0]
+    mu = out_dgp['mu_hat'][0]
+    rho = out_dgp['rho_hat'][0]
     sigma = out_dgp['sigma_hat'][0]
     gamma = out_dgp['gamma_hat'][0]
-    beta = out_dgp['beta_hat'][0]
-    beta = np.zeros((M,q))
-    gamma = np.zeros(p)
-    mu = np.ascontiguousarray(out_dgp['mu_hat'][0]).reshape(M, K)
+    
+    mubeta_0 = out_dgp['mubeta_0_hat'][0]
+    
+    sigma_0 = out_dgp['sigma_0_hat'][0]
+    gamma_0 = out_dgp['gamma_0_hat'][0]
+    
+    
+    mubeta = np.ascontiguousarray(mubeta)
+    mubeta_mat = mubeta.reshape((q+1,M)).T
+    beta = mubeta_mat[:,1:]
 
-    # mubeta_mat = mubeta.reshape((q + 1, M * K)).T
-    # beta = mubeta_mat[:, 1:]
-    # mu = np.ascontiguousarray(mubeta_mat[:, 0]).reshape(M, K)
-
-    # Print the parameters
+    mubeta_0 = np.ascontiguousarray(mubeta_0)
+    mubeta_0_mat = mubeta_0.reshape((q+1,M)).T
+    beta_0 = mubeta_0_mat[:,1:]
+    mu_0 = mubeta_0_mat[:,0]
+    
     print("alpha:", alpha)
-    print("tau:", tau)
+    print("mubeta:", mubeta)
+    print("mu:", mu)
+    print("rho:", rho)
     print("sigma:", sigma)
     print("gamma:", gamma)
-    print("beta:", beta)
-    print("mu:", mu)
-
-    Data = [generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p, q) for _ in range(nrep)]
+    print("mubeta_0:", mubeta_0)
+    print("sigma_0:", sigma_0)
+    print("gamma_0:", gamma_0)
+    
+    Data = [generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q) for _ in prange(nrep)]
     
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q)
     
     end_time = time.time()
 
@@ -106,8 +120,8 @@ if __name__ == "__main__":
     for kk in range(12):
         result_freq_table.iloc[kk,] = count_frequency(result_table[:,kk], M_max) / nrep
     # Set row and column names
-
+        
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_mixture_M3.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3.csv")
 
 # %%

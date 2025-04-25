@@ -55,11 +55,11 @@ for csv_file in csv_files:
     df_row['model'] = model.capitalize()
     df_row['T'] = T_length
     df_row['Y'] = y_variable
-    if T_length == '3':
-        if country == 'japan':
-            dataframes_jp = pd.concat([dataframes_jp, df_row])
-        else:
-            dataframes_cl = pd.concat([dataframes_cl, df_row])
+    # if T_length == '3':
+    if country == 'japan':
+        dataframes_jp = pd.concat([dataframes_jp, df_row])
+    else:
+        dataframes_cl = pd.concat([dataframes_cl, df_row])
 
 result_output = dataframes_cl.set_index('model')
 result_output = result_output.replace(-1,'10+')
