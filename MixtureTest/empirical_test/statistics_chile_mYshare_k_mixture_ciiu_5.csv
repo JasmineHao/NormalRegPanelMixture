@@ -1,0 +1,13 @@
+,Country,Industry,Model,Stat,M=1,M=2,M=3,M=4,M=5,M=6,M=7,M=8,M=9,M=10
+0,Chile,Food products,K_mixture,AIC,28055.13,1652.38,-325.27,-921.38,-1072.96,-1122.81,-1146.23,-1160.91,-1233.29,-1224.58
+1,Chile,Food products,K_mixture,BIC,28079.64,1697.31,-259.92,-835.61,-966.76,-996.19,-999.19,-993.45,-1045.4,-1016.27
+2,Chile,Food products,K_mixture,LR,25299.7669,2003.6804,606.1077,158.1885,59.7738,41.0058,66.3708,82.3687,15.1380,1.7353
+3,Chile,Food products,K_mixture,LR Crit,"30684.0913, 39208.5742, 55277.1116","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+4,Chile,Fabricated metal products,K_mixture,AIC,628.58,383.68,311.33,301.53,253.3,255.88,253.23,237.92,249.06,245.32
+5,Chile,Fabricated metal products,K_mixture,BIC,647.03,415.3,356.13,359.49,324.43,340.2,350.72,348.58,372.89,382.33
+6,Chile,Fabricated metal products,K_mixture,LR,254.9043,55.5071,54.6760,45.3972,8.6259,32.8422,44.5464,12.6432,4.2871,-4.4340
+7,Chile,Fabricated metal products,K_mixture,LR Crit,"12.8392, 15.6119, 23.6835","15.6293, 19.4421, 28.7356","20.8182, 35.6940, 74.3103","19.1589, 24.9859, 39.9113","25.2822, 33.4084, 42.5129","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"
+8,Chile,Textiles,K_mixture,AIC,598.98,442.46,303.04,237.8,203.23,193.23,183.04,181.31,180.75,177.57
+9,Chile,Textiles,K_mixture,BIC,616.71,472.85,346.09,293.52,271.61,274.28,276.74,287.68,299.78,309.26
+10,Chile,Textiles,K_mixture,LR,166.5152,149.5502,77.8761,37.2144,25.5347,21.0872,9.1734,7.8640,9.4123,10.7696
+11,Chile,Textiles,K_mixture,LR Crit,"11.3120, 13.0124, 19.9356","14.1708, 16.4454, 24.4623","18.4040, 28.1580, 381.8552","15.6696, 17.9892, 25.5133","19.1449, 25.9387, 51.2664","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf","inf, inf, inf"

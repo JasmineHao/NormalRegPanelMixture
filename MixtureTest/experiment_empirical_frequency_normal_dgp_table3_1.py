@@ -15,7 +15,7 @@ import os
 # Your code here
 # Set the number of threads you want Numba to use
 # set_num_threads(64)
-set_num_threads(15)
+# set_num_threads(12)
 
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
@@ -38,7 +38,7 @@ z = processed_data['processed_z']
 # Assuming these functions are already implemented:
 # generate_data_mixture, regpanelmixmixturePMLE, NonParTestNoCovariates, LRTestNormal, LRTestMixture
 
-
+# %%
 # Main script
 if __name__ == "__main__":
     # Parameters
@@ -53,31 +53,25 @@ if __name__ == "__main__":
     BB = 199
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixmixturePMLE(y, x, z, p=p, q=q, m=M, k=K)
-    alpha = out_dgp['alpha_hat'][0]
-    tau = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M, K)
-    # mubeta = np.ascontiguousarray(out_dgp['mubeta_hat'][0])
+    out_dgp = regpanelmixPMLE(y, x, z, p=p, q=q, m=M)
+    alpha  = out_dgp['alpha_hat'][0]
+    mubeta = out_dgp['mubeta_hat'][0]
     sigma = out_dgp['sigma_hat'][0]
     gamma = out_dgp['gamma_hat'][0]
-    beta = out_dgp['beta_hat'][0]
-    beta = np.zeros((M,q))
-    gamma = np.zeros(p)
-    mu = np.ascontiguousarray(out_dgp['mu_hat'][0]).reshape(M, K)
+    mubeta = np.ascontiguousarray(mubeta)
+    mubeta_mat = mubeta.reshape((q+1,M)).T
+    beta = mubeta_mat[:,1:]
+    mu =  mubeta_mat[:,0]
 
-    # mubeta_mat = mubeta.reshape((q + 1, M * K)).T
-    # beta = mubeta_mat[:, 1:]
-    # mu = np.ascontiguousarray(mubeta_mat[:, 0]).reshape(M, K)
 
     # Print the parameters
     print("alpha:", alpha)
-    print("tau:", tau)
     print("sigma:", sigma)
     print("gamma:", gamma)
     print("beta:", beta)
     print("mu:", mu)
 
-    Data = [generate_data_mixture(alpha, mu, beta, sigma, tau, gamma, N, T, M, K, p, q) for _ in range(nrep)]
-    
+    Data = [generate_data(alpha, mu, sigma, gamma, beta, N, T, M, p, q) for _ in range(nrep)]
     # Timing and execution
     start_time = time.time()
     results = parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q)
@@ -108,6 +102,6 @@ if __name__ == "__main__":
     # Set row and column names
 
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_mixture_M3.csv")
+    result_freq_table.to_csv("test_empirical_dgp_normal_M3.csv")
 
 # %%

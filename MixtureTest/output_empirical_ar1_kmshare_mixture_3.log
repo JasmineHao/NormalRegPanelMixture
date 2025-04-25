@@ -1,0 +1,23 @@
+Numba is using 22 threads.
+['empirical_test.py', 'ar1_kmshare_mixture_3', '5', 'ciiu', 'mY_share']
+Simulation Start
+Model: ar1_kmshare_mixture_3
+T: 5
+Include CIIU: True
+Dependent Variable: mY_share
+Food products
+NT=2195,N=439
+[ 0.026  0.602  4.878  7.61   4.034 12.834]
+[0.096 0.149 5.46  2.361 1.008 1.693]
+Fabricated metal products
+NT=515,N=103
+[ 0.086  0.555  2.768  7.775  3.88  12.766]
+[0.182 0.219 4.097 1.909 0.992 1.364]
+Textiles
+NT=465,N=93
+[ 0.209  0.563  4.314  8.417  3.932 12.947]
+[0.265 0.215 5.288 2.163 1.164 1.448]
+439
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture_3, M: 1, Time Taken: 16914.37 seconds, LR Stat: 8417.7751
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture_3, M: 2, Time Taken: 20953.82 seconds, LR Stat: 3904.9656
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture_3, M: 3, Time Taken: 24863.99 seconds, LR Stat: 204.2458

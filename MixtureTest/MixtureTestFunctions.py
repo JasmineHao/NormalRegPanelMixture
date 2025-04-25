@@ -3490,3 +3490,198 @@ def process_chilean_data(df, each_code, T=3, p=0):
 
     return results
 # %%
+
+@njit(parallel=True)  # Numba JIT compilation with parallelization
+def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q):
+    # Initialize result tables
+    aic_table = np.zeros((nrep, M_max))
+    bic_table = np.zeros((nrep, M_max))
+    aic_table_mixture = np.zeros((nrep, M_max))
+    bic_table_mixture = np.zeros((nrep, M_max))
+
+    lr_estim_table = np.zeros((nrep, M_max))
+
+    rk_mean_table = np.zeros((nrep, M_max))
+    rk_max_table = np.zeros((nrep, M_max))
+
+    lr_1_table = np.zeros((nrep, M_max))
+    lr_5_table = np.zeros((nrep, M_max))
+    lr_10_table = np.zeros((nrep, M_max))
+
+    lr_1_table_mixture = np.zeros((nrep, M_max))
+    lr_5_table_mixture = np.zeros((nrep, M_max))
+    lr_10_table_mixture = np.zeros((nrep, M_max))
+
+    # Generate data for all repetitions
+    
+
+    # Parallel loop
+    for ii in prange(nrep):  # Use prange for parallel execution
+        data = Data[ii]
+        y = data[0]
+        x = data[1]
+        z = data[2]
+        bootstrap_nocov = True
+        bootstrap_mixture = True
+
+        for mm in range(M_max):
+            # Non-parametric test
+            m = mm + 1
+            n_grid = m + 1
+            r_test = m
+            n_bins = math.ceil((m + 1) ** (1 / (T - 1)))
+            rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
+
+            # LR test for no-covariates model
+            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
+
+            # LR test for mixture model
+            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
+            lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
+
+            # Record results
+            rk_max_table[ii, mm] = rk_stat_each[0]
+            rk_mean_table[ii, mm] = rk_stat_each[1]
+
+            aic_table[ii, mm] = aic_nocov
+            bic_table[ii, mm] = bic_nocov
+            aic_table_mixture[ii, mm] = aic_mixture
+            bic_table_mixture[ii, mm] = bic_mixture
+
+            lr_estim_table[ii, mm] = lr_stat_nocov
+
+            lr_1_table[ii, mm] = lr_stat_nocov > lr_99_nocov
+            lr_5_table[ii, mm] = lr_stat_nocov > lr_95_nocov
+            lr_10_table[ii, mm] = lr_stat_nocov > lr_90_nocov
+
+            lr_1_table_mixture[ii, mm] = lr_stat_mixture > lr_99_mixture
+            lr_5_table_mixture[ii, mm] = lr_stat_mixture > lr_95_mixture
+            lr_10_table_mixture[ii, mm] = lr_stat_mixture > lr_90_mixture
+
+            # Update bootstrap flags
+            if lr_stat_nocov < lr_90_nocov:
+                bootstrap_nocov = False
+            if lr_stat_mixture < lr_90_mixture:
+                bootstrap_mixture = False
+
+    return (aic_table, bic_table, aic_table_mixture, bic_table_mixture, lr_estim_table, rk_mean_table, rk_max_table,
+            lr_1_table, lr_5_table, lr_10_table,
+            lr_1_table_mixture, lr_5_table_mixture, lr_10_table_mixture)
+
+
+
+@njit(parallel=True)  # Numba JIT compilation with parallelization
+def parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q):
+    # Initialize result tables
+    aic_table = np.zeros((nrep, M_max))
+    bic_table = np.zeros((nrep, M_max))
+    aic_table_mixture = np.zeros((nrep, M_max))
+    bic_table_mixture = np.zeros((nrep, M_max))
+
+    lr_estim_table = np.zeros((nrep, M_max))
+
+    rk_mean_table = np.zeros((nrep, M_max))
+    rk_max_table = np.zeros((nrep, M_max))
+
+    lr_1_table = np.zeros((nrep, M_max))
+    lr_5_table = np.zeros((nrep, M_max))
+    lr_10_table = np.zeros((nrep, M_max))
+
+    lr_1_table_mixture = np.zeros((nrep, M_max))
+    lr_5_table_mixture = np.zeros((nrep, M_max))
+    lr_10_table_mixture = np.zeros((nrep, M_max))
+
+    # Generate data for all repetitions
+    
+
+    # Parallel loop
+    for ii in prange(nrep):  # Use prange for parallel execution
+        data = Data[ii]
+        y = data[0]
+        x = data[1]
+        z = data[2]
+        bootstrap_nocov = True
+        bootstrap_mixture = True
+
+        for mm in range(M_max):
+            # Non-parametric test
+            m = mm + 1
+            n_grid = m + 1
+            r_test = m
+            n_bins = math.ceil((m + 1) ** (1 / (T - 1)))
+            rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
+
+            # LR test for no-covariates model
+            lr_results_nocov = LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
+
+            # LR test for mixture model
+            lr_results_mixture = LRTestAR1Mixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
+            lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
+
+            # Record results
+            rk_max_table[ii, mm] = rk_stat_each[0]
+            rk_mean_table[ii, mm] = rk_stat_each[1]
+
+            aic_table[ii, mm] = aic_nocov
+            bic_table[ii, mm] = bic_nocov
+            aic_table_mixture[ii, mm] = aic_mixture
+            bic_table_mixture[ii, mm] = bic_mixture
+
+            lr_estim_table[ii, mm] = lr_stat_nocov
+
+            lr_1_table[ii, mm] = lr_stat_nocov > lr_99_nocov
+            lr_5_table[ii, mm] = lr_stat_nocov > lr_95_nocov
+            lr_10_table[ii, mm] = lr_stat_nocov > lr_90_nocov
+
+            lr_1_table_mixture[ii, mm] = lr_stat_mixture > lr_99_mixture
+            lr_5_table_mixture[ii, mm] = lr_stat_mixture > lr_95_mixture
+            lr_10_table_mixture[ii, mm] = lr_stat_mixture > lr_90_mixture
+
+            # Update bootstrap flags
+            if lr_stat_nocov < lr_90_nocov:
+                bootstrap_nocov = False
+            if lr_stat_mixture < lr_90_mixture:
+                bootstrap_mixture = False
+
+    return (aic_table, bic_table, aic_table_mixture, bic_table_mixture, lr_estim_table, rk_mean_table, rk_max_table,
+            lr_1_table, lr_5_table, lr_10_table,
+            lr_1_table_mixture, lr_5_table_mixture, lr_10_table_mixture)
+
+# Function to find the model where AIC stops decreasing
+@njit
+def find_model_stop(aic_values):
+    differences = np.diff(aic_values)
+    model_stop = np.where(differences > 0)[0]
+    if model_stop.size == 0:
+        return len(aic_values)
+    return model_stop[0] + 1  # Adjust for 1-based indexing
+
+# Function to count frequencies
+@njit
+def find_first_zero(sequence):
+    for index, value in enumerate(sequence):
+        if value == 0:
+            return index + 1  # Return the first index where the value is 0
+    return -1  # Return -1 if no 0 is found
+
+
+def count_frequency(arr, M_max):
+    """
+    Counts the frequency of values in the range 1 to M_max in a NumPy array.
+
+    Parameters:
+        arr (numpy.ndarray): Input array of integers.
+        M_max (int): The maximum value to consider for frequency counting.
+
+    Returns:
+        numpy.ndarray: An array of frequencies for values from 1 to M_max.
+    """
+    # Convert the array to integers (if not already)
+    arr = arr.astype(int)
+    
+    # Use np.bincount with minlength to ensure range 1 to M_max is covered
+    counts = np.bincount(arr, minlength=M_max + 1)[1:M_max + 1]
+    return counts
+# %%

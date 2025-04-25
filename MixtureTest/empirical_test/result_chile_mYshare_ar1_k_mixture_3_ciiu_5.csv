@@ -1,6 +1,6 @@
 Country,,Chile,Chile,Chile
 Industry,,Fabricated metal products,Food products,Textiles
 ,Model,,,
-AIC,Plain_mixture,7,9,5
-BIC,Plain_mixture,7,8,5
-LR,Plain_mixture,6,5,5
+AIC,Ar1_k_mixture_3,5,6,4
+BIC,Ar1_k_mixture_3,3,4,3
+LR,Ar1_k_mixture_3,2,1,2
