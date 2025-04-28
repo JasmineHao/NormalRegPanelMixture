@@ -1261,6 +1261,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
     
     l_j = np.zeros(m)
     
+    
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
@@ -1334,6 +1335,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
             
             # Update parameters
             # mubeta_jn_mat = np.zeros((m,q1),dtype=np.float64)
+            
             
             for mm in range(m):
                 alpha_jn[mm] = np.mean(w[mm, :])
@@ -2082,15 +2084,16 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
                 for kk in range(k):
                     idx_type = mm * k + kk
                     
-                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 0.01) ) / (1 - mubeta_jn_mat[mm,-1])
+                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / (1 - mubeta_jn_mat[mm,-1])
                     
-                    mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 0.01)
+                    mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 1e-6)
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type] *  (1 - mubeta_jn_mat[mm,-1]) )**2
                     res_mm_0_sq += w_mk_0[idx_type,:] * (ytilde_0 - mu_0_jn[idx_type])**2
                     w_mk_sum += w_mk[idx_type,:]
                     w_mk_0_sum += w_mk_0[idx_type,:]
                     
+                    tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.2),0.8)
                     tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.2),0.8)
                     sum_tau_jn+=tau_jn[idx_type]
                 
@@ -2109,7 +2112,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
             mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.1, alpha_jn[j] )
+                alpha_jn[j] = max(0.05, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -2135,10 +2138,10 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
                         ztilde_0[:, ii] = wtilde * z_0[:, ii]
                         
                     zz += ztilde.T @ (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1]) / (sigma_jn[j]**2)
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,0.01)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2, 1e-6)
                     
                     zz_0 += ztilde_0.T @ z_0 / (sigma_0_jn[j]**2)
-                    ze_0 += ztilde_0.T @( y_0 - x1_0 @ mubeta_0_jn_mat[j,:] - mu_mk_0_weighted[j]) / max(sigma_0_jn[j]**2,0.01)
+                    ze_0 += ztilde_0.T @( y_0 - x1_0 @ mubeta_0_jn_mat[j,:] - mu_mk_0_weighted[j]) / max(sigma_0_jn[j]**2, 1e-6)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
                 gamma_0_jn = solve_linear_system_safe(zz_0,ze_0).flatten()
                 
@@ -2428,7 +2431,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 
                 for i in range(nt):
                     for kk in range(k):
-                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 0.01)
+                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
                                 
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 
@@ -2454,7 +2457,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
             # Compute w = l_j / sum_l_j
             for i in range(n):
                 for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 0.01)
+                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
                     w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
                     
             for i in range(n):
@@ -2490,7 +2493,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                     idx_type = mm * k + kk
                     mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
                     w_mk_sum += w_mk[idx_type]
-                w_mk_sum[w_mk_sum < 1e-3] = 1e-3
+                w_mk_sum[w_mk_sum < 1e-6] = 1e-6
                 mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
                 
                 coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted[mm] - z @ gamma_jn ) )
@@ -2507,15 +2510,17 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 for kk in range(k):
                     idx_type = mm * k + kk
                     mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
+                    mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
                     
+                    tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.2),0.8)
                     tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.2),0.8)
                     sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 0.05)
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)
 
                 sigma_jn[mm] = np.sqrt( np.sum(res_mm_sq) / np.sum(w_mk_sum)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
@@ -2544,6 +2549,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                         ztilde[:, ii] = w_j * z[:, ii]
                          
                     zz += ztilde.T @ (z) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
                     ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
                 
@@ -3686,6 +3692,53 @@ def count_frequency(arr, M_max):
 # %%
 # for computing variance
 # ----------------------------------------------------------
+
+# %%
+def numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, k, q, p, score_function, epsilon=1e-6):
+    """
+    Compute the numerical derivative of the score function with respect to parameters.
+
+    Parameters:
+    -----------
+    y_it : ndarray
+        Array of dependent variable values for all t for a single observation i.
+    x_it : ndarray
+        Array of covariates in x for all t for a single observation i.
+    z_it : ndarray
+        Array of covariates in z for all t for a single observation i.
+    params_array : ndarray
+        Flattened array of parameters.
+    m : int
+        Number of components.
+    k : int
+        Number of sub-components per component.
+    q : int
+        Number of covariates in x.
+    p : int
+        Number of covariates in z.
+    score_function : callable
+        Function to compute the score for a single observation.
+    epsilon : float, optional
+        Small perturbation for numerical differentiation (default is 1e-6).
+
+    Returns:
+    --------
+    ndarray
+        Jacobian matrix of the score function with respect to parameters.
+    """
+    n_params = len(params_array)
+    score_base = score_function(y_it, x_it, z_it, params_array, m, k, q, p)
+    jacobian = np.zeros((len(score_base), n_params))
+
+    for i in range(n_params):
+        params_perturbed = params_array.copy()
+        params_perturbed[i] += epsilon
+        score_perturbed = score_function(y_it, x_it, z_it, params_perturbed, m, k, q, p)
+        jacobian[:, i] = (score_perturbed - score_base) / epsilon
+
+    return jacobian
+
+
 def get_params_stationary_normal(out_h0):
     """
     Convert out_h0 dictionary into arrays compatible with flatten_params.
@@ -3725,6 +3778,40 @@ def get_params_stationary_normal(out_h0):
     ])
     return params_dict, params_array
 
+def get_params_dict_from_array_stationary_normal(p_array, m, k, q, p):
+    """
+    Convert a flattened parameter array back into a params_dict for the stationary normal model.
+
+    Parameters:
+    -----------
+    p_array : ndarray
+        Flattened array of parameters.
+    m : int
+        Number of components.
+    q : int
+        Number of covariates in x.
+    p : int
+        Number of covariates in z.
+
+    Returns:
+    --------
+    dict
+        Dictionary containing the parameters.
+    """
+    alpha_f = p_array[:m - 1]
+    mubeta = p_array[m - 1:m - 1 + m * (q + 1)]
+    sigma = p_array[m - 1 + m * (q + 1):m - 1 + m * (q + 1) + m]
+    gamma = p_array[m - 1 + m * (q + 1) + m:]
+
+    # Reconstruct alpha with the last component as 1 - sum of others
+    alpha = np.append(alpha_f, 1 - np.sum(alpha_f))
+
+    return {
+        'alpha': alpha,
+        'mubeta': mubeta,
+        'sigma': sigma,
+        'gamma': gamma
+}
 
 
 def log_likelihood_stationary_normal(params, data):
@@ -3801,59 +3888,111 @@ def log_likelihood_stationary_normal(params, data):
 
     return log_likelihood, w, ll
 
+
+def score_i_stationary_normal(y_it, x_it, z_it, params_array, m, k, q, p):
+    """
+    Compute the score for a single observation (i) in the stationary normal model.
+
+    Parameters:
+    -----------
+    y_it : ndarray
+        Array of dependent variable values for all t for a single observation i.
+    x_it : ndarray
+        Array of covariates in x for all t for a single observation i.
+    z_it : ndarray
+        Array of covariates in z for all t for a single observation i.
+    params_array : ndarray
+        Flattened array of parameters.
+
+    Returns:
+    --------
+    ndarray
+        Score vector for the single observation.
+    """
+    t = len(y_it)
+    params_dict = get_params_dict_from_array_stationary_normal(params_array, m, k, q, p)
+    x1_it = np.column_stack((np.ones(t), x_it)) if q > 0 else np.ones((t, 1))
+    alpha = params_dict['alpha']
+    sigma = params_dict['sigma']
+    mubeta = params_dict['mubeta']
+    gamma = params_dict['gamma']
+
+    mubeta_mat = mubeta.reshape((q + 1, m)).T
+
+    residuals_matrix = np.zeros((m, t))
+    w = np.zeros(m)
+
+    for j in range(m):
+        residuals = y_it - z_it @ gamma - np.dot(x1_it, mubeta_mat[j]) 
+        residuals_matrix[j] = residuals
+
+        log_likelihood = (
+            -0.5 * t * np.log(2 * np.pi * sigma[j] ** 2)
+            - 0.5 * np.sum(residuals ** 2) / sigma[j] ** 2
+        )
+        w[j] = alpha[j] * np.exp(log_likelihood)
+
+    w /= np.sum(w)
+
+    score_alpha = np.zeros(m - 1)
+    score_mubeta = np.zeros(m * (q + 1))
+    score_sigma = np.zeros(m)
+    score_gamma = np.zeros(p)
+
+    for j in range(m - 1):
+        score_alpha[j] = w[j] / alpha[j] - w[-1] / alpha[-1]
+
+    for j in range(m):
+        residuals = residuals_matrix[j]
+
+        for qq in range(q + 1):
+            idx = j + qq * m
+            score_mubeta[idx] += w[j] * np.sum(residuals * x1_it[:, qq]) / sigma[j] ** 2
+
+        term1 = -t / sigma[j]
+        term2 = np.sum(residuals ** 2) / sigma[j] ** 3
+        score_sigma[j] += w[j] * (term1 + term2)
+
+        for pp in range(p):
+            score_gamma[pp] += w[j] * np.sum(residuals * z_it[:, pp]) / sigma[j] ** 2
+
+    score_i = np.concatenate([score_alpha, score_mubeta, score_sigma, score_gamma])
+    return score_i
+
 def score_stationary_normal(data, params_dict):
     y, x, z = data
     t, n = y.shape
     q = x.shape[1]
     p = z.shape[1]
 
-    y_c = y.T.flatten()
-    x1 = np.hstack((np.ones((n*t, 1)), x))
-
-    alpha = params_dict['alpha']  # Last component is 1-sum(alpha[:-1])
+    scores = []
+    hessians = []
+    alpha = params_dict['alpha']
     sigma = params_dict['sigma']
     mubeta = params_dict['mubeta']
     gamma = params_dict['gamma']
     m = len(alpha)
-    
-    # Compute weights using full alpha (including constrained last component)
-    log_likelihood, w, ll = log_likelihood_stationary_normal(params_dict, data)
-    w = w.T  # shape (n, m)
 
-    # Derivatives - now with m-1 alpha components
-    score_matrix_alpha = np.zeros((n, m-1))
-    score_matrix_mubeta = np.zeros((n, m*(q+1)))
-    score_matrix_sigma = np.zeros((n, m))
-    score_matrix_gamma = np.zeros((n, p))
-    
-    # For alpha (first m-1 components)
-    for j in range(m-1):
-        # ∂ℓ/∂α_j = w_j/α_j - w_m/α_m
-        score_matrix_alpha[:,j] = w[:,j]/alpha[j] - w[:,-1]/alpha[-1]
-    
-    # For other parameters (same as before)
-    mubeta_mat = mubeta.reshape((q+1, m)).T
-    mubeta_id = 0 
-    for j in range(m):
-        residuals = y_c - np.dot(z, gamma) - x1 @ mubeta_mat[j]
+    params_array = np.concatenate([
+        params_dict['alpha'][:-1],
+        params_dict['mubeta'].flatten(),
+        params_dict['sigma'],
+        params_dict['gamma']
+    ])
+
+    for i in range(n):
+        y_it = y[:, i]
+        z_it = z[(i * t):((i + 1) * t), :]
+        x_it = x[(i * t):((i + 1) * t), :]
+        score_i = score_i_stationary_normal(y_it, x_it, z_it, params_array, m, 1, q, p)
+        hessian_i = numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, 0, q, p, score_i_stationary_normal)
         
-        # mubeta derivatives
-        for qq in range(q+1):
-            score_matrix_mubeta[:,mubeta_id] = w[:,j] * (residuals * x1[:,qq] / sigma[j]**2).reshape(n, t).sum(axis=1)
-            mubeta_id += 1
+        scores.append(score_i)
+        hessians.append(hessian_i)
 
-        # sigma derivatives
-        term1 = -1 / sigma[j]
-        term2 = (1 / sigma[j]**3) * (residuals**2).reshape(n, t).sum(axis=1)
-        score_matrix_sigma[:,j] = w[:,j] * (term1 + term2)
-        
-        # gamma derivatives
-        for pp in range(p):
-            score_matrix_gamma[:,pp] += w[:,j] * (residuals * z[:,pp] / sigma[j]**2).reshape(n, t).sum(axis=1)
-
-    # Combine all scores
-    score = np.c_[score_matrix_alpha, score_matrix_mubeta, score_matrix_sigma, score_matrix_gamma]
-    return score
+    score = np.vstack(scores)
+    hessian = np.array(hessians)
+    return score, hessian
 
 
 def loglik_obj_stationary_normal(p_array, data, M, p, q):
@@ -4069,50 +4208,6 @@ def log_likelihood_stationary_mixture(params_dict, data):
 
     return log_likelihood, w, ll
 
-# %%
-def numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, k, q, p, score_function, epsilon=1e-6):
-    """
-    Compute the numerical derivative of the score function with respect to parameters.
-
-    Parameters:
-    -----------
-    y_it : ndarray
-        Array of dependent variable values for all t for a single observation i.
-    x_it : ndarray
-        Array of covariates in x for all t for a single observation i.
-    z_it : ndarray
-        Array of covariates in z for all t for a single observation i.
-    params_array : ndarray
-        Flattened array of parameters.
-    m : int
-        Number of components.
-    k : int
-        Number of sub-components per component.
-    q : int
-        Number of covariates in x.
-    p : int
-        Number of covariates in z.
-    score_function : callable
-        Function to compute the score for a single observation.
-    epsilon : float, optional
-        Small perturbation for numerical differentiation (default is 1e-6).
-
-    Returns:
-    --------
-    ndarray
-        Jacobian matrix of the score function with respect to parameters.
-    """
-    n_params = len(params_array)
-    score_base = score_function(y_it, x_it, z_it, params_array, m, k, q, p)
-    jacobian = np.zeros((len(score_base), n_params))
-
-    for i in range(n_params):
-        params_perturbed = params_array.copy()
-        params_perturbed[i] += epsilon
-        score_perturbed = score_function(y_it, x_it, z_it, params_perturbed, m, k, q, p)
-        jacobian[:, i] = (score_perturbed - score_base) / epsilon
-
-    return jacobian
 
 # %%
 def score_i_stationary_mixture(y_it, x_it, z_it, p_array, m, k, q, p):
@@ -4500,7 +4595,7 @@ def score_i_ar1_mixture(y_it, x_it, z_it, params_array, m, k, q, p):
         score_alpha, score_tau, score_mu, score_beta, score_sigma, score_gamma, score_rho,
         score_mu_0, score_beta_0, score_sigma_0, score_gamma_0
     ])
-    return score_i, log_likelihood
+    return score_i
     
 
 # %%
@@ -4541,15 +4636,13 @@ def score_ar1_mixture(data, params_dict):
         params_dict['gamma_0']
     ])
 
-    logkikelihood = 0 
     for i in range(n):
         y_it = y[:, i]
         z_it = z[(i * t):((i + 1) * t), :]
         x_it = x[(i * t):((i + 1) * t), :]
-        score_i, logkelihood_i = score_i_ar1_mixture(y_it, x_it, z_it, params_array, m, k, q, p)
-        # hessian_i = numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, k, q, p, score_i_ar1_mixture)
+        score_i = score_i_ar1_mixture(y_it, x_it, z_it, params_array, m, k, q, p)
+        hessian_i = numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, k, q, p, score_i_ar1_mixture)
         
-        logkikelihood += logkelihood_i
         scores.append(score_i)
         hessians.append(hessian_i)
 
@@ -4557,4 +4650,261 @@ def score_ar1_mixture(data, params_dict):
     hessian = np.array(hessians)
     return score, hessian
 
+# %%
+# Variance AR1 Normal
+# ----------------------------------------------------------
+
+def get_params_ar1_normal(out_h0):
+    """
+    Convert out_h0 dictionary into arrays compatible with flatten_params for the AR(1) normal model.
+
+    Parameters:
+    -----------
+    out_h0 : dict
+        Dictionary containing parameter arrays.
+
+    Returns:
+    --------
+    tuple
+        - params_dict: Dictionary with flattened parameter arrays.
+        - params_array: Flattened array of parameters.
+    """
+    alpha_hat = out_h0['alpha_hat'][0]
+    mu_hat = out_h0['mu_hat'][0]
+    beta_hat = out_h0['mubeta_hat'][0]
+    sigma_hat = out_h0['sigma_hat'][0]
+    gamma_hat = out_h0['gamma_hat'][0]
+    rho_hat = out_h0['rho_hat'][0]
+    mu_0_hat = out_h0['mubeta_0_hat'][0]
+    sigma_0_hat = out_h0['sigma_0_hat'][0]
+    gamma_0_hat = out_h0['gamma_0_hat'][0]
+
+    m = len(alpha_hat)
+    q = int((len(beta_hat) / m) - 1)
+    p = len(gamma_hat)
+
+    beta_hat = np.ascontiguousarray(beta_hat).reshape((q + 1, m)).T
+    mu_0_hat = np.ascontiguousarray(mu_0_hat).reshape((q + 1, m)).T
+
+    params_dict = {
+        'alpha': alpha_hat,
+        'mu': mu_hat,
+        'beta': beta_hat,
+        'sigma': sigma_hat,
+        'gamma': gamma_hat,
+        'rho': rho_hat,
+        'mu_0': mu_0_hat[:, 0],
+        'beta_0': mu_0_hat[:, 1:],
+        'sigma_0': sigma_0_hat,
+        'gamma_0': gamma_0_hat
+    }
+
+    params_array = np.concatenate([
+        params_dict['alpha'][:-1],
+        params_dict['mu'],
+        params_dict['beta'][:, 1:].flatten(),
+        params_dict['sigma'],
+        params_dict['gamma'],
+        params_dict['rho'],
+        params_dict['mu_0'],
+        params_dict['beta_0'].flatten(),
+        params_dict['sigma_0'],
+        params_dict['gamma_0']
+    ])
+    return params_dict, params_array
+
+
+def get_params_dict_from_array_ar1_normal(p_array, m, q, p):
+    """
+    Convert a flattened parameter array back into a params_dict for the AR(1) normal model.
+
+    Parameters:
+    -----------
+    p_array : ndarray
+        Flattened array of parameters.
+    m : int
+        Number of components.
+    q : int
+        Number of covariates in x.
+    p : int
+        Number of covariates in z.
+
+    Returns:
+    --------
+    dict
+        Dictionary containing the parameters.
+    """
+    alpha_f = p_array[:m - 1]
+    mu = p_array[m - 1:m - 1 + m]
+    beta = p_array[m - 1 + m:m - 1 + m + m * q]
+    sigma = p_array[m - 1 + m + m * q:m - 1 + m + m * q + m]
+    gamma = p_array[m - 1 + m + m * q + m:m - 1 + m + m * q + m + p]
+    rho = p_array[m - 1 + m + m * q + m + p:m - 1 + m + m * q + m + p + m]
+    mu_0 = p_array[m - 1 + m + m * q + m + p + m:m - 1 + m + m * q + m + p + m + m]
+    beta_0 = p_array[m - 1 + m + m * q + m + p + m + m:m - 1 + m + m * q + m + p + m + m + m * q]
+    sigma_0 = p_array[m - 1 + m + m * q + m + p + m + m + m * q:m - 1 + m + m * q + m + p + m + m + m * q + m]
+    gamma_0 = p_array[m - 1 + m + m * q + m + p + m + m + m * q + m:]
+
+    # Reconstruct alpha with the last component as 1 - sum of others
+    alpha = np.append(alpha_f, 1 - np.sum(alpha_f))
+
+    return {
+        'alpha': alpha,
+        'mu': mu,
+        'beta': beta.reshape((m, q)),
+        'sigma': sigma,
+        'gamma': gamma,
+        'rho': rho,
+        'mu_0': mu_0,
+        'beta_0': beta_0.reshape((m, q)),
+        'sigma_0': sigma_0,
+        'gamma_0': gamma_0
+    }
+    
+def score_i_ar1_normal(y_it, x_it, z_it, params_array, m, k, q, p):
+    """
+    Compute the score for a single observation (i) in the AR(1) normal model.
+
+    Parameters:
+    -----------
+    y_it : ndarray
+        Array of dependent variable values for all t for a single observation i.
+    x_it : ndarray
+        Array of covariates in x for all t for a single observation i.
+    z_it : ndarray
+        Array of covariates in z for all t for a single observation i.
+    params_array : ndarray
+        Flattened array of parameters.
+
+    Returns:
+    --------
+    ndarray
+        Score vector for the single observation.
+    """
+    t = len(y_it)
+    params_dict = get_params_dict_from_array_ar1_normal(params_array, m, q, p)
+
+    alpha = params_dict['alpha']
+    mu = params_dict['mu']
+    beta = params_dict['beta']
+    sigma = params_dict['sigma']
+    gamma = params_dict['gamma']
+    rho = params_dict['rho']
+    mu_0 = params_dict['mu_0']
+    beta_0 = params_dict['beta_0']
+    sigma_0 = params_dict['sigma_0']
+    gamma_0 = params_dict['gamma_0']
+
+    residuals_matrix = np.zeros((m, t - 1))
+    residuals_0_matrix = np.zeros((m, 1))
+    w = np.zeros(m)
+
+    for j in range(m):
+        residuals = (y_it[1:] - x_it[1:] @ beta[j] - z_it[1:] @ gamma - mu[j]) - rho[j] * (y_it[:-1] - x_it[:-1] @ beta[j] - z_it[:-1] @ gamma - mu[j])
+        residuals_0 = y_it[0] - x_it[0] @ beta_0[j] - z_it[0] @ gamma_0 - mu_0[j]
+        residuals_matrix[j] = residuals
+        residuals_0_matrix[j] = residuals_0
+
+        log_likelihood = (
+            -0.5 * (t - 1) * np.log(2 * np.pi * sigma[j] ** 2)
+            - 0.5 * np.sum(residuals ** 2) / sigma[j] ** 2
+            - 0.5 * np.log(2 * np.pi * sigma_0[j] ** 2)
+            - 0.5 * residuals_0 ** 2 / sigma_0[j] ** 2
+        )
+
+        w[j] = alpha[j] * np.exp(log_likelihood)
+
+    w /= np.sum(w)
+
+    score_alpha = np.zeros(m - 1)
+    score_mu = np.zeros(m)
+    score_beta = np.zeros(m * q)
+    score_sigma = np.zeros(m)
+    score_gamma = np.zeros(p)
+    score_rho = np.zeros(m)
+    score_mu_0 = np.zeros(m)
+    score_beta_0 = np.zeros(m * q)
+    score_sigma_0 = np.zeros(m)
+    score_gamma_0 = np.zeros(p)
+
+    for j in range(m - 1):
+        score_alpha[j] = w[j] / alpha[j] - w[-1] / alpha[-1]
+
+    for j in range(m):
+        residuals = residuals_matrix[j]
+        residuals_0 = residuals_0_matrix[j]
+
+        score_mu[j] = w[j] * np.sum(residuals * (1 - rho[j])) / sigma[j] ** 2
+        score_mu_0[j] = w[j] * residuals_0 / sigma_0[j] ** 2
+
+        for qq in range(q):
+            score_beta[j * q + qq] = w[j] * np.sum(residuals * (x_it[1:, qq] - rho[j] * x_it[:-1, qq])) / sigma[j] ** 2
+            score_beta_0[j * q + qq] = w[j] * residuals_0 * x_it[0, qq] / sigma_0[j] ** 2
+
+        term1 = -(t - 1) / sigma[j]
+        term2 = np.sum(residuals ** 2) / sigma[j] ** 3
+        score_sigma[j] = w[j] * (term1 + term2)
+
+        term1_0 = -1 / sigma_0[j]
+        term2_0 = residuals_0 ** 2 / sigma_0[j] ** 3
+        score_sigma_0[j] = w[j] * (term1_0 + term2_0)
+
+        for pp in range(p):
+            score_gamma[pp] += w[j] * np.sum(residuals * (z_it[1:, pp] - rho[j] * z_it[:-1, pp])) / sigma[j] ** 2
+            score_gamma_0[pp] += w[j] * residuals_0 * z_it[0, pp] / sigma_0[j] ** 2
+
+        score_rho[j] = w[j] * np.sum(residuals * (y_it[:-1] - x_it[:-1] @ beta[j] - z_it[:-1] @ gamma)) / sigma[j] ** 2
+
+    score_i = np.concatenate([
+        score_alpha, score_mu, score_beta, score_sigma, score_gamma, score_rho,
+        score_mu_0, score_beta_0, score_sigma_0, score_gamma_0
+    ])
+    return score_i
+
+def score_ar1_normal(data, params_dict):
+    y, x, z = data
+    t, n = y.shape
+    q = x.shape[1]
+    p = z.shape[1]
+
+    scores = []
+    hessians = []
+    alpha = params_dict['alpha']
+    mu = params_dict['mu']
+    beta = params_dict['beta']
+    sigma = params_dict['sigma']
+    gamma = params_dict['gamma']
+    rho = params_dict['rho']
+    mu_0 = params_dict['mu_0']
+    beta_0 = params_dict['beta_0']
+    sigma_0 = params_dict['sigma_0']
+    gamma_0 = params_dict['gamma_0']
+    m = len(alpha)
+
+    params_array = np.concatenate([
+        params_dict['alpha'][:-1],
+        params_dict['mu'],
+        params_dict['beta'][:, 1:].flatten(),
+        params_dict['sigma'],
+        params_dict['gamma'],
+        params_dict['rho'],
+        params_dict['mu_0'],
+        params_dict['beta_0'].flatten(),
+        params_dict['sigma_0'],
+        params_dict['gamma_0']
+    ])
+
+    for i in range(n):
+        y_it = y[:, i]
+        z_it = z[(i * t):((i + 1) * t), :]
+        x_it = x[(i * t):((i + 1) * t), :]
+        score_i = score_i_ar1_normal(y_it, x_it, z_it, params_array, m, 1, q, p)
+        hessian_i = numerical_derivative_score_i(y_it, x_it, z_it, params_array, m, 1, q, p, score_i_ar1_normal)
+        
+        scores.append(score_i)
+        hessians.append(hessian_i)
+
+    score = np.vstack(scores)
+    hessian = np.array(hessians)
+    return score, hessian
 # %%

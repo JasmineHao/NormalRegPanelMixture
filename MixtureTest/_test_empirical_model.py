@@ -59,12 +59,15 @@ for iteration in range(100):
     model_output = regpanelmixPMLE(y, x, z, p, q, M)
     params_dict, params_array = get_params_stationary_normal(model_output)
     
-    score = score_stationary_normal(data, params_dict)
-    hessian = score.T @ score     
-    hessian_inv = np.linalg.inv(hessian)
+    score, hessian = score_stationary_normal(data, params_dict)
+    
+    # Compute the sandwich formula for standard errors
+    bread = np.linalg.pinv(np.mean(hessian, axis=0))  # Inverse of the Hessian (bread matrix)
+    meat = score.T @ score  # Outer product of the score (meat matrix)
+    sandwich = bread @ meat @ bread  # Sandwich formula
 
-    standard_errors = np.sqrt(np.diag(hessian_inv))
-
+    standard_errors = np.sqrt(np.abs(np.diag(sandwich))) / N
+    
     # Check if parameters are within the confidence interval
     within_confidence_interval = (
         np.abs(params_array - true_parameters) < 1.96 * standard_errors
@@ -233,11 +236,11 @@ simulation_results = []
 true_parameters = np.concatenate([
     alpha[:-1],
     tau[:, :-1].flatten(),
-    rho,
     mu.flatten(),
     beta.T.flatten(),
     sigma,
     gamma.flatten(),
+    rho,
     mu_0.flatten(),
     beta_0.flatten(),
     sigma_0,
@@ -247,11 +250,11 @@ true_parameters = np.concatenate([
 parameter_names = (
     [f"alpha_{i+1}" for i in range(len(alpha) - 1)] +
     [f"tau_{m+1}{k+1}" for m in range(tau.shape[0]) for k in range(tau.shape[1] - 1)] +
-    [f"rho_{m+1}" for m in range(len(rho))] +
     [f"mu_{m+1}{k+1}" for m in range(mu.shape[0]) for k in range(mu.shape[1])] +
     [f"beta_{m+1}{j+1}" for j in range(beta.shape[1]) for m in range(beta.shape[0])] +
     [f"sigma_{m+1}" for m in range(len(sigma))] +
     [f"gamma_{i+1}" for i in range(len(gamma))] +
+    [f"rho_{m+1}" for m in range(len(rho))] +
     [f"mu_0_{m+1}{k+1}" for m in range(mu_0.shape[0]) for k in range(mu_0.shape[1])] +
     [f"beta_0_{m+1}{j+1}" for j in range(beta_0.shape[1]) for m in range(beta_0.shape[0])] +
     [f"sigma_0_{m+1}" for m in range(len(sigma_0))] +
@@ -321,22 +324,89 @@ for mm in range(M):
 
 sigma_0 = np.sqrt(sigma_0_sq)
 gamma_0 = gamma
+# Simulation results storage
+simulation_results = []
 
-# Generate data
-data = generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, p, q)
-y, x, z = data
+# Combine true parameters into a single array for comparison
+true_parameters = np.concatenate([
+    alpha[:-1],
+    mu.flatten(),
+    beta.T.flatten(),
+    sigma,
+    gamma.flatten(),
+    rho,
+    mu_0.flatten(),
+    beta_0.flatten(),
+    sigma_0,
+    gamma_0
+])
 
-# Fit the AR(1) normal error model
-out_h0 = regpanelmixAR1PMLE(y, x, z, p, q, M)
+parameter_names = (
+    [f"alpha_{i+1}" for i in range(len(alpha) - 1)] +
+    [f"mu_{m+1}" for m in range(len(mu))] +
+    [f"beta_{m+1}{j+1}" for j in range(beta.shape[1]) for m in range(beta.shape[0])] +
+    [f"sigma_{m+1}" for m in range(len(sigma))] +
+    [f"gamma_{i+1}" for i in range(len(gamma))] +
+    [f"rho_{m+1}" for m in range(len(rho))] +
+    [f"mu_0_{m+1}" for m in range(len(mu_0))] +
+    [f"beta_0_{m+1}{j+1}" for j in range(beta_0.shape[1]) for m in range(beta_0.shape[0])] +
+    [f"sigma_0_{m+1}" for m in range(len(sigma_0))] +
+    [f"gamma_0_{i+1}" for i in range(len(gamma_0))]
+)
+
+# Run multiple simulations
+for iteration in range(100):
+    start_time = time.time()
+    
+    # Generate data
+    data = generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, p, q)
+    y, x, z = data
+
+    # Fit the AR(1) normal error model
+    out_h0 = regpanelmixAR1PMLE(y, x, z, p, q, M)
+    
+    params_dict, params_array = get_params_ar1_normal(out_h0)
+    score, hessian = score_ar1_normal(data, params_dict)
+    
+    # Compute the sandwich formula for standard errors
+    bread = np.linalg.pinv(np.mean(hessian, axis=0))  # Inverse of the Hessian (bread matrix)
+    meat = score.T @ score  # Outer product of the score (meat matrix)
+    sandwich = bread @ meat @ bread  # Sandwich formula
+    ar1_standard_errors = np.sqrt(np.abs(np.diag(sandwich))) / N
+    
+    ar1_within_confidence_interval = (
+        np.abs(params_array - true_parameters) < 1.96 * ar1_standard_errors
+    )
+    simulation_results.append(ar1_within_confidence_interval)
+
+    end_time = time.time()
+    print(f"Iteration {iteration + 1} duration: {end_time - start_time} seconds")
+
+# Convert results to a matrix and compute the mean
+results_matrix = np.array(simulation_results)
+confidence_interval_coverage = np.mean(results_matrix, axis=0)
+
+# Print results for AR(1) normal error model
+# Create a DataFrame to tabulate results
+results_df = pd.DataFrame({
+    "Parameter Name": parameter_names,
+    "True Parameter": true_parameters,
+    "Standard Error": ar1_standard_errors,
+    "Confidence Interval Coverage": confidence_interval_coverage
+})
+
+# Print the table
+print(results_df)
+print("AR(1) Normal Model Confidence Interval Coverage:", confidence_interval_coverage)
 
 # Directly print the fields from the result dictionary
-print("alpha_hat:", out_h0['alpha_hat'], "True alpha:", alpha)
-print("rho_hat:", out_h0['rho_hat'], "True rho:", rho)
-print("mu_hat:", out_h0['mu_hat'], "True mu:", mu)
-print("sigma_hat:", out_h0['sigma_hat'], "True sigma:", sigma)
-print("mubeta_hat:", out_h0['mubeta_hat'], "True beta:", beta)
-print("gamma_hat:", out_h0['gamma_hat'], "True gamma:", gamma)
-print("sigma_0_hat:", out_h0['sigma_0_hat'], "True sigma_0:", sigma_0)
-print("mubeta_0_hat:", out_h0['mubeta_0_hat'], "True beta_0:", beta_0)
-print("gamma_0_hat:", out_h0['gamma_0_hat'], "True gamma_0:", gamma_0)
+# print("alpha_hat:", out_h0['alpha_hat'], "True alpha:", alpha)
+# print("rho_hat:", out_h0['rho_hat'], "True rho:", rho)
+# print("mu_hat:", out_h0['mu_hat'], "True mu:", mu)
+# print("sigma_hat:", out_h0['sigma_hat'], "True sigma:", sigma)
+# print("mubeta_hat:", out_h0['mubeta_hat'], "True beta:", beta)
+# print("gamma_hat:", out_h0['gamma_hat'], "True gamma:", gamma)
+# print("sigma_0_hat:", out_h0['sigma_0_hat'], "True sigma_0:", sigma_0)
+# print("mubeta_0_hat:", out_h0['mubeta_0_hat'], "True beta_0:", beta_0)
+# print("gamma_0_hat:", out_h0['gamma_0_hat'], "True gamma_0:", gamma_0)
 # %%
