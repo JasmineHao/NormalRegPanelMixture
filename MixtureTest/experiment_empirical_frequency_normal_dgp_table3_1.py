@@ -27,7 +27,6 @@ df = result[None]  # Extract the dataframe
 # Call the function
 processed_data = process_chilean_data(each_code=381, T=3)
 
-processed_data.keys()
 # Access the results
 y = processed_data['y']
 x = processed_data['x_0']
