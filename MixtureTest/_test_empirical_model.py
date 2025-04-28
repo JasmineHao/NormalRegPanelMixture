@@ -81,6 +81,7 @@ confidence_interval_coverage = np.mean(results_matrix, axis=0)
 results_df = pd.DataFrame({
     "Parameter Name": parameter_names,
     "True Parameter": true_parameters,
+    "Estimated Parameter": params_array,
     "Standard Error": standard_errors,
     "Confidence Interval Coverage": confidence_interval_coverage
 })
