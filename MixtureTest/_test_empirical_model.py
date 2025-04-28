@@ -188,6 +188,15 @@ simulation_results = []
 # Combine true parameters into a single array for comparison
 true_parameters = np.concatenate([alpha[:-1], tau[:, :-1].flatten(), mu.flatten(), beta.T.flatten(), sigma, gamma.flatten()])
 
+parameter_names = (
+    [f"alpha_{i+1}" for i in range(len(alpha) - 1)] +
+    [f"tau_{m+1}{k+1}" for m in range(tau.shape[0]) for k in range(tau.shape[1] - 1)] +
+    [f"mu_{m+1}{k+1}" for m in range(mu.shape[0]) for k in range(mu.shape[1])] +
+    [f"beta_{m+1}{j+1}" for j in range(beta.shape[1]) for m in range(beta.shape[0])] +
+    [f"sigma_{m+1}" for m in range(len(sigma))] +
+    [f"gamma_{i+1}" for i in range(len(gamma))]
+)
+
 # Run multiple simulations
 for iteration in range(100):
     start_time = time.time()
@@ -220,10 +229,18 @@ for iteration in range(100):
 results_matrix = np.array(simulation_results)
 confidence_interval_coverage = np.mean(results_matrix, axis=0)
 
-# Print results for stationary mixture model
-print("Stationary Model Parameters:", true_parameters)
-print("Stationary Model Standard Errors:", stationary_standard_errors)
-print("Stationary Model Confidence Interval Coverage:", confidence_interval_coverage)
+
+# Create a DataFrame to tabulate results
+results_df = pd.DataFrame({
+    "Parameter Name": parameter_names,
+    "True Parameter": true_parameters,
+    "Estimated Parameter": params_array,
+    "Standard Error": stationary_standard_errors,
+    "Confidence Interval Coverage": confidence_interval_coverage
+})
+
+# Print the table
+print(results_df)
 
 # %%
 # Test case: AR(1) mixture error model with covariates
@@ -258,7 +275,7 @@ true_parameters = np.concatenate([
     alpha[:-1],
     tau[:, :-1].flatten(),
     mu.flatten(),
-    beta.T.flatten(),
+    beta.flatten(),
     sigma,
     gamma.flatten(),
     rho,
@@ -316,6 +333,7 @@ confidence_interval_coverage = np.mean(results_matrix, axis=0)
 results_df = pd.DataFrame({
     "Parameter Name": parameter_names,
     "True Parameter": true_parameters,
+    "Estimated Parameter": params_array,
     "Standard Error": ar1_standard_errors,
     "Confidence Interval Coverage": confidence_interval_coverage
 })
@@ -352,7 +370,7 @@ simulation_results = []
 true_parameters = np.concatenate([
     alpha[:-1],
     mu.flatten(),
-    beta.T.flatten(),
+    beta.flatten(),
     sigma,
     gamma.flatten(),
     rho,
@@ -412,6 +430,7 @@ confidence_interval_coverage = np.mean(results_matrix, axis=0)
 results_df = pd.DataFrame({
     "Parameter Name": parameter_names,
     "True Parameter": true_parameters,
+    "Estimated Parameter": params_array,
     "Standard Error": ar1_standard_errors,
     "Confidence Interval Coverage": confidence_interval_coverage
 })

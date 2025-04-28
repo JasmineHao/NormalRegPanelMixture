@@ -2092,8 +2092,8 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
                     w_mk_sum += w_mk[idx_type,:]
                     w_mk_0_sum += w_mk_0[idx_type,:]
                     
-                    tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.2),0.8)
-                    tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.2),0.8)
+                    tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.05),0.95)
+                    
                     sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
@@ -2512,7 +2512,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
                     
-                    tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.2),0.8)
+                    tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.05),0.95)
                     sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
@@ -4407,7 +4407,7 @@ def get_params_ar1_mixture(out_h0):
         params_dict['alpha'][:-1],
         params_dict['tau'].reshape((m, k))[:, :-1].flatten(),
         params_dict['mu'].flatten(),
-        params_dict['beta'].flatten(),
+        params_dict['beta'].T.flatten(),
         params_dict['sigma'],
         params_dict['gamma'],
         params_dict['rho'],
@@ -4667,20 +4667,28 @@ def get_params_ar1_normal(out_h0):
     """
     alpha_hat = out_h0['alpha_hat'][0]
     mu_hat = out_h0['mu_hat'][0]
-    beta_hat = out_h0['mubeta_hat'][0]
+    mubeta_hat = out_h0['mubeta_hat'][0]
+    
     sigma_hat = out_h0['sigma_hat'][0]
     gamma_hat = out_h0['gamma_hat'][0]
     rho_hat = out_h0['rho_hat'][0]
     mu_0_hat = out_h0['mubeta_0_hat'][0]
+    mubeta_0_hat = out_h0['mubeta_0_hat'][0]
+    
     sigma_0_hat = out_h0['sigma_0_hat'][0]
     gamma_0_hat = out_h0['gamma_0_hat'][0]
 
     m = len(alpha_hat)
-    q = int((len(beta_hat) / m) - 1)
+    q = (len(mubeta_hat) // m) - 1
     p = len(gamma_hat)
 
-    beta_hat = np.ascontiguousarray(beta_hat).reshape((q + 1, m)).T
-    mu_0_hat = np.ascontiguousarray(mu_0_hat).reshape((q + 1, m)).T
+    mubeta_hat = np.ascontiguousarray(mubeta_hat)
+    mubeta_hat_mat = mubeta_hat.reshape((q+1,m)).T
+    beta_hat = mubeta_hat_mat[:,1:]
+    mubeta_0_hat = np.ascontiguousarray(mubeta_0_hat)
+    mubeta_0_hat_mat = mubeta_0_hat.reshape((q+1,m)).T
+    beta_0_hat = mubeta_0_hat_mat[:,1:]
+    mu_0_hat =  mubeta_0_hat_mat[:,0]
 
     params_dict = {
         'alpha': alpha_hat,
@@ -4689,8 +4697,8 @@ def get_params_ar1_normal(out_h0):
         'sigma': sigma_hat,
         'gamma': gamma_hat,
         'rho': rho_hat,
-        'mu_0': mu_0_hat[:, 0],
-        'beta_0': mu_0_hat[:, 1:],
+        'mu_0': mu_0_hat,
+        'beta_0': beta_0_hat,
         'sigma_0': sigma_0_hat,
         'gamma_0': gamma_0_hat
     }
@@ -4698,7 +4706,7 @@ def get_params_ar1_normal(out_h0):
     params_array = np.concatenate([
         params_dict['alpha'][:-1],
         params_dict['mu'],
-        params_dict['beta'][:, 1:].flatten(),
+        params_dict['beta'].flatten(),
         params_dict['sigma'],
         params_dict['gamma'],
         params_dict['rho'],
@@ -4880,7 +4888,7 @@ def score_ar1_normal(data, params_dict):
     params_array = np.concatenate([
         params_dict['alpha'][:-1],
         params_dict['mu'],
-        params_dict['beta'][:, 1:].flatten(),
+        params_dict['beta'].flatten(),
         params_dict['sigma'],
         params_dict['gamma'],
         params_dict['rho'],
