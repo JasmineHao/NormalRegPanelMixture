@@ -18,7 +18,7 @@ import os
 # Your code here
 # Set the number of threads you want Numba to use
 # set_num_threads(64)
-# set_num_threads(12)
+set_num_threads(10)
 
 # Verify the number of threads
 print(f"Numba is using {get_num_threads()} threads.")
