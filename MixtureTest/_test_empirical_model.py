@@ -26,7 +26,7 @@ N = 200  # Number of individuals
 T = 5    # Number of time periods
 M = 2    # Number of categories
 
-# %%
+
 # Test case: Stationary normal mixture models
 # -------------------------------------------
 
@@ -77,8 +77,15 @@ for iteration in range(100):
 # Convert results to a matrix and compute the mean
 results_matrix = np.array(simulation_results)
 confidence_interval_coverage = np.mean(results_matrix, axis=0)
-print("Confidence Interval Coverage:", confidence_interval_coverage)
 
+results_df = pd.DataFrame({
+    "Parameter Name": parameter_names,
+    "True Parameter": true_parameters,
+    "Standard Error": standard_errors,
+    "Confidence Interval Coverage": confidence_interval_coverage
+})
+
+print(results_df)
 # %%
 # Test case: Stationary mixture models with covariates
 # ----------------------------------------------------
@@ -94,15 +101,24 @@ T = 5    # Number of time periods
 alpha = np.array([0.5, 0.5])  # Category probabilities (for M categories)
 mu = np.array([[-2.0, -1.0], [1.0, 2.0]])  # Mean values for each subcategory 
 tau = np.array([[0.5, 0.5], [0.4, 0.6]])  # Subcategory probabilities for each 
-sigma = np.array([0.5, 0.5])  # Standard deviation for each category (length M)
+sigma = np.array([0.4, 0.4])  # Standard deviation for each category (length M)
 gamma = np.array([0.5])
-beta = np.array([[1, 0.5], [0.2, 0.3]])  # Coefficients for q covariates (M x q)
+beta = np.array([[1, 0.5], [2, 3]])  # Coefficients for q covariates (M x q)
 
 # Simulation results storage
 simulation_results = []
 
 # Combine true parameters into a single array for comparison
 true_parameters = np.concatenate([alpha[:-1], tau[:, :-1].flatten(), mu.flatten(), beta.T.flatten(), sigma, gamma.flatten()])
+
+parameter_names = (
+    [f"alpha_{i+1}" for i in range(len(alpha) - 1)] +
+    [f"tau_{m+1}{k+1}" for m in range(tau.shape[0]) for k in range(tau.shape[1] - 1)] +
+    [f"mu_{m+1}{k+1}" for m in range(mu.shape[0]) for k in range(mu.shape[1])] +
+    [f"beta_{m+1}{j+1}" for j in range(beta.shape[1]) for m in range(beta.shape[0])] +
+    [f"sigma_{m+1}" for m in range(len(sigma))] +
+    [f"gamma_{i+1}" for i in range(len(gamma))]
+)
 
 # Run multiple simulations
 for iteration in range(100):
@@ -136,10 +152,15 @@ for iteration in range(100):
 results_matrix = np.array(simulation_results)
 confidence_interval_coverage = np.mean(results_matrix, axis=0)
 
-# Print results for stationary mixture model
-print("Stationary Model Parameters:", true_parameters)
-print("Stationary Model Standard Errors:", stationary_standard_errors)
-print("Stationary Model Confidence Interval Coverage:", confidence_interval_coverage)
+results_df = pd.DataFrame({
+    "Parameter Name": parameter_names,
+    "True Parameter": true_parameters,
+    "Estimated Parameter": params_array,
+    "Standard Error": stationary_standard_errors,
+    "Confidence Interval Coverage": confidence_interval_coverage
+})
+
+print(results_df)
 
 # %%
 # Test case: Stationary mixture models with no covariates

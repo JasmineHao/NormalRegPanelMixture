@@ -1279,7 +1279,6 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         
         for iter_ii in range(maxit):
             
-            
             if p > 0:
                 ytilde = y_c - np.dot(z, gamma_jn)
             else:
@@ -2510,11 +2509,9 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 for kk in range(k):
                     idx_type = mm * k + kk
                     mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
-                    mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
                     
-                    tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.2),0.8)
                     tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.2),0.8)
                     sum_tau_jn+=tau_jn[idx_type]
                 
@@ -2534,7 +2531,6 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
             for j in range(m):
                 alpha_jn[j] = alpha_jn[j] / total_alpha
             
-                    
             # update gamma
             if p > 0:
                 ztilde = np.zeros((nt, p), dtype=np.float64) 
@@ -2549,7 +2545,6 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                         ztilde[:, ii] = w_j * z[:, ii]
                          
                     zz += ztilde.T @ (z) / (sigma_jn[j]**2)
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
                     ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
                 
@@ -2566,7 +2561,8 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
     
     return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
-# %%
+
+
 @njit
 def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50,alpha_bound=0.05):    # Extract the generated data
     t,n = y.shape
