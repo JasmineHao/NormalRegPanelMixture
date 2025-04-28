@@ -13,64 +13,12 @@ warnings.filterwarnings("ignore")
 import numpy as np
 
 T = 3
-def simulate_mixture(weights, means, std_devs, n_samples):
-    """
-    Simulate data from a mixture of normal distributions.
 
-    Parameters:
-    - weights (list or np.array): Mixture weights (must sum to 1).
-    - means (list or np.array): Means of the normal components.
-    - std_devs (list or np.array): Standard deviations of the normal components.
-    - n_samples (int): Number of samples to generate.
 
-    Returns:
-    - data (np.array): Simulated data from the mixture distribution.
-    """
-    # Ensure weights sum to 1
-    weights = np.array(weights)
-    weights /= np.sum(weights)
-
-    # Step 1: Sample which component each point belongs to
-    components = np.random.choice(len(weights), size=n_samples, p=weights)
-
-    # Step 2: Generate data from the selected components
-    data = np.array([
-        np.random.normal(loc=means[k], scale=std_devs[k]) for k in components
-    ]).flatten()
-
-    return data
 
 chile_data = pyreadr.read_r('ChileanClean.rds')
 ind_code = [311, 381, 321]
-ind_code_dict = {311.0: 'Food products',
-                322.0: 'Wearing apparel, except footwear',
-                384.0: 'Transport equipment',
-                382.0: 'Machinery, except electrical',
-                381.0: 'Fabricated metal products',
-                362.0: 'Glass and products',
-                332.0: 'Manufacture of furniture and fixtures, except primarily of metal',
-                313.0: 'Beverages',
-                371.0: 'Iron and steel',
-                342.0: 'Printing and publishing',
-                331.0: 'Wood products, except furniture',
-                372.0: 'Non-ferrous metals',
-                369.0: 'Other non-metallic mineral products',
-                383.0: 'Machinery electric',
-                390.0: 'Other manufactured products',
-                352.0: 'Other chemicals',
-                351.0: 'Industrial chemicals',
-                312.0: 'Animal feeds, etc',
-                355.0: 'Rubber products',
-                321.0: 'Textiles',
-                356.0: 'Plastic products',
-                353.0: 'Petroleum refineries',
-                354.0: 'Misc. petroleum and coal products',
-                341.0: 'Paper and products',
-                323.0: 'Leather products',
-                324.0: 'Footwear, except rubber or plastic',
-                314.0: 'Tobacco',
-                385.0: 'Professional and scientific equipment',
-                361.0: 'Manufacture of pottery, china and earthenware'}
+ind_code_dict = load_ind_code_dict()
 df = chile_data[None]
 
 # Load the export data

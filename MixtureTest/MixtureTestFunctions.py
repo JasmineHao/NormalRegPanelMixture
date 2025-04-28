@@ -3,6 +3,9 @@ from numba import njit, prange
 from numba.typed import Dict, List
 from numba.core import types
 import math
+import pandas as pd
+import time
+import pyreadr
 
 from numpy._typing._array_like import NDArray
 
@@ -3408,88 +3411,7 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
           
 # %%
-import numpy as np
-import pandas as pd
-import time
 
-def process_chilean_data(df, each_code, T=3, p=0):
-    """
-    Process Chilean dataset given a specific `each_code` and `T`.
-    
-    Parameters:
-    - df (pd.DataFrame): The input DataFrame containing the Chilean dataset.
-    - each_code (str): The specific 'ciiu_3d' code to filter the dataset.
-    - T (int): The time window to reshape the panel data (default is 3).
-    - p (int): Dimensionality of the Z matrix (default is 1).
-    
-    Returns:
-    - dict: A dictionary containing processed data and results.
-    """
-    t = time.time()  # Start timer
-
-    # Filter dataset for the code
-    ind_each = df.loc[df['ciiu_3d'] == each_code, :].copy()  # Subset the DataFrame
-    ind_name = ind_each['ciiu3d_descr'].iloc[0]  # Get the name
-
-    # Log transformations
-    ind_each.loc[:, 'y'] = np.log(ind_each['GO'])
-    ind_each.loc[:, 'lnm'] = np.log(ind_each['WI'])
-    ind_each.loc[:, 'lnl'] = np.log(ind_each['L'])
-    ind_each.loc[:, 'lnk'] = np.log(ind_each['K'])
-
-    ######################################################
-    # Describe the data
-    ######################################################
-    desc_each = ind_each[ind_each['L'] != 0][['si', 'y', 'lnm', 'lnl', 'lnk']]
-    year_list = sorted(ind_each['year'].unique())
-    T_cap = max(year_list)
-
-    # Initialize result storage
-    coef_df = np.zeros((5, 10))
-    lr_df = np.zeros((5, 10), dtype=object)
-    AIC_df = np.zeros((5, 10))
-    BIC_df = np.zeros((5, 10))
-
-    ######################################################
-    # For panel data
-    ######################################################
-    
-    t_start = T_cap - T + 1
-
-    # Reshape the data
-    ind_each_t = ind_each[ind_each['year'] >= t_start].dropna()
-    ind_each_y = ind_each_t.pivot(index='id', columns='year', values='si')
-    id_list = ind_each_y.dropna().index  # Get balanced panel IDs
-    ind_each_t = ind_each_t[ind_each_t['id'].isin(id_list)].sort_values(['id', 'year'])
-
-    # Reshape Y
-    ind_each_y = ind_each_t.pivot(index='id', columns='year', values='si').drop(columns='id', errors='ignore')
-    ind_each_y = (ind_each_y - ind_each_t['si'].mean()) / ind_each_t['si'].std()
-
-    # Normalize X
-    ind_each_x = (ind_each_t['lnk'] - ind_each_t['lnk'].mean()) / ind_each_t['lnk'].std()
-
-    # Prepare data
-    y = ind_each_y.T.to_numpy()  # Transpose Y
-    x_k = ind_each_x.to_numpy().reshape(-1, 1)  # X as a matrix
-    N = ind_each_y.shape[0]
-    z = np.zeros((N * T, p))
-    x = np.zeros((N * T, 0))
-
-        # Example: Return bootstrap flag (optional logic here)
-
-    # Return processed data and results
-    results = {
-        'ind_name': ind_name,
-        'desc_each': desc_each,
-        'year_list': year_list,
-        'processed_y': y,
-        'processed_x': x,
-        'processed_z': z,
-        'execution_time': time.time() - t
-    }
-
-    return results
 # %%
 
 @njit(parallel=True)  # Numba JIT compilation with parallelization
@@ -4911,4 +4833,179 @@ def score_ar1_normal(data, params_dict):
     score = np.vstack(scores)
     hessian = np.array(hessians)
     return score, hessian
+# %%
+# ----------------------------------------------------------
+# Plotting Data Functions
+# ----------------------------------------------------------
+
+def simulate_mixture(weights, means, std_devs, n_samples):
+    """
+    Simulate data from a mixture of normal distributions.
+
+    Parameters:
+    - weights (list or np.array): Mixture weights (must sum to 1).
+    - means (list or np.array): Means of the normal components.
+    - std_devs (list or np.array): Standard deviations of the normal components.
+    - n_samples (int): Number of samples to generate.
+
+    Returns:
+    - data (np.array): Simulated data from the mixture distribution.
+    """
+    # Ensure weights sum to 1
+    weights = np.array(weights)
+    weights /= np.sum(weights)
+
+    # Step 1: Sample which component each point belongs to
+    components = np.random.choice(len(weights), size=n_samples, p=weights)
+
+    # Step 2: Generate data from the selected components
+    data = np.array([
+        np.random.normal(loc=means[k], scale=std_devs[k]) for k in components
+    ]).flatten()
+
+    return data
+
+# Store the dictionary
+ind_code_dict = {
+    311.0: 'Food products',
+    322.0: 'Wearing apparel, except footwear',
+    384.0: 'Transport equipment',
+    382.0: 'Machinery, except electrical',
+    381.0: 'Fabricated metal products',
+    362.0: 'Glass and products',
+    332.0: 'Manufacture of furniture and fixtures, except primarily of metal',
+    313.0: 'Beverages',
+    371.0: 'Iron and steel',
+    342.0: 'Printing and publishing',
+    331.0: 'Wood products, except furniture',
+    372.0: 'Non-ferrous metals',
+    369.0: 'Other non-metallic mineral products',
+    383.0: 'Machinery electric',
+    390.0: 'Other manufactured products',
+    352.0: 'Other chemicals',
+    351.0: 'Industrial chemicals',
+    312.0: 'Animal feeds, etc',
+    355.0: 'Rubber products',
+    321.0: 'Textiles',
+    356.0: 'Plastic products',
+    353.0: 'Petroleum refineries',
+    354.0: 'Misc. petroleum and coal products',
+    341.0: 'Paper and products',
+    323.0: 'Leather products',
+    324.0: 'Footwear, except rubber or plastic',
+    314.0: 'Tobacco',
+    385.0: 'Professional and scientific equipment',
+    361.0: 'Manufacture of pottery, china and earthenware'
+}
+
+# Ensure the dictionary is loaded when the function is loaded
+def load_ind_code_dict():
+    return ind_code_dict
+
+
+def process_chilean_data(each_code, T=3, p=0, y_indicator='mY_share'):
+    """
+    Process Chilean dataset given a specific `each_code` and `T`.
+    
+    Parameters:
+    - df (pd.DataFrame): The input DataFrame containing the Chilean dataset.
+    - each_code (str): The specific 'ciiu_3d' code to filter the dataset.
+    - T (int): The time window to reshape the panel data (default is 3).
+    - p (int): Dimensionality of the Z matrix (default is 1).
+    
+    Returns:
+    - dict: A dictionary containing processed data and results.
+    """
+    t = time.time()  # Start timer
+    chile_data = pyreadr.read_r('ChileanClean.rds')
+    df = chile_data[None]
+
+    # Load the export data
+    df_0 = pd.read_stata("DATA_KL_EXIM5_2023.dta")
+    df_0['id'] = df_0['padron']
+
+    # Ensure 'id' and 'year' columns have the same data type in both DataFrames
+    df_0['id'] = pd.to_numeric(df_0['padron'], errors='coerce')
+    df_0['year'] = pd.to_numeric('19' + df_0['year'].astype(str), errors='coerce')
+    df_0['ciiu'] = df_0['ciiu'].astype(str)
+    df_0['mi_share'] = df_0['rMi'].fillna(0) / (df_0['rMi'].fillna(0) + df_0['rMd'].fillna(0) ).fillna(0)
+    df_0['mY_share'] = (df_0['rMi'].fillna(0) + df_0['rMd'].fillna(0) ).fillna(0) / df_0['rY'].fillna(0)
+    df_0['K'] = df_0['rkb'] + df_0['rkm'] + df_0['rkt']        
+    df_0['L'] = df_0['L_wh'] * df_0['w_wh'] + df_0['L_bl'] * df_0['w_bl']    
+    df_0['mL_share'] = (df_0['rMi'].fillna(0) + df_0['rMd'].fillna(0) ).fillna(0) / df_0['L'].fillna(0)
+    df['id'] = pd.to_numeric(df['id'], errors='coerce')
+    df['year'] = pd.to_numeric(df['year'], errors='coerce')
+
+    # Select relevant columns from df_0
+    df_0 = df_0[['id', 'year','cu' , 'ciiu', 'mi_share', 'mY_share', 'mL_share', 'rY']]
+
+    # Perform the merge
+    df = pd.merge(df[['id','ciiu_3d','year','K','L']], df_0, on=['id', 'year'])
+    
+    # Filter dataset for the code
+    ind_each = df.loc[df['ciiu_3d'] == each_code, ['id','year','mi_share', 'mY_share', 'mL_share', 'K','L', 'rY', 'ciiu']]
+    ind_each['lnk'] = np.log(ind_each['K'])
+    ind_each['lnl'] = np.log(ind_each['L'])
+    ind_each['lny'] = np.log(ind_each['rY'])
+    ind_each['y'] = np.log(ind_each[y_indicator])
+    ind_each['m_share'] = ind_each['mi_share'].fillna(0)
+    year_list = sorted(ind_each['year'].unique())
+    T_cap = max(year_list)
+    
+    t_start = T_cap - T + 1
+    ind_each_t = ind_each[ind_each['year'] >= t_start].dropna()
+    
+    
+    ind_each_y = ind_each_t.pivot(index='id', columns='year', values='y').dropna()
+    
+    N = ind_each_y.shape[0]
+        
+    id_list = ind_each_y.index
+    ind_each_t = ind_each_t[ind_each_t['id'].isin(id_list)].sort_values(['id', 'year'])
+    
+    ind_each_xk = (ind_each_t['lnk'] - ind_each_t['lnk'].mean()) / ind_each_t['lnk'].std()
+    ind_each_xl = (ind_each_t['lnl'] - ind_each_t['lnl'].mean()) / ind_each_t['lnl'].std()
+    
+    ind_each_m_share = ind_each_t['m_share']
+
+    y = ind_each_y.T.to_numpy().astype(np.float64)
+    # y_ub = np.quantile(y, 1 - epsilon_truncation)
+    # y_lb = np.quantile(y, epsilon_truncation)
+    # y[y > y_ub] = y_ub
+    # y[y < y_lb] = y_lb
+            
+    x_k = ind_each_xk.to_numpy().reshape(-1, 1).astype(np.float64)
+    x_kl = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_xl.to_numpy().reshape(-1, 1)].astype(np.float64)
+    x_kmshare = np.c_[ind_each_xk.to_numpy().reshape(-1, 1), ind_each_m_share.to_numpy().reshape(-1, 1)].astype(np.float64)
+    
+    x_0 = np.zeros((N * T, 0))
+    x_0 = x_0.astype(np.float64)  # Convert x_0 to float64
+    # Normalize X
+    ind_each_x = (ind_each_t['lnk'] - ind_each_t['lnk'].mean()) / ind_each_t['lnk'].std()
+
+    # Prepare data
+    y = ind_each_y.T.to_numpy().astype(np.float64)
+    x_k = ind_each_x.to_numpy().reshape(-1, 1)  # X as a matrix
+    N = ind_each_y.shape[0]
+    
+    
+    ciiu_value_count = ind_each_t.groupby('ciiu')['ciiu'].count()
+    ciiu_combine = ciiu_value_count[ciiu_value_count < 0.1 * (N * T)].index
+    for each_ciiu in ciiu_combine:
+        ind_each_t.loc[ind_each_t['ciiu'] == each_ciiu, 'ciiu'] = 'other'
+    z_ciiu = 1 * pd.get_dummies(ind_each_t['ciiu'], prefix='category').values[:, 1:]
+    z_ciiu = z_ciiu.astype(np.float64)  # Convert z to float64
+    
+    # Return processed data and results
+    results = {
+        'year_list': year_list,
+        'y': y,
+        'x_0': x_0,
+        'x_k': x_k,
+        'x_kmshare': x_kmshare,
+        'z_ciiu': z_ciiu,
+        'execution_time': time.time() - t
+    }
+
+    return results
 # %%

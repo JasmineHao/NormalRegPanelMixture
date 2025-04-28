@@ -25,12 +25,13 @@ result = pyreadr.read_r('ChileanClean.rds')  # Load the RDS file
 df = result[None]  # Extract the dataframe
 
 # Call the function
-processed_data = process_chilean_data(df, each_code=381, T=3, p=0)
+processed_data = process_chilean_data(each_code=381, T=3)
 
 # Access the results
-y = processed_data['processed_y']
-x = processed_data['processed_x']
-z = processed_data['processed_z']
+y = processed_data['y']
+x = processed_data['x_0']
+z = np.zeros((x.shape[0], 0))
+z = z.astype(np.float64)  # Convert z to float64
 
 # %%
 
