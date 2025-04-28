@@ -8,3 +8,4 @@ src/*.dll
 R/.DS_Store
 .DS_Store
 results/.DS_Store
+MixtureTest/__pycache__/MixtureTestFunctions.cpython-312.pyc
