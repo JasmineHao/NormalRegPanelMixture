@@ -29,7 +29,7 @@ for (each_code, m) in zip(ind_code, M_list):
     y = processed_data['y']
     x_0 = processed_data['x_0']
     x_kmshare = processed_data['x_kmshare']
-    z = np.zeros((x_0.shape[0], 0))
+    z = processed_data['z_ciiu']
     z = z.astype(np.float64)  # Convert z to float64
     z_0 = np.zeros((z.shape[0], 0))
     
@@ -43,6 +43,8 @@ for (each_code, m) in zip(ind_code, M_list):
     output_path = f"figure/empirical_distribution_{INDNAME}.png"
     plot_empirical_distribution(values, bin_edges, INDNAME, colors, output_path)
 
+    # Plot the error of 3-component plain mixture 
+    # ---------------------------------
     estimate_params = regpanelmixmixturePMLE(y, x_0, z_0, 0, 0, m, k)
     
     fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
@@ -58,13 +60,45 @@ for (each_code, m) in zip(ind_code, M_list):
     tau_hat = estimate_params['tau_hat'].reshape((m,k))
     mu_hat = estimate_params['mu_hat'].reshape((m,k))
     sigma_hat = estimate_params['sigma_hat']
-        
+    
     # Call the function
+    values_type = [values for mm in range(m)]
     output_path = f"figure/empirical_error_plain_{INDNAME}.png"
-    plot_mixture_distribution(estimate_params, T, values, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, plot_x_values, output_path)
+    plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, plot_x_values, output_path)
     # sample of returning the estimates and standard errors
 
-    # Plot the coefficients 
+    
+    # Plot the error of 3-component mixture kmshare ciiu 
+    # ---------------------------------
+    estimate_params = regpanelmixmixturePMLE(y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], m, k)
+    
+    fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
+
+    num_bins = 50  # You can change this based on your data
+    
+    # values = np.exp(y.T.flatten())
+    values = y.T.flatten()
+    plot_x_values = np.linspace(min(values) - 1, max(values) + 1, 1000)
+
+    bin_edges = np.linspace(values.min(), values.max(), num_bins + 1)  # Define bin edges
+
+    values_type = [values for mm in range(m)]
+    for mm in range(m):
+        # mm = 0
+        values_type[mm] = values_type[mm] - x_kmshare @ estimate_params['beta_hat'][mm] - z @ estimate_params['gamma_hat'][0]
+    tau_hat = estimate_params['tau_hat'].reshape((m,k))
+    mu_hat = estimate_params['mu_hat'].reshape((m,k))
+    sigma_hat = estimate_params['sigma_hat']
+        
+    # Call the function
+    output_path = f"figure/empirical_error_kmshare_ciiu_{INDNAME}.png"
+    plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, plot_x_values, output_path)
+    # sample of returning the estimates and standard errors
+    
+    
+    # Plot the coefficients of normal plain
+    # ---------------------------------
+    
     model_output = regpanelmixPMLE(y, x_0, z_0, p=0, q=0, m=m)
     params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_normal')
     
@@ -77,7 +111,8 @@ for (each_code, m) in zip(ind_code, M_list):
     types=variable_names['mu']
     plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
      
-    # Model with Mix
+    # Plot the coefficients of 3-component mixture plain
+    # ---------------------------------
     model_output = regpanelmixmixturePMLE(y, x_0, z_0, p=0, q=0, m=m, k=k)
     params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_mixture')
     

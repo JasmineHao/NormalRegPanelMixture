@@ -5158,7 +5158,7 @@ def plot_empirical_distribution(values, bin_edges, INDNAME, colors, output_path)
     plt.close()
     
 # %%
-def plot_mixture_distribution(estimate_params, T, values, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, x, output_path):
+def plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, x, output_path):
     fig = plt.figure(figsize=(8, 6))  # Define the figure
 
     for mm in range(m):
@@ -5166,7 +5166,7 @@ def plot_mixture_distribution(estimate_params, T, values, bin_edges, tau_hat, mu
         P = np.repeat(estimate_params['post'][:, mm], T)
         P = P / np.sum(P)
 
-        plt.hist(values, bins=bin_edges, density=True, weights=P, alpha=0.5, label=f"Component {mm+1}", color=colors[mm], edgecolor="black")
+        plt.hist(values_type[mm], bins=bin_edges, density=True, weights=P, alpha=0.5, label=f"Component {mm+1}", color=colors[mm], edgecolor="black")
 
         weights = tau_hat[mm]
         means = mu_hat[mm]
