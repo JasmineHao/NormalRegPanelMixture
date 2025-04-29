@@ -1,3 +1,4 @@
+from re import A
 import numpy as np
 from numba import njit, prange
 from numba.typed import Dict, List
@@ -6,7 +7,7 @@ import math
 import pandas as pd
 import time
 import pyreadr
-
+import matplotlib.pyplot as plt
 from numpy._typing._array_like import NDArray
 
 np.set_printoptions(
@@ -3685,6 +3686,8 @@ def get_params_stationary_normal(out_h0):
     params_dict = {
         'alpha': alpha_hat,
         'sigma': sigma_hat,
+        'mu': mubeta_hat_mat[:, 0].flatten(),
+        'beta': mubeta_hat_mat[:, 1:],
         'mubeta': mubeta_hat.T.flatten(),
         'gamma': gamma_hat
     }
@@ -3720,12 +3723,14 @@ def get_params_dict_from_array_stationary_normal(p_array, m, k, q, p):
     mubeta = p_array[m - 1:m - 1 + m * (q + 1)]
     sigma = p_array[m - 1 + m * (q + 1):m - 1 + m * (q + 1) + m]
     gamma = p_array[m - 1 + m * (q + 1) + m:]
-
+    mubeta_mat = mubeta.reshape((q + 1, m)).T
     # Reconstruct alpha with the last component as 1 - sum of others
     alpha = np.append(alpha_f, 1 - np.sum(alpha_f))
 
     return {
         'alpha': alpha,
+        'mu': mubeta_mat[:, 0].flatten(),
+        'beta': mubeta_mat[:, 1:],
         'mubeta': mubeta,
         'sigma': sigma,
         'gamma': gamma
@@ -3972,7 +3977,7 @@ def get_params_stationary_mixture(out_h0):
     tau_hat = out_h0['tau_hat'][0]
     sigma_hat = out_h0['sigma_hat'][0]
     mu_hat = out_h0['mu_hat'][0]
-    beta_hat = out_h0['beta_hat'].T.flatten()
+    beta_hat = out_h0['beta_hat']
     gamma_hat = out_h0['gamma_hat'][0]
     m = len(alpha_hat)
     k = len(tau_hat) // m
@@ -4042,7 +4047,7 @@ def get_params_dict_from_array_stationary_mixture(params_array, m, k, q, p):
         'alpha': alpha,
         'tau': tau,
         'mu': mu,
-        'beta': beta,
+        'beta': beta.reshape((q, m)).T,
         'sigma': sigma,
         'gamma': gamma
     }
@@ -4167,14 +4172,14 @@ def score_i_stationary_mixture(y_it, x_it, z_it, p_array, m, k, q, p):
     residuals_matrix = np.zeros((m * k, t))
     w = np.zeros(m * k)
 
-    beta_mat = beta.reshape((q, m)).T
+    
     mu_mat = mu.reshape((m, k))
 
     # Compute residuals and weights
     for j in range(m):
         for kk in range(k):
             idx = j * k + kk
-            residuals = y_it - z_it @ gamma - x_it @ beta_mat[j] - mu_mat[j, kk]
+            residuals = y_it - z_it @ gamma - x_it @ beta[j] - mu_mat[j, kk]
             residuals_matrix[idx] = residuals
             log_likelihood = -0.5 * t * np.log(2 * np.pi * sigma[j] ** 2) - 0.5 * np.sum(residuals ** 2) / sigma[j] ** 2
             w[idx] = alpha[j] * tau[idx] * np.exp(log_likelihood)
@@ -4833,6 +4838,90 @@ def score_ar1_normal(data, params_dict):
     score = np.vstack(scores)
     hessian = np.array(hessians)
     return score, hessian
+
+def compute_standard_errors(model_output, data, model_type):
+    """
+    Compute the score, Hessian, and standard errors using the sandwich formula for a given model type.
+
+    Parameters:
+    - model_output: dict, the output of the model containing estimated parameters.
+    - data: tuple, the data used for the model (y, x, z).
+    - model_type: str, the type of model ('stationary_normal', 'stationary_mixture', 'ar1_normal', 'ar1_mixture').
+
+    Returns:
+    - params_dict: dict, the estimated parameters in dictionary form.
+    - params_array: ndarray, the estimated parameters in array form.
+    - standard_errors: ndarray, the computed standard errors for the parameters.
+    - standard_errors_dict: dict, the standard errors in dictionary form.
+    - variable_names: dict, the variable names corresponding to the parameters.
+    """
+    if model_type == 'stationary_normal':
+        params_dict, params_array = get_params_stationary_normal(model_output)
+        score, hessian = score_stationary_normal(data, params_dict)
+    elif model_type == 'stationary_mixture':
+        params_dict, params_array = get_params_stationary_mixture(model_output)
+        score, hessian = score_stationary_mixture(data, params_dict)
+    elif model_type == 'ar1_normal':
+        params_dict, params_array = get_params_ar1_normal(model_output)
+        score, hessian = score_ar1_normal(data, params_dict)
+    elif model_type == 'ar1_mixture':
+        params_dict, params_array = get_params_ar1_mixture(model_output)
+        score, hessian = score_ar1_mixture(data, params_dict)
+    else:
+        raise ValueError("Invalid model type. Choose from 'stationary_normal', 'stationary_mixture', 'ar1_normal', 'ar1_mixture'.")
+
+    # Compute the sandwich formula for standard errors
+    N = data[0].shape[1]  # Number of observations
+    bread = np.linalg.pinv(np.mean(hessian, axis=0))  # Inverse of the Hessian (bread matrix)
+    meat = score.T @ score  # Outer product of the score (meat matrix)
+    sandwich = bread @ meat @ bread  # Sandwich formula
+
+    standard_errors = np.sqrt(np.abs(np.diag(sandwich))) / N
+
+    # Convert standard errors to dictionary
+    if model_type == 'stationary_normal':
+        standard_errors_dict = get_params_dict_from_array_stationary_normal(standard_errors, params_dict['alpha'].size, 1, data[1].shape[1], data[2].shape[1])
+    elif model_type == 'stationary_mixture':
+        standard_errors_dict = get_params_dict_from_array_stationary_mixture(standard_errors, params_dict['alpha'].size, params_dict['tau'].size // params_dict['alpha'].size, data[1].shape[1], data[2].shape[1])
+    elif model_type == 'ar1_normal':
+        standard_errors_dict = get_params_dict_from_array_ar1_normal(standard_errors, params_dict['alpha'].size, data[1].shape[1], data[2].shape[1])
+    elif model_type == 'ar1_mixture':
+        standard_errors_dict = get_params_dict_from_array_ar1_mixture(standard_errors, params_dict['alpha'].size, params_dict['tau'].size // params_dict['alpha'].size, data[1].shape[1], data[2].shape[1])
+    else:
+        raise ValueError("Invalid model type. Choose from 'stationary_normal', 'stationary_mixture', 'ar1_normal', 'ar1_mixture'.")
+
+    # Generate variable names
+    variable_names = {}
+    if model_type in ['stationary_normal', 'ar1_normal']:
+        variable_names['alpha'] = [f'alpha_{i+1}' for i in range(params_dict['alpha'].size - 1)]
+        variable_names['mu'] = [f'mu_{i+1}' for i in range(params_dict['mu'].size )]
+        variable_names['beta'] = [f'beta_{j+1}_{i+1}' for i in range(params_dict['beta'].shape[1]) for j in range(params_dict['beta'].shape[0])]
+        variable_names['sigma'] = [f'sigma_{i+1}' for i in range(params_dict['sigma'].size)]
+        variable_names['gamma'] = [f'gamma_{i+1}' for i in range(params_dict['gamma'].size)]
+        if model_type == 'ar1_normal':
+            variable_names['rho'] = [f'rho_{i+1}' for i in range(params_dict['rho'].size)]
+            variable_names['mu_0'] = [f'mu_0_{i+1}' for i in range(params_dict['mu_0'].size)]
+            variable_names['beta_0'] = [f'beta_0_{j+1}_{i+1}' for i in range(params_dict['beta_0'].shape[1]) for j in range(params_dict['beta_0'].shape[0])]
+            variable_names['sigma_0'] = [f'sigma_0_{i+1}' for i in range(params_dict['sigma_0'].size)]
+            variable_names['gamma_0'] = [f'gamma_0_{i+1}' for i in range(params_dict['gamma_0'].size)]
+    elif model_type in ['stationary_mixture', 'ar1_mixture']:
+        variable_names['alpha'] = [f'alpha_{i+1}' for i in range(params_dict['alpha'].size - 1)]
+        variable_names['tau'] = [f'tau_{j+1}_{i+1}' for i in range(params_dict['tau'].size // params_dict['alpha'].size) for j in range(params_dict['alpha'].size)]
+        variable_names['mu'] = [f'mu_{j+1}_{i+1}' for i in range(params_dict['mu'].size // params_dict['alpha'].size) for j in range(params_dict['alpha'].size)]
+        variable_names['beta'] = [f'beta_{j+1}_{i+1}' for i in range(params_dict['beta'].shape[1]) for j in range(params_dict['beta'].shape[0])]
+        variable_names['sigma'] = [f'sigma_{i+1}' for i in range(params_dict['sigma'].size)]
+        variable_names['gamma'] = [f'gamma_{i+1}' for i in range(params_dict['gamma'].size)]
+        if model_type == 'ar1_mixture':
+            variable_names['rho'] = [f'rho_{i+1}' for i in range(params_dict['rho'].size)]
+            variable_names['mu_0'] = [f'mu_0_{j+1}_{i+1}' for i in range(params_dict['mu_0'].size // params_dict['alpha'].size) for j in range(params_dict['alpha'].size)]
+            variable_names['beta_0'] = [f'beta_0_{j+1}_{i+1}' for i in range(params_dict['beta_0'].shape[1]) for j in range(params_dict['beta_0'].shape[0])]
+            variable_names['sigma_0'] = [f'sigma_0_{i+1}' for i in range(params_dict['sigma_0'].size)]
+            variable_names['gamma_0'] = [f'gamma_0_{i+1}' for i in range(params_dict['gamma_0'].size)]
+
+    return params_dict, params_array, standard_errors, standard_errors_dict, variable_names
+
+
+
 # %%
 # ----------------------------------------------------------
 # Plotting Data Functions
@@ -4898,9 +4987,25 @@ ind_code_dict = {
     361.0: 'Manufacture of pottery, china and earthenware'
 }
 
+# Artistic color palette (hex codes)
+colors = [
+    "#FF6F61",  # Coral Red
+    "#6B5B95",  # Classic Purple
+    "#88B04B",  # Greenery
+    "#F7CAC9",  # Rose Quartz
+    "#92A8D1",  # Serenity Blue
+    "#955251",  # Marsala
+    "#B565A7",  # Radiant Orchid
+    "#009B77",  # Teal Green
+    "#DD4124",  # Fiery Red
+    "#45B8AC"   # Aqua
+]
 # Ensure the dictionary is loaded when the function is loaded
 def load_ind_code_dict():
     return ind_code_dict
+
+def load_colors():  
+    return colors
 
 
 def process_chilean_data(each_code, T=3, p=0, y_indicator='mY_share'):
@@ -5008,4 +5113,92 @@ def process_chilean_data(each_code, T=3, p=0, y_indicator='mY_share'):
     }
 
     return results
+
+
+
+# Function to darken a color by reducing its RGB values
+def darken_color(hex_color, factor=0.8):
+    """
+    Darken a hex color by a given factor.
+    Parameters:
+      - hex_color (str): Hex color string (e.g., "#FF6F61")
+      - factor (float): Factor to darken by (0 < factor < 1)
+    Returns:
+      - str: Darkened hex color
+    """
+    # Convert hex color to RGB
+    rgb = [int(hex_color[i:i+2], 16) for i in (1, 3, 5)]
+    # Apply the darkening factor
+    darkened_rgb = [max(0, int(c * factor)) for c in rgb]
+    # Convert back to hex
+    return "#{:02x}{:02x}{:02x}".format(*darkened_rgb)
+
+# %%
+def plot_empirical_distribution(values, bin_edges, INDNAME, colors, output_path):
+    """
+    Plots the empirical distribution of the Material Revenue Share.
+
+    Parameters:
+    - values: array-like, the data values to plot.
+    - bin_edges: array-like, the edges of the bins for the histogram.
+    - INDNAME: str, the name of the industry.
+    - colors: list, the colors to use for the plot.
+    - output_path: str, the path to save the plot.
+    """
+    fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
+    plt.hist(values, bins=bin_edges, density=True, alpha=0.5, label=f"Material Revenue Share", color=colors[0], edgecolor="black")
+
+    plt.legend(loc="upper right")
+    plt.title(f"Distribution of the Material Revenue Share for {INDNAME} Industry")
+    plt.xlabel("Value")
+    plt.ylabel("Frequency")
+
+    # Save the figure as a PNG file after showing the plot
+    fig.savefig(output_path, dpi=300)
+    plt.close()
+    
+# %%
+def plot_mixture_distribution(estimate_params, T, values, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, x, output_path):
+    fig = plt.figure(figsize=(8, 6))  # Define the figure
+
+    for mm in range(m):
+        
+        P = np.repeat(estimate_params['post'][:, mm], T)
+        P = P / np.sum(P)
+
+        plt.hist(values, bins=bin_edges, density=True, weights=P, alpha=0.5, label=f"Component {mm+1}", color=colors[mm], edgecolor="black")
+
+        weights = tau_hat[mm]
+        means = mu_hat[mm]
+        std_devs = np.repeat(sigma_hat[:, mm], k)
+        mixture_density = np.sum([w * (1 / (np.sqrt(2 * np.pi) * s)) * np.exp(-0.5 * ((x - m) / s)**2)
+                                    for w, m, s in zip(weights, means, std_devs)], axis=0)
+        plt.plot(x, mixture_density, color=darken_color(colors[mm], factor=0.8), label=f"Mixture Density Component {mm+1}", linewidth=2)
+
+    # Add legend and labels
+    plt.legend(loc="upper left")
+    plt.title(f"Distribution of the log Material Revenue Share for {INDNAME} Industry")
+    plt.xlabel("Value")
+    plt.ylabel("Frequency")
+
+    # Save the figure as a PNG file
+    fig.savefig(output_path, dpi=300)
+    plt.close()
+    
+def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_path):
+    plt.figure(figsize=(8, 6))
+    
+    plt.errorbar(range(len(values)), values, yerr=1.96 * errors, fmt='o', capsize=5, capthick=2, color='blue', ecolor='red', label='mubeta')
+    plt.xticks(range(len(types)), types, rotation=45, ha='right')
+    plt.xlabel('Type')
+    plt.ylabel('Value')
+    
+    plt.title(f"{PNAME} with Standard Errors for {INDNAME}")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close()
+
+
 # %%
