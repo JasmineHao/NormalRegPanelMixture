@@ -1,23 +1,22 @@
-Numba is using 22 threads.
-['empirical_test.py', 'ar1_kmshare_mixture', '5', 'ciiu', 'mY_share']
+Numba is using 14 threads.
+['empirical_test.py', 'ar1_kmshare_mixture', '3', 'ciiu', 'mY_share']
 Simulation Start
 Model: ar1_kmshare_mixture
-T: 5
+T: 3
 Include CIIU: True
 Dependent Variable: mY_share
 Food products
-NT=2195,N=439
-[ 0.026  0.602  4.878  7.61   4.034 12.834]
-[0.096 0.149 5.46  2.361 1.008 1.693]
+NT=2382,N=794
+[ 0.023  0.603  4.033  7.42   3.997 12.685]
+[0.083 0.145 4.525 2.296 1.035 1.656]
 Fabricated metal products
-NT=515,N=103
-[ 0.086  0.555  2.768  7.775  3.88  12.766]
-[0.182 0.219 4.097 1.909 0.992 1.364]
+NT=675,N=225
+[ 0.1    0.573  2.464  7.986  3.966 12.926]
+[0.197 0.216 2.905 1.857 0.975 1.38 ]
 Textiles
-NT=465,N=93
-[ 0.209  0.563  4.314  8.417  3.932 12.947]
-[0.265 0.215 5.288 2.163 1.164 1.448]
-439
-Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 1, Time Taken: 14228.89 seconds, LR Stat: 4905.3548
-Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 2, Time Taken: 16805.67 seconds, LR Stat: 9089.6170
-Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 3, Time Taken: 25154.06 seconds, LR Stat: 210.7562
+NT=588,N=196
+[ 0.176  0.572  3.568  8.28   3.944 12.914]
+[0.246 0.213 5.12  1.88  1.098 1.344]
+794
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 1, Time Taken: 8408.82 seconds, LR Stat: 44813.9141
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 2, Time Taken: 14834.93 seconds, LR Stat: 7994.1543

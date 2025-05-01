@@ -57,7 +57,7 @@ if __name__ == "__main__":
     BB = 199
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixAR1mixturePMLE(y, x, z, p, q, m=M, k=K)
+    out_dgp = regpanelmixAR1mixturePMLE(y, x, z, p, q, m=M, k=K, alpha_bound=0.1, tau_bound=0.05)
     
     alpha = out_dgp['alpha_hat'][0]
     tau = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M,K)    
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.1)
     
     end_time = time.time()
 
@@ -116,6 +116,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3_tau0.2.csv")
 
 # %%

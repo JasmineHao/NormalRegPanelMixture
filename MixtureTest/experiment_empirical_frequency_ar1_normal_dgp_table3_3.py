@@ -1,6 +1,3 @@
-# Example DataFrame
-# %%
-
 # %%
 from MixtureTestFunctions import *
 import time
@@ -95,7 +92,7 @@ if __name__ == "__main__":
     
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.2)
     
     end_time = time.time()
 
@@ -123,6 +120,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_tau0.2.csv")
 
 # %%

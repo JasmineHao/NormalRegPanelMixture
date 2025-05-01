@@ -59,12 +59,14 @@ for iteration in range(100):
     model_output = regpanelmixPMLE(y, x, z, p, q, M)
     params_dict, params_array = get_params_stationary_normal(model_output)
     
-    score = score_stationary_normal(data, params_dict)
-    hessian = score.T @ score     
-    hessian_inv = np.linalg.inv(hessian)
-
-    standard_errors = np.sqrt(np.diag(hessian_inv))
-
+    score, hessian = score_stationary_normal(data, params_dict)
+    
+    bread = np.linalg.pinv(np.mean(hessian, axis=0))  # Inverse of the Hessian (bread matrix)
+    meat = score.T @ score  # Outer product of the score (meat matrix)
+    sandwich = bread @ meat @ bread  # Sandwich formula
+    
+    standard_errors = np.sqrt(np.abs(np.diag(sandwich))) / N
+    
     # Check if parameters are within the confidence interval
     within_confidence_interval = (
         np.abs(params_array - true_parameters) < 1.96 * standard_errors

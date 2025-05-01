@@ -1488,7 +1488,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
 # %%
 
 @njit
-def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05):
+def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     # Handle x
@@ -1642,7 +1642,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
             mubeta_0_jn = mubeta_0_jn_mat[:,:q+1].T.flatten()
             
             for j in range(m):
-                alpha_jn[j] = max(0.05, alpha_jn[j] )
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -1682,7 +1682,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
 # %%
 
 @njit
-def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
+def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
     t,n = y.shape
     nt = n * (t-1)
     
@@ -1786,7 +1786,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
     sigma_draw = generate_random_uniform(0.5, 1.5, (m, ninits_short)) * stdR
     sigma_0_draw = generate_random_uniform(0.5, 1.5, (m, ninits_short)) * stdR_0
     
-    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -1797,7 +1797,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
     sigma_0_draw = sigma_0_draw[:,components]
     gamma_0_draw = gamma_0_draw[:,components]
     
-    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit, tol=tol_long)
+    alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw ,penloglikset, loglikset, post = EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound)
 
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:,index]
@@ -1853,7 +1853,7 @@ def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, t
 # %%
 
 @njit
-def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1):
+def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1, alpha_bound = 0.05, tau_bound = 0.05):
     
     nt = n * (t-1)
     mk = int(m*k)
@@ -2096,7 +2096,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
                     w_mk_sum += w_mk[idx_type,:]
                     w_mk_0_sum += w_mk_0[idx_type,:]
                     
-                    tau_jn[idx_type] = min(max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  0.05),0.95)
+                    tau_jn[idx_type] = max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  tau_bound)
                     
                     sum_tau_jn+=tau_jn[idx_type]
                 
@@ -2115,7 +2115,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
             mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.05, alpha_jn[j] )
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -2168,7 +2168,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
 
 # %%  
 @njit
-def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200)  : 
+def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound = 0.05, tau_bound = 0.05)  : 
     t,n = y.shape
     nt = n * (t-1)
     y_l = y[:-1,:]
@@ -2297,7 +2297,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     sigma_draw = (generate_random_uniform(0.1,0.2, (m, ninits_short)).T * sigma_hat).T
     sigma_0_draw = (generate_random_uniform(0.1, 0.2, (m, ninits_short)).T * sigma_0_hat).T        
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2312,7 +2312,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     sigma_0_draw = sigma_0_draw[:,components]
     gamma_0_draw = gamma_0_draw[:,components]
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit, tol=tol_long)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw, sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture(y_c,  y_l,  x_c, x_l, z_c, z_l, xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound, tau_bound=tau_bound)
 
     
     index = np.argmax(penloglikset)
@@ -2370,7 +2370,7 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
     return result_dict 
 # %%
 @njit
-def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 1e-6):
+def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 1e-6, alpha_bound=0.05, tau_bound=0.05):
     
     nt = len(y_c)
     n = nt // t
@@ -2516,7 +2516,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
                     
-                    tau_jn[idx_type] = min(max(np.mean(w_mk[idx_type,:]),  0.05),0.95)
+                    tau_jn[idx_type] = max(np.mean(w_mk[idx_type,:]), tau_bound)
                     sum_tau_jn+=tau_jn[idx_type]
                 
                 for kk in range(k):
@@ -2529,7 +2529,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
             mubeta_jn = mubeta_jn_mat.T.flatten()
             # update alpha
             for j in range(m):
-                alpha_jn[j] = max(0.05, alpha_jn[j] )
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
             
             total_alpha = np.sum(alpha_jn)
             for j in range(m):
@@ -2566,9 +2566,8 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
     return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
 
-
 @njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50,alpha_bound=0.05):    # Extract the generated data
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50, alpha_bound=0.05, tau_bound=0.05):    # Extract the generated data
     t,n = y.shape
     nt = n * t
     y_c = y.T.flatten()
@@ -2638,7 +2637,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     an = 1 / n    
     sigma_0 = np.full(m, stdR)
     
-    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short)
+    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2648,7 +2647,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     gamma_draw = gamma_draw[:,components]
     tau_draw = tau_draw[:,components]
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol, alpha_bound=alpha_bound, tau_bound=tau_bound)
     
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:,index]
@@ -2744,15 +2743,15 @@ def LRTestParallel(Data, N, T, M, p, q, nrep, BB = 199, alpha_bound=0.05):
 # %%
 
 @njit(parallel=True)
-def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
+def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199, alpha_bound=0.05):
     result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
         x = data[1]
         z = data[2]
-        out_h0 = regpanelmixAR1PMLE(y, x, z, p, q, M)
-        out_h1 = regpanelmixAR1PMLE(y, x, z, p, q, M+1)
+        out_h0 = regpanelmixAR1PMLE(y, x, z, p, q, M, alpha_bound=alpha_bound)
+        out_h1 = regpanelmixAR1PMLE(y, x, z, p, q, M+1, alpha_bound=alpha_bound)
         alpha_hat  = out_h0['alpha_hat'][0]
         mubeta_hat = out_h0['mubeta_hat'][0]
         rho_hat = out_h0['rho_hat'][0]
@@ -2776,7 +2775,6 @@ def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
         mubeta_hat = np.ascontiguousarray(mubeta_hat)
         mubeta_hat_mat = mubeta_hat.reshape((q+1,M)).T
         beta_hat = mubeta_hat_mat[:,1:]
-        
 
         mubeta_0_hat = np.ascontiguousarray(mubeta_0_hat)
         mubeta_0_hat_mat = mubeta_0_hat.reshape((q+1,M)).T
@@ -2801,8 +2799,8 @@ def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
             z_bb = data_bb[2]
             
             # Call regpanelmixPMLE for m components
-            out_h0_bb = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, M)
-            out_h1_bb = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, M + 1)
+            out_h0_bb = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, M, alpha_bound=alpha_bound)
+            out_h1_bb = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, M + 1, alpha_bound=alpha_bound)
             penloglik_h0_bb = out_h0_bb['penloglik'][0, 0]
             penloglik_h1_bb = out_h1_bb['penloglik'][0, 0]
             
@@ -2820,15 +2818,15 @@ def LRTestAR1Parallel(Data, N, T, M, p, q, nrep, BB = 199):
 
 # %%
 @njit(parallel=True)
-def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
+def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199, alpha_bound=0.05,tau_bound=0.05):
     result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
         x = data[1]
         z = data[2]
-        out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, M, K)
-        out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, M+1, K)
+        out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, M, K,alpha_bound=alpha_bound,tau_bound=tau_bound)
+        out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, M+1, K,alpha_bound=alpha_bound,tau_bound=tau_bound)
         alpha_hat  = out_h0['alpha_hat'][0]
         tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(M,K)
         
@@ -2865,8 +2863,8 @@ def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
             z_bb = data_bb[2]
             
             # Call regpanelmixPMLE for m components
-            out_h0_bb = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, M, K) 
-            out_h1_bb = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, M+1, K) 
+            out_h0_bb = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, M, K, alpha_bound=alpha_bound,tau_bound=tau_bound) 
+            out_h1_bb = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, M+1, K, alpha_bound=alpha_bound,tau_bound=tau_bound) 
             penloglik_h0_bb = out_h0_bb['penloglik'][0, 0]
             penloglik_h1_bb = out_h1_bb['penloglik'][0, 0]
             
@@ -2882,15 +2880,15 @@ def LRTestAR1MixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
 
 # %%
 @njit(parallel=True)
-def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
+def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199, alpha_bound=0.05, tau_bound=0.05):
     result_lr_each = np.zeros((nrep,6))
     for ii in prange(nrep): 
         data = Data[ii]
         y = data[0]
         x = data[1]
         z = data[2]
-        out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, M, K)
-        out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, M+1, K)
+        out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, M, K, alpha_bound=alpha_bound,tau_bound=tau_bound)
+        out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, M+1, K, alpha_bound=alpha_bound,tau_bound=tau_bound)
         alpha_hat  = out_h0['alpha_hat'][0]
         tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(M,K)
         mubeta_hat = out_h0['mubeta_hat'][0]
@@ -2908,8 +2906,6 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
         beta_hat = mubeta_hat_mat[:,1:]
         mu_hat =  np.ascontiguousarray(mubeta_hat_mat[:,0]).reshape(M,K)
 
-
-
         # Generate data for bootstrap        
         Data_bb = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, M, K, p, q) for _ in prange(BB)]
         
@@ -2923,8 +2919,8 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199):
             z_bb = data_bb[2]
             
             # Call regpanelmixPMLE for m components
-            out_h0_bb = regpanelmixmixturePMLE(y_bb,x_bb,z_bb, p, q, M, K)
-            out_h1_bb = regpanelmixmixturePMLE(y_bb,x_bb,z_bb, p, q, M+1, K)
+            out_h0_bb = regpanelmixmixturePMLE(y_bb,x_bb,z_bb, p, q, M, K, alpha_bound=alpha_bound,tau_bound=tau_bound)
+            out_h1_bb = regpanelmixmixturePMLE(y_bb,x_bb,z_bb, p, q, M+1, K, alpha_bound=alpha_bound,tau_bound=tau_bound)
             penloglik_h0_bb = out_h0_bb['penloglik'][0, 0]
             penloglik_h1_bb = out_h1_bb['penloglik'][0, 0]
             
@@ -3069,7 +3065,7 @@ def NonParTest(y, N, T, n_grid, n_bins, BB, r_test):
 # %%
 
 @njit(parallel=False) 
-def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
+def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05):
     if (spline) & (q > 0):
         bs_degree = 2                # Replace with the degree of the B-spline
         # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
@@ -3085,11 +3081,11 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m)
-        out_h1 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m+1)
+        out_h0 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m, alpha_bound=alpha_bound)
+        out_h1 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m+1, alpha_bound=alpha_bound)
     else:
-        out_h0 = regpanelmixPMLE(y,x,z, p, q, m)
-        out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1)
+        out_h0 = regpanelmixPMLE(y,x,z, p, q, m, alpha_bound=alpha_bound)
+        out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1, alpha_bound=alpha_bound)
         # print(out_h0)
         # print(out_h1)
         # -2 * (out_h0['penloglik'] - out_h1['penloglik'])
@@ -3142,12 +3138,12 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
                     bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
                     x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
                 
-                out_h0 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m)
-                out_h1 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1)
+                out_h0 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, alpha_bound=alpha_bound)
+                out_h1 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, alpha_bound=alpha_bound)
             else:
                 # Call regpanelmixPMLE for m components
-                out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m)
-                out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1)
+                out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m, alpha_bound=alpha_bound)
+                out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1, alpha_bound=alpha_bound)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -3165,7 +3161,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
    
 # %%
 @njit(parallel=False)
-def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
+def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05, tau_bound=0.05):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
         # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
@@ -3181,21 +3177,21 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixmixturePMLE(y,x_spline,z, p, q_spline, m,k)
-        out_h1 = regpanelmixmixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
+        out_h0 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h1 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
     else:
-        out_h0 = regpanelmixmixturePMLE(y,x,z, p, q, m, k)
-        out_h1 = regpanelmixmixturePMLE(y,x,z, p, q, m+1, k)
+        out_h0 = regpanelmixmixturePMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h1 = regpanelmixmixturePMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
     alpha_hat  = out_h0['alpha_hat'][0]
-    tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
+    tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m, k)
     mu_hat = np.ascontiguousarray(out_h0['mu_hat'][0]).reshape(m, k)
     beta_hat = out_h0['beta_hat']
     sigma_hat  = out_h0['sigma_hat'][0]
     gamma_hat  = out_h0['gamma_hat'][0]
-    penloglik_h0 = out_h0['penloglik'][0,0]
-    aic = out_h0['aic'][0,0]
-    bic = out_h0['bic'][0,0]
-    penloglik_h1 = out_h1['penloglik'][0,0]
+    penloglik_h0 = out_h0['penloglik'][0, 0]
+    aic = out_h0['aic'][0, 0]
+    bic = out_h0['bic'][0, 0]
+    penloglik_h1 = out_h1['penloglik'][0, 0]
     # print(out_h0[0])        
     lr_stat = -2 * (penloglik_h0 - penloglik_h1)
     
@@ -3217,20 +3213,20 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
                 # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
                 x_spline_bb = np.zeros((N*T, 0))
                 for qq in range(q):
-                    quantiles = np.quantile(x_bb[:,qq], [0.33, 0.67])
+                    quantiles = np.quantile(x_bb[:, qq], [0.33, 0.67])
                     knots = np.concatenate((
                         np.array([quantiles[0]] * (bs_degree)),  # This is fine
                         quantiles,
                         np.array([quantiles[1]] * (bs_degree))  # This is fine
                     ))
                     # Generate B-spline basis columns
-                    bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
-                    x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
-                out_h0 = regpanelmixmixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, k)
-                out_h1 = regpanelmixmixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, k)
+                    bs_columns = generate_b_spline_basis(x_bb[:, qq], knots, bs_degree)
+                    x_spline_bb = np.concatenate((x_spline_bb, bs_columns), axis=1)
+                out_h0 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+                out_h1 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
             else:               # Call regpanelmixPMLE for m components
-                out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k)
-                out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k)
+                out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+                out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -3248,7 +3244,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
 
 # %%
 @njit(parallel=False) 
-def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False):
+def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05, tau_bound=0.05):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
         # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
@@ -3264,11 +3260,11 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m,k)
-        out_h1 = regpanelmixAR1mixturePMLE(y,x_spline,z, p, q_spline, m+1,k)
+        out_h0 = regpanelmixAR1mixturePMLE(y, x_spline, z, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h1 = regpanelmixAR1mixturePMLE(y, x_spline, z, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
     else:
-        out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k)
-        out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m+1, k)
+        out_h0 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h1 = regpanelmixAR1mixturePMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
     
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m, k)
@@ -3320,12 +3316,12 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
                     # Generate B-spline basis columns
                     bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
                     x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
-                out_h0 = regpanelmixAR1mixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, k)
-                out_h1 = regpanelmixAR1mixturePMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, k)
+                out_h0 = regpanelmixAR1mixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+                out_h1 = regpanelmixAR1mixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
             else:
                 # Call regpanelmixPMLE for m components
-                out_h0 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m, k) 
-                out_h1 =regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k) 
+                out_h0 = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound) 
+                out_h1 = regpanelmixAR1mixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound) 
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -3343,9 +3339,9 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
 
 # %%
 @njit(parallel=False)
-def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False):
-    out_h0 = regpanelmixAR1PMLE(y,x,z, p, q, m)
-    out_h1 = regpanelmixAR1PMLE(y,x,z, p, q, m+1)
+def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.5):
+    out_h0 = regpanelmixAR1PMLE(y, x, z, p, q, m, alpha_bound=alpha_bound)
+    out_h1 = regpanelmixAR1PMLE(y, x, z, p, q, m+1, alpha_bound=alpha_bound)
     alpha_hat  = out_h0['alpha_hat'][0]
     mubeta_hat = out_h0['mubeta_hat'][0]
     mu_hat = out_h0['mu_hat'][0]
@@ -3380,7 +3376,7 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z,x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -3394,8 +3390,8 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
             
             # Call regpanelmixPMLE for m components
             
-            out_h0 = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, m)
-            out_h1 = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, m+1)
+            out_h0 = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, m, alpha_bound=alpha_bound)
+            out_h1 = regpanelmixAR1PMLE(y_bb, x_bb, z_bb, p, q, m+1, alpha_bound=alpha_bound)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -3411,12 +3407,11 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
         lr_90 = np.inf
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
           
-# %%
 
 # %%
 
 @njit(parallel=True)  # Numba JIT compilation with parallelization
-def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q):
+def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05):
     # Initialize result tables
     aic_table = np.zeros((nrep, M_max))
     bic_table = np.zeros((nrep, M_max))
@@ -3437,8 +3432,6 @@ def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M
     lr_10_table_mixture = np.zeros((nrep, M_max))
 
     # Generate data for all repetitions
-    
-
     # Parallel loop
     for ii in prange(nrep):  # Use prange for parallel execution
         data = Data[ii]
@@ -3457,11 +3450,11 @@ def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M
             rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
 
             # LR test for no-covariates model
-            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB, alpha_bound=alpha_bound)
             lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
 
             # LR test for mixture model
-            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
+            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB, alpha_bound=alpha_bound, tau_bound=tau_bound)
             lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
 
             # Record results
@@ -3496,7 +3489,7 @@ def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M
 
 
 @njit(parallel=True)  # Numba JIT compilation with parallelization
-def parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q):
+def parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05):
     # Initialize result tables
     aic_table = np.zeros((nrep, M_max))
     bic_table = np.zeros((nrep, M_max))
@@ -3537,11 +3530,11 @@ def parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p,
             rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
 
             # LR test for no-covariates model
-            lr_results_nocov = LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB)
+            lr_results_nocov = LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB, alpha_bound=alpha_bound)
             lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
 
             # LR test for mixture model
-            lr_results_mixture = LRTestAR1Mixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB)
+            lr_results_mixture = LRTestAR1Mixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB, alpha_bound=alpha_bound, tau_bound=tau_bound)
             lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
 
             # Record results
@@ -3999,7 +3992,7 @@ def get_params_stationary_mixture(out_h0):
         params_dict['alpha'][:-1],
         params_dict['tau'].reshape((m, k))[:,:-1].flatten(),
         params_dict['mu'].flatten(),
-        params_dict['beta'].flatten(),
+        params_dict['beta'].T.flatten(),
         params_dict['sigma'],
         params_dict['gamma']
     ])
@@ -4255,7 +4248,7 @@ def score_stationary_mixture(data, params_dict):
         params_dict['alpha'][:-1],
         params_dict['tau'].reshape((m, k))[:,:-1].flatten(),
         params_dict['mu'].flatten(),
-        params_dict['beta'].flatten(),
+        params_dict['beta'].T.flatten(),
         params_dict['sigma'],
         params_dict['gamma']
     ])
@@ -4304,10 +4297,10 @@ def get_params_ar1_mixture(out_h0):
     rho_hat = out_h0['rho_hat'][0]
     sigma_hat = out_h0['sigma_hat'][0]
     mu_hat = out_h0['mu_hat'][0]
-    beta_hat = out_h0['beta_hat'].T.flatten()
+    beta_hat = out_h0['beta_hat']
     gamma_hat = out_h0['gamma_hat'][0]
     mu_0_hat = out_h0['mu_0_hat'][0]
-    beta_0_hat = out_h0['beta_0_hat'].T.flatten()
+    beta_0_hat = out_h0['beta_0_hat']
     sigma_0_hat = out_h0['sigma_0_hat'][0]
     gamma_0_hat = out_h0['gamma_0_hat'][0]
 
@@ -4339,7 +4332,7 @@ def get_params_ar1_mixture(out_h0):
         params_dict['gamma'],
         params_dict['rho'],
         params_dict['mu_0'].flatten(),
-        params_dict['beta_0'].flatten(),
+        params_dict['beta_0'].T.flatten(),
         params_dict['sigma_0'],
         params_dict['gamma_0']
     ])
@@ -4393,12 +4386,12 @@ def get_params_dict_from_array_ar1_mixture(p_array, m, k, q, p):
         'alpha': alpha,
         'tau': tau,
         'mu': mu,
-        'beta': beta,
+        'beta': beta.reshape((q,m)).T,
         'sigma': sigma,
         'gamma': gamma,
         'rho': rho,
         'mu_0': mu_0,
-        'beta_0': beta_0,
+        'beta_0': beta_0.reshape((q,m)).T,
         'sigma_0': sigma_0,
         'gamma_0': gamma_0
     }
@@ -4682,12 +4675,12 @@ def get_params_dict_from_array_ar1_normal(p_array, m, q, p):
     return {
         'alpha': alpha,
         'mu': mu,
-        'beta': beta.reshape((m, q)),
+        'beta': beta.reshape((q, m)).T,
         'sigma': sigma,
         'gamma': gamma,
         'rho': rho,
         'mu_0': mu_0,
-        'beta_0': beta_0.reshape((m, q)),
+        'beta_0': beta_0.reshape((q, m)).T,
         'sigma_0': sigma_0,
         'gamma_0': gamma_0
     }
@@ -4729,9 +4722,9 @@ def score_i_ar1_normal(y_it, x_it, z_it, params_array, m, k, q, p):
     residuals_matrix = np.zeros((m, t - 1))
     residuals_0_matrix = np.zeros((m, 1))
     w = np.zeros(m)
-
+    
     for j in range(m):
-        residuals = (y_it[1:] - x_it[1:] @ beta[j] - z_it[1:] @ gamma - mu[j]) - rho[j] * (y_it[:-1] - x_it[:-1] @ beta[j] - z_it[:-1] @ gamma - mu[j])
+        residuals = (y_it[1:] - x_it[1:] @ beta[j]  - z_it[1:] @ gamma - mu[j]) - rho[j] * (y_it[:-1] - x_it[:-1] @ beta[j] - z_it[:-1] @ gamma - mu[j])
         residuals_0 = y_it[0] - x_it[0] @ beta_0[j] - z_it[0] @ gamma_0 - mu_0[j]
         residuals_matrix[j] = residuals
         residuals_0_matrix[j] = residuals_0
@@ -4824,7 +4817,7 @@ def score_ar1_normal(data, params_dict):
         params_dict['sigma_0'],
         params_dict['gamma_0']
     ])
-
+    
     for i in range(n):
         y_it = y[:, i]
         z_it = z[(i * t):((i + 1) * t), :]
@@ -4887,6 +4880,7 @@ def compute_standard_errors(model_output, data, model_type):
         standard_errors_dict = get_params_dict_from_array_ar1_normal(standard_errors, params_dict['alpha'].size, data[1].shape[1], data[2].shape[1])
     elif model_type == 'ar1_mixture':
         standard_errors_dict = get_params_dict_from_array_ar1_mixture(standard_errors, params_dict['alpha'].size, params_dict['tau'].size // params_dict['alpha'].size, data[1].shape[1], data[2].shape[1])
+        
     else:
         raise ValueError("Invalid model type. Choose from 'stationary_normal', 'stationary_mixture', 'ar1_normal', 'ar1_mixture'.")
 
@@ -5185,13 +5179,16 @@ def plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_ha
     fig.savefig(output_path, dpi=300)
     plt.close()
     
-def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_path):
+def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_path, ylim=None):
     plt.figure(figsize=(8, 6))
     
     plt.errorbar(range(len(values)), values, yerr=1.96 * errors, fmt='o', capsize=5, capthick=2, color='blue', ecolor='red', label='mubeta')
     plt.xticks(range(len(types)), types, rotation=45, ha='right')
     plt.xlabel('Type')
     plt.ylabel('Value')
+    
+    if ylim:
+        plt.ylim(ylim)
     
     plt.title(f"{PNAME} with Standard Errors for {INDNAME}")
     plt.legend()

@@ -13,6 +13,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
+# %%
 T = 3
 k = 3
 ind_code = [311, 381, 321]
@@ -20,6 +21,9 @@ M_list = [4,5,6]
 
 ind_code_dict = load_ind_code_dict()
 colors = load_colors()
+
+each_code = ind_code[0]
+m = M_list[0]
 
 for (each_code, m) in zip(ind_code, M_list):
 
@@ -96,7 +100,30 @@ for (each_code, m) in zip(ind_code, M_list):
     # sample of returning the estimates and standard errors
     
     
-    # Plot the coefficients of normal plain
+    # Stat Mixture
+    # ---------------------------------
+    model_output = regpanelmixmixturePMLE(y, x_0, z_0, p=0, q=0, m=m, k=k)
+    
+    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_mixture')
+    
+    
+    PNAME = "Mean of Material Share"
+    output_path = f"figure/empirical_mu_with_error_bars_stat_mixture_{INDNAME}.png"
+    
+    values=params_dict['mu']
+    errors=standard_errors_dict['mu']
+    types=variable_names['mu']
+    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
+    
+    
+    PARAMETER_NAME = "Mixing Proportion"
+    values=params_dict['alpha']
+    errors=standard_errors_dict['alpha']
+    types=variable_names['alpha']
+    output_path = f"figure/empirical_alpha_with_error_bars_stat_mixture_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
+    
+    # Stat Normal
     # ---------------------------------
     
     model_output = regpanelmixPMLE(y, x_0, z_0, p=0, q=0, m=m)
@@ -110,16 +137,72 @@ for (each_code, m) in zip(ind_code, M_list):
     errors=standard_errors_dict['mu']
     types=variable_names['mu']
     plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
-     
-    # Plot the coefficients of 3-component mixture plain
-    # ---------------------------------
-    model_output = regpanelmixmixturePMLE(y, x_0, z_0, p=0, q=0, m=m, k=k)
-    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_mixture')
     
+    
+    PARAMETER_NAME = "Mixing Proportion"
+    values=params_dict['alpha']
+    errors=standard_errors_dict['alpha']
+    types=variable_names['alpha']
+    output_path = f"figure/empirical_alpha_with_error_bars_stat_normal_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
+    
+    # AR1 Normal
+    # ---------------------------------
+    
+    model_output = regpanelmixAR1PMLE(y, x_0, z_0, p=0, q=0, m=m)
+    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='ar1_normal')   
+    
+    PNAME = "Mean of Material Share"
     values=params_dict['mu']
     errors=standard_errors_dict['mu']
     types=variable_names['mu']
-    output_path = f"figure/empirical_mu_with_error_bars_stat_mixture_{INDNAME}.png"
+    output_path = f"figure/empirical_mu_with_error_bars_ar1_normal_{INDNAME}.png"
     plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
+
+    
+    PARAMETER_NAME = "Persistence of AR1 Shocks"
+    values=params_dict['rho']
+    errors=standard_errors_dict['rho']
+    types=variable_names['rho']
+    output_path = f"figure/empirical_rho_with_error_bars_ar1_normal_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['rho'], standard_errors_dict['rho'], variable_names['rho'], INDNAME, PNAME, output_path, ylim=(-1,2))
+
+    
+    PARAMETER_NAME = "Mixing Proportion"
+    values=params_dict['alpha']
+    errors=standard_errors_dict['alpha']
+    types=variable_names['alpha']
+    output_path = f"figure/empirical_alpha_with_error_bars_ar1_normal_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
+ 
+    # AR1 Mixture
+    # ---------------------------------
+    model_output = regpanelmixAR1mixturePMLE(y, x_0, z_0, p=0, q=0, m=2, k=k)
+    
+    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='ar1_mixture')
+    
+    PNAME = "Mean of Material Share"
+    values=params_dict['mu']
+    errors=standard_errors_dict['mu']
+    types=variable_names['mu']
+    output_path = f"figure/empirical_mu_with_error_bars_ar1_mixture_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
+
+ 
+    PARAMETER_NAME = "Persistence of AR1 Shocks"
+    values=params_dict['rho']
+    errors=standard_errors_dict['rho']
+    types=variable_names['rho']
+    output_path = f"figure/empirical_rho_with_error_bars_ar1_mixture_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['rho'], standard_errors_dict['rho'], variable_names['rho'], INDNAME, PNAME, output_path, ylim=(-1,2))
+
+    
+    PARAMETER_NAME = "Mixing Proportion"
+    values=params_dict['alpha']
+    errors=standard_errors_dict['alpha']
+    types=variable_names['alpha']
+    output_path = f"figure/empirical_alpha_with_error_bars_ar1_mixture_{INDNAME}.png"
+    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'][:-1], INDNAME, PNAME, output_path, ylim=(-1,2))
+
     
 # %%
