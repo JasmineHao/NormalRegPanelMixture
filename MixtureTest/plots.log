@@ -1,0 +1,1189 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.8)  15 MAY 2025 20:55
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**plots.tex
+(./plots.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count196
+\c@section=\count197
+\c@subsection=\count198
+\c@subsubsection=\count199
+\c@paragraph=\count266
+\c@subparagraph=\count267
+\c@figure=\count268
+\c@table=\count269
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count270
+\Gm@cntv=\count271
+\c@Gm@tempcnt=\count272
+\Gm@bindingoffset=\dimen142
+\Gm@wd@mp=\dimen143
+\Gm@odd@mp=\dimen144
+\Gm@even@mp=\dimen145
+\Gm@layoutwidth=\dimen146
+\Gm@layoutheight=\dimen147
+\Gm@layouthoffset=\dimen148
+\Gm@layoutvoffset=\dimen149
+\Gm@dimlist=\toks18
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen150
+\Gin@req@width=\dimen151
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen152
+\captionmargin=\dimen153
+\caption@leftmargin=\dimen154
+\caption@rightmargin=\dimen155
+\caption@width=\dimen156
+\caption@indent=\dimen157
+\caption@parindent=\dimen158
+\caption@hangindent=\dimen159
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count273
+\c@continuedfloat=\count274
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count275
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count276
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks19
+\thm@bodyfont=\toks20
+\thm@headfont=\toks21
+\thm@notefont=\toks22
+\thm@headpunct=\toks23
+\thm@preskip=\skip51
+\thm@postskip=\skip52
+\thm@headsep=\skip53
+\dth@everypar=\toks24
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip54
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks25
+\ex@=\dimen160
+))
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen161
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count277
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count278
+\leftroot@=\count279
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count280
+\DOTSCASE@=\count281
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box52
+\strutbox@=\box53
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen162
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count282
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count283
+\dotsspace@=\muskip17
+\c@parentequation=\count284
+\dspbrk@lvl=\count285
+\tag@help=\toks26
+\row@=\count286
+\column@=\count287
+\maxfields@=\count288
+\andhelp@=\toks27
+\eqnshift@=\dimen163
+\alignsep@=\dimen164
+\tagshift@=\dimen165
+\tagwidth@=\dimen166
+\totwidth@=\dimen167
+\lineht@=\dimen168
+\@envbody=\toks28
+\multlinegap=\skip55
+\multlinetaggap=\skip56
+\mathdisplay@stack=\toks29
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count289
+\l__pdf_internal_box=\box54
+)
+(./plots.aux)
+\openout1 = `plots.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count290
+\scratchdimen=\dimen169
+\scratchbox=\box55
+\nofMPsegments=\count291
+\nofMParguments=\count292
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count293
+\MPscratchDim=\dimen170
+\MPnumerator=\count294
+\makeMPintoPDFobject=\count295
+\everyMPtoPDFconversion=\toks31
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/grfext/grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)) (/usr/local/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+<figure/empirical_error_kmshare_ciiu_Fabricated metal products.png, id=1, 578.1
+6pt x 433.62pt>
+File: figure/empirical_error_kmshare_ciiu_Fabricated metal products.png Graphic
+ file (type png)
+<use figure/empirical_error_kmshare_ciiu_Fabricated metal products.png>
+Package pdftex.def Info: figure/empirical_error_kmshare_ciiu_Fabricated metal p
+roducts.png  used on input line 14.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_error_kmshare_ciiu_Food products.png, id=3, 578.16pt x 433.62
+pt>
+File: figure/empirical_error_kmshare_ciiu_Food products.png Graphic file (type 
+png)
+<use figure/empirical_error_kmshare_ciiu_Food products.png>
+Package pdftex.def Info: figure/empirical_error_kmshare_ciiu_Food products.png 
+ used on input line 19.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_error_kmshare_ciiu_Textiles.png, id=4, 578.16pt x 433.62pt>
+File: figure/empirical_error_kmshare_ciiu_Textiles.png Graphic file (type png)
+<use figure/empirical_error_kmshare_ciiu_Textiles.png>
+Package pdftex.def Info: figure/empirical_error_kmshare_ciiu_Textiles.png  used
+ on input line 24.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_alpha_with_error_bars_Fabricated metal products.p
+ng, id=5, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_alpha_with_error_bars_Fabricated metal produ
+cts.png Graphic file (type png)
+<use figure/empirical_stat_normal_alpha_with_error_bars_Fabricated metal produc
+ts.png>
+Package pdftex.def Info: figure/empirical_stat_normal_alpha_with_error_bars_Fab
+ricated metal products.png  used on input line 39.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_alpha_with_error_bars_Food products.png, id=6, 57
+8.16pt x 433.62pt>
+File: figure/empirical_stat_normal_alpha_with_error_bars_Food products.png Grap
+hic file (type png)
+<use figure/empirical_stat_normal_alpha_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_alpha_with_error_bars_Foo
+d products.png  used on input line 44.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_alpha_with_error_bars_Textiles.png, id=7, 578.16p
+t x 433.62pt>
+File: figure/empirical_stat_normal_alpha_with_error_bars_Textiles.png Graphic f
+ile (type png)
+<use figure/empirical_stat_normal_alpha_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_stat_normal_alpha_with_error_bars_Tex
+tiles.png  used on input line 49.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_mu_with_error_bars_Fabricated metal products.png,
+ id=8, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_mu_with_error_bars_Fabricated metal products
+.png Graphic file (type png)
+<use figure/empirical_stat_normal_mu_with_error_bars_Fabricated metal products.
+png>
+Package pdftex.def Info: figure/empirical_stat_normal_mu_with_error_bars_Fabric
+ated metal products.png  used on input line 55.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_mu_with_error_bars_Food products.png, id=9, 578.1
+6pt x 433.62pt>
+File: figure/empirical_stat_normal_mu_with_error_bars_Food products.png Graphic
+ file (type png)
+<use figure/empirical_stat_normal_mu_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_mu_with_error_bars_Food p
+roducts.png  used on input line 60.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_mu_with_error_bars_Textiles.png, id=10, 578.16pt 
+x 433.62pt>
+File: figure/empirical_stat_normal_mu_with_error_bars_Textiles.png Graphic file
+ (type png)
+<use figure/empirical_stat_normal_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_stat_normal_mu_with_error_bars_Textil
+es.png  used on input line 65.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated met
+al products.png, id=11, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Fabricate
+d metal products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated
+ metal products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_e
+rror_bars_Fabricated metal products.png  used on input line 75.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Food products.
+png, id=12, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Food prod
+ucts.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Food produ
+cts.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_e
+rror_bars_Food products.png  used on input line 80.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.png, 
+id=13, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.
+png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.p
+ng>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_alpha_with_e
+rror_bars_Textiles.png  used on input line 85.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Fabricated metal 
+products.png, id=14, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Fabricated m
+etal products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Fabricated me
+tal products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_mu_with_erro
+r_bars_Fabricated metal products.png  used on input line 91.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Food products.png
+, id=15, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Food product
+s.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Food products
+.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_mu_with_erro
+r_bars_Food products.png  used on input line 96.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png, id=
+16, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png
+ Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png>
+
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_mu_with_erro
+r_bars_Textiles.png  used on input line 101.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabricated
+ metal products.png, id=17, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabri
+cated metal products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabric
+ated metal products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_wi
+th_error_bars_Fabricated metal products.png  used on input line 107.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--108
+[]\OT1/cmr/m/n/9 (g) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Food produ
+cts.png, id=18, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Food 
+products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Food p
+roducts.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_wi
+th_error_bars_Food products.png  used on input line 112.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Textiles.p
+ng, id=19, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Texti
+les.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Textil
+es.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_logK_wi
+th_error_bars_Textiles.png  used on input line 117.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Fabricat
+ed metal products.png, id=20, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Fab
+ricated metal products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Fabr
+icated metal products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_import_
+with_error_bars_Fabricated metal products.png  used on input line 123.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
+[]\OT1/cmr/m/n/9 (j) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Food pro
+ducts.png, id=21, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Foo
+d products.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Food
+ products.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_import_
+with_error_bars_Food products.png  used on input line 128.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Textiles
+.png, id=22, 578.16pt x 433.62pt>
+File: figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Tex
+tiles.png Graphic file (type png)
+<use figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_bars_Text
+iles.png>
+Package pdftex.def Info: figure/empirical_stat_normal_kmshare_ciiu_beta_import_
+with_error_bars_Textiles.png  used on input line 133.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_alpha_with_error_bars_Fabricated metal products.
+png, id=23, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_alpha_with_error_bars_Fabricated metal prod
+ucts.png Graphic file (type png)
+<use figure/empirical_stat_mixture_alpha_with_error_bars_Fabricated metal produ
+cts.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_alpha_with_error_bars_Fa
+bricated metal products.png  used on input line 144.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_alpha_with_error_bars_Food products.png, id=24, 
+578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_alpha_with_error_bars_Food products.png Gra
+phic file (type png)
+<use figure/empirical_stat_mixture_alpha_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_alpha_with_error_bars_Fo
+od products.png  used on input line 149.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_alpha_with_error_bars_Textiles.png, id=25, 578.1
+6pt x 433.62pt>
+File: figure/empirical_stat_mixture_alpha_with_error_bars_Textiles.png Graphic 
+file (type png)
+<use figure/empirical_stat_mixture_alpha_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_alpha_with_error_bars_Te
+xtiles.png  used on input line 154.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_mu_with_error_bars_Fabricated metal products.png
+, id=26, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_mu_with_error_bars_Fabricated metal product
+s.png Graphic file (type png)
+<use figure/empirical_stat_mixture_mu_with_error_bars_Fabricated metal products
+.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_mu_with_error_bars_Fabri
+cated metal products.png  used on input line 160.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_mu_with_error_bars_Food products.png, id=27, 578
+.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_mu_with_error_bars_Food products.png Graphi
+c file (type png)
+<use figure/empirical_stat_mixture_mu_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_mu_with_error_bars_Food 
+products.png  used on input line 165.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_mu_with_error_bars_Textiles.png, id=28, 578.16pt
+ x 433.62pt>
+File: figure/empirical_stat_mixture_mu_with_error_bars_Textiles.png Graphic fil
+e (type png)
+<use figure/empirical_stat_mixture_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_mu_with_error_bars_Texti
+les.png  used on input line 170.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricated me
+tal products.png, id=29, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricat
+ed metal products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricate
+d metal products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_
+error_bars_Fabricated metal products.png  used on input line 182.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Food products
+.png, id=30, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Food pro
+ducts.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Food prod
+ucts.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_
+error_bars_Food products.png  used on input line 187.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles.png,
+ id=31, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles
+.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles.
+png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_
+error_bars_Textiles.png  used on input line 192.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated metal
+ products.png, id=32, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated 
+metal products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated m
+etal products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_err
+or_bars_Fabricated metal products.png  used on input line 198.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Food products.pn
+g, id=33, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Food produc
+ts.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Food product
+s.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_err
+or_bars_Food products.png  used on input line 203.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png, id
+=34, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.pn
+g Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png
+>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_mu_with_err
+or_bars_Textiles.png  used on input line 208.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabricate
+d metal products.png, id=35, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabr
+icated metal products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabri
+cated metal products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_w
+ith_error_bars_Fabricated metal products.png  used on input line 214.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--215
+[]\OT1/cmr/m/n/9 (g) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food prod
+ucts.png, id=36, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food
+ products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food 
+products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_w
+ith_error_bars_Food products.png  used on input line 219.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Textiles.
+png, id=37, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Text
+iles.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Texti
+les.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_w
+ith_error_bars_Textiles.png  used on input line 224.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Fabrica
+ted metal products.png, id=38, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Fa
+bricated metal products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Fab
+ricated metal products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_import
+_with_error_bars_Fabricated metal products.png  used on input line 230.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 231--231
+[]\OT1/cmr/m/n/9 (j) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Food pr
+oducts.png, id=39, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Fo
+od products.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Foo
+d products.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_import
+_with_error_bars_Food products.png  used on input line 235.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Textile
+s.png, id=40, 578.16pt x 433.62pt>
+File: figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Te
+xtiles.png Graphic file (type png)
+<use figure/empirical_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Tex
+tiles.png>
+Package pdftex.def Info: figure/empirical_stat_mixture_kmshare_ciiu_beta_import
+_with_error_bars_Textiles.png  used on input line 240.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_alpha_with_error_bars_Fabricated metal products.pn
+g, id=41, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_alpha_with_error_bars_Fabricated metal produc
+ts.png Graphic file (type png)
+<use figure/empirical_ar1_normal_alpha_with_error_bars_Fabricated metal product
+s.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_alpha_with_error_bars_Fabr
+icated metal products.png  used on input line 253.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_alpha_with_error_bars_Food products.png, id=42, 57
+8.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_alpha_with_error_bars_Food products.png Graph
+ic file (type png)
+<use figure/empirical_ar1_normal_alpha_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_alpha_with_error_bars_Food
+ products.png  used on input line 258.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_alpha_with_error_bars_Textiles.png, id=43, 578.16p
+t x 433.62pt>
+File: figure/empirical_ar1_normal_alpha_with_error_bars_Textiles.png Graphic fi
+le (type png)
+<use figure/empirical_ar1_normal_alpha_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_alpha_with_error_bars_Text
+iles.png  used on input line 263.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_mu_with_error_bars_Fabricated metal products.png, 
+id=44, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_mu_with_error_bars_Fabricated metal products.
+png Graphic file (type png)
+<use figure/empirical_ar1_normal_mu_with_error_bars_Fabricated metal products.p
+ng>
+Package pdftex.def Info: figure/empirical_ar1_normal_mu_with_error_bars_Fabrica
+ted metal products.png  used on input line 269.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_mu_with_error_bars_Food products.png, id=45, 578.1
+6pt x 433.62pt>
+File: figure/empirical_ar1_normal_mu_with_error_bars_Food products.png Graphic 
+file (type png)
+<use figure/empirical_ar1_normal_mu_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_mu_with_error_bars_Food pr
+oducts.png  used on input line 274.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_mu_with_error_bars_Textiles.png, id=46, 578.16pt x
+ 433.62pt>
+File: figure/empirical_ar1_normal_mu_with_error_bars_Textiles.png Graphic file 
+(type png)
+<use figure/empirical_ar1_normal_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_mu_with_error_bars_Textile
+s.png  used on input line 279.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated meta
+l products.png, id=47, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated
+ metal products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated 
+metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_er
+ror_bars_Fabricated metal products.png  used on input line 290.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Food products.p
+ng, id=48, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Food produ
+cts.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Food produc
+ts.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_er
+ror_bars_Food products.png  used on input line 295.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.png, i
+d=49, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.p
+ng Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Textiles.pn
+g>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_er
+ror_bars_Textiles.png  used on input line 300.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Fabricated metal p
+roducts.png, id=50, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Fabricated me
+tal products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Fabricated met
+al products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error
+_bars_Fabricated metal products.png  used on input line 306.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Food products.png,
+ id=51, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Food products
+.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Food products.
+png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error
+_bars_Food products.png  used on input line 311.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png, id=5
+2, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png 
+Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error
+_bars_Textiles.png  used on input line 316.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Fabricated metal 
+products.png, id=53, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Fabricated m
+etal products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Fabricated me
+tal products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_rho_with_erro
+r_bars_Fabricated metal products.png  used on input line 323.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Food products.png
+, id=54, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Food product
+s.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_rho_with_error_bars_Food products
+.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_rho_with_erro
+r_bars_Food products.png  used on input line 328.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+File: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png 
+Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_mu_with_error
+_bars_Textiles.png  used on input line 333.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabricated 
+metal products.png, id=55, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabric
+ated metal products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabrica
+ted metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_wit
+h_error_bars_Fabricated metal products.png  used on input line 339.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 340--340
+[]\OT1/cmr/m/n/9 (j) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Food produc
+ts.png, id=56, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Food p
+roducts.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Food pr
+oducts.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_wit
+h_error_bars_Food products.png  used on input line 344.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Textiles.pn
+g, id=57, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Textil
+es.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Textile
+s.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_wit
+h_error_bars_Textiles.png  used on input line 349.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Fabricate
+d metal products.png, id=58, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Fabr
+icated metal products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Fabri
+cated metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_w
+ith_error_bars_Fabricated metal products.png  used on input line 355.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 356--356
+[]\OT1/cmr/m/n/9 (m) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Food prod
+ucts.png, id=59, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Food
+ products.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Food 
+products.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_w
+ith_error_bars_Food products.png  used on input line 360.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Textiles.
+png, id=60, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Text
+iles.png Graphic file (type png)
+<use figure/empirical_ar1_normal_kmshare_ciiu_beta_import_with_error_bars_Texti
+les.png>
+Package pdftex.def Info: figure/empirical_ar1_normal_kmshare_ciiu_beta_import_w
+ith_error_bars_Textiles.png  used on input line 365.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+LaTeX Warning: Float too large for page by 61.1628pt on input line 368.
+
+<figure/empirical_ar1_mixture_alpha_with_error_bars_Fabricated metal products.p
+ng, id=61, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_alpha_with_error_bars_Fabricated metal produ
+cts.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_alpha_with_error_bars_Fabricated metal produc
+ts.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_alpha_with_error_bars_Fab
+ricated metal products.png  used on input line 380.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_alpha_with_error_bars_Food products.png, id=62, 5
+78.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_alpha_with_error_bars_Food products.png Grap
+hic file (type png)
+<use figure/empirical_ar1_mixture_alpha_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_alpha_with_error_bars_Foo
+d products.png  used on input line 385.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_alpha_with_error_bars_Textiles.png, id=63, 578.16
+pt x 433.62pt>
+File: figure/empirical_ar1_mixture_alpha_with_error_bars_Textiles.png Graphic f
+ile (type png)
+<use figure/empirical_ar1_mixture_alpha_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_alpha_with_error_bars_Tex
+tiles.png  used on input line 390.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_mu_with_error_bars_Fabricated metal products.png,
+ id=64, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_mu_with_error_bars_Fabricated metal products
+.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_mu_with_error_bars_Fabricated metal products.
+png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_mu_with_error_bars_Fabric
+ated metal products.png  used on input line 396.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_mu_with_error_bars_Food products.png, id=65, 578.
+16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_mu_with_error_bars_Food products.png Graphic
+ file (type png)
+<use figure/empirical_ar1_mixture_mu_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_mu_with_error_bars_Food p
+roducts.png  used on input line 401.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_mu_with_error_bars_Textiles.png, id=66, 578.16pt 
+x 433.62pt>
+File: figure/empirical_ar1_mixture_mu_with_error_bars_Textiles.png Graphic file
+ (type png)
+<use figure/empirical_ar1_mixture_mu_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_mu_with_error_bars_Textil
+es.png  used on input line 406.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_rho_with_error_bars_Fabricated metal products.png
+, id=67, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_rho_with_error_bars_Fabricated metal product
+s.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_rho_with_error_bars_Fabricated metal products
+.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_rho_with_error_bars_Fabri
+cated metal products.png  used on input line 412.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_rho_with_error_bars_Food products.png, id=68, 578
+.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_rho_with_error_bars_Food products.png Graphi
+c file (type png)
+<use figure/empirical_ar1_mixture_rho_with_error_bars_Food products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_rho_with_error_bars_Food 
+products.png  used on input line 417.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_rho_with_error_bars_Textiles.png, id=69, 578.16pt
+ x 433.62pt>
+File: figure/empirical_ar1_mixture_rho_with_error_bars_Textiles.png Graphic fil
+e (type png)
+<use figure/empirical_ar1_mixture_rho_with_error_bars_Textiles.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_rho_with_error_bars_Texti
+les.png  used on input line 422.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricated met
+al products.png, id=70, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricate
+d metal products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricated
+ metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_e
+rror_bars_Fabricated metal products.png  used on input line 435.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Food products.
+png, id=71, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Food prod
+ucts.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Food produ
+cts.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_e
+rror_bars_Food products.png  used on input line 440.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles.png, 
+id=72, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles.
+png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Textiles.p
+ng>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_e
+rror_bars_Textiles.png  used on input line 445.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated metal 
+products.png, id=73, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated m
+etal products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Fabricated me
+tal products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_erro
+r_bars_Fabricated metal products.png  used on input line 451.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Food products.png
+, id=74, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Food product
+s.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Food products
+.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_erro
+r_bars_Food products.png  used on input line 456.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png, id=
+75, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png
+ Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png>
+
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_erro
+r_bars_Textiles.png  used on input line 461.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Fabricated metal
+ products.png, id=76, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Fabricated 
+metal products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Fabricated m
+etal products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_err
+or_bars_Fabricated metal products.png  used on input line 468.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Food products.pn
+g, id=77, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Food produc
+ts.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Food product
+s.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_rho_with_err
+or_bars_Food products.png  used on input line 473.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+File: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png
+ Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png>
+
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_mu_with_erro
+r_bars_Textiles.png  used on input line 478.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabricated
+ metal products.png, id=78, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabri
+cated metal products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabric
+ated metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_wi
+th_error_bars_Fabricated metal products.png  used on input line 484.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--485
+[]\OT1/cmr/m/n/9 (j) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food produ
+cts.png, id=79, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food 
+products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food p
+roducts.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_wi
+th_error_bars_Food products.png  used on input line 489.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Textiles.p
+ng, id=80, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Texti
+les.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Textil
+es.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_wi
+th_error_bars_Textiles.png  used on input line 494.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Fabricat
+ed metal products.png, id=81, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Fab
+ricated metal products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Fabr
+icated metal products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_
+with_error_bars_Fabricated metal products.png  used on input line 500.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 501--501
+[]\OT1/cmr/m/n/9 (m) |Fab-ri-cated Metal Prod-ucts
+ []
+
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Food pro
+ducts.png, id=82, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Foo
+d products.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Food
+ products.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_
+with_error_bars_Food products.png  used on input line 505.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+<figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Textiles
+.png, id=83, 578.16pt x 433.62pt>
+File: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Tex
+tiles.png Graphic file (type png)
+<use figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Text
+iles.png>
+Package pdftex.def Info: figure/empirical_ar1_mixture_kmshare_ciiu_beta_import_
+with_error_bars_Textiles.png  used on input line 510.
+(pdftex.def)             Requested size: 150.32504pt x 112.73854pt.
+
+LaTeX Warning: Float too large for page by 61.1628pt on input line 513.
+
+
+
+[1
+
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figur
+e/empirical_error_kmshare_ciiu_Fabricated metal products.png> <./figure/empiric
+al_error_kmshare_ciiu_Food products.png> <./figure/empirical_error_kmshare_ciiu
+_Textiles.png> <./figure/empirical_stat_normal_alpha_with_error_bars_Fabricated
+ metal products.png> <./figure/empirical_stat_normal_alpha_with_error_bars_Food
+ products.png> <./figure/empirical_stat_normal_alpha_with_error_bars_Textiles.p
+ng> <./figure/empirical_stat_normal_mu_with_error_bars_Fabricated metal product
+s.png> <./figure/empirical_stat_normal_mu_with_error_bars_Food products.png> <.
+/figure/empirical_stat_normal_mu_with_error_bars_Textiles.png>]
+
+[2 <./figure/empirical_stat_normal_kmshare_ciiu_alpha_with_error_bars_Fabricate
+d metal products.png> <./figure/empirical_stat_normal_kmshare_ciiu_alpha_with_e
+rror_bars_Food products.png> <./figure/empirical_stat_normal_kmshare_ciiu_alpha
+_with_error_bars_Textiles.png> <./figure/empirical_stat_normal_kmshare_ciiu_mu_
+with_error_bars_Fabricated metal products.png> <./figure/empirical_stat_normal_
+kmshare_ciiu_mu_with_error_bars_Food products.png> <./figure/empirical_stat_nor
+mal_kmshare_ciiu_mu_with_error_bars_Textiles.png> <./figure/empirical_stat_norm
+al_kmshare_ciiu_beta_logK_with_error_bars_Fabricated metal products.png> <./fig
+ure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Food products.
+png> <./figure/empirical_stat_normal_kmshare_ciiu_beta_logK_with_error_bars_Tex
+tiles.png> <./figure/empirical_stat_normal_kmshare_ciiu_beta_import_with_error_
+bars_Fabricated metal products.png> <./figure/empirical_stat_normal_kmshare_cii
+u_beta_import_with_error_bars_Food products.png> <./figure/empirical_stat_norma
+l_kmshare_ciiu_beta_import_with_error_bars_Textiles.png>]
+
+[3 <./figure/empirical_stat_mixture_alpha_with_error_bars_Fabricated metal prod
+ucts.png> <./figure/empirical_stat_mixture_alpha_with_error_bars_Food products.
+png> <./figure/empirical_stat_mixture_alpha_with_error_bars_Textiles.png> <./fi
+gure/empirical_stat_mixture_mu_with_error_bars_Fabricated metal products.png> <
+./figure/empirical_stat_mixture_mu_with_error_bars_Food products.png> <./figure
+/empirical_stat_mixture_mu_with_error_bars_Textiles.png>]
+
+[4 <./figure/empirical_stat_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricat
+ed metal products.png> <./figure/empirical_stat_mixture_kmshare_ciiu_alpha_with
+_error_bars_Food products.png> <./figure/empirical_stat_mixture_kmshare_ciiu_al
+pha_with_error_bars_Textiles.png> <./figure/empirical_stat_mixture_kmshare_ciiu
+_mu_with_error_bars_Fabricated metal products.png> <./figure/empirical_stat_mix
+ture_kmshare_ciiu_mu_with_error_bars_Food products.png> <./figure/empirical_sta
+t_mixture_kmshare_ciiu_mu_with_error_bars_Textiles.png> <./figure/empirical_sta
+t_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabricated metal products.png>
+ <./figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error_bars_Food p
+roducts.png> <./figure/empirical_stat_mixture_kmshare_ciiu_beta_logK_with_error
+_bars_Textiles.png> <./figure/empirical_stat_mixture_kmshare_ciiu_beta_import_w
+ith_error_bars_Fabricated metal products.png> <./figure/empirical_stat_mixture_
+kmshare_ciiu_beta_import_with_error_bars_Food products.png> <./figure/empirical
+_stat_mixture_kmshare_ciiu_beta_import_with_error_bars_Textiles.png>]
+
+[5 <./figure/empirical_ar1_normal_alpha_with_error_bars_Fabricated metal produc
+ts.png> <./figure/empirical_ar1_normal_alpha_with_error_bars_Food products.png>
+ <./figure/empirical_ar1_normal_alpha_with_error_bars_Textiles.png> <./figure/e
+mpirical_ar1_normal_mu_with_error_bars_Fabricated metal products.png> <./figure
+/empirical_ar1_normal_mu_with_error_bars_Food products.png> <./figure/empirical
+_ar1_normal_mu_with_error_bars_Textiles.png>]
+
+[6 <./figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_error_bars_Fabricated
+ metal products.png> <./figure/empirical_ar1_normal_kmshare_ciiu_alpha_with_err
+or_bars_Food products.png> <./figure/empirical_ar1_normal_kmshare_ciiu_alpha_wi
+th_error_bars_Textiles.png> <./figure/empirical_ar1_normal_kmshare_ciiu_mu_with
+_error_bars_Fabricated metal products.png> <./figure/empirical_ar1_normal_kmsha
+re_ciiu_mu_with_error_bars_Food products.png> <./figure/empirical_ar1_normal_km
+share_ciiu_mu_with_error_bars_Textiles.png> <./figure/empirical_ar1_normal_kmsh
+are_ciiu_rho_with_error_bars_Fabricated metal products.png> <./figure/empirical
+_ar1_normal_kmshare_ciiu_rho_with_error_bars_Food products.png> <./figure/empir
+ical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Fabricated metal product
+s.png> <./figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_error_bars_Fo
+od products.png> <./figure/empirical_ar1_normal_kmshare_ciiu_beta_logK_with_err
+or_bars_Textiles.png> <./figure/empirical_ar1_normal_kmshare_ciiu_beta_import_w
+ith_error_bars_Fabricated metal products.png> <./figure/empirical_ar1_normal_km
+share_ciiu_beta_import_with_error_bars_Food products.png> <./figure/empirical_a
+r1_normal_kmshare_ciiu_beta_import_with_error_bars_Textiles.png>]
+
+[7 <./figure/empirical_ar1_mixture_alpha_with_error_bars_Fabricated metal produ
+cts.png> <./figure/empirical_ar1_mixture_alpha_with_error_bars_Food products.pn
+g> <./figure/empirical_ar1_mixture_alpha_with_error_bars_Textiles.png> <./figur
+e/empirical_ar1_mixture_mu_with_error_bars_Fabricated metal products.png> <./fi
+gure/empirical_ar1_mixture_mu_with_error_bars_Food products.png> <./figure/empi
+rical_ar1_mixture_mu_with_error_bars_Textiles.png> <./figure/empirical_ar1_mixt
+ure_rho_with_error_bars_Fabricated metal products.png> <./figure/empirical_ar1_
+mixture_rho_with_error_bars_Food products.png> <./figure/empirical_ar1_mixture_
+rho_with_error_bars_Textiles.png>]
+
+[8 <./figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_error_bars_Fabricate
+d metal products.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_alpha_with_e
+rror_bars_Food products.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_alpha
+_with_error_bars_Textiles.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_mu_
+with_error_bars_Fabricated metal products.png> <./figure/empirical_ar1_mixture_
+kmshare_ciiu_mu_with_error_bars_Food products.png> <./figure/empirical_ar1_mixt
+ure_kmshare_ciiu_mu_with_error_bars_Textiles.png> <./figure/empirical_ar1_mixtu
+re_kmshare_ciiu_rho_with_error_bars_Fabricated metal products.png> <./figure/em
+pirical_ar1_mixture_kmshare_ciiu_rho_with_error_bars_Food products.png> <./figu
+re/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_error_bars_Fabricated meta
+l products.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_beta_logK_with_err
+or_bars_Food products.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_beta_lo
+gK_with_error_bars_Textiles.png> <./figure/empirical_ar1_mixture_kmshare_ciiu_b
+eta_import_with_error_bars_Fabricated metal products.png> <./figure/empirical_a
+r1_mixture_kmshare_ciiu_beta_import_with_error_bars_Food products.png> <./figur
+e/empirical_ar1_mixture_kmshare_ciiu_beta_import_with_error_bars_Textiles.png>]
+(./plots.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 5177 strings out of 473190
+ 126852 string characters out of 5715801
+ 506012 words of memory out of 5000000
+ 28402 multiletter control sequences out of 15000+600000
+ 561566 words of font info for 46 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 67i,11n,77p,300b,549s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on plots.pdf (8 pages, 2075722 bytes).
+PDF statistics:
+ 226 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 411 words of extra memory for PDF output out of 10000 (max. 10000000)
+

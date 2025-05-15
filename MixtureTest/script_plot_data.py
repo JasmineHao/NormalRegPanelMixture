@@ -15,15 +15,18 @@ warnings.filterwarnings("ignore")
 
 # %%
 T = 3
-k = 3
+k = 2
 ind_code = [311, 381, 321]
-M_list = [4,5,6]
+M_list = [5,4,6]
+# M_list = [2,2,2]
 
 ind_code_dict = load_ind_code_dict()
 colors = load_colors()
 
 each_code = ind_code[0]
 m = M_list[0]
+
+estimate_parameters = []
 
 for (each_code, m) in zip(ind_code, M_list):
 
@@ -36,7 +39,9 @@ for (each_code, m) in zip(ind_code, M_list):
     z = processed_data['z_ciiu']
     z = z.astype(np.float64)  # Convert z to float64
     z_0 = np.zeros((z.shape[0], 0))
-    
+
+    # Plot the empirical distribution
+    # --------------------------------- 
     fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
     num_bins = 100  # You can change this based on your data
     values = np.exp(y.T.flatten())
@@ -49,160 +54,112 @@ for (each_code, m) in zip(ind_code, M_list):
 
     # Plot the error of 3-component plain mixture 
     # ---------------------------------
+    # Plain mixture model
     estimate_params = regpanelmixmixturePMLE(y, x_0, z_0, 0, 0, m, k)
-    
-    fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
-
-    num_bins = 50  # You can change this based on your data
-    
-    # values = np.exp(y.T.flatten())
-    values = y.T.flatten()
-    plot_x_values = np.linspace(min(values) - 1, max(values) + 1, 1000)
-
-    bin_edges = np.linspace(values.min(), values.max(), num_bins + 1)  # Define bin edges
-
-    tau_hat = estimate_params['tau_hat'].reshape((m,k))
-    mu_hat = estimate_params['mu_hat'].reshape((m,k))
-    sigma_hat = estimate_params['sigma_hat']
-    
-    # Call the function
-    values_type = [values for mm in range(m)]
+    tau_hat, mu_hat, sigma_hat = estimate_params['tau_hat'].reshape((m, k)), estimate_params['mu_hat'].reshape((m, k)), estimate_params['sigma_hat']
     output_path = f"figure/empirical_error_plain_{INDNAME}.png"
-    plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, plot_x_values, output_path)
-    # sample of returning the estimates and standard errors
+    plot_mixture_distribution(estimate_params, T, [y.T.flatten()] * m, np.linspace(y.min(), y.max(), 51), tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, np.linspace(y.min() - 1, y.max() + 1, 1000), output_path)
 
-    
-    # Plot the error of 3-component mixture kmshare ciiu 
-    # ---------------------------------
+    # Mixture model with kmshare and ciiu
     estimate_params = regpanelmixmixturePMLE(y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], m, k)
-    
-    fig = plt.figure(figsize=(6, 4))  # Set figure size (optional)
-
-    num_bins = 50  # You can change this based on your data
-    
-    # values = np.exp(y.T.flatten())
-    values = y.T.flatten()
-    plot_x_values = np.linspace(min(values) - 1, max(values) + 1, 1000)
-
-    bin_edges = np.linspace(values.min(), values.max(), num_bins + 1)  # Define bin edges
-
-    values_type = [values for mm in range(m)]
-    for mm in range(m):
-        # mm = 0
-        values_type[mm] = values_type[mm] - x_kmshare @ estimate_params['beta_hat'][mm] - z @ estimate_params['gamma_hat'][0]
-    tau_hat = estimate_params['tau_hat'].reshape((m,k))
-    mu_hat = estimate_params['mu_hat'].reshape((m,k))
-    sigma_hat = estimate_params['sigma_hat']
-        
-    # Call the function
+    values_type = [y.T.flatten() - x_kmshare @ estimate_params['beta_hat'][mm] - z @ estimate_params['gamma_hat'][0] for mm in range(m)]
+    tau_hat, mu_hat, sigma_hat = estimate_params['tau_hat'].reshape((m, k)), estimate_params['mu_hat'].reshape((m, k)), estimate_params['sigma_hat']
     output_path = f"figure/empirical_error_kmshare_ciiu_{INDNAME}.png"
-    plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, plot_x_values, output_path)
-    # sample of returning the estimates and standard errors
+    plot_mixture_distribution(estimate_params, T, values_type, np.linspace(y.min(), y.max(), 51), tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, np.linspace(y.min() - 1, y.max() + 1, 1000), output_path)
+
+
+    # Plot Model Parameter Estimates
+    # ---------------------------------
     
-    
+    def process_model(model_function, y, x, z, p, q, m, k, model_type, specification, output_prefix):
+        if model_type in ['stationary_mixture', 'ar1_mixture']:
+            model_output = model_function(y, x, z, p, q, m, k)
+        else:
+            model_output = model_function(y, x, z, p, q, m)
+        params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(
+            model_output, data=[y, x, z], model_type=model_type
+        )
+        
+        estimate_parameters.append({
+            'Industry': INDNAME,
+            'Specification': specification,
+            'model type': model_type,
+            'params': params_dict,
+            'standard errors': standard_errors_dict
+        })
+        
+        PNAME = "Mean of Material Share"
+        output_path = f"figure/{output_prefix}_mu_with_error_bars_{INDNAME}.png"
+        plot_mubeta_with_error_bars(
+            params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path, label=r'mu'
+        )
+        
+        PNAME = "Mixing Proportion"
+        output_path = f"figure/{output_prefix}_alpha_with_error_bars_{INDNAME}.png"
+        plot_mubeta_with_error_bars(
+            params_dict['alpha'], np.array([standard_errors_dict['alpha'][0]] * 2), ['alpha_1', 'alpha_2'], INDNAME, PNAME, output_path, ylim=(-0.1, 0.9), label=r'alpha'
+        )
+
+        if q > 0:
+            PNAME = "log K coefficient"
+            output_path = f"figure/{output_prefix}_beta_logK_with_error_bars_{INDNAME}.png"
+            plot_mubeta_with_error_bars(
+            params_dict['beta'][:,0], standard_errors_dict['beta'][:,0], ['beta_K_1', 'beta_K_2'], INDNAME, PNAME, output_path, label=r'beta_K'
+            )
+
+            PNAME = "import coefficient"
+            output_path = f"figure/{output_prefix}_beta_import_with_error_bars_{INDNAME}.png"
+            plot_mubeta_with_error_bars(
+            params_dict['beta'][:,1], standard_errors_dict['beta'][:,1], ['beta_im_1', 'beta_im_2'], INDNAME, PNAME, output_path, label=r'beta_import'
+            )
+        if model_type in ['ar1_mixture', 'ar1_normal']:
+            PNAME = "AR1 coefficient"
+            output_path = f"figure/{output_prefix}_rho_with_error_bars_{INDNAME}.png"
+            plot_mubeta_with_error_bars(
+                params_dict['rho'], standard_errors_dict['rho'], ['rho_1', 'rho_2'], INDNAME, PNAME, output_path, ylim=(-0.5, 1.2), label=r'rho'
+            )
+
     # Stat Mixture
     # ---------------------------------
-    model_output = regpanelmixmixturePMLE(y, x_0, z_0, p=0, q=0, m=m, k=k)
+    # Process stationary mixture model
+    process_model(
+        regpanelmixmixturePMLE, y, x_0, z_0, 0, 0, 2, k, 'stationary_mixture', 'Stationary Mixture', 'empirical_stat_mixture'
+    )
     
-    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_mixture')
-    
-    
-    PNAME = "Mean of Material Share"
-    output_path = f"figure/empirical_mu_with_error_bars_stat_mixture_{INDNAME}.png"
-    
-    values=params_dict['mu']
-    errors=standard_errors_dict['mu']
-    types=variable_names['mu']
-    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
-    
-    
-    PARAMETER_NAME = "Mixing Proportion"
-    values=params_dict['alpha']
-    errors=standard_errors_dict['alpha']
-    types=variable_names['alpha']
-    output_path = f"figure/empirical_alpha_with_error_bars_stat_mixture_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
-    
+    # Process stationary mixture model with kmshare and ciiu
+    process_model(
+        regpanelmixmixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, k, 'stationary_mixture', 'Stationary Mixture kmshare ciiu', 'empirical_stat_mixture_kmshare_ciiu'
+    )
+
     # Stat Normal
     # ---------------------------------
+    process_model(
+        regpanelmixPMLE, y, x_0, z_0, 0, 0, 2, k, 'stationary_normal', 'Stationary Normal', 'empirical_stat_normal'
+    )
     
-    model_output = regpanelmixPMLE(y, x_0, z_0, p=0, q=0, m=m)
-    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='stationary_normal')
-    
-    
-    PNAME = "Mean of Material Share"
-    output_path = f"figure/empirical_mu_with_error_bars_stat_normal_{INDNAME}.png"
-    
-    values=params_dict['mu']
-    errors=standard_errors_dict['mu']
-    types=variable_names['mu']
-    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
-    
-    
-    PARAMETER_NAME = "Mixing Proportion"
-    values=params_dict['alpha']
-    errors=standard_errors_dict['alpha']
-    types=variable_names['alpha']
-    output_path = f"figure/empirical_alpha_with_error_bars_stat_normal_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
-    
+    # Process stationary mixture model with kmshare and ciiu
+    process_model(
+        regpanelmixPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, k, 'stationary_normal', 'Stationary Mixture kmshare ciiu', 'empirical_stat_normal_kmshare_ciiu'
+    )
+
     # AR1 Normal
     # ---------------------------------
+    process_model(
+        regpanelmixAR1PMLE, y, x_0, z_0, 0, 0, 2, None, 'ar1_normal', 'AR1 Normal', 'empirical_ar1_normal'
+    )
     
-    model_output = regpanelmixAR1PMLE(y, x_0, z_0, p=0, q=0, m=m)
-    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='ar1_normal')   
-    
-    PNAME = "Mean of Material Share"
-    values=params_dict['mu']
-    errors=standard_errors_dict['mu']
-    types=variable_names['mu']
-    output_path = f"figure/empirical_mu_with_error_bars_ar1_normal_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
+    process_model(
+        regpanelmixAR1PMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, None, 'ar1_normal', 'AR1 Normal kmshare ciiu', 'empirical_ar1_normal_kmshare_ciiu'
+    )
 
-    
-    PARAMETER_NAME = "Persistence of AR1 Shocks"
-    values=params_dict['rho']
-    errors=standard_errors_dict['rho']
-    types=variable_names['rho']
-    output_path = f"figure/empirical_rho_with_error_bars_ar1_normal_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['rho'], standard_errors_dict['rho'], variable_names['rho'], INDNAME, PNAME, output_path, ylim=(-1,2))
-
-    
-    PARAMETER_NAME = "Mixing Proportion"
-    values=params_dict['alpha']
-    errors=standard_errors_dict['alpha']
-    types=variable_names['alpha']
-    output_path = f"figure/empirical_alpha_with_error_bars_ar1_normal_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'], INDNAME, PNAME, output_path, ylim=(-1,2))
- 
     # AR1 Mixture
     # ---------------------------------
-    model_output = regpanelmixAR1mixturePMLE(y, x_0, z_0, p=0, q=0, m=2, k=k)
+    process_model(
+        regpanelmixAR1mixturePMLE, y, x_0, z_0, 0, 0, 2, 2, 'ar1_mixture', 'AR1 Mixture', 'empirical_ar1_mixture'
+    )
     
-    params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y,x_0,z_0], model_type='ar1_mixture')
-    
-    PNAME = "Mean of Material Share"
-    values=params_dict['mu']
-    errors=standard_errors_dict['mu']
-    types=variable_names['mu']
-    output_path = f"figure/empirical_mu_with_error_bars_ar1_mixture_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['mu'], standard_errors_dict['mu'], variable_names['mu'], INDNAME, PNAME, output_path)
+    process_model(
+        regpanelmixAR1mixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, 2 , 'ar1_mixture', 'AR1 Mixture kmshare ciiu', 'empirical_ar1_mixture_kmshare_ciiu'
+    )
 
- 
-    PARAMETER_NAME = "Persistence of AR1 Shocks"
-    values=params_dict['rho']
-    errors=standard_errors_dict['rho']
-    types=variable_names['rho']
-    output_path = f"figure/empirical_rho_with_error_bars_ar1_mixture_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['rho'], standard_errors_dict['rho'], variable_names['rho'], INDNAME, PNAME, output_path, ylim=(-1,2))
-
-    
-    PARAMETER_NAME = "Mixing Proportion"
-    values=params_dict['alpha']
-    errors=standard_errors_dict['alpha']
-    types=variable_names['alpha']
-    output_path = f"figure/empirical_alpha_with_error_bars_ar1_mixture_{INDNAME}.png"
-    plot_mubeta_with_error_bars(params_dict['alpha'][:-1], standard_errors_dict['alpha'][:-1], variable_names['alpha'][:-1], INDNAME, PNAME, output_path, ylim=(-1,2))
-
-    
 # %%

@@ -4865,7 +4865,10 @@ def compute_standard_errors(model_output, data, model_type):
 
     # Compute the sandwich formula for standard errors
     N = data[0].shape[1]  # Number of observations
-    bread = np.linalg.pinv(np.mean(hessian, axis=0))  # Inverse of the Hessian (bread matrix)
+    
+    hessian_mean = np.nanmean(hessian, axis=0)
+    regularization = 1e-8 * np.eye(hessian_mean.shape[0])  # Add a small regularization term
+    bread = np.linalg.pinv(hessian_mean + regularization)  # Inverse of the Hessian (bread matrix)
     meat = score.T @ score  # Outer product of the score (meat matrix)
     sandwich = bread @ meat @ bread  # Sandwich formula
 
@@ -5179,10 +5182,10 @@ def plot_mixture_distribution(estimate_params, T, values_type, bin_edges, tau_ha
     fig.savefig(output_path, dpi=300)
     plt.close()
     
-def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_path, ylim=None):
+def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_path, ylim=None, label=None):
     plt.figure(figsize=(8, 6))
     
-    plt.errorbar(range(len(values)), values, yerr=1.96 * errors, fmt='o', capsize=5, capthick=2, color='blue', ecolor='red', label='mubeta')
+    plt.errorbar(range(len(values)), values, yerr=1.96 * errors, fmt='o', capsize=5, capthick=2, color='blue', ecolor='red', label=label)
     plt.xticks(range(len(types)), types, rotation=45, ha='right')
     plt.xlabel('Type')
     plt.ylabel('Value')
