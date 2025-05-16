@@ -47,7 +47,7 @@ if __name__ == "__main__":
     K = 2
     p = 0
     q = 0
-    T, N = 3, 225 # Example dimensions
+    T, N = 5, 225 # Example dimensions
     # T, N = 3, 196  # Example dimensions
     M_max = 6
     nrep = 100
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.2)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.1)
     
     end_time = time.time()
 
@@ -114,12 +114,12 @@ if __name__ == "__main__":
         result_table[ii,10] = find_first_zero(rk_mean_table[ii,:]) 
         result_table[ii,11] = find_first_zero(rk_max_table[ii,:]) 
     # Frequency table
-    result_freq_table = pd.DataFrame( index =  ["aic", "bic", "aic mixture", "bic mixture", "lr 1%", "lr 5%", "lr 10%", "lr 1%  mixture", "lr 5%  mixture", "lr 10% mixture" , "rk mean 5%", "rk max 5%"], columns = [f"M={i}" for i in range(1, M_max + 1)])
+    result_freq_table = pd.DataFrame( index =  ["aic", "bic", "aic mixture", "bic mixture", "lr 1%", "lr 5%", "lr 10%", "lr 1%  mixture", "lr 5%  mixture", "lr 10% mixture", "rk mean 5%", "rk max 5%"], columns = [f"M={i}" for i in range(1, M_max + 1)])
     for kk in range(12):
         result_freq_table.iloc[kk,] = count_frequency(result_table[:,kk], M_max) / nrep
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_tau0.2.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_T_5_tau0.1.csv")
 
 # %%

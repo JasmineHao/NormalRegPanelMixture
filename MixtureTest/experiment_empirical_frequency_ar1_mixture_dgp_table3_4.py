@@ -36,11 +36,6 @@ x = processed_data['x_0']
 z = np.zeros((x.shape[0], 0))
 z = z.astype(np.float64)  # Convert z to float64
 
-# %%
-
-
-# Assuming these functions are already implemented:
-# generate_data_mixture, regpanelmixmixturePMLE, NonParTestNoCovariates, LRTestNormal, LRTestMixture
 
 # %%
 # Main script
@@ -50,7 +45,7 @@ if __name__ == "__main__":
     K = 2
     p = 0
     q = 0
-    T, N = 3, 225 # Example dimensions
+    T, N = 5, 225 # Example dimensions
     # T, N = 3, 196  # Example dimensions
     M_max = 6
     nrep = 100
@@ -116,6 +111,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3_tau0.2.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3_T_5_tau0.05.csv")
 
 # %%
