@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.8)  16 MAY 2025 11:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.8)  16 MAY 2025 13:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -353,7 +353,7 @@ File: figure/stationary_normal_kmshare_ciiu_sigma_across_industries.png Graphic
  file (type png)
 <use figure/stationary_normal_kmshare_ciiu_sigma_across_industries.png>
 Package pdftex.def Info: figure/stationary_normal_kmshare_ciiu_sigma_across_ind
-ustries.png  used on input line 67.
+ustries.png  used on input line 68.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
 <figure/stationary_normal_kmshare_ciiu_beta_k_across_industries.png, id=11, 722
 .7pt x 433.62pt>
@@ -361,7 +361,7 @@ File: figure/stationary_normal_kmshare_ciiu_beta_k_across_industries.png Graphi
 c file (type png)
 <use figure/stationary_normal_kmshare_ciiu_beta_k_across_industries.png>
 Package pdftex.def Info: figure/stationary_normal_kmshare_ciiu_beta_k_across_in
-dustries.png  used on input line 72.
+dustries.png  used on input line 73.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
 <figure/stationary_normal_kmshare_ciiu_beta_im_across_industries.png, id=12, 72
 2.7pt x 433.62pt>
@@ -369,7 +369,7 @@ File: figure/stationary_normal_kmshare_ciiu_beta_im_across_industries.png Graph
 ic file (type png)
 <use figure/stationary_normal_kmshare_ciiu_beta_im_across_industries.png>
 Package pdftex.def Info: figure/stationary_normal_kmshare_ciiu_beta_im_across_i
-ndustries.png  used on input line 77.
+ndustries.png  used on input line 78.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
 <figure/stationary_mixture_alpha_across_industries.png, id=13, 722.7pt x 433.62
 pt>
@@ -377,7 +377,7 @@ File: figure/stationary_mixture_alpha_across_industries.png Graphic file (type
 png)
 <use figure/stationary_mixture_alpha_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_alpha_across_industries.png 
- used on input line 88.
+ used on input line 89.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
 <figure/stationary_mixture_mu_across_industries.png, id=14, 722.7pt x 433.62pt>
 
@@ -385,199 +385,229 @@ File: figure/stationary_mixture_mu_across_industries.png Graphic file (type png
 )
 <use figure/stationary_mixture_mu_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_mu_across_industries.png  us
-ed on input line 93.
+ed on input line 94.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_sigma_across_industries.png, id=15, 722.7pt x 433.62
+<figure/stationary_mixture_mubar_across_industries.png, id=15, 722.7pt x 433.62
+pt>
+File: figure/stationary_mixture_mubar_across_industries.png Graphic file (type 
+png)
+<use figure/stationary_mixture_mubar_across_industries.png>
+Package pdftex.def Info: figure/stationary_mixture_mubar_across_industries.png 
+ used on input line 100.
+(pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
+<figure/stationary_mixture_sigma_across_industries.png, id=16, 722.7pt x 433.62
 pt>
 File: figure/stationary_mixture_sigma_across_industries.png Graphic file (type 
 png)
 <use figure/stationary_mixture_sigma_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_sigma_across_industries.png 
- used on input line 98.
+ used on input line 106.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png, id=16, 722
+<figure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png, id=17, 722
 .7pt x 433.62pt>
 File: figure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png Graphi
 c file (type png)
 <use figure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_alpha_across_in
-dustries.png  used on input line 109.
+dustries.png  used on input line 117.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png, id=17, 722.7p
+<figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png, id=18, 722.7p
 t x 433.62pt>
 File: figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png Graphic f
 ile (type png)
 <use figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_mu_across_indus
-tries.png  used on input line 114.
+tries.png  used on input line 122.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png, id=18, 722
+<figure/stationary_mixture_kmshare_ciiu_mubar_across_industries.png, id=19, 722
+.7pt x 433.62pt>
+File: figure/stationary_mixture_kmshare_ciiu_mubar_across_industries.png Graphi
+c file (type png)
+<use figure/stationary_mixture_kmshare_ciiu_mubar_across_industries.png>
+Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_mubar_across_in
+dustries.png  used on input line 127.
+(pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
+<figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png, id=20, 722
 .7pt x 433.62pt>
 File: figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png Graphi
 c file (type png)
 <use figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_sigma_across_in
-dustries.png  used on input line 119.
+dustries.png  used on input line 133.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries.png, id=19, 72
+<figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries.png, id=21, 72
 2.7pt x 433.62pt>
 File: figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries.png Graph
 ic file (type png)
 <use figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_beta_k_across_i
-ndustries.png  used on input line 124.
+ndustries.png  used on input line 138.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries.png, id=20, 7
+<figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries.png, id=22, 7
 22.7pt x 433.62pt>
 File: figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries.png Grap
 hic file (type png)
 <use figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries.png>
 Package pdftex.def Info: figure/stationary_mixture_kmshare_ciiu_beta_im_across_
-industries.png  used on input line 129.
+industries.png  used on input line 143.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_alpha_across_industries.png, id=21, 722.7pt x 433.62pt>
+<figure/ar1_normal_alpha_across_industries.png, id=23, 722.7pt x 433.62pt>
 File: figure/ar1_normal_alpha_across_industries.png Graphic file (type png)
 <use figure/ar1_normal_alpha_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_alpha_across_industries.png  used on
- input line 141.
+ input line 155.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_mu_across_industries.png, id=22, 722.7pt x 433.62pt>
+<figure/ar1_normal_mu_across_industries.png, id=24, 722.7pt x 433.62pt>
 File: figure/ar1_normal_mu_across_industries.png Graphic file (type png)
 <use figure/ar1_normal_mu_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_mu_across_industries.png  used on in
-put line 146.
+put line 160.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_sigma_across_industries.png, id=23, 722.7pt x 433.62pt>
+<figure/ar1_normal_sigma_across_industries.png, id=25, 722.7pt x 433.62pt>
 File: figure/ar1_normal_sigma_across_industries.png Graphic file (type png)
 <use figure/ar1_normal_sigma_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_sigma_across_industries.png  used on
- input line 151.
+ input line 165.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_rho_across_industries.png, id=24, 722.7pt x 433.62pt>
+<figure/ar1_normal_rho_across_industries.png, id=26, 722.7pt x 433.62pt>
 File: figure/ar1_normal_rho_across_industries.png Graphic file (type png)
 <use figure/ar1_normal_rho_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_rho_across_industries.png  used on i
-nput line 156.
+nput line 170.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png, id=25, 722.7pt x 4
+<figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png, id=27, 722.7pt x 4
 33.62pt>
 File: figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png Graphic file (
 type png)
 <use figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_alpha_across_industries
-.png  used on input line 169.
+.png  used on input line 183.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_mu_across_industries.png, id=26, 722.7pt x 433.
+<figure/ar1_normal_kmshare_ciiu_mu_across_industries.png, id=28, 722.7pt x 433.
 62pt>
 File: figure/ar1_normal_kmshare_ciiu_mu_across_industries.png Graphic file (typ
 e png)
 <use figure/ar1_normal_kmshare_ciiu_mu_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_mu_across_industries.pn
-g  used on input line 174.
+g  used on input line 188.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png, id=27, 722.7pt x 4
+<figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png, id=29, 722.7pt x 4
 33.62pt>
 File: figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png Graphic file (
 type png)
 <use figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_sigma_across_industries
-.png  used on input line 179.
+.png  used on input line 193.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_rho_across_industries.png, id=28, 722.7pt x 433
+<figure/ar1_normal_kmshare_ciiu_rho_across_industries.png, id=30, 722.7pt x 433
 .62pt>
 File: figure/ar1_normal_kmshare_ciiu_rho_across_industries.png Graphic file (ty
 pe png)
 <use figure/ar1_normal_kmshare_ciiu_rho_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_rho_across_industries.p
-ng  used on input line 184.
+ng  used on input line 198.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png, id=29, 722.7pt x 
+<figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png, id=31, 722.7pt x 
 433.62pt>
 File: figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png Graphic file 
 (type png)
 <use figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_beta_k_across_industrie
-s.png  used on input line 189.
+s.png  used on input line 203.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png, id=30, 722.7pt x
+<figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png, id=32, 722.7pt x
  433.62pt>
 File: figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png Graphic file
  (type png)
 <use figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png>
 Package pdftex.def Info: figure/ar1_normal_kmshare_ciiu_beta_im_across_industri
-es.png  used on input line 194.
+es.png  used on input line 208.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_alpha_across_industries.png, id=31, 722.7pt x 433.62pt>
+<figure/ar1_mixture_alpha_across_industries.png, id=33, 722.7pt x 433.62pt>
 File: figure/ar1_mixture_alpha_across_industries.png Graphic file (type png)
 <use figure/ar1_mixture_alpha_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_alpha_across_industries.png  used o
-n input line 206.
+n input line 220.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_mu_across_industries.png, id=32, 722.7pt x 433.62pt>
+<figure/ar1_mixture_mu_across_industries.png, id=34, 722.7pt x 433.62pt>
 File: figure/ar1_mixture_mu_across_industries.png Graphic file (type png)
 <use figure/ar1_mixture_mu_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_mu_across_industries.png  used on i
-nput line 211.
+nput line 225.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_sigma_across_industries.png, id=33, 722.7pt x 433.62pt>
+<figure/ar1_mixture_mubar_across_industries.png, id=35, 722.7pt x 433.62pt>
+File: figure/ar1_mixture_mubar_across_industries.png Graphic file (type png)
+<use figure/ar1_mixture_mubar_across_industries.png>
+Package pdftex.def Info: figure/ar1_mixture_mubar_across_industries.png  used o
+n input line 230.
+(pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
+<figure/ar1_mixture_sigma_across_industries.png, id=36, 722.7pt x 433.62pt>
 File: figure/ar1_mixture_sigma_across_industries.png Graphic file (type png)
 <use figure/ar1_mixture_sigma_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_sigma_across_industries.png  used o
-n input line 216.
+n input line 235.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_rho_across_industries.png, id=34, 722.7pt x 433.62pt>
+<figure/ar1_mixture_rho_across_industries.png, id=37, 722.7pt x 433.62pt>
 File: figure/ar1_mixture_rho_across_industries.png Graphic file (type png)
 <use figure/ar1_mixture_rho_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_rho_across_industries.png  used on 
-input line 221.
+input line 240.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png, id=35, 722.7pt x 
+<figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png, id=38, 722.7pt x 
 433.62pt>
 File: figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png Graphic file 
 (type png)
 <use figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_alpha_across_industrie
-s.png  used on input line 232.
+s.png  used on input line 251.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png, id=36, 722.7pt x 433
+<figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png, id=39, 722.7pt x 433
 .62pt>
 File: figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png Graphic file (ty
 pe png)
 <use figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_mu_across_industries.p
-ng  used on input line 237.
+ng  used on input line 256.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_sigma_across_industries.png, id=37, 722.7pt x 
+<figure/ar1_mixture_kmshare_ciiu_mubar_across_industries.png, id=40, 722.7pt x 
+433.62pt>
+File: figure/ar1_mixture_kmshare_ciiu_mubar_across_industries.png Graphic file 
+(type png)
+<use figure/ar1_mixture_kmshare_ciiu_mubar_across_industries.png>
+Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_mubar_across_industrie
+s.png  used on input line 261.
+(pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
+<figure/ar1_mixture_kmshare_ciiu_sigma_across_industries.png, id=41, 722.7pt x 
 433.62pt>
 File: figure/ar1_mixture_kmshare_ciiu_sigma_across_industries.png Graphic file 
 (type png)
 <use figure/ar1_mixture_kmshare_ciiu_sigma_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_sigma_across_industrie
-s.png  used on input line 242.
+s.png  used on input line 266.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_rho_across_industries.png, id=38, 722.7pt x 43
+<figure/ar1_mixture_kmshare_ciiu_rho_across_industries.png, id=42, 722.7pt x 43
 3.62pt>
 File: figure/ar1_mixture_kmshare_ciiu_rho_across_industries.png Graphic file (t
 ype png)
 <use figure/ar1_mixture_kmshare_ciiu_rho_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_rho_across_industries.
-png  used on input line 247.
+png  used on input line 271.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png, id=39, 722.7pt x
+<figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png, id=43, 722.7pt x
  433.62pt>
 File: figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png Graphic file
  (type png)
 <use figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_beta_k_across_industri
-es.png  used on input line 252.
+es.png  used on input line 276.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
-<figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png, id=40, 722.7pt 
+<figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png, id=44, 722.7pt 
 x 433.62pt>
 File: figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png Graphic fil
 e (type png)
 <use figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png>
 Package pdftex.def Info: figure/ar1_mixture_kmshare_ciiu_beta_im_across_industr
-ies.png  used on input line 257.
+ies.png  used on input line 281.
 (pdftex.def)             Requested size: 150.32504pt x 90.19612pt.
 
 
@@ -595,30 +625,33 @@ gure/stationary_normal_kmshare_ciiu_beta_k_across_industries.png> <./figure/sta
 tionary_normal_kmshare_ciiu_beta_im_across_industries.png>]
 
 [2 <./figure/stationary_mixture_alpha_across_industries.png> <./figure/stationa
-ry_mixture_mu_across_industries.png> <./figure/stationary_mixture_sigma_across_
-industries.png> <./figure/stationary_mixture_kmshare_ciiu_alpha_across_industri
-es.png> <./figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png> <./
-figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png> <./figure/s
-tationary_mixture_kmshare_ciiu_beta_k_across_industries.png> <./figure/stationa
-ry_mixture_kmshare_ciiu_beta_im_across_industries.png> <./figure/ar1_normal_alp
-ha_across_industries.png> <./figure/ar1_normal_mu_across_industries.png> <./fig
-ure/ar1_normal_sigma_across_industries.png> <./figure/ar1_normal_rho_across_ind
-ustries.png>]
+ry_mixture_mu_across_industries.png> <./figure/stationary_mixture_mubar_across_
+industries.png> <./figure/stationary_mixture_sigma_across_industries.png> <./fi
+gure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png> <./figure/sta
+tionary_mixture_kmshare_ciiu_mu_across_industries.png> <./figure/stationary_mix
+ture_kmshare_ciiu_mubar_across_industries.png> <./figure/stationary_mixture_kms
+hare_ciiu_sigma_across_industries.png> <./figure/stationary_mixture_kmshare_cii
+u_beta_k_across_industries.png> <./figure/stationary_mixture_kmshare_ciiu_beta_
+im_across_industries.png>]
 
-[3 <./figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png> <./figure/ar1
-_normal_kmshare_ciiu_mu_across_industries.png> <./figure/ar1_normal_kmshare_cii
-u_sigma_across_industries.png> <./figure/ar1_normal_kmshare_ciiu_rho_across_ind
-ustries.png> <./figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png> <.
-/figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png> <./figure/ar1_mi
-xture_alpha_across_industries.png> <./figure/ar1_mixture_mu_across_industries.p
-ng> <./figure/ar1_mixture_sigma_across_industries.png> <./figure/ar1_mixture_rh
-o_across_industries.png>]
+[3 <./figure/ar1_normal_alpha_across_industries.png> <./figure/ar1_normal_mu_ac
+ross_industries.png> <./figure/ar1_normal_sigma_across_industries.png> <./figur
+e/ar1_normal_rho_across_industries.png> <./figure/ar1_normal_kmshare_ciiu_alpha
+_across_industries.png> <./figure/ar1_normal_kmshare_ciiu_mu_across_industries.
+png> <./figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png> <./figure/a
+r1_normal_kmshare_ciiu_rho_across_industries.png> <./figure/ar1_normal_kmshare_
+ciiu_beta_k_across_industries.png> <./figure/ar1_normal_kmshare_ciiu_beta_im_ac
+ross_industries.png>]
 
-[4 <./figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png> <./figure/ar
-1_mixture_kmshare_ciiu_mu_across_industries.png> <./figure/ar1_mixture_kmshare_
-ciiu_sigma_across_industries.png> <./figure/ar1_mixture_kmshare_ciiu_rho_across
-_industries.png> <./figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.pn
-g> <./figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png>]
+[4 <./figure/ar1_mixture_alpha_across_industries.png> <./figure/ar1_mixture_mu_
+across_industries.png> <./figure/ar1_mixture_mubar_across_industries.png> <./fi
+gure/ar1_mixture_sigma_across_industries.png> <./figure/ar1_mixture_rho_across_
+industries.png> <./figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png>
+ <./figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png> <./figure/ar1_mix
+ture_kmshare_ciiu_mubar_across_industries.png> <./figure/ar1_mixture_kmshare_ci
+iu_sigma_across_industries.png> <./figure/ar1_mixture_kmshare_ciiu_rho_across_i
+ndustries.png> <./figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png>
+ <./figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png>]
 (./plots.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
@@ -626,23 +659,23 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4876 strings out of 473190
- 94947 string characters out of 5715801
- 489012 words of memory out of 5000000
- 28101 multiletter control sequences out of 15000+600000
+ 4904 strings out of 473190
+ 96707 string characters out of 5715801
+ 491021 words of memory out of 5000000
+ 28129 multiletter control sequences out of 15000+600000
  561566 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,11n,77p,300b,549s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 67i,12n,77p,300b,564s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
 sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
 /local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on plots.pdf (4 pages, 1702979 bytes).
+Output written on plots.pdf (4 pages, 1744471 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
+ 134 PDF objects out of 1000 (max. 8388607)
  29 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 216 words of extra memory for PDF output out of 10000 (max. 10000000)
 
