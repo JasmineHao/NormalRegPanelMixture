@@ -79,57 +79,57 @@ for (each_code, m) in zip(ind_code, M_list):
                 params_dict, params_array = get_params_stationary_mixture(model_output)
             elif model_type == 'ar1_mixture':
                 params_dict, params_array = get_params_ar1_mixture(model_output)
-            # mubar = (params_dict['tau'].reshape((m, k)) * params_dict['mu'].reshape((m, k))).sum(axis=1)
+            mubar = (params_dict['tau'].reshape((m, k)) * params_dict['mu'].reshape((m, k))).sum(axis=1)
 
-            # # Bootstrap to compute standard error of mubar and alpha
-            # bootstrap_samples = 100  # Number of bootstrap samples
-            # mubar_bootstrap = []
-            # alpha_bootstrap = []
-            # T,N = y.shape
-            # for _ in range(bootstrap_samples):
-            #     # Resample data with replacement
-            #     indices = np.random.choice(N, size=N, replace=True)
-            #     y_bootstrap = y[:, indices]
-            #     x_bootstrap = np.zeros(x.shape)
-            #     for qq in range(x.shape[1]):
-            #         x[:,qq] = (x[:,qq].reshape((N,T)).T[:,indices]).T.flatten()
-            #     z_bootstrap = np.zeros(z.shape)
-            #     for pp in range(z.shape[1]):
-            #         z[:,pp] = (z[:,pp].reshape((N,T)).T[:,indices]).T.flatten()
+            # Bootstrap to compute standard error of mubar and alpha
+            bootstrap_samples = 100  # Number of bootstrap samples
+            mubar_bootstrap = []
+            alpha_bootstrap = []
+            T,N = y.shape
+            for _ in range(bootstrap_samples):
+                # Resample data with replacement
+                indices = np.random.choice(N, size=N, replace=True)
+                y_bootstrap = y[:, indices]
+                x_bootstrap = np.zeros(x.shape)
+                for qq in range(x.shape[1]):
+                    x[:,qq] = (x[:,qq].reshape((N,T)).T[:,indices]).T.flatten()
+                z_bootstrap = np.zeros(z.shape)
+                for pp in range(z.shape[1]):
+                    z[:,pp] = (z[:,pp].reshape((N,T)).T[:,indices]).T.flatten()
 
-            #     # Refit the model on the bootstrap sample
-            #     model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
-            #     if model_type == 'stationary_mixture':
-            #         params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
-            #     elif model_type == 'ar1_mixture':
-            #         params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
+                # Refit the model on the bootstrap sample
+                model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
+                if model_type == 'stationary_mixture':
+                    params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
+                elif model_type == 'ar1_mixture':
+                    params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
 
-            #     # Compute mubar for the bootstrap sample
-            #     mubar_bootstrap_sample = (params_dict_bootstrap['tau'].reshape((m, k)) * params_dict_bootstrap['mu'].reshape((m, k))).sum(axis=1)
-            #     mubar_bootstrap.append(mubar_bootstrap_sample)
+                # Compute mubar for the bootstrap sample
+                mubar_bootstrap_sample = (params_dict_bootstrap['tau'].reshape((m, k)) * params_dict_bootstrap['mu'].reshape((m, k))).sum(axis=1)
+                mubar_bootstrap.append(mubar_bootstrap_sample)
 
-            #     # Compute alpha for the bootstrap sample
-            #     alpha_bootstrap_sample = params_dict_bootstrap['tau']
-            #     alpha_bootstrap.append(alpha_bootstrap_sample)
+                # Compute alpha for the bootstrap sample
+                alpha_bootstrap_sample = params_dict_bootstrap['tau']
+                alpha_bootstrap.append(alpha_bootstrap_sample)
 
-            # # Compute standard error of mubar
-            # mubar_bootstrap = np.array(mubar_bootstrap)
-            # mubar_se = mubar_bootstrap.std(axis=0)
+            # Compute standard error of mubar
+            mubar_bootstrap = np.array(mubar_bootstrap)
+            mubar_se = mubar_bootstrap.std(axis=0)
 
-            # # Compute standard error of alpha
-            # alpha_bootstrap = np.array(alpha_bootstrap)
-            # alpha_se = alpha_bootstrap.std(axis=0)
+            # Compute standard error of alpha
+            alpha_bootstrap = np.array(alpha_bootstrap)
+            alpha_se = alpha_bootstrap.std(axis=0)
 
         else:
             model_output = model_function(y, x, z, p, q, m)
         params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(
             model_output, data=[y, x, z], model_type=model_type
         )
-        # if model_type in ['stationary_mixture', 'ar1_mixture']:
-        #     params_dict['mubar'] = mubar
+        if model_type in ['stationary_mixture', 'ar1_mixture']:
+            params_dict['mubar'] = mubar
             
-        #     standard_errors_dict['mubar'] = mubar_se
-        #     standard_errors_dict['alpha'] = alpha_se
+            standard_errors_dict['mubar'] = mubar_se
+            standard_errors_dict['alpha'] = alpha_se
 
         estimate_parameters.append({
             'Industry': INDNAME,
@@ -175,44 +175,44 @@ for (each_code, m) in zip(ind_code, M_list):
     # ---------------------------------
     # Process stationary mixture model
     process_model(
-        regpanelmixmixturePMLE, y, x_0, z_0, 0, 0, 2, k, 'stationary_mixture', 'Stationary Mixture', 'empirical_stat_mixture'
+        regpanelmixmixturePMLE, y, x_0, z_0, 0, 0, 3, 2, 'stationary_mixture', 'Stationary Mixture', 'empirical_stat_mixture'
     )
     
     # Process stationary mixture model with kmshare and ciiu
     process_model(
-        regpanelmixmixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, k, 'stationary_mixture', 'Stationary Mixture kmshare ciiu', 'empirical_stat_mixture_kmshare_ciiu'
+        regpanelmixmixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 3, 2, 'stationary_mixture', 'Stationary Mixture kmshare ciiu', 'empirical_stat_mixture_kmshare_ciiu'
     )
 
     # Stat Normal
     # ---------------------------------
     process_model(
-        regpanelmixPMLE, y, x_0, z_0, 0, 0, 2, k, 'stationary_normal', 'Stationary Normal', 'empirical_stat_normal'
+        regpanelmixPMLE, y, x_0, z_0, 0, 0, 3, 2, 'stationary_normal', 'Stationary Normal', 'empirical_stat_normal'
     )
     
     # Process stationary mixture model with kmshare and ciiu
     process_model(
-        regpanelmixPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, k, 'stationary_normal', 'Stationary Normal kmshare ciiu', 'empirical_stat_normal_kmshare_ciiu'
+        regpanelmixPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 3, k, 'stationary_normal', 'Stationary Normal kmshare ciiu', 'empirical_stat_normal_kmshare_ciiu'
     )
 
     # AR1 Normal
     # ---------------------------------
     process_model(
-        regpanelmixAR1PMLE, y, x_0, z_0, 0, 0, 2, None, 'ar1_normal', 'AR1 Normal', 'empirical_ar1_normal'
+        regpanelmixAR1PMLE, y, x_0, z_0, 0, 0, 3, None, 'ar1_normal', 'AR1 Normal', 'empirical_ar1_normal'
     )
     
     process_model(
-        regpanelmixAR1PMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, None, 'ar1_normal', 'AR1 Normal kmshare ciiu', 'empirical_ar1_normal_kmshare_ciiu'
+        regpanelmixAR1PMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 3, None, 'ar1_normal', 'AR1 Normal kmshare ciiu', 'empirical_ar1_normal_kmshare_ciiu'
     )
 
     # AR1 Mixture
     # ---------------------------------
     process_model(
-        regpanelmixAR1mixturePMLE, y, x_0, z_0, 0, 0, 2, 2, 'ar1_mixture', 'AR1 Mixture', 'empirical_ar1_mixture'
+        regpanelmixAR1mixturePMLE, y, x_0, z_0, 0, 0, 3, 2, 'ar1_mixture', 'AR1 Mixture', 'empirical_ar1_mixture'
     )
     
     if ind_code != 311:
         process_model(
-            regpanelmixAR1mixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 2, 2 , 'ar1_mixture', 'AR1 Mixture kmshare ciiu', 'empirical_ar1_mixture_kmshare_ciiu'
+            regpanelmixAR1mixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1], 3, 2 , 'ar1_mixture', 'AR1 Mixture kmshare ciiu', 'empirical_ar1_mixture_kmshare_ciiu'
         )
 
 # %%
@@ -278,7 +278,11 @@ def process_estimated_parameters(estimate_parameters):
 # Call the function to process and tabulate the estimated parameters
 estimated_parameters_table = process_estimated_parameters(estimate_parameters)
 
-
+# Filter out entries where Specification is 'AR1 Mixture kmshare ciiu' and Industry is 'Food products'
+estimate_parameters = [
+    entry for entry in estimate_parameters 
+    if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
+]
 # %%
 import matplotlib.pyplot as plt
 
@@ -290,7 +294,7 @@ def plot_parameter_across_industries(parameter_name, entries, ylabel, title, out
     if parameter_name == 'alpha':
         parameter_values = [entry['params'][parameter_name] for entry in entries]
     
-        parameter_errors = [np.c_[entry['standard errors'][parameter_name][:(m-1)], entry['standard errors'][parameter_name][0]].flatten() for entry in entries]
+        parameter_errors = [np.r_[entry['standard errors'][parameter_name][:(m-1)].flatten(), entry['standard errors'][parameter_name][[0]]].flatten() for entry in entries]
         variable_names = [f"{parameter_name}_{i+1}" for i in range(len(parameter_values[0]))]
     elif parameter_name == 'mubar':
         parameter_values = [entry['params'][parameter_name] for entry in entries]
@@ -312,21 +316,22 @@ def plot_parameter_across_industries(parameter_name, entries, ylabel, title, out
         parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
         variable_names = entries[0]['variable names'][parameter_name]
     
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 4))
     x_positions = np.arange(len(industries))  # Positions for industries on x-axis
     for j in range(len(parameter_values[0])):  # Iterate over components
-        offset = (j - len(parameter_values[0]) / 2) * 0.2  # Offset for horizontal separation
+        offset = (j - len(parameter_values[0]) / 2) * 0.15  # Reduced offset for closer horizontal separation
         values = [entry[j] for entry in parameter_values]
         errors = [entry[j] for entry in parameter_errors]
         plt.errorbar(x_positions + offset, values, yerr=1.96 * np.array(errors), 
                      fmt='o', capsize=5, label=variable_names[j])
 
-    plt.xticks(x_positions, industries, rotation=45)
+    # plt.xticks(x_positions, industries, rotation=45)
+    plt.xticks(x_positions, industries)
     plt.legend()
 
     # plt.xticks(np.arange(len(parameter_values[0])), variable_names)
     plt.ylabel(ylabel)
-    plt.title(title)
+    # plt.title(title)
     plt.legend()
     plt.tight_layout()
     plt.savefig(output_path)
@@ -346,7 +351,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         sanitized_specification = specification.replace(" ", "_").lower()
 
         # Plot alpha
-        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries.png'
+        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m3.png'
         plot_parameter_across_industries(
             'alpha', filtered_entries, ylabel='Alpha', 
             title=f'Alpha Across Industries ({model_type}, {specification})', 
@@ -355,7 +360,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         print(output_path_alpha)
 
         # Plot mu
-        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries.png'
+        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m3.png'
         plot_parameter_across_industries(
             'mu', filtered_entries, ylabel='Mu', 
             title=f'Mu Across Industries ({model_type}, {specification})', 
@@ -364,7 +369,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         print(output_path_mu)
 
         # Plot sigma
-        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries.png'
+        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m3.png'
         plot_parameter_across_industries(
             'sigma', filtered_entries, ylabel='Sigma', 
             title=f'Sigma Across Industries ({model_type}, {specification})', 
@@ -374,7 +379,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
 
         # Plot rho if it exists
         if 'rho' in filtered_entries[0]['params']:
-            output_path_rho = f'figure/{sanitized_specification}_rho_across_industries.png'
+            output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m3.png'
             plot_parameter_across_industries(
             'rho', filtered_entries, ylabel='Rho', 
             title=f'Rho Across Industries ({model_type}, {specification})', 
@@ -383,7 +388,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
             print(output_path_rho)
         # Plot mubar if it exists
         if 'mubar' in filtered_entries[0]['params']:
-            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries.png'
+            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m3.png'
             plot_parameter_across_industries(
             'mubar', filtered_entries, ylabel='Mubar', 
             title=f'Mubar Across Industries ({model_type}, {specification})', 
@@ -394,7 +399,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         # Plot beta
         if 'beta' in filtered_entries[0]['params'] and filtered_entries[0]['params']['beta'].shape[1] > 0:
             # Plot beta_k
-            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries.png'
+            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m3.png'
             plot_parameter_across_industries(
             'beta_k', filtered_entries, ylabel='log K coefficient', 
             title=f'Beta K Across Industries ({model_type}, {specification})', 
@@ -403,7 +408,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
             print(output_path_beta_k)
 
             # Plot beta_im
-            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries.png'
+            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m3.png'
             plot_parameter_across_industries(
             'beta_im', filtered_entries, ylabel='Import Coefficient', 
             title=f'Beta Import Across Industries ({model_type}, {specification})', 
