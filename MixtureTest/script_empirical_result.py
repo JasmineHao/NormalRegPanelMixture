@@ -50,7 +50,9 @@ for csv_file in csv_files:
     
     df = pd.read_csv(file_path, header=1, index_col=0)
     df = df[df.columns[1:]]    
-    df_row = df.loc[['AIC','BIC','LR'],:].stack().to_frame().T
+    stats_to_select = ['AIC', 'BIC', 'LR', 'LR 90', 'LR 99']
+    available_stats = [stat for stat in stats_to_select if stat in df.index]
+    df_row = df.loc[available_stats, :].stack().to_frame().T
     df_row['country'] = country.capitalize()
     df_row['model'] = model.capitalize()
     df_row['T'] = T_length

@@ -1,99 +1,99 @@
-Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country,T,Y,Model
-,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,,,,
-model,,,,,,,,,,,,,
-Nonpar,10.0,10.0,10.0,10.0,10.0,10.0,3.0,3.0,3.0,Chile,3,mYshare,Nonparametric
-Nonpar,10.0,10.0,10.0,10.0,10.0,10.0,3.0,3.0,3.0,Chile,3,mLshare,Nonparametric
-Plain,8.0,10.0,9.0,5.0,9.0,6.0,8.0,10+,7.0,Chile,3,mYshare,No Covariate Normal
-Plain,9.0,10.0,8.0,7.0,8.0,7.0,9.0,10+,8.0,Chile,5,mYshare,No Covariate Normal
-Plain,10.0,10.0,10.0,7.0,10.0,7.0,10+,10+,10+,Chile,3,mLshare,No Covariate Normal
-Plain mixture,10.0,10.0,9.0,7.0,10.0,8.0,7.0,10+,7.0,Chile,3,mLshare,No Covariate 2-Component Mixture
-Plain mixture,6.0,10.0,7.0,5.0,8.0,6.0,5.0,8.0,7.0,Chile,3,mYshare,No Covariate 2-Component Mixture
-Plain mixture,7.0,9.0,5.0,7.0,8.0,5.0,6.0,5.0,5.0,Chile,5,mYshare,No Covariate 2-Component Mixture
-Plain mixture 3,10.0,10.0,8.0,5.0,7.0,5.0,7.0,7.0,7.0,Chile,3,mLshare,No Covariate 3-Component Mixture
-Plain mixture 3,9.0,7.0,5.0,4.0,7.0,5.0,7.0,5.0,5.0,Chile,5,mYshare,No Covariate 3-Component Mixture
-Plain mixture 3,4.0,10.0,9.0,4.0,8.0,4.0,4.0,8.0,6.0,Chile,3,mYshare,No Covariate 3-Component Mixture
-Plain mixture 4,6.0,10.0,7.0,4.0,7.0,5.0,6.0,7.0,6.0,Chile,3,mLshare,No Covariate 4-Component Mixture
-Plain mixture 4,5.0,9.0,7.0,3.0,5.0,4.0,5.0,7.0,6.0,Chile,3,mYshare,No Covariate 4-Component Mixture
-Plain mixture 4,7.0,6.0,7.0,3.0,6.0,4.0,6.0,5.0,5.0,Chile,5,mYshare,No Covariate 4-Component Mixture
-Plain ciiu,10.0,10.0,10.0,7.0,10.0,9.0,8.0,10+,10.0,Chile,3,mLshare,No Covariate Normal control CIIU4
-Plain ciiu,9.0,10.0,8.0,5.0,8.0,6.0,5.0,10+,7.0,Chile,3,mYshare,No Covariate Normal control CIIU4
-Plain mixture ciiu,10.0,10.0,10.0,6.0,9.0,6.0,5.0,10.0,6.0,Chile,3,mLshare,No Covariate 2-Component Mixture control CIIU4
-Plain mixture ciiu,5.0,10.0,6.0,5.0,8.0,5.0,5.0,8.0,6.0,Chile,3,mYshare,No Covariate 2-Component Mixture control CIIU4
-Plain mixture 3 ciiu,6.0,10.0,8.0,6.0,9.0,6.0,6.0,10.0,6.0,Chile,3,mLshare,No Covariate 3-Component Mixture control CIIU4
-Plain mixture 3 ciiu,4.0,10.0,6.0,4.0,5.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,No Covariate 3-Component Mixture control CIIU4
-Plain mixture 4 ciiu,7.0,7.0,7.0,3.0,5.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,No Covariate 4-Component Mixture control CIIU4
-Plain mixture 4 ciiu,7.0,8.0,8.0,4.0,7.0,5.0,4.0,8.0,6.0,Chile,3,mLshare,No Covariate 4-Component Mixture control CIIU4
-K,10.0,10.0,10.0,6.0,10.0,7.0,9.0,10+,8.0,Chile,3,mLshare,K Normal
-K,9.0,10.0,7.0,5.0,10.0,6.0,6.0,10+,7.0,Chile,3,mYshare,K Normal
-K,10.0,10.0,8.0,9.0,10.0,8.0,8.0,10+,10.0,Chile,5,mYshare,K Normal
-K mixture,7.0,10.0,8.0,3.0,8.0,6.0,5.0,8.0,6.0,Chile,3,mYshare,K 2-Component Mixture
-K mixture,7.0,10.0,8.0,7.0,10.0,8.0,7.0,8.0,7.0,Chile,5,mYshare,K 2-Component Mixture
-K mixture,10.0,10.0,10.0,6.0,8.0,6.0,6.0,9.0,8.0,Chile,3,mLshare,K 2-Component Mixture
-K mixture 3,10.0,10.0,9.0,5.0,7.0,6.0,5.0,7.0,6.0,Chile,3,mLshare,K 3-Component Mixture
-K mixture 3,4.0,8.0,7.0,4.0,8.0,6.0,4.0,5.0,6.0,Chile,3,mYshare,K 3-Component Mixture
-K mixture 4,8.0,8.0,7.0,4.0,6.0,5.0,4.0,9.0,6.0,Chile,3,mLshare,K 4-Component Mixture
-K mixture 4,5.0,8.0,6.0,3.0,5.0,4.0,4.0,5.0,6.0,Chile,3,mYshare,K 4-Component Mixture
-Kmshare,10.0,10.0,10.0,7.0,8.0,7.0,9.0,10+,6.0,Chile,3,mLshare,K Material Share Normal
-Kmshare,8.0,10.0,7.0,5.0,9.0,6.0,8.0,10+,7.0,Chile,3,mYshare,K Material Share Normal
-Kmshare mixture,7.0,8.0,7.0,3.0,8.0,5.0,5.0,7.0,6.0,Chile,3,mYshare,K Material Share 2-Component Mixture
-Kmshare mixture,9.0,10.0,8.0,5.0,7.0,8.0,6.0,7.0,6.0,Chile,3,mLshare,K Material Share 2-Component Mixture
-Kmshare mixture 3,5.0,9.0,6.0,3.0,7.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,K Material Share 3-Component Mixture
-Kmshare mixture 3,10.0,10.0,9.0,5.0,7.0,6.0,6.0,6.0,6.0,Chile,3,mLshare,K Material Share 3-Component Mixture
-Kmshare mixture 4,6.0,6.0,6.0,3.0,5.0,5.0,4.0,5.0,5.0,Chile,3,mYshare,K Material Share 4-Component Mixture
-Kmshare mixture 4,7.0,8.0,7.0,4.0,6.0,6.0,4.0,6.0,6.0,Chile,3,mLshare,K Material Share 4-Component Mixture
-Kmshare ciiu,10.0,10.0,9.0,4.0,8.0,6.0,5.0,9.0,7.0,Chile,3,mYshare,K Material Share Normal control CIIU4
-Kmshare ciiu,8.0,10.0,10.0,6.0,8.0,7.0,6.0,10+,7.0,Chile,3,mLshare,K Material Share Normal control CIIU4
-Kmshare ciiu,8.0,10.0,10.0,6.0,10.0,7.0,4.0,1.0,7.0,Chile,5,mYshare,K Material Share Normal control CIIU4
-Kmshare mixture ciiu,7.0,9.0,10.0,5.0,8.0,5.0,5.0,8.0,5.0,Chile,3,mLshare,K Material Share 2-Component Mixture control CIIU4
-Kmshare mixture ciiu,7.0,7.0,7.0,4.0,6.0,6.0,5.0,6.0,5.0,Chile,3,mYshare,K Material Share 2-Component Mixture control CIIU4
-Kmshare mixture ciiu,4.0,8.0,8.0,4.0,8.0,5.0,4.0,1.0,7.0,Chile,5,mYshare,K Material Share 2-Component Mixture control CIIU4
-Kmshare mixture 3 ciiu,7.0,8.0,8.0,5.0,6.0,5.0,5.0,8.0,5.0,Chile,3,mLshare,K Material Share 3-Component Mixture control CIIU4
-Kmshare mixture 3 ciiu,6.0,6.0,6.0,4.0,6.0,6.0,4.0,6.0,5.0,Chile,3,mYshare,K Material Share 3-Component Mixture control CIIU4
-Kmshare mixture 3 ciiu,5.0,6.0,9.0,5.0,6.0,5.0,3.0,2.0,3.0,Chile,5,mYshare,K Material Share 3-Component Mixture control CIIU4
-Kmshare mixture 4 ciiu,5.0,7.0,6.0,4.0,6.0,5.0,5.0,6.0,5.0,Chile,3,mLshare,K Material Share 4-Component Mixture control CIIU4
-Kmshare mixture 4 ciiu,5.0,2.0,7.0,3.0,2.0,5.0,4.0,2.0,5.0,Chile,5,mYshare,K Material Share 4-Component Mixture control CIIU4
-Kmshare mixture 4 ciiu,5.0,8.0,6.0,4.0,6.0,5.0,4.0,6.0,5.0,Chile,3,mYshare,K Material Share 4-Component Mixture control CIIU4
-K ciiu,10.0,10.0,10.0,7.0,8.0,8.0,7.0,10+,10.0,Chile,3,mLshare,K Normal control CIIU4
-K ciiu,8.0,2.0,9.0,5.0,2.0,8.0,4.0,1.0,7.0,Chile,5,mYshare,K Normal control CIIU4
-K ciiu,7.0,10.0,7.0,4.0,9.0,6.0,4.0,10+,7.0,Chile,3,mYshare,K Normal control CIIU4
-K mixture ciiu,6.0,7.0,9.0,4.0,5.0,6.0,4.0,6.0,6.0,Chile,3,mYshare,K 2-Component Mixture control CIIU4
-K mixture ciiu,5.0,9.0,10.0,3.0,7.0,5.0,5.0,1.0,5.0,Chile,5,mYshare,K 2-Component Mixture control CIIU4
-K mixture ciiu,7.0,8.0,10.0,6.0,8.0,7.0,6.0,8.0,6.0,Chile,3,mLshare,K 2-Component Mixture control CIIU4
-K mixture 3 ciiu,7.0,10.0,7.0,5.0,7.0,7.0,5.0,7.0,5.0,Chile,3,mLshare,K 3-Component Mixture control CIIU4
-K mixture 3 ciiu,4.0,7.0,6.0,4.0,5.0,6.0,4.0,5.0,7.0,Chile,3,mYshare,K 3-Component Mixture control CIIU4
-K mixture 3 ciiu,5.0,10.0,7.0,2.0,6.0,4.0,3.0,1.0,6.0,Chile,5,mYshare,K 3-Component Mixture control CIIU4
-K mixture 4 ciiu,7.0,8.0,6.0,5.0,6.0,6.0,5.0,8.0,6.0,Chile,3,mLshare,K 4-Component Mixture control CIIU4
-K mixture 4 ciiu,4.0,6.0,6.0,4.0,6.0,4.0,4.0,1.0,6.0,Chile,5,mYshare,K 4-Component Mixture control CIIU4
-K mixture 4 ciiu,4.0,8.0,6.0,4.0,5.0,4.0,4.0,4.0,6.0,Chile,3,mYshare,K 4-Component Mixture control CIIU4
-Ar1 plain,7.0,10.0,8.0,2.0,4.0,3.0,2.0,5.0,3.0,Chile,3,mLshare,AR1 No Covariate Normal
-Ar1 plain,9.0,9.0,10.0,3.0,6.0,3.0,3.0,6.0,3.0,Chile,5,mLshare,AR1 No Covariate Normal
-Ar1 plain,3.0,5.0,3.0,3.0,5.0,2.0,2.0,3.0,3.0,Chile,5,mYshare,AR1 No Covariate Normal
-Ar1 plain,10.0,9.0,6.0,3.0,4.0,3.0,4.0,5.0,3.0,Chile,3,mYshare,AR1 No Covariate Normal
-Ar1 plain mixture,3.0,4.0,3.0,2.0,4.0,2.0,3.0,3.0,2.0,Chile,5,mLshare,AR1 No Covariate 2-Component Mixture
-Ar1 plain mixture,2.0,6.0,3.0,2.0,4.0,2.0,1.0,2.0,2.0,Chile,3,mLshare,AR1 No Covariate 2-Component Mixture
-Ar1 plain mixture,2.0,2.0,2.0,2.0,2.0,2.0,1.0,2.0,1.0,Chile,5,mYshare,AR1 No Covariate 2-Component Mixture
-Ar1 plain mixture,3.0,6.0,4.0,2.0,4.0,3.0,2.0,2.0,2.0,Chile,3,mYshare,AR1 No Covariate 2-Component Mixture
-Ar1 plain mixture 3,5.0,5.0,4.0,3.0,3.0,3.0,3.0,2.0,1.0,Chile,3,mYshare,AR1 No Covariate 3-Component Mixture
-Ar1 plain mixture 3,3.0,3.0,2.0,2.0,3.0,2.0,1.0,2.0,2.0,Chile,5,mLshare,AR1 No Covariate 3-Component Mixture
-Ar1 plain mixture 3,3.0,4.0,2.0,2.0,4.0,2.0,1.0,2.0,2.0,Chile,3,mLshare,AR1 No Covariate 3-Component Mixture
-Ar1 k,3.0,3.0,2.0,3.0,3.0,2.0,3.0,3.0,2.0,Chile,5,mYshare,AR1 K Normal
-Ar1 k,10.0,10.0,10.0,2.0,5.0,3.0,3.0,7.0,3.0,Chile,3,mYshare,AR1 K Normal
-Ar1 k,7.0,10.0,8.0,2.0,4.0,2.0,2.0,5.0,2.0,Chile,3,mLshare,AR1 K Normal
-Ar1 k mixture,4.0,6.0,5.0,2.0,4.0,2.0,1.0,4.0,2.0,Chile,3,mLshare,AR1 K 2-Component Mixture
-Ar1 k mixture,2.0,1.0,2.0,2.0,1.0,2.0,1.0,1.0,1.0,Chile,5,mYshare,AR1 K 2-Component Mixture
-Ar1 k mixture,5.0,7.0,5.0,2.0,3.0,3.0,2.0,2.0,2.0,Chile,3,mYshare,AR1 K 2-Component Mixture
-Ar1 k mixture 3,5.0,8.0,7.0,2.0,3.0,3.0,3.0,2.0,1.0,Chile,3,mYshare,AR1 K 3-Component Mixture
-Ar1 k mixture 3,4.0,5.0,5.0,1.0,2.0,2.0,1.0,2.0,1.0,Chile,3,mLshare,AR1 K 3-Component Mixture
-Ar1 k ciiu,4.0,4.0,4.0,4.0,4.0,3.0,3.0,4.0,3.0,Chile,5,mYshare,AR1 K Normal control CIIU4
-Ar1 k ciiu,7.0,4.0,5.0,2.0,4.0,3.0,2.0,2.0,3.0,Chile,3,mYshare,AR1 K Normal control CIIU4
-Ar1 k mixture ciiu,8.0,10.0,4.0,2.0,4.0,2.0,2.0,2.0,2.0,Chile,3,mYshare,AR1 K 2-Component Mixture control CIIU4
-Ar1 k mixture ciiu,4.0,7.0,3.0,2.0,4.0,3.0,2.0,1.0,2.0,Chile,5,mYshare,AR1 K 2-Component Mixture control CIIU4
-Ar1 k mixture 3 ciiu,4.0,2.0,3.0,2.0,2.0,3.0,2.0,2.0,3.0,Chile,3,mYshare,AR1 K 3-Component Mixture control CIIU4
-Ar1 k mixture 3 ciiu,5.0,6.0,4.0,3.0,4.0,3.0,2.0,1.0,2.0,Chile,5,mYshare,AR1 K 3-Component Mixture control CIIU4
-Ar1 kmshare ciiu,6.0,5.0,4.0,2.0,3.0,3.0,3.0,4.0,3.0,Chile,5,mYshare,AR1 kmshare Normal control CIIU4
-Ar1 kmshare ciiu,3.0,6.0,4.0,2.0,2.0,3.0,2.0,4.0,3.0,Chile,3,mYshare,AR1 kmshare Normal control CIIU4
-Ar1 kmshare ciiu,5.0,8.0,6.0,2.0,3.0,2.0,3.0,5.0,2.0,Chile,3,mLshare,AR1 kmshare Normal control CIIU4
-Ar1 kmshare mixture ciiu,4.0,8.0,6.0,2.0,5.0,3.0,2.0,3.0,2.0,Chile,3,mYshare,AR1 kmshare 2-Component Mixture control CIIU4
-Ar1 kmshare mixture ciiu,5.0,6.0,6.0,2.0,4.0,2.0,3.0,2.0,2.0,Chile,3,mLshare,AR1 kmshare 2-Component Mixture control CIIU4
-Ar1 kmshare mixture 3 ciiu,3.0,6.0,5.0,1.0,3.0,2.0,1.0,2.0,1.0,Chile,3,mLshare,AR1 kmshare 3-Component Mixture control CIIU4
-Ar1 kmshare mixture 3 ciiu,7.0,5.0,6.0,2.0,4.0,3.0,1.0,2.0,2.0,Chile,3,mYshare,AR1 kmshare 3-Component Mixture control CIIU4
+Industry,AIC,AIC,AIC,BIC,BIC,BIC,LR,LR,LR,country,T,Y,LR 90,LR 90,LR 90,LR 99,LR 99,LR 99,Model
+,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,,,,Fabricated metal products,Food products,Textiles,Fabricated metal products,Food products,Textiles,
+model,,,,,,,,,,,,,,,,,,,
+Nonpar,10.0,10.0,10.0,10.0,10.0,10.0,3.0,3.0,3.0,Chile,3,mLshare,,,,,,,Nonparametric
+Nonpar,10.0,10.0,10.0,10.0,10.0,10.0,3.0,3.0,3.0,Chile,3,mYshare,,,,,,,Nonparametric
+Plain,10.0,10.0,10.0,7.0,10.0,7.0,10+,10+,10+,Chile,3,mLshare,,,,,,,No Covariate Normal
+Plain,8.0,10.0,9.0,5.0,8.0,6.0,8.0,10+,9.0,Chile,3,mYshare,8.0,10+,9.0,8.0,10+,9.0,No Covariate Normal
+Plain,9.0,10.0,8.0,7.0,8.0,7.0,9.0,10+,8.0,Chile,5,mYshare,,,,,,,No Covariate Normal
+Plain mixture,10.0,10.0,9.0,7.0,10.0,8.0,7.0,10+,7.0,Chile,3,mLshare,,,,,,,No Covariate 2-Component Mixture
+Plain mixture,6.0,10.0,10.0,5.0,8.0,6.0,5.0,8.0,6.0,Chile,3,mYshare,5.0,8.0,7.0,5.0,8.0,6.0,No Covariate 2-Component Mixture
+Plain mixture,7.0,9.0,5.0,7.0,8.0,5.0,6.0,5.0,5.0,Chile,5,mYshare,,,,,,,No Covariate 2-Component Mixture
+Plain mixture 3,10.0,10.0,8.0,5.0,7.0,5.0,7.0,7.0,7.0,Chile,3,mLshare,,,,,,,No Covariate 3-Component Mixture
+Plain mixture 3,5.0,10.0,8.0,4.0,8.0,4.0,4.0,8.0,6.0,Chile,3,mYshare,4.0,8.0,6.0,4.0,8.0,6.0,No Covariate 3-Component Mixture
+Plain mixture 3,9.0,7.0,5.0,4.0,7.0,5.0,7.0,5.0,5.0,Chile,5,mYshare,,,,,,,No Covariate 3-Component Mixture
+Plain mixture 4,6.0,10.0,7.0,4.0,7.0,5.0,6.0,7.0,6.0,Chile,3,mLshare,,,,,,,No Covariate 4-Component Mixture
+Plain mixture 4,5.0,9.0,7.0,3.0,5.0,4.0,5.0,7.0,6.0,Chile,3,mYshare,,,,,,,No Covariate 4-Component Mixture
+Plain mixture 4,7.0,6.0,7.0,3.0,6.0,4.0,6.0,5.0,5.0,Chile,5,mYshare,,,,,,,No Covariate 4-Component Mixture
+Plain ciiu,10.0,10.0,10.0,7.0,10.0,9.0,8.0,10+,10.0,Chile,3,mLshare,,,,,,,No Covariate Normal control CIIU4
+Plain ciiu,9.0,10.0,8.0,5.0,8.0,6.0,5.0,10+,7.0,Chile,3,mYshare,,,,,,,No Covariate Normal control CIIU4
+Plain mixture ciiu,10.0,10.0,10.0,6.0,9.0,6.0,5.0,10.0,6.0,Chile,3,mLshare,,,,,,,No Covariate 2-Component Mixture control CIIU4
+Plain mixture ciiu,5.0,10.0,6.0,5.0,8.0,5.0,5.0,8.0,6.0,Chile,3,mYshare,,,,,,,No Covariate 2-Component Mixture control CIIU4
+Plain mixture 3 ciiu,6.0,10.0,8.0,6.0,9.0,6.0,6.0,10.0,6.0,Chile,3,mLshare,,,,,,,No Covariate 3-Component Mixture control CIIU4
+Plain mixture 3 ciiu,4.0,10.0,6.0,4.0,5.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,,,,,,,No Covariate 3-Component Mixture control CIIU4
+Plain mixture 4 ciiu,7.0,8.0,8.0,4.0,7.0,5.0,4.0,8.0,6.0,Chile,3,mLshare,,,,,,,No Covariate 4-Component Mixture control CIIU4
+Plain mixture 4 ciiu,7.0,7.0,7.0,3.0,5.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,,,,,,,No Covariate 4-Component Mixture control CIIU4
+K,10.0,10.0,10.0,6.0,10.0,7.0,9.0,10+,8.0,Chile,3,mLshare,,,,,,,K Normal
+K,9.0,10.0,7.0,5.0,10.0,6.0,6.0,10+,7.0,Chile,3,mYshare,,,,,,,K Normal
+K,10.0,10.0,8.0,9.0,10.0,8.0,8.0,10+,10.0,Chile,5,mYshare,,,,,,,K Normal
+K mixture,10.0,10.0,10.0,6.0,8.0,6.0,6.0,9.0,8.0,Chile,3,mLshare,,,,,,,K 2-Component Mixture
+K mixture,7.0,10.0,8.0,3.0,8.0,6.0,5.0,8.0,6.0,Chile,3,mYshare,,,,,,,K 2-Component Mixture
+K mixture,7.0,10.0,8.0,7.0,10.0,8.0,7.0,8.0,7.0,Chile,5,mYshare,,,,,,,K 2-Component Mixture
+K mixture 3,10.0,10.0,9.0,5.0,7.0,6.0,5.0,7.0,6.0,Chile,3,mLshare,,,,,,,K 3-Component Mixture
+K mixture 3,4.0,8.0,7.0,4.0,8.0,6.0,4.0,5.0,6.0,Chile,3,mYshare,,,,,,,K 3-Component Mixture
+K mixture 4,8.0,8.0,7.0,4.0,6.0,5.0,4.0,9.0,6.0,Chile,3,mLshare,,,,,,,K 4-Component Mixture
+K mixture 4,5.0,8.0,6.0,3.0,5.0,4.0,4.0,5.0,6.0,Chile,3,mYshare,,,,,,,K 4-Component Mixture
+Kmshare,10.0,10.0,10.0,7.0,8.0,7.0,9.0,10+,6.0,Chile,3,mLshare,,,,,,,K Material Share Normal
+Kmshare,8.0,10.0,7.0,5.0,9.0,6.0,8.0,10+,7.0,Chile,3,mYshare,,,,,,,K Material Share Normal
+Kmshare mixture,9.0,10.0,8.0,5.0,7.0,8.0,6.0,7.0,6.0,Chile,3,mLshare,,,,,,,K Material Share 2-Component Mixture
+Kmshare mixture,7.0,8.0,7.0,3.0,8.0,5.0,5.0,7.0,6.0,Chile,3,mYshare,,,,,,,K Material Share 2-Component Mixture
+Kmshare mixture 3,10.0,10.0,9.0,5.0,7.0,6.0,6.0,6.0,6.0,Chile,3,mLshare,,,,,,,K Material Share 3-Component Mixture
+Kmshare mixture 3,5.0,9.0,6.0,3.0,7.0,5.0,4.0,5.0,6.0,Chile,3,mYshare,,,,,,,K Material Share 3-Component Mixture
+Kmshare mixture 4,7.0,8.0,7.0,4.0,6.0,6.0,4.0,6.0,6.0,Chile,3,mLshare,,,,,,,K Material Share 4-Component Mixture
+Kmshare mixture 4,6.0,6.0,6.0,3.0,5.0,5.0,4.0,5.0,5.0,Chile,3,mYshare,,,,,,,K Material Share 4-Component Mixture
+Kmshare ciiu,8.0,10.0,10.0,6.0,8.0,7.0,6.0,10+,7.0,Chile,3,mLshare,,,,,,,K Material Share Normal control CIIU4
+Kmshare ciiu,7.0,10.0,9.0,4.0,8.0,6.0,4.0,10+,7.0,Chile,3,mYshare,4.0,10+,7.0,4.0,10+,7.0,K Material Share Normal control CIIU4
+Kmshare ciiu,8.0,10.0,10.0,6.0,10.0,7.0,4.0,1.0,7.0,Chile,5,mYshare,,,,,,,K Material Share Normal control CIIU4
+Kmshare mixture ciiu,7.0,9.0,10.0,5.0,8.0,5.0,5.0,8.0,5.0,Chile,3,mLshare,,,,,,,K Material Share 2-Component Mixture control CIIU4
+Kmshare mixture ciiu,4.0,8.0,9.0,4.0,6.0,6.0,4.0,5.0,5.0,Chile,3,mYshare,4.0,6.0,5.0,4.0,5.0,5.0,K Material Share 2-Component Mixture control CIIU4
+Kmshare mixture ciiu,4.0,8.0,8.0,4.0,8.0,5.0,4.0,1.0,7.0,Chile,5,mYshare,,,,,,,K Material Share 2-Component Mixture control CIIU4
+Kmshare mixture 3 ciiu,7.0,8.0,8.0,5.0,6.0,5.0,5.0,8.0,5.0,Chile,3,mLshare,,,,,,,K Material Share 3-Component Mixture control CIIU4
+Kmshare mixture 3 ciiu,4.0,7.0,6.0,4.0,6.0,6.0,4.0,5.0,5.0,Chile,3,mYshare,4.0,5.0,5.0,4.0,5.0,5.0,K Material Share 3-Component Mixture control CIIU4
+Kmshare mixture 3 ciiu,5.0,6.0,9.0,5.0,6.0,5.0,3.0,2.0,3.0,Chile,5,mYshare,,,,,,,K Material Share 3-Component Mixture control CIIU4
+Kmshare mixture 4 ciiu,5.0,7.0,6.0,4.0,6.0,5.0,5.0,6.0,5.0,Chile,3,mLshare,,,,,,,K Material Share 4-Component Mixture control CIIU4
+Kmshare mixture 4 ciiu,5.0,8.0,6.0,4.0,6.0,5.0,4.0,6.0,5.0,Chile,3,mYshare,,,,,,,K Material Share 4-Component Mixture control CIIU4
+Kmshare mixture 4 ciiu,5.0,2.0,7.0,3.0,2.0,5.0,4.0,2.0,5.0,Chile,5,mYshare,,,,,,,K Material Share 4-Component Mixture control CIIU4
+K ciiu,10.0,10.0,10.0,7.0,8.0,8.0,7.0,10+,10.0,Chile,3,mLshare,,,,,,,K Normal control CIIU4
+K ciiu,7.0,10.0,7.0,4.0,9.0,6.0,4.0,10+,7.0,Chile,3,mYshare,,,,,,,K Normal control CIIU4
+K ciiu,8.0,2.0,9.0,5.0,2.0,8.0,4.0,1.0,7.0,Chile,5,mYshare,,,,,,,K Normal control CIIU4
+K mixture ciiu,7.0,8.0,10.0,6.0,8.0,7.0,6.0,8.0,6.0,Chile,3,mLshare,,,,,,,K 2-Component Mixture control CIIU4
+K mixture ciiu,6.0,7.0,9.0,4.0,5.0,6.0,4.0,6.0,6.0,Chile,3,mYshare,,,,,,,K 2-Component Mixture control CIIU4
+K mixture ciiu,5.0,9.0,10.0,3.0,7.0,5.0,5.0,1.0,5.0,Chile,5,mYshare,,,,,,,K 2-Component Mixture control CIIU4
+K mixture 3 ciiu,7.0,10.0,7.0,5.0,7.0,7.0,5.0,7.0,5.0,Chile,3,mLshare,,,,,,,K 3-Component Mixture control CIIU4
+K mixture 3 ciiu,4.0,7.0,6.0,4.0,5.0,6.0,4.0,5.0,7.0,Chile,3,mYshare,,,,,,,K 3-Component Mixture control CIIU4
+K mixture 3 ciiu,5.0,10.0,7.0,2.0,6.0,4.0,3.0,1.0,6.0,Chile,5,mYshare,,,,,,,K 3-Component Mixture control CIIU4
+K mixture 4 ciiu,7.0,8.0,6.0,5.0,6.0,6.0,5.0,8.0,6.0,Chile,3,mLshare,,,,,,,K 4-Component Mixture control CIIU4
+K mixture 4 ciiu,4.0,8.0,6.0,4.0,5.0,4.0,4.0,4.0,6.0,Chile,3,mYshare,,,,,,,K 4-Component Mixture control CIIU4
+K mixture 4 ciiu,4.0,6.0,6.0,4.0,6.0,4.0,4.0,1.0,6.0,Chile,5,mYshare,,,,,,,K 4-Component Mixture control CIIU4
+Ar1 plain,7.0,10.0,8.0,2.0,4.0,3.0,2.0,5.0,3.0,Chile,3,mLshare,,,,,,,AR1 No Covariate Normal
+Ar1 plain,9.0,9.0,10.0,3.0,6.0,3.0,3.0,6.0,3.0,Chile,5,mLshare,,,,,,,AR1 No Covariate Normal
+Ar1 plain,10.0,9.0,6.0,3.0,4.0,3.0,4.0,5.0,3.0,Chile,3,mYshare,,,,,,,AR1 No Covariate Normal
+Ar1 plain,3.0,5.0,3.0,3.0,5.0,2.0,2.0,3.0,3.0,Chile,5,mYshare,,,,,,,AR1 No Covariate Normal
+Ar1 plain mixture,2.0,6.0,3.0,2.0,4.0,2.0,1.0,2.0,2.0,Chile,3,mLshare,,,,,,,AR1 No Covariate 2-Component Mixture
+Ar1 plain mixture,3.0,4.0,3.0,2.0,4.0,2.0,3.0,3.0,2.0,Chile,5,mLshare,,,,,,,AR1 No Covariate 2-Component Mixture
+Ar1 plain mixture,3.0,6.0,4.0,2.0,4.0,3.0,2.0,2.0,2.0,Chile,3,mYshare,,,,,,,AR1 No Covariate 2-Component Mixture
+Ar1 plain mixture,2.0,2.0,2.0,2.0,2.0,2.0,1.0,2.0,1.0,Chile,5,mYshare,,,,,,,AR1 No Covariate 2-Component Mixture
+Ar1 plain mixture 3,3.0,4.0,2.0,2.0,4.0,2.0,1.0,2.0,2.0,Chile,3,mLshare,,,,,,,AR1 No Covariate 3-Component Mixture
+Ar1 plain mixture 3,3.0,3.0,2.0,2.0,3.0,2.0,1.0,2.0,2.0,Chile,5,mLshare,,,,,,,AR1 No Covariate 3-Component Mixture
+Ar1 plain mixture 3,5.0,5.0,4.0,3.0,3.0,3.0,3.0,2.0,1.0,Chile,3,mYshare,,,,,,,AR1 No Covariate 3-Component Mixture
+Ar1 k,7.0,10.0,8.0,2.0,4.0,2.0,2.0,5.0,2.0,Chile,3,mLshare,,,,,,,AR1 K Normal
+Ar1 k,10.0,10.0,10.0,2.0,5.0,3.0,3.0,7.0,3.0,Chile,3,mYshare,,,,,,,AR1 K Normal
+Ar1 k,3.0,3.0,2.0,3.0,3.0,2.0,3.0,3.0,2.0,Chile,5,mYshare,,,,,,,AR1 K Normal
+Ar1 k mixture,4.0,6.0,5.0,2.0,4.0,2.0,1.0,4.0,2.0,Chile,3,mLshare,,,,,,,AR1 K 2-Component Mixture
+Ar1 k mixture,5.0,7.0,5.0,2.0,3.0,3.0,2.0,2.0,2.0,Chile,3,mYshare,,,,,,,AR1 K 2-Component Mixture
+Ar1 k mixture,2.0,1.0,2.0,2.0,1.0,2.0,1.0,1.0,1.0,Chile,5,mYshare,,,,,,,AR1 K 2-Component Mixture
+Ar1 k mixture 3,4.0,5.0,5.0,1.0,2.0,2.0,1.0,2.0,1.0,Chile,3,mLshare,,,,,,,AR1 K 3-Component Mixture
+Ar1 k mixture 3,5.0,8.0,7.0,2.0,3.0,3.0,3.0,2.0,1.0,Chile,3,mYshare,,,,,,,AR1 K 3-Component Mixture
+Ar1 k ciiu,7.0,4.0,5.0,2.0,4.0,3.0,2.0,2.0,3.0,Chile,3,mYshare,,,,,,,AR1 K Normal control CIIU4
+Ar1 k ciiu,4.0,4.0,4.0,4.0,4.0,3.0,3.0,4.0,3.0,Chile,5,mYshare,,,,,,,AR1 K Normal control CIIU4
+Ar1 k mixture ciiu,8.0,10.0,4.0,2.0,4.0,2.0,2.0,2.0,2.0,Chile,3,mYshare,,,,,,,AR1 K 2-Component Mixture control CIIU4
+Ar1 k mixture ciiu,4.0,7.0,3.0,2.0,4.0,3.0,2.0,1.0,2.0,Chile,5,mYshare,,,,,,,AR1 K 2-Component Mixture control CIIU4
+Ar1 k mixture 3 ciiu,4.0,2.0,3.0,2.0,2.0,3.0,2.0,2.0,3.0,Chile,3,mYshare,,,,,,,AR1 K 3-Component Mixture control CIIU4
+Ar1 k mixture 3 ciiu,5.0,6.0,4.0,3.0,4.0,3.0,2.0,1.0,2.0,Chile,5,mYshare,,,,,,,AR1 K 3-Component Mixture control CIIU4
+Ar1 kmshare ciiu,5.0,8.0,6.0,2.0,3.0,2.0,3.0,5.0,2.0,Chile,3,mLshare,,,,,,,AR1 kmshare Normal control CIIU4
+Ar1 kmshare ciiu,3.0,6.0,4.0,2.0,2.0,3.0,2.0,4.0,3.0,Chile,3,mYshare,,,,,,,AR1 kmshare Normal control CIIU4
+Ar1 kmshare ciiu,6.0,5.0,4.0,2.0,3.0,3.0,3.0,4.0,3.0,Chile,5,mYshare,,,,,,,AR1 kmshare Normal control CIIU4
+Ar1 kmshare mixture ciiu,5.0,6.0,6.0,2.0,4.0,2.0,3.0,2.0,2.0,Chile,3,mLshare,,,,,,,AR1 kmshare 2-Component Mixture control CIIU4
+Ar1 kmshare mixture ciiu,4.0,8.0,6.0,2.0,5.0,3.0,2.0,3.0,2.0,Chile,3,mYshare,,,,,,,AR1 kmshare 2-Component Mixture control CIIU4
+Ar1 kmshare mixture 3 ciiu,3.0,6.0,5.0,1.0,3.0,2.0,1.0,2.0,1.0,Chile,3,mLshare,,,,,,,AR1 kmshare 3-Component Mixture control CIIU4
+Ar1 kmshare mixture 3 ciiu,7.0,5.0,6.0,2.0,4.0,3.0,1.0,2.0,2.0,Chile,3,mYshare,,,,,,,AR1 kmshare 3-Component Mixture control CIIU4

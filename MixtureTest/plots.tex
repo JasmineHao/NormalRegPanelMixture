@@ -6,142 +6,120 @@
 \usepackage{amsmath}   
 \begin{document}
 
-% Empirical Error
-\begin{figure}[ht!]
-    \centering 
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figure/empirical_error_kmshare_ciiu_Fabricated metal products.png}
-        \caption{Fabricated Metal Products}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figure/empirical_error_kmshare_ciiu_Food products.png}
-        \caption{Food Products}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figure/empirical_error_kmshare_ciiu_Textiles.png}
-        \caption{Textiles}
-    \end{subfigure}
-    % Removed redundant \subfigure
-\end{figure}
-
-
 % IID Normal Model
 \begin{figure}[ht!]
     \centering 
-    \caption{Stationary Normal Model Across Industries}
+    \caption{Stationary Normal Model Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_mu_across_industries_m2.png}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering 
-    \caption{I.I.D Normal Model Across Industries}
+    \caption{I.I.D Normal Model Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_mu_across_industries_m2.png}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
  
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_k_across_industries.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_k_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_im_across_industries.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_im_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 % Stationary Mixture Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{I.I.D Mixture Model Across Industries}
+    \caption{I.I.D Mixture Model Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_mu_across_industries_m2.png}
+        \caption{$\hat\mu_{jk}$ Across Industries}
     \end{subfigure}
 
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_mubar_across_industries.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_mubar_across_industries_m2.png}
+        \caption{$\hat{\mu}_j$ Across Industries}
 
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 % Stationary Mixture Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{Stationary Mixture Model with $\log K$, Import and CIIU Across Industries}
+    \caption{Stationary Mixture Model with $\log K$, Import and CIIU Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mu_across_industries_m2.png}
+        \caption{$\hat\mu_{jk}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mubar_across_industries.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mubar_across_industries_m2.png}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
 
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 
@@ -149,25 +127,26 @@
 % AR(1) Normal Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Normal Model Across Industries}
+    \caption{AR(1) Normal Model Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_mu_across_industries_m2.png}
+        \caption{$\hat\mu_{j}$ Across Industries}
+    \end{subfigure}
+    
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/ar1_normal_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_rho_across_industries.png}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_rho_across_industries_m2.png}
         \caption{$\hat\rho$ Across Industries}
     \end{subfigure}
 \end{figure}
@@ -177,36 +156,36 @@
 % AR(1) Normal Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Normal Model with $\log K$, Import and CIIU Across Industries}
+    \caption{AR(1) Normal Model with $\log K$, Import and CIIU Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_mu_across_industries_m2.png}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_rho_across_industries.png}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_rho_across_industries_m2.png}
         \caption{$\hat\rho$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_k_across_industries.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_k_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_im_across_industries.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_im_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 
@@ -214,30 +193,30 @@
 % AR(1) Mixture Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Mixture Model Across Industries}
+    \caption{AR(1) Mixture Model Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_mu_across_industries_m2.png}
+        \caption{$\hat\mu_{jk}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_mubar_across_industries.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_mubar_across_industries_m2.png}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_rho_across_industries.png}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_rho_across_industries_m2.png}
         \caption{$\hat\rho$ Across Industries}
     \end{subfigure}
 \end{figure}
@@ -245,183 +224,179 @@
 % AR(1) Mixture Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Mixture Model with $\log K$, Import and CIIU Across Industries}
+    \caption{AR(1) Mixture Model with $\log K$, Import and CIIU Across Industries ($M_0 = 2$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_alpha_across_industries.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_alpha_across_industries_m2.png}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mu_across_industries.png}
-        \caption{$\hat\mu$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mu_across_industries_m2.png}
+        \caption{$\hat\mu_{jk}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mubar_across_industries.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mubar_across_industries_m2.png}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_sigma_across_industries.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_sigma_across_industries_m2.png}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_rho_across_industries.png}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_rho_across_industries_m2.png}
         \caption{$\hat\rho$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries_m2.png}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 % M = 3
-
-
 % IID Normal Model
 \begin{figure}[ht!]
     \centering 
-    \caption{Stationary Normal Model Across Industries}
+    \caption{Stationary Normal Model Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering 
-    \caption{I.I.D Normal Model Across Industries}
+    \caption{I.I.D Normal Model Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
  
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_k_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_normal_kmshare_ciiu_beta_im_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 % Stationary Mixture Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{I.I.D Mixture Model Across Industries}
+    \caption{I.I.D Mixture Model Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
 
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_mubar_across_industries_m3.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
-
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
 \end{figure}
 
 % Stationary Mixture Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{Stationary Mixture Model with $\log K$, Import and CIIU Across Industries}
+    \caption{Stationary Mixture Model with $\log K$, Import and CIIU Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_mubar_across_industries_m3.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
 
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_k_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/stationary_mixture_kmshare_ciiu_beta_im_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
-
 
 % AR(1) Normal Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Normal Model Across Industries}
+    \caption{AR(1) Normal Model Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
@@ -430,26 +405,24 @@
     \end{subfigure}
 \end{figure}
 
-
-
 % AR(1) Normal Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Normal Model with $\log K$, Import and CIIU Across Industries}
+    \caption{AR(1) Normal Model with $\log K$, Import and CIIU Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
@@ -459,39 +432,38 @@
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_k_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_normal_kmshare_ciiu_beta_im_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
-
 
 % AR(1) Mixture Model Across Industries
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Mixture Model Across Industries}
+    \caption{AR(1) Mixture Model Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_mubar_across_industries_m3.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
@@ -503,26 +475,26 @@
 % AR(1) Mixture Model with $\log K$, Import and CIIU
 \begin{figure}[ht!]
     \centering 
-    \caption{AR(1) Mixture Model with $\log K$, Import and CIIU Across Industries}
+    \caption{AR(1) Mixture Model with $\log K$, Import and CIIU Across Industries ($\hat{M}_0 = 3$)}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_alpha_across_industries_m3.png}
-        \caption{$\hat\alpha$ Across Industries}
+        \caption{$\hat\alpha_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mu_across_industries_m3.png}
-        \caption{$\hat\mu$ Across Industries}
+        \caption{$\hat\mu_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_mubar_across_industries_m3.png}
-        \caption{$\hat{\bar\mu}$ Across Industries}
+        \caption{$\hat{\mu}_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_sigma_across_industries_m3.png}
-        \caption{$\hat\sigma$ Across Industries}
+        \caption{$\hat\sigma_j$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
@@ -532,12 +504,12 @@
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_k_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\log K}$ Across Industries}
+        \caption{$\hat{\beta}_{\log K, j}$ Across Industries}
     \end{subfigure}
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/ar1_mixture_kmshare_ciiu_beta_im_across_industries_m3.png}
-        \caption{$\hat{\beta}_{\text{Import}}$ Across Industries}
+        \caption{$\hat{\beta}_{\text{Import},j}$ Across Industries}
     \end{subfigure}
 \end{figure}
 

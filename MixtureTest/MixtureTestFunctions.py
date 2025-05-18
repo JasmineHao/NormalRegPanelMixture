@@ -5202,3 +5202,129 @@ def plot_mubeta_with_error_bars(values, errors, types, INDNAME, PNAME, output_pa
 
 
 # %%
+
+# Define a function to plot parameters across industries
+def plot_parameter_across_industries(parameter_name, entries, ylabel, title, output_path, ylim=None):
+    industries = [' '.join([w.capitalize() for w in entry['Industry'].replace('products', '').strip().split()]) for entry in entries]
+    m = entries[0]['params']['alpha'].shape[0] 
+    # parameter_name = 'alpha'
+    if parameter_name == 'alpha':
+        parameter_values = [entry['params'][parameter_name] for entry in entries]
+        parameter_errors = [np.r_[entry['standard errors'][parameter_name][:(m-1)].flatten(), entry['standard errors'][parameter_name][[0]]].flatten() for entry in entries]
+        variable_names = [f"$\\alpha_{{{i+1}}}$" for i in range(len(parameter_values[0]))]
+    elif parameter_name == 'mubar':
+        parameter_values = [entry['params'][parameter_name] for entry in entries]
+        parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
+        variable_names = [f"$\\mu_{{{i+1}}}$" for i in range(m)]
+    elif parameter_name == 'beta_k':
+        parameter_values = [entry['params']['beta'][:, 0] for entry in entries]
+        parameter_errors = [entry['standard errors']['beta'][:, 0] for entry in entries]
+        variable_names = [f"$\\beta_{{k,{i+1}}}$" for i in range(m)]
+
+    elif parameter_name == 'beta_im':
+        parameter_values = [entry['params']['beta'][:, 1] for entry in entries]
+        parameter_errors = [entry['standard errors']['beta'][:, 1] for entry in entries]
+        variable_names = [f"$\\beta_{{im,{i+1}}}$" for i in range(m)]
+
+    elif (parameter_name == 'mu') & (len(entries[0]['params']['mu']) > m):
+        parameter_values = [entry['params'][parameter_name] for entry in entries]
+        parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
+        variable_names = [f"$\\mu_{{{i+1}, {j+1}}}$" for i in range(m) for j in range(2)]
+    else:
+        parameter_values = [entry['params'][parameter_name] for entry in entries]
+    
+        parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
+        variable_names = [f"$\\{parameter_name}_{{{i+1}}}$" for i in range(m)]
+
+    plt.figure(figsize=(6, 4))
+    x_positions = np.arange(len(industries)) * 0.5  # Positions for industries on x-axis
+    # More distinct marker shapes for each j
+    markers = ['o', 's', '^', 'v', 'D', 'P', '*', 'X', '<', '>', 'h', 'H', 'p', '8']
+    color_marker = 'red'
+    color_bar = 'blue'
+    handles = []
+    labels = []
+    # More distinct line styles
+    line_styles = [
+        (0, (5, 2)),      # dashed
+        (0, (3, 1, 1, 1)),# dash-dot-dot
+        (0, (1, 1)),      # dotted
+        (0, (5, 1, 1, 1)),# long dash-dot
+        (0, (2, 2, 8, 2)),# dash-space
+        (0, (1, 2, 1, 2)),# dot-dot
+        (0, (7, 2)),      # long dash
+    ]
+    cap_width = 0.01  # Width of the horizontal cap on error bars (smaller now)
+
+    ax = plt.gca()
+    # Set grid background
+    ax.set_facecolor('#eaeaf2')  # Light grid background
+    # Enable both vertical and horizontal grid lines
+    ax.grid(True, which='both', axis='both', linestyle=':', linewidth=0.8, alpha=0.7)
+
+    # Add more vertical grid lines for better readability
+    x_minor_ticks = np.arange(-0.25, x_positions[-1] + 0.5, 0.1)
+    ax.set_xticks(x_minor_ticks, minor=True)
+    ax.grid(True, which='minor', axis='x', linestyle=':', linewidth=0.5, alpha=0.5)
+    # Define the desired industry order
+    desired_order = ['Fabricated Metal', 'Food', 'Textiles']
+
+    # Map industry names to their indices in the entries list
+    industry_map = {
+        'Fabricated Metal': None,
+        'Food': None,
+        'Textiles': None
+    }
+    for idx, industry in enumerate(industries):
+        for key in industry_map:
+            if key in industry:
+                industry_map[key] = idx
+
+    # Build the order of indices according to desired_order
+    ordered_indices = [industry_map[key] for key in desired_order if industry_map[key] is not None]
+
+    # Reorder all lists accordingly
+    industries = [industries[i] for i in ordered_indices]
+    parameter_values = [parameter_values[i] for i in ordered_indices]
+    parameter_errors = [parameter_errors[i] for i in ordered_indices]
+    x_positions = np.arange(len(industries)) * 0.5
+
+    for j in range(len(parameter_values[0])):  # Iterate over components
+        offset = (j - (len(parameter_values[0]) - 1) / 2) * 0.06  # Centered offset
+        values = [entry[j] for entry in parameter_values]
+        errors = [entry[j] for entry in parameter_errors]
+        # Plot empty markers with colored edge
+        sc = plt.scatter(
+            x_positions + offset, values,
+            marker=markers[j % len(markers)],
+            facecolors='none', edgecolors=color_marker,
+            s=50, linewidths=2,
+            label=variable_names[j],
+            zorder=3
+        )
+        handles.append(sc)
+        labels.append(variable_names[j])
+        # Draw blue error bars with different line styles and horizontal caps
+        ls = line_styles[j % len(line_styles)]
+        for xi, yi, err in zip(x_positions + offset, values, errors):
+            # Vertical line
+            plt.plot([xi, xi], [yi - 1.96 * err, yi + 1.96 * err],
+                        linestyle=ls, color=color_bar, linewidth=1.5, zorder=2)
+            # Top cap
+            plt.plot([xi - cap_width, xi + cap_width], [yi + 1.96 * err, yi + 1.96 * err],
+                        linestyle=ls, color=color_bar, linewidth=1.5, zorder=2)
+            # Bottom cap
+            plt.plot([xi - cap_width, xi + cap_width], [yi - 1.96 * err, yi - 1.96 * err],
+                        linestyle=ls, color=color_bar, linewidth=1.5, zorder=2)
+
+    plt.xticks(x_positions, industries, fontsize=14)
+    plt.legend(handles, labels, loc='upper left')
+    plt.ylabel(ylabel, rotation=0, ha='right', va='center', fontsize=16)
+    plt.xlabel("Industry", fontsize=16)
+    plt.gca().set_axisbelow(True)
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close()
+
+
+# %%
