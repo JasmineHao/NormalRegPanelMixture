@@ -1,61 +1,61 @@
-Numba is using 22 threads.
-['empirical_test.py', 'plain', '5', 'no_ciiu', 'mY_share']
+Numba is using 14 threads.
+['empirical_test.py', 'plain', '3', 'no_ciiu', 'mY_share']
 Simulation Start
 Model: plain
-T: 5
+T: 3
 Include CIIU: False
 Dependent Variable: mY_share
 Food products
-NT=2195,N=439
-[ 0.026  0.602  4.878  7.61   4.034 12.834]
-[0.096 0.149 5.46  2.361 1.008 1.693]
+NT=2382,N=794
+[ 0.023  0.603  4.033  7.42   3.997 12.685]
+[0.083 0.145 4.525 2.296 1.035 1.656]
 Fabricated metal products
-NT=515,N=103
-[ 0.086  0.555  2.768  7.775  3.88  12.766]
-[0.182 0.219 4.097 1.909 0.992 1.364]
+NT=675,N=225
+[ 0.1    0.573  2.464  7.986  3.966 12.926]
+[0.197 0.216 2.905 1.857 0.975 1.38 ]
 Textiles
-NT=465,N=93
-[ 0.209  0.563  4.314  8.417  3.932 12.947]
-[0.265 0.215 5.288 2.163 1.164 1.448]
-439
-Country: chile, Industry: Food products, Model: plain, M: 1, Time Taken: 130.88 seconds, LR Stat: 1399.2619
-Country: chile, Industry: Food products, Model: plain, M: 2, Time Taken: 143.19 seconds, LR Stat: 491.2066
-Country: chile, Industry: Food products, Model: plain, M: 3, Time Taken: 221.82 seconds, LR Stat: 248.0268
-Country: chile, Industry: Food products, Model: plain, M: 4, Time Taken: 275.68 seconds, LR Stat: 163.9281
-Country: chile, Industry: Food products, Model: plain, M: 5, Time Taken: 349.68 seconds, LR Stat: 61.0058
-Country: chile, Industry: Food products, Model: plain, M: 6, Time Taken: 538.24 seconds, LR Stat: 56.2238
-Country: chile, Industry: Food products, Model: plain, M: 7, Time Taken: 717.40 seconds, LR Stat: 42.0927
-Country: chile, Industry: Food products, Model: plain, M: 8, Time Taken: 814.93 seconds, LR Stat: 17.8852
-Country: chile, Industry: Food products, Model: plain, M: 9, Time Taken: 1065.24 seconds, LR Stat: 15.3008
-Country: chile, Industry: Food products, Model: plain, M: 10, Time Taken: 1271.68 seconds, LR Stat: 10.5314
-chile Food products 5528.771115064621
-['Chile', 'Food products', 'Plain', 10, np.int64(8), -1]
+NT=588,N=196
+[ 0.176  0.572  3.568  8.28   3.944 12.914]
+[0.246 0.213 5.12  1.88  1.098 1.344]
+794
+Country: chile, Industry: Food products, Model: plain, M: 1, Time Taken: 110.56 seconds, LR Stat: 1493.8823
+Country: chile, Industry: Food products, Model: plain, M: 2, Time Taken: 102.71 seconds, LR Stat: 498.7927
+Country: chile, Industry: Food products, Model: plain, M: 3, Time Taken: 163.39 seconds, LR Stat: 265.8609
+Country: chile, Industry: Food products, Model: plain, M: 4, Time Taken: 217.56 seconds, LR Stat: 177.3576
+Country: chile, Industry: Food products, Model: plain, M: 5, Time Taken: 301.47 seconds, LR Stat: 62.2861
+Country: chile, Industry: Food products, Model: plain, M: 6, Time Taken: 406.79 seconds, LR Stat: 60.0555
+Country: chile, Industry: Food products, Model: plain, M: 7, Time Taken: 492.07 seconds, LR Stat: 36.5880
+Country: chile, Industry: Food products, Model: plain, M: 8, Time Taken: 624.83 seconds, LR Stat: 16.4426
+Country: chile, Industry: Food products, Model: plain, M: 9, Time Taken: 862.66 seconds, LR Stat: 10.9968
+Country: chile, Industry: Food products, Model: plain, M: 10, Time Taken: 1136.55 seconds, LR Stat: 13.2022
+chile Food products 4418.601041793823
+['Chile', 'Food products', 'Plain', 10, np.int64(8), -1, -1, -1]
 ------------------------------
-103
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 1, Time Taken: 15.48 seconds, LR Stat: 248.5621
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 2, Time Taken: 26.41 seconds, LR Stat: 100.3383
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 3, Time Taken: 39.15 seconds, LR Stat: 38.5886
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 4, Time Taken: 61.07 seconds, LR Stat: 34.8214
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 5, Time Taken: 86.62 seconds, LR Stat: 20.5064
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 6, Time Taken: 112.50 seconds, LR Stat: 16.2560
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 7, Time Taken: 140.70 seconds, LR Stat: 11.3303
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 8, Time Taken: 175.72 seconds, LR Stat: 7.3993
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 9, Time Taken: 219.29 seconds, LR Stat: 4.5966
-Country: chile, Industry: Fabricated metal products, Model: plain, M: 10, Time Taken: 1.56 seconds, LR Stat: 2.0317
-chile Fabricated metal products 878.5213403701782
-['Chile', 'Fabricated metal products', 'Plain', np.int64(9), np.int64(7), 9]
+225
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 1, Time Taken: 16.19 seconds, LR Stat: 255.2359
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 2, Time Taken: 23.28 seconds, LR Stat: 70.6431
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 3, Time Taken: 37.14 seconds, LR Stat: 28.4314
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 4, Time Taken: 66.29 seconds, LR Stat: 23.7218
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 5, Time Taken: 90.11 seconds, LR Stat: 10.0507
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 6, Time Taken: 128.40 seconds, LR Stat: 9.4723
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 7, Time Taken: 172.48 seconds, LR Stat: 8.1242
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 8, Time Taken: 204.39 seconds, LR Stat: 3.8255
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 9, Time Taken: 1.65 seconds, LR Stat: 2.7162
+Country: chile, Industry: Fabricated metal products, Model: plain, M: 10, Time Taken: 1.94 seconds, LR Stat: 1.4153
+chile Fabricated metal products 741.9084870815277
+['Chile', 'Fabricated metal products', 'Plain', np.int64(8), np.int64(5), 8, 8, 8]
 ------------------------------
-93
-Country: chile, Industry: Textiles, Model: plain, M: 1, Time Taken: 12.87 seconds, LR Stat: 215.7626
-Country: chile, Industry: Textiles, Model: plain, M: 2, Time Taken: 22.49 seconds, LR Stat: 152.3171
-Country: chile, Industry: Textiles, Model: plain, M: 3, Time Taken: 27.77 seconds, LR Stat: 102.5076
-Country: chile, Industry: Textiles, Model: plain, M: 4, Time Taken: 37.68 seconds, LR Stat: 30.1441
-Country: chile, Industry: Textiles, Model: plain, M: 5, Time Taken: 58.90 seconds, LR Stat: 21.5689
-Country: chile, Industry: Textiles, Model: plain, M: 6, Time Taken: 85.89 seconds, LR Stat: 17.1654
-Country: chile, Industry: Textiles, Model: plain, M: 7, Time Taken: 119.09 seconds, LR Stat: 7.3235
-Country: chile, Industry: Textiles, Model: plain, M: 8, Time Taken: 168.18 seconds, LR Stat: 4.5080
-Country: chile, Industry: Textiles, Model: plain, M: 9, Time Taken: 1.30 seconds, LR Stat: 6.1538
-Country: chile, Industry: Textiles, Model: plain, M: 10, Time Taken: 1.78 seconds, LR Stat: 3.0529
-chile Textiles 535.9649126529694
-['Chile', 'Textiles', 'Plain', np.int64(8), np.int64(7), 8]
+196
+Country: chile, Industry: Textiles, Model: plain, M: 1, Time Taken: 10.75 seconds, LR Stat: 288.1493
+Country: chile, Industry: Textiles, Model: plain, M: 2, Time Taken: 18.90 seconds, LR Stat: 172.5527
+Country: chile, Industry: Textiles, Model: plain, M: 3, Time Taken: 28.25 seconds, LR Stat: 86.5276
+Country: chile, Industry: Textiles, Model: plain, M: 4, Time Taken: 36.50 seconds, LR Stat: 33.7893
+Country: chile, Industry: Textiles, Model: plain, M: 5, Time Taken: 64.65 seconds, LR Stat: 30.6771
+Country: chile, Industry: Textiles, Model: plain, M: 6, Time Taken: 92.48 seconds, LR Stat: 8.8473
+Country: chile, Industry: Textiles, Model: plain, M: 7, Time Taken: 117.39 seconds, LR Stat: 7.5038
+Country: chile, Industry: Textiles, Model: plain, M: 8, Time Taken: 153.29 seconds, LR Stat: 6.8061
+Country: chile, Industry: Textiles, Model: plain, M: 9, Time Taken: 191.65 seconds, LR Stat: 3.8595
+Country: chile, Industry: Textiles, Model: plain, M: 10, Time Taken: 1.26 seconds, LR Stat: 3.4811
+chile Textiles 715.1373701095581
+['Chile', 'Textiles', 'Plain', np.int64(9), np.int64(6), 9, 9, 9]
 ------------------------------
