@@ -188,6 +188,8 @@ for COUNTRY in COUNTRY_list:
 
         # Initialize arrays for storing results
         lr_df = np.zeros(10, dtype=object)
+        lr_df_99 = np.zeros(10, dtype=object)
+        lr_df_90 = np.zeros(10, dtype=object)
         lr_estim = np.zeros(10, dtype=object)
         lr_crit = np.zeros(10, dtype=object)
         AIC_df = np.zeros(10)
@@ -367,12 +369,15 @@ for COUNTRY in COUNTRY_list:
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = [0,0,0,0,0,0,0]
 
             
-            if lr_stat_k < lr_95_k:
+            if lr_stat_k < lr_90_k:
                 bootstrap_k_cov = False
 
             AIC_df[m - 1] = round(aic_k, 2)
             BIC_df[m - 1] = round(bic_k, 2)
             lr_df[m - 1] = lr_stat_k > lr_95_k
+            lr_df_99[m - 1] = lr_stat_k > lr_95_k
+            lr_df_90[m - 1] = lr_stat_k > lr_90_k
+            
             lr_estim[m - 1] = f'{lr_stat_k:.4f}'
             lr_crit[m - 1] = ", ".join(f"{x:.4f}" for x in [lr_90_k, lr_95_k, lr_99_k])
 
@@ -380,7 +385,7 @@ for COUNTRY in COUNTRY_list:
             print(f"Country: {COUNTRY}, Industry: {INDNAME}, Model: {MODEL}, M: {m}, Time Taken: {end_time_model_m - start_time_model_m:.2f} seconds, LR Stat: {lr_stat_k:.4f}")
 
         # Append results to lists
-        result_each_df = [COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), find_model_stop(AIC_df), find_model_stop(BIC_df), find_first_zero(lr_df)]
+        result_each_df = [COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), find_model_stop(AIC_df), find_model_stop(BIC_df), find_first_zero(lr_df), find_first_zero(lr_df_90), find_first_zero(lr_df_99)]
         result_df.append(result_each_df)
 
         statistics_df.append([COUNTRY.capitalize(), INDNAME.capitalize(), MODEL.capitalize(), 'AIC'] + list(AIC_df))
@@ -393,7 +398,7 @@ for COUNTRY in COUNTRY_list:
         print('-' * 30)
 
     # Convert results to DataFrames
-    result_df = pd.DataFrame(result_df, columns=['Country', 'Industry', 'Model', 'AIC', 'BIC', 'LR'])
+    result_df = pd.DataFrame(result_df, columns=['Country', 'Industry', 'Model', 'AIC', 'BIC', 'LR', 'LR 90', 'LR 99'])
     statistics_df = pd.DataFrame(statistics_df, columns=['Country', 'Industry', 'Model', 'Stat'] + [f'M={d}' for d in range(1, 11)])
 
     # Save results to CSV

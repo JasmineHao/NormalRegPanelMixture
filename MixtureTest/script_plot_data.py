@@ -283,6 +283,48 @@ estimate_parameters = [
     entry for entry in estimate_parameters 
     if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
 ]
+
+# %%
+# Restore estimated_parameters from the CSV table
+def str_to_array(s):
+    if pd.isnull(s):
+        return None
+    s = str(s).strip()
+    if s.startswith('[') and s.endswith(']'):
+        return np.fromstring(s[1:-1], sep=' ')
+    return np.array(eval(s))
+
+def restore_estimated_parameters_from_table(csv_path):
+    df = pd.read_csv(csv_path)
+    estimate_parameters_restored = []
+    for _, row in df.iterrows():
+        # Convert string like '[0.143 0.857]' to numpy array
+        
+        entry = {
+            'Industry': row['Industry'],
+            'Specification': row['Specification'],
+            'model type': row['Model Type'],
+            'params': {
+            'alpha': str_to_array(row['Alpha']),
+            'mu': str_to_array(row['Mu']),
+            'rho': str_to_array(row['Rho']),
+            'beta': str_to_array(row['Beta']),
+            'mubar': str_to_array(row['Mubar']),
+            },
+            'standard errors': {
+            'alpha': str_to_array(row['Alpha SE']),
+            'mu': str_to_array(row['Mu SE']),
+            'rho': str_to_array(row['Rho SE']),
+            'beta': str_to_array(row['Beta SE']),
+            'mubar': str_to_array(row['Mubar SE']),
+            },
+            'variable names': {}  # Not available in CSV, can be filled if needed
+        }
+        estimate_parameters_restored.append(entry)
+    return estimate_parameters_restored
+
+estimate_parameters = restore_estimated_parameters_from_table("estimated_parameters_table.csv")
+
 # %%
 import matplotlib.pyplot as plt
 
@@ -290,12 +332,11 @@ import matplotlib.pyplot as plt
 def plot_parameter_across_industries(parameter_name, entries, ylabel, title, output_path, ylim=None):
     industries = [entry['Industry'] for entry in entries]
     m = entries[0]['params']['alpha'].shape[0] 
-    
+    # parameter_name = 'alpha'
     if parameter_name == 'alpha':
         parameter_values = [entry['params'][parameter_name] for entry in entries]
-    
         parameter_errors = [np.r_[entry['standard errors'][parameter_name][:(m-1)].flatten(), entry['standard errors'][parameter_name][[0]]].flatten() for entry in entries]
-        variable_names = [f"{parameter_name}_{i+1}" for i in range(len(parameter_values[0]))]
+        variable_names = [f"$\\alpha_{{{i+1}}}$" for i in range(len(parameter_values[0]))]
     elif parameter_name == 'mubar':
         parameter_values = [entry['params'][parameter_name] for entry in entries]
         parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
@@ -316,8 +357,8 @@ def plot_parameter_across_industries(parameter_name, entries, ylabel, title, out
         parameter_errors = [entry['standard errors'][parameter_name] for entry in entries]
         variable_names = entries[0]['variable names'][parameter_name]
     
-    plt.figure(figsize=(8, 4))
-    x_positions = np.arange(len(industries))  # Positions for industries on x-axis
+    plt.figure(figsize=(6, 4))
+    x_positions = np.arange(len(industries)) * 0.5  # Positions for industries on x-axis
     for j in range(len(parameter_values[0])):  # Iterate over components
         offset = (j - len(parameter_values[0]) / 2) * 0.15  # Reduced offset for closer horizontal separation
         values = [entry[j] for entry in parameter_values]
@@ -343,7 +384,7 @@ def plot_parameter_across_industries(parameter_name, entries, ylabel, title, out
 for model_type in set([entry['model type'] for entry in estimate_parameters]):
     # Get unique specifications for the current model type
     unique_specifications = list(set([entry['Specification'] for entry in estimate_parameters if entry['model type'] == model_type]))
-    
+        
     for specification in unique_specifications:
         # Filter entries for the current model type and specification
         filtered_entries = [entry for entry in estimate_parameters if entry['model type'] == model_type and entry['Specification'] == specification]
@@ -351,16 +392,16 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         sanitized_specification = specification.replace(" ", "_").lower()
 
         # Plot alpha
-        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m3.png'
+        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m2.png'
         plot_parameter_across_industries(
-            'alpha', filtered_entries, ylabel='Alpha', 
+            'alpha', filtered_entries, ylabel=r"$\hat{\alpha}$", 
             title=f'Alpha Across Industries ({model_type}, {specification})', 
             output_path=output_path_alpha
         )
         print(output_path_alpha)
 
         # Plot mu
-        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m3.png'
+        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m2.png'
         plot_parameter_across_industries(
             'mu', filtered_entries, ylabel='Mu', 
             title=f'Mu Across Industries ({model_type}, {specification})', 
@@ -369,7 +410,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         print(output_path_mu)
 
         # Plot sigma
-        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m3.png'
+        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m2.png'
         plot_parameter_across_industries(
             'sigma', filtered_entries, ylabel='Sigma', 
             title=f'Sigma Across Industries ({model_type}, {specification})', 
@@ -379,7 +420,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
 
         # Plot rho if it exists
         if 'rho' in filtered_entries[0]['params']:
-            output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m3.png'
+            output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m2.png'
             plot_parameter_across_industries(
             'rho', filtered_entries, ylabel='Rho', 
             title=f'Rho Across Industries ({model_type}, {specification})', 
@@ -388,7 +429,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
             print(output_path_rho)
         # Plot mubar if it exists
         if 'mubar' in filtered_entries[0]['params']:
-            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m3.png'
+            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m2.png'
             plot_parameter_across_industries(
             'mubar', filtered_entries, ylabel='Mubar', 
             title=f'Mubar Across Industries ({model_type}, {specification})', 
@@ -399,7 +440,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
         # Plot beta
         if 'beta' in filtered_entries[0]['params'] and filtered_entries[0]['params']['beta'].shape[1] > 0:
             # Plot beta_k
-            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m3.png'
+            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m2.png'
             plot_parameter_across_industries(
             'beta_k', filtered_entries, ylabel='log K coefficient', 
             title=f'Beta K Across Industries ({model_type}, {specification})', 
@@ -408,7 +449,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters]):
             print(output_path_beta_k)
 
             # Plot beta_im
-            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m3.png'
+            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m2.png'
             plot_parameter_across_industries(
             'beta_im', filtered_entries, ylabel='Import Coefficient', 
             title=f'Beta Import Across Industries ({model_type}, {specification})', 
