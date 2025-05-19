@@ -28,6 +28,7 @@ COUNTRY_list = ['chile']
 
 # %%
 print(sys.argv)
+y_indicator = 'mL_share'
 y_indicator = 'mY_share'
 include_ciiu = False
 T = 3 
@@ -271,6 +272,7 @@ for COUNTRY in COUNTRY_list:
                     n_bins =  math.ceil((m+1)**(1/(T - 1)))
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k]  = NonParTest(y, N, T, n_grid, n_bins, BB, r_test)
                 case "plain":
+                    
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 case "k":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestNormal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
@@ -327,40 +329,63 @@ for COUNTRY in COUNTRY_list:
                     
                 
                 case "ar1_plain":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1NormalNoConstraint(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    
                 case "ar1_plain_mixture":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
                 
                 case "ar1_plain_mixture_3":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_0, z, p, 0, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
                 
                 case "ar1_k":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1NormalNoConstraint(y, x_k, z, p, 1, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                                         
                 case "ar1_k_mixture":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_k, z, p, 1, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+
                 case "ar1_k_mixture_3":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_k, z, p, 1, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
                 case "ar1_kmshare":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kmshare, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                                        
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kmshare, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1NormalNoConstraint(y, x_kmshare, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)                
                 case "ar1_kmshare_mixture":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_kmshare, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                 
                 case "ar1_kmshare_mixture_3":
-                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 3, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    if y_indicator == 'mY_share':
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kmshare, z, p, 2, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
+                    else:
+                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_kmshare, z, p, 2, m, 3, N, T, bootstrap=bootstrap_k_cov, BB=BB)
                 
                     
                 case "ar1_kl_mixture":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)            
                 case "ar1_kl_mixture_spline":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_kl, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB, spline=True)
-                    
-
-                    
+                                        
                 case "ar1_kl":
                     [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_kl, z, p, 2, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                 

@@ -617,7 +617,7 @@ def generate_data_ar1_noconstraint(alpha, mu, sigma, beta, gamma, mu_0, sigma_0,
 
 # %%
 @njit(parallel=False)
-def generate_data_ar1_mixture_noconstraint(alpha, tau, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
+def generate_data_ar1_mixture_noconstraint(alpha, tau, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, K, p, q, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
     R = np.ones((N, M))
     R_T = np.ones((N*(T-1), M)) 
     
@@ -4545,7 +4545,7 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture_noconstraint(alpha_hat, tau_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture_noconstraint(alpha_hat, tau_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, z_input=z, x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
