@@ -18,3 +18,10 @@ NT=465,N=93
 [ 0.209  0.563  4.314  8.417  3.932 12.947]
 [0.265 0.215 5.288 2.163 1.164 1.448]
 439
+Country: chile, Industry: Food products, Model: ar1_plain, M: 1, Time Taken: 178.38 seconds, LR Stat: 1306.2478
+Country: chile, Industry: Food products, Model: ar1_plain, M: 2, Time Taken: 310.40 seconds, LR Stat: 163.5232
+Country: chile, Industry: Food products, Model: ar1_plain, M: 3, Time Taken: 792.42 seconds, LR Stat: 75.6051
+Country: chile, Industry: Food products, Model: ar1_plain, M: 4, Time Taken: 1503.67 seconds, LR Stat: 72.1582
+Country: chile, Industry: Food products, Model: ar1_plain, M: 5, Time Taken: 2858.17 seconds, LR Stat: 44.9175
+Country: chile, Industry: Food products, Model: ar1_plain, M: 6, Time Taken: 5129.33 seconds, LR Stat: 32.3654
+Country: chile, Industry: Food products, Model: ar1_plain, M: 7, Time Taken: 7552.98 seconds, LR Stat: 18.3792
