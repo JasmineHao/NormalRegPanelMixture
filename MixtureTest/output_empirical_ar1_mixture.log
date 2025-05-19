@@ -1,7 +1,7 @@
 Numba is using 14 threads.
-['empirical_test.py', 'ar1_mixture', '5', 'no_ciiu', 'mY_share']
+['empirical_test.py', 'ar1_plain_mixture', '5', 'no_ciiu', 'mY_share']
 Simulation Start
-Model: ar1_mixture
+Model: ar1_plain_mixture
 T: 5
 Include CIIU: False
 Dependent Variable: mY_share
@@ -18,9 +18,3 @@ NT=465,N=93
 [ 0.209  0.563  4.314  8.417  3.932 12.947]
 [0.265 0.215 5.288 2.163 1.164 1.448]
 439
-Model Not Recognized
-Traceback (most recent call last):
-  File "/workspace/NormalRegPanelMixture/MixtureTest/empirical_test.py", line 369, in <module>
-    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = [0,0,0,0,0,0,0]
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: too many values to unpack (expected 6)
