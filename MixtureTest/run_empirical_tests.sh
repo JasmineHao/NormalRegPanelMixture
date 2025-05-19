@@ -11,8 +11,8 @@ python -u empirical_test.py kmshare_mixture_3 3  ciiu mY_share > output_empirica
 
 
 
-python -u empirical_test.py ar1 5  no_ciiu mY_share > output_empirical_ar1.log 2>&1 &
-python -u empirical_test.py ar1_mixture 5  no_ciiu mY_share > output_empirical_ar1_mixture.log 2>&1 & 
+python -u empirical_test.py ar1_plain 5  no_ciiu mY_share > output_empirical_ar1.log 2>&1 &
+python -u empirical_test.py ar1_plain_mixture 5  no_ciiu mY_share > output_empirical_ar1_mixture.log 2>&1 & 
 
 python -u empirical_test.py ar1_kmshare 5  ciiu mY_share > output_empirical_ar1_kmshare.log 2>&1 &
 python -u empirical_test.py ar1_kmshare_mixture 5  ciiu mY_share > output_empirical_ar1_kmshare_mixture.log 2>&1 & 
