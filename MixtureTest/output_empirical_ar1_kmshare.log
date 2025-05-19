@@ -18,6 +18,7 @@ NT=465,N=93
 [ 0.209  0.563  4.314  8.417  3.932 12.947]
 [0.265 0.215 5.288 2.163 1.164 1.448]
 439
-Country: chile, Industry: Food products, Model: ar1_kmshare, M: 1, Time Taken: 744.74 seconds, LR Stat: 1283.7246
-Country: chile, Industry: Food products, Model: ar1_kmshare, M: 2, Time Taken: 2172.92 seconds, LR Stat: 168.2711
-Country: chile, Industry: Food products, Model: ar1_kmshare, M: 3, Time Taken: 5642.08 seconds, LR Stat: 69.1137
+Country: chile, Industry: Food products, Model: ar1_kmshare, M: 1, Time Taken: 772.55 seconds, LR Stat: 1229.1210
+Country: chile, Industry: Food products, Model: ar1_kmshare, M: 2, Time Taken: 2176.10 seconds, LR Stat: 159.1450
+Country: chile, Industry: Food products, Model: ar1_kmshare, M: 3, Time Taken: 5665.96 seconds, LR Stat: 72.7585
+Country: chile, Industry: Food products, Model: ar1_kmshare, M: 4, Time Taken: 11983.45 seconds, LR Stat: 85.1356
