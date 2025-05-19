@@ -615,6 +615,97 @@ def generate_data_ar1_noconstraint(alpha, mu, sigma, beta, gamma, mu_0, sigma_0,
             Y[tt+1, nn] -= z[(T * nn + tt), :] @ (gamma[p:]) 
     return(Y, x, z)
 
+# %%
+@njit(parallel=False)
+def generate_data_ar1_mixture_noconstraint(alpha, tau, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q, z_input = np.zeros((0,0)), x_input = np.zeros((0,0))):
+    R = np.ones((N, M))
+    R_T = np.ones((N*(T-1), M)) 
+    
+    alpha_sum = np.sum(alpha)
+    if alpha_sum != 1:
+        alpha = alpha / alpha_sum
+    
+    prior = np.random.random(size=N)
+    alpha_cum = np.zeros(M + 1)
+    for mm in range(M):
+        alpha_cum[mm + 1] = alpha_cum[mm] + alpha[mm]
+        lb = alpha_cum[mm]
+        ub = alpha_cum[mm + 1]
+        for n in range(N):
+            R[n, mm] = 1 if lb < prior[n] <= ub else 0
+            R_T[:,mm] = repeat_column(R, T-1, mm)
+                
+
+    R_sub = np.zeros((N * (T-1), M, K))
+    R_sub_0 = np.ones((N, M, K))
+    mu_R_sub = np.zeros((N * (T-1), M))
+    mu_R_sub_0 = np.zeros((N, M))
+    
+    for mm in range(M):
+        prior_m = np.random.random(size=N*(T-1))
+        prior_m_0 = np.random.random(size=N)
+        
+        tau_cum = np.cumsum(np.concatenate((np.array([0]), tau[mm])))
+        for kk  in range(K):
+            lb = tau_cum[kk]
+            ub = tau_cum[kk + 1]
+            R_sub[:,mm, kk] = ((prior_m > lb) & (prior_m <= ub)) 
+            R_sub_0[:, mm, kk] = ((prior_m_0 > lb) & (prior_m_0 <= ub)) 
+        mu_R_sub[:, mm] = np.dot(R_sub[:,mm].astype(np.float64), mu[mm])
+        mu_R_sub_0[:, mm] = np.dot(R_sub_0[:,mm].astype(np.float64), mu_0[mm])
+    
+    mu_R = (R_T * mu_R_sub).sum(axis=1)
+    mu_0_R = (R * mu_R_sub_0).sum(axis=1)  # Use np.dot for matrix multiplication
+
+    sigma_R = np.dot(R, sigma)  # Use np.dot for matrix multiplication
+    sigma_0_R = np.dot(R, sigma_0)  # Use np.dot for matrix multiplication
+    beta_R = np.dot(R, beta) 
+    beta_0_R = np.dot(R, beta_0) 
+    
+    # Generate x and z if not provided
+    if q > 0:
+        if len(x_input) == 0:
+            x = np.empty((N * T, q))
+            for i in range(N * T):
+                for j in range(q):
+                    x[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            x = x_input
+    else:
+        x = np.zeros((N * T, 0), dtype=np.float64)
+        
+    if p > 0:
+        if len(z_input) == 0:
+            z = np.empty((N * T, p))
+            for i in range(N * T):
+                for j in range(p):
+                    z[i, j] = np.random.normal()  # Generate one value at a time
+        else:
+            z = z_input 
+    else:
+        z = np.zeros((N * T, 0), dtype=np.float64)
+    
+    # Generate u array, including T=0 (workaround for np.random.normal with size)
+    u = np.empty((T, N))
+    for tt in range(T):
+        for nn in range(N):
+            u[tt, nn] = np.random.normal()  # Generate one value at a time
+    
+    # Initialize output arrays
+    Y = np.zeros((T, N))
+    # Generate Y
+    for nn in range(N):
+        Y[0,nn] += mu_0_R[nn] + sigma_0_R[nn] * u[0,nn] 
+        Y[0,nn] += x[(T * nn)] @ beta_0_R[nn,:]
+        Y[0,nn] += z[(T * nn)] @ gamma_0
+        for tt in range(T-1):
+            Y[tt+1, nn] += mu_R[nn] + sigma_R[nn] * u[tt+1, nn]
+            Y[tt+1, nn] += Y[tt, nn] * beta_R[nn,-1]
+            Y[tt+1, nn] += x[(T * nn + tt+1), :] @ beta_R[nn, :q]
+            Y[tt+1, nn] -= x[(T * nn + tt), :] @ (beta_R[nn, q:(2*q)])            
+            Y[tt+1, nn] += z[(T * nn + tt+1), :] @ gamma[:p]
+            Y[tt+1, nn] -= z[(T * nn + tt), :] @ (gamma[p:]) 
+    return(Y, x, z)
 
 # %%
 @njit(parallel=False)
@@ -1961,7 +2052,7 @@ def EM_optimization_AR1_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0
 
 @njit
 def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw,
-        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05):
+        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05, tau_bound = 0.05):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     mk = int(m * k)
@@ -2582,7 +2673,7 @@ def regpanelmixAR1NoConstraintPMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, m
 
 # %%
 @njit
-def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
+def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05, tau_bound = 0.05): 
     t,n = y.shape
     nt = n * (t-1)
     
@@ -2710,7 +2801,7 @@ def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_lo
     
     alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture_noconstraint(
         y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw,
-        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound)
+        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound = tau_bound)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2726,11 +2817,11 @@ def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_lo
     
     alpha_draw, tau_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, penloglikset, loglikset, post = EM_optimization_AR1_mixture_noconstraint(
         y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw,
-        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound)
+        mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, m, k, n, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound = tau_bound)
 
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:, index]
-    tau_hat = tau_hat[:, index]
+    tau_hat = tau_draw[:, index]
     mubeta_mat = np.ascontiguousarray(mubeta_draw[:, index]).reshape((q1, m)).T
     mu_hat = mubeta_mat[:, 0]
     sigma_hat = sigma_draw[:, index]
@@ -4416,6 +4507,11 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound)
     out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound)
     alpha_hat  = out_h0['alpha_hat'][0]
+    tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
+        
+    mu_hat = np.ascontiguousarray(out_h0['mu_hat'][0]).reshape(m,k)
+    mu_0_hat = np.ascontiguousarray(out_h0['mu_0_hat'][0]).reshape(m,k)
+    
     mubeta_hat = out_h0['mubeta_hat'][0]
     
     sigma_hat  = out_h0['sigma_hat'][0]
@@ -4440,16 +4536,16 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     mubeta_hat = np.ascontiguousarray(mubeta_hat)
     mubeta_hat_mat = mubeta_hat.reshape((2*(q+1),m)).T
     beta_hat = mubeta_hat_mat[:,1:]
-    mu_hat =  mubeta_hat_mat[:,0]
+    
     
     mubeta_0_hat = np.ascontiguousarray(mubeta_0_hat)
     mubeta_0_hat_mat = mubeta_0_hat.reshape((q+1,m)).T
     beta_0_hat = mubeta_0_hat_mat[:,1:]
-    mu_0_hat =  mubeta_0_hat_mat[:,0]
+    
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_noconstraint(alpha_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture_noconstraint(alpha_hat, tau_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -4463,8 +4559,8 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
             
             # Call regpanelmixPMLE for m components
             
-            out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y_bb, x_bb, z_bb, p, q, m, alpha_bound=alpha_bound)
-            out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y_bb, x_bb, z_bb, p, q, m+1, alpha_bound=alpha_bound)
+            out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y_bb, x_bb, z_bb, p, q, m, k, alpha_bound=alpha_bound)
+            out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y_bb, x_bb, z_bb, p, q, m+1, k, alpha_bound=alpha_bound)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
