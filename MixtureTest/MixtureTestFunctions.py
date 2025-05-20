@@ -1570,7 +1570,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
 
 
 @njit
-def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 1e-6, alpha_bound=0.05, tau_bound=0.05):
+def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 0.05, alpha_bound=0.05, tau_bound=0.05):
     
     nt = len(y_c)
     n = nt // t
@@ -2747,7 +2747,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
 # %%
 
 @njit
-def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
+def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05, epsilon=0.05): 
     
     t,n = y.shape
     nt = n * t
@@ -2799,7 +2799,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     # Initialize sigma
     sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
     
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short,alpha_bound=alpha_bound)
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short,alpha_bound=alpha_bound, epsilon=epsilon)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2808,7 +2808,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
     gamma_draw = gamma_draw[:,components]
     
     
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound)
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound, epsilon=epsilon)
     
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:,index]
@@ -2843,7 +2843,7 @@ def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_sh
 
 
 @njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50, alpha_bound=0.05, tau_bound=0.05):    # Extract the generated data
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50, alpha_bound=0.05, tau_bound=0.05, epsilon=0.05):    # Extract the generated data
     t,n = y.shape
     nt = n * t
     y_c = y.T.flatten()
@@ -2913,7 +2913,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     an = 1 / n    
     sigma_0 = np.full(m, stdR)
     
-    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound)
+    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
 
     components = np.argsort(penloglikset)[::-1][:ninits]
     alpha_draw = alpha_draw[:,components]
@@ -2923,7 +2923,7 @@ def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, 
     gamma_draw = gamma_draw[:,components]
     tau_draw = tau_draw[:,components]
     
-    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol, alpha_bound=alpha_bound, tau_bound=tau_bound)
+    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
     
     index = np.argmax(penloglikset)
     alpha_hat = alpha_draw[:,index]
