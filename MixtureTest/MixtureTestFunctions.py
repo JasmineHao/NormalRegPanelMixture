@@ -3965,7 +3965,7 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199, alpha_bound=0.
 # %%
 
 @njit(parallel=False) 
-def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05):
+def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05, epsilon=0.05):
     if (spline) & (q > 0):
         bs_degree = 2                # Replace with the degree of the B-spline
         # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
@@ -3981,11 +3981,11 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m, alpha_bound=alpha_bound)
-        out_h1 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m+1, alpha_bound=alpha_bound)
+        out_h0 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m, alpha_bound=alpha_bound, epsilon=epsilon)
+        out_h1 = regpanelmixPMLE(y,x_spline,z, p, q_spline, m+1, alpha_bound=alpha_bound, epsilon=epsilon)
     else:
-        out_h0 = regpanelmixPMLE(y,x,z, p, q, m, alpha_bound=alpha_bound)
-        out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1, alpha_bound=alpha_bound)
+        out_h0 = regpanelmixPMLE(y,x,z, p, q, m, alpha_bound=alpha_bound, epsilon=epsilon)
+        out_h1 = regpanelmixPMLE(y,x,z, p, q, m+1, alpha_bound=alpha_bound, epsilon=epsilon)
         # print(out_h0)
         # print(out_h1)
         # -2 * (out_h0['penloglik'] - out_h1['penloglik'])
@@ -4038,12 +4038,12 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
                     bs_columns = generate_b_spline_basis(x_bb[:,qq], knots, bs_degree)
                     x_spline_bb = np.concatenate((x_spline_bb, bs_columns),axis=1)
                 
-                out_h0 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, alpha_bound=alpha_bound)
-                out_h1 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, alpha_bound=alpha_bound)
+                out_h0 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m, alpha_bound=alpha_bound, epsilon=epsilon)
+                out_h1 = regpanelmixPMLE(y_bb,x_spline_bb,z_bb, p, q_spline, m+1, alpha_bound=alpha_bound, epsilon=epsilon)
             else:
                 # Call regpanelmixPMLE for m components
-                out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m, alpha_bound=alpha_bound)
-                out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1, alpha_bound=alpha_bound)
+                out_h0 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m, alpha_bound=alpha_bound, epsilon=epsilon)
+                out_h1 = regpanelmixPMLE(y_bb, x_bb, z_bb, p, q, m + 1, alpha_bound=alpha_bound, epsilon=epsilon)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -4061,7 +4061,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
    
 # %%
 @njit(parallel=False)
-def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05, tau_bound=0.05):
+def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05, tau_bound=0.05, epsilon=0.05):
     if (spline) & (q > 0):    
         bs_degree = 2                # Replace with the degree of the B-spline
         # Compute quantiles (equivalent to probs = 0.33 and probs = 0.67)
@@ -4077,11 +4077,11 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
             bs_columns = generate_b_spline_basis(x[:,qq], knots, bs_degree)
             x_spline = np.concatenate((x_spline, bs_columns),axis=1)
         q_spline = x_spline.shape[1]
-        out_h0 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
-        out_h1 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h0 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
+        out_h1 = regpanelmixmixturePMLE(y, x_spline, z, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
     else:
-        out_h0 = regpanelmixmixturePMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
-        out_h1 = regpanelmixmixturePMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+        out_h0 = regpanelmixmixturePMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
+        out_h1 = regpanelmixmixturePMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m, k)
     mu_hat = np.ascontiguousarray(out_h0['mu_hat'][0]).reshape(m, k)
@@ -4122,11 +4122,11 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
                     # Generate B-spline basis columns
                     bs_columns = generate_b_spline_basis(x_bb[:, qq], knots, bs_degree)
                     x_spline_bb = np.concatenate((x_spline_bb, bs_columns), axis=1)
-                out_h0 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
-                out_h1 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+                out_h0 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
+                out_h1 = regpanelmixmixturePMLE(y_bb, x_spline_bb, z_bb, p, q_spline, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
             else:               # Call regpanelmixPMLE for m components
-                out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
-                out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound)
+                out_h0 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
+                out_h1 = regpanelmixmixturePMLE(y_bb, x_bb, z_bb, p, q, m+1, k, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
             penloglik_h0 = out_h0['penloglik'][0, 0]
             penloglik_h1 = out_h1['penloglik'][0, 0]
             
@@ -4577,7 +4577,7 @@ def NonParTest(y, N, T, n_grid, n_bins, BB, r_test):
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
    
 @njit(parallel=True)  # Numba JIT compilation with parallelization
-def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05):
+def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05, epsilon=0.05):
     # Initialize result tables
     aic_table = np.zeros((nrep, M_max))
     bic_table = np.zeros((nrep, M_max))
@@ -4616,11 +4616,11 @@ def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M
             rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
 
             # LR test for no-covariates model
-            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB, alpha_bound=alpha_bound)
+            lr_results_nocov = LRTestNormal(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB, alpha_bound=alpha_bound, epsilon=epsilon)
             lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
 
             # LR test for mixture model
-            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB, alpha_bound=alpha_bound, tau_bound=tau_bound)
+            lr_results_mixture = LRTestMixture(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB, alpha_bound=alpha_bound, tau_bound=tau_bound, epsilon=epsilon)
             lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
 
             # Record results
