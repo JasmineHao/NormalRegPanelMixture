@@ -1570,98 +1570,200 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
 
 
 @njit
-def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
+def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 1e-6, alpha_bound=0.05, tau_bound=0.05):
     
-    t,n = y.shape
-    nt = n * t
-    y_c = y.T.flatten()
-    
-    # y.reshape((n,t)).T - data_lr[0][0] # check equivalence
-    # Handle x
-    
+    nt = len(y_c)
+    n = nt // t
+    mk = int(m*k)
+    ninits = alpha_draw.shape[1]
     x1 = np.hstack((np.ones((nt, 1)), x))
-    xz = np.hstack((x1, z))
     q1 = q + 1
     
-    out_coef = solve_least_squares(xz, y_c)  # Replace np.linalg.lstsq
-    residuals = y_c - xz @ out_coef
-    stdR = np.std(residuals)
-    npar = m - 1 + (q1 + 1) * m + p
-    # ninits_short = ninits * 10 * (q1 + p) * m
-    ninits_short = ninits * 10 
+    post = np.zeros((m * n, ninits))
+    penloglikset = np.zeros(ninits)
+    loglikset = np.zeros(ninits)
+              
+    for jn in prange(ninits):            
+        alpha_jn = alpha_draw[:, jn]
+        tau_jn   = tau_draw[:, jn]
+        mu_jn = mu_draw[:, jn]
+        mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
+        sigma_jn = sigma_draw[:, jn]
+        gamma_jn = gamma_draw[:, jn]  # Likely float64
+        mubeta_jn_mat = mubeta_jn.reshape((q+1,m)).T
         
-    # First draw random start point
-    gamma_hat = out_coef[q1:(q1 + p)]
-    mubeta_hat = out_coef[:q1]
-    if p > 0:
-        # Perform least squares regression with both x and z
-        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
-        for pp in range(p):
-            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
-    else:
-        # Perform least squares regression with x only
-        gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
-
-    # Initialize alpha
-    alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
-    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
-
-    mubeta_draw = np.zeros((q1 * m, ninits_short))
-    y_mean = y_c - x @ mubeta_hat[1:]
-    for mm in range(m):
-        lb = compute_quantile(y_mean, mm/(m))
-        ub = compute_quantile(y_mean, (mm+1)/(m))
+        oldpenloglik = -np.inf
+        diff = 1.0
         
-        mubeta_draw[mm, :] = np.random.uniform(lb, ub, size=ninits_short)
-        for qq in range(1, q1):
-            mubeta_draw[qq * m + mm, :] = mubeta_hat[qq] * np.random.uniform(-2, 2, size=ninits_short)
-    
-    an = 1 / n    
-    sigma_0 = np.full(m, stdR)
+        for iter_ii in range(maxit):
+            
+            ll = 0
+            
+            if p > 0:
+                ytilde = y_c - np.dot(z, gamma_jn)
+            else:
+                ytilde = y_c
+            
+            r = np.zeros((mk, nt))
+            for mm in range(m):
+                for kk in range(k):     
+                    res = ytilde - x1 @ mubeta_jn_mat[mm] - mu_jn[mm*k + kk]
+                    r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
+            
+            l_m = np.zeros((m,n))  # Same shape as `r`
+            w_mk = np.zeros((mk,nt))    # Weights
+                
+            for mm in range(m):
+                r_m = r[ mm*k: (mm+1)*k, :]
+                tau_m = tau_jn[ mm*k: (mm+1)*k] 
+                minr = max_along_axis_0(r_m)
+                 
+                w_m = np.zeros((k,nt))    # Weights
+                l_m_k = np.zeros((k,nt))  # Same shape as `r`
+                
+                                            
+                for i in range(nt):
+                    for kk in range(k):
+                        l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
+                        
+                sum_l_m_k = np.zeros(nt)   # Sum along axis 0
+                for i in range(nt):
+                    for kk in range(k):
+                        sum_l_m_k[i] += l_m_k[kk, i]
+                
+                
+                for i in range(nt):
+                    for kk in range(k):
+                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
+                                
+                w_mk[mm*k: (mm+1)*k, :] = w_m
+                
+                # compute l_m 
+                for nn in range(n):
+                    sum_l_m_k_nn = 0.0
+                    for tt in range(t):
+                        idx = nn * (t) + tt  # Compute the flattened index
+                        sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
+                    l_m[mm,nn] = sum_l_m_k_nn
+            
+            # construct 
+            sum_l_m = np.zeros(n)   # Sum along axis 0
+            l_m_weighted = np.zeros((m,n))
+            w = np.zeros((m, n))
+            min_l_m = max_along_axis_0(l_m)
+            for i in range(n):
+                for mm in range(m):
+                    l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
+                    sum_l_m[i] += l_m_weighted[mm, i]
+                        
+            # update weight
+            # Compute w = l_j / sum_l_j
+            for i in range(n):
+                for mm in range(m):
+                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
+                    w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
+                    
+            for i in range(n):
+                ll += np.log(sum_l_m[i]) + min_l_m[i]
+            
+            penloglik = ll + np.log(2.0) 
+            
+            diff = penloglik - oldpenloglik
+            oldpenloglik = penloglik
+            
+            if abs(diff) < tol:
+                break
+            
+            # Update parameters
+            mu_mk_weighted = np.zeros((m, nt))
+            for mm in range(m):
+                alpha_jn[mm] = np.mean(w[mm, :])
+                
+                # First estimate beta, rho (mm-specific)
+                wtilde = w[mm, :].T
+                # estimate param
+                w_m = np.zeros(nt)
+                for i in range(n):
+                    w_m[i * (t) : (i + 1) * (t)] = wtilde[i]
+                xtilde = np.zeros((nt,q1-1)) # remove the constant term
+                for ii in range(1, x1.shape[1]):
+                    xtilde[:, (ii-1)] = w_m * x1[:, ii]
+                
+                w_mk_sum = np.zeros(nt)
+                               
+                mu_mk_weighted[mm] = np.zeros(nt)
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
+                    w_mk_sum += w_mk[idx_type]
+                w_mk_sum[w_mk_sum < 1e-6] = 1e-6
+                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
+                
+                coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted[mm] - z @ gamma_jn ) )
+                
+                
+                # Estimate mu: mk-specific
+                ytilde = y_c - x1[:,1:] @ coef_jn - z @ gamma_jn
+                mubeta_jn_mat[mm,1:q1] = coef_jn[:q1-1]
+                    
+                res_mm_sq = np.zeros(nt)
+                
+                sum_tau_jn = 0 
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
+                
+                    res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
+                    
+                    tau_jn[idx_type] = max(np.mean(w_mk[idx_type,:]), tau_bound)
+                    sum_tau_jn+=tau_jn[idx_type]
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)
 
-    # Initialize sigma
-    sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
-    
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short,alpha_bound=alpha_bound)
+                sigma_jn[mm] = np.sqrt( np.sum(res_mm_sq) / np.sum(w_mk_sum)  )
+                sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
 
-    components = np.argsort(penloglikset)[::-1][:ninits]
-    alpha_draw = alpha_draw[:,components]
-    mubeta_draw = mubeta_draw[:,components]
-    sigma_draw = sigma_draw[:,components]
-    gamma_draw = gamma_draw[:,components]
+            mubeta_jn = mubeta_jn_mat.T.flatten()
+            # update alpha
+            for j in range(m):
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
+            
+            total_alpha = np.sum(alpha_jn)
+            for j in range(m):
+                alpha_jn[j] = alpha_jn[j] / total_alpha
+            
+            # update gamma
+            if p > 0:
+                ztilde = np.zeros((nt, p), dtype=np.float64) 
+                zz = np.zeros((p, p), dtype=np.float64) 
+                ze = np.zeros((p, 1), dtype=np.float64) 
+                for j in range(m):
+                    wtilde = w[j, :]
+                    w_j = np.zeros(nt)
+                    for i in range(n):
+                        w_j[i * (t) : (i + 1) * (t )] = wtilde[i]
+                    for ii in range(p):
+                        ztilde[:, ii] = w_j * z[:, ii]
+                         
+                    zz += ztilde.T @ (z) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
+                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+                
+        # print(iter_ii)
+        penloglikset[jn] = penloglik
+        loglikset[jn] = ll
+        post[:, jn] = w.T.flatten()
+        alpha_draw[:, jn] = alpha_jn
+        mu_draw[:, jn] = mu_jn
+        mubeta_draw[:, jn] = mubeta_jn_mat.T.flatten()
+        sigma_draw[:, jn] = sigma_jn
+        tau_draw[:, jn] = tau_jn
+        gamma_draw[:, jn] = gamma_jn
     
-    
-    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound)
-    
-    index = np.argmax(penloglikset)
-    alpha_hat = alpha_draw[:,index]
-    mubeta_hat = mubeta_draw[:,index]
-    sigma_hat = sigma_draw[:,index]
-    gamma_hat = gamma_draw[:,index]
-    post = post[:, index]
-    penloglik = penloglikset[index]
-    loglik = loglikset[index]
-    aic = -2 * loglik + 2 * npar
-    bic = -2 * loglik + np.log(n) * npar
-    
-    # Create a Numba-compatible dictionary to store results
-    result_dict = Dict.empty(
-        key_type=types.unicode_type,  # Keys are strings
-        value_type=types.float64[:, :],  # Values are 2D arrays
-    )
-    
-    result_dict['penloglik'] = np.array([[penloglik]])
-    result_dict['loglik'] = np.array([[loglik]])
-    result_dict['aic'] = np.array([[aic]])
-    result_dict['bic'] = np.array([[bic]])
-    
-    result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
-    result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-    result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
-    result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
-    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
-    
-    return result_dict
+    return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
 # %%
 
@@ -1681,8 +1783,8 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
     x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
     z1 = np.hstack((z_c, z_l))
     
-    x1_0 = xz_0[:, :(q+1)]
     z_0 = xz_0[:, (q+1):]
+    x1_0 = xz_0[:, :(q+1)]
     
     for jn in prange(ninits):    
         alpha_jn = alpha_draw[:, jn]    
@@ -1865,6 +1967,317 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
     return(alpha_draw,  mubeta_draw,sigma_draw,gamma_draw,mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 
+@njit
+def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.001, alpha_bound = 0.05, tau_bound = 0.05):
+    
+    nt = n * (t-1)
+    mk = int(m*k)
+    ninits = alpha_draw.shape[1]
+    # Handle x
+    q1 = 2 * q + 2
+    # Initialize variables    
+    w = np.zeros((m, n * (t-1)))
+    post = np.zeros((m * n, ninits))
+    penloglikset = np.zeros(ninits)
+    loglikset = np.zeros(ninits)
+    
+    x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
+    z1 = np.hstack((z_c, z_l))
+    
+    x1_0 = xz_0[:, :(q+1)]
+    z_0 = xz_0[:, (q+1):]
+    for jn in prange(ninits):
+        
+        alpha_jn = alpha_draw[:, jn]
+        tau_jn = tau_draw[:, jn]
+        
+        mu_jn = mu_draw[:, jn]
+        mu_0_jn = mu_0_draw[:, jn]
+        
+        sigma_jn = sigma_draw[:, jn]
+        sigma_0_jn = sigma_0_draw[:, jn]
+        
+        gamma_jn = gamma_draw[:, jn]  # Likely float64
+        gamma_0_jn = gamma_0_draw[:, jn]  # Likely float64
+        
+        
+        mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
+        mubeta_0_jn = np.ascontiguousarray(mubeta_0_draw[:, jn])
+        
+        mubeta_0_jn_mat = mubeta_0_jn.reshape((q+1,m)).T             
+        mubeta_jn_mat = mubeta_jn.reshape((q1,m)).T
+        
+        oldpenloglik = -np.inf
+        emit = 0
+        diff = 1.0
+        sing = 0
+        
+        for iter_ii in range(maxit):
+            
+            r = np.zeros((mk, nt))
+            r_0 = np.zeros((mk, n))
+            for mm in range(m):
+                for kk in range(k):
+                    
+                    res =  y_c - x1 @ mubeta_jn_mat[mm] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] - mu_jn[mm*k + kk] * ( 1 - mubeta_jn_mat[mm,-1]) 
+                    res_0 = y_0 - x1_0 @ mubeta_0_jn_mat[mm] - z_0 @ gamma_0_jn - mu_0_jn[mm*k + kk]
+                    r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
+                    r_0[mm*k + kk] = log_likelihood_array(res_0, 0.0, sigma_0_jn[mm])
+            
+            l_m = np.zeros((m,n))  # Same shape as `r`
+            w_mk = np.zeros((mk,nt))    # Weights
+            w_mk_0 = np.zeros((mk,n))    # Weights
+            ll = 0.0
+            
+            for mm in range(m):
+                r_m = r[ mm*k: (mm+1)*k, :]
+                r_m_0 = r_0[ mm*k: (mm+1)*k, :]
+                tau_m = tau_jn[ mm*k: (mm+1)*k] 
+                minr = max_along_axis_0(r_m)
+                minr_0 = max_along_axis_0(r_m_0)
+                 
+                w_m = np.zeros((k,nt))    # Weights
+                l_m_k = np.zeros((k,nt))  # Same shape as `r`
+                
+                w_m_0 = np.zeros((k,n))    # Weights
+                l_m_k_0 = np.zeros((k,n))  # Same shape as `r`
+                                            
+                for i in range(nt):
+                    for kk in range(k):
+                        l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
+                
+                for i in range(n):
+                    for kk in range(k):
+                        l_m_k_0[kk,i] = tau_m[kk] * np.exp( r_m_0[kk,i] - minr_0[i] )
+                        
+                sum_l_m_k = np.zeros(nt)   # Sum along axis 0
+                for i in range(nt):
+                    for kk in range(k):
+                        sum_l_m_k[i] += l_m_k[kk, i]
+                
+                sum_l_m_k_0 = np.zeros(n)   # Sum along axis 0
+                for i in range(n):
+                    for kk in range(k):
+                        sum_l_m_k_0[i] += l_m_k_0[kk, i]
+                
+                for i in range(nt):
+                    for kk in range(k):
+                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
+                
+                for i in range(n):
+                    for kk in range(k):
+                        w_m_0[kk, i] = l_m_k_0[kk, i] / max(sum_l_m_k_0[i], 1e-6)
+                
+                w_mk[mm*k: (mm+1)*k, :] = w_m
+                w_mk_0[mm*k: (mm+1)*k, :] = w_m_0
+                
+                # compute l_m 
+                for nn in range(n):
+                    sum_l_m_k_nn = 0.0
+                    sum_l_m_k_nn += np.log(sum_l_m_k_0[nn]) + minr_0[nn]
+                    for tt in range(t-1):
+                        idx = nn * (t-1) + tt  # Compute the flattened index
+                        sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
+                    l_m[mm,nn] = sum_l_m_k_nn
+            
+            # construct 
+            sum_l_m = np.zeros(n)   # Sum along axis 0
+            l_m_weighted = np.zeros((m,n))
+            w = np.zeros((m, n))
+            min_l_m = max_along_axis_0(l_m)
+            for i in range(n):
+                for mm in range(m):
+                    l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
+                    sum_l_m[i] += l_m_weighted[mm, i]
+                        
+            # update weight
+            # Compute w = l_j / sum_l_j
+            for i in range(n):
+                for mm in range(m):
+                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 0.01)
+                    w_mk[mm*k: (mm+1)*k, i*(t-1): (i+1)*(t-1)] = w_mk[mm*k: (mm+1)*k, i*(t-1):(i+1)*(t-1)] * w[mm, i]
+                    w_mk_0[mm*k: (mm+1)*k, i] = w_mk_0[mm*k: (mm+1)*k, i] * w[mm, i]
+                    
+            for i in range(n):
+                ll += np.log(sum_l_m[i]) + min_l_m[i]
+            
+            penloglik = ll + np.log(2.0)
+            
+            # for j in range(m):
+            #     s0j = sigma_0[j] / sigma_jn[j]
+            #     penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
+                
+            diff = penloglik - oldpenloglik
+            oldpenloglik = penloglik
+            emit += 1
+            
+            if abs(diff) < tol:
+                break
+            
+            mu_mk_weighted = np.zeros((m, nt))
+            mu_mk_0_weighted = np.zeros((m, n))
+                
+            # 
+            # Update parameters
+            for mm in range(m):
+                alpha_jn[mm] = np.mean(w[mm, :])
+                # First estimate beta, rho (mm-specific)
+                wtilde = w[mm, :].T
+                # estimate param
+                
+                w_mk_sum = np.zeros(nt)
+                w_mk_0_sum = np.zeros(n)
+                
+                # First compute mu_mk_weighted
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
+                    mu_mk_0_weighted[mm] += w_mk_0[idx_type] * mu_0_jn[idx_type]
+                    w_mk_sum += w_mk[idx_type]
+                    w_mk_0_sum += w_mk_0[idx_type]
+                    
+                w_mk_sum[w_mk_sum < 1e-12] = 1e-12
+                w_mk_0_sum[w_mk_0_sum < 1e-12] = 1e-12
+                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
+                mu_mk_0_weighted[mm] = mu_mk_0_weighted[mm] / w_mk_0_sum
+                
+                # Step 1: estimate beta given rho 
+                
+                rho_estim = mubeta_jn_mat[mm, -1]
+                y_tmp = y_c - rho_estim * y_l - mu_mk_weighted[mm] * (1 - rho_estim) - z_c @ gamma_jn + z_l @ gamma_jn * rho_estim
+                x_tmp = ( x_c - rho_estim * x_l) 
+                
+                w_m = np.zeros(nt)
+                for i in range(n):
+                    w_m[i * (t-1) : (i + 1) * (t-1)] = wtilde[i]
+                
+                x_tmp_w = np.zeros(x_tmp.shape)
+                for ii in range(x_tmp.shape[1]):
+                    x_tmp_w[:, ii] = w_m * x_tmp[:, ii]
+                
+                mubeta_estim = solve_linear_system_safe(x_tmp_w.T @ x_tmp, x_tmp_w.T @ y_tmp)
+                
+                # # Step 2: estimate rho given beta
+                y_tmp = y_c - mu_mk_weighted[mm] - x_c @ mubeta_estim - z_c @ gamma_jn
+                x_tmp = y_l - mu_mk_weighted[mm] - x_l @ mubeta_estim - z_l @ gamma_jn
+                if np.abs(np.sum(w_m)) < 1e-6:
+                    w_m[w_m < 1e-12] = 1e-12
+                # np.sum(y_tmp * w_m) / np.sum(x_tmp * w_m)                
+                rho_estim = np.sum(y_tmp * x_tmp * w_m) / np.sum(x_tmp * x_tmp * w_m)
+                rho_estim = min(0.99, max(0.01, rho_estim))
+                
+                # end mubeta and rho update
+                mubeta_jn_mat[mm,1:(q+1)] = mubeta_estim[:(q)]
+                mubeta_jn_mat[mm,(q+1):(2*q+1)] = - mubeta_estim[:(q)] * rho_estim
+                mubeta_jn_mat[mm,-1] = rho_estim
+                
+                # estimate param_0 for initial period
+                
+                # Estimate mu: mk-specific
+                ytilde = y_c - x1[:,1:] @ mubeta_jn_mat[mm,1:] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] 
+                if q > 0:
+                    xtilde_0 = np.zeros((n,q))
+                    for ii in range(q):
+                        xtilde_0[:, ii] = wtilde * x1_0[:, (ii+1)]
+                    
+                    coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0[:, 1:], xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn - mu_mk_0_weighted[mm]) )
+                    
+                    mubeta_0_jn_mat[mm,1:(q+1)] = coef_0_jn[:(q)]
+                    
+                    ytilde_0 = y_0 - z_0 @ gamma_0_jn  - x1_0[:, 1:] @ coef_0_jn
+                    
+                else:
+                    ytilde_0 = y_0 - z_0 @ gamma_0_jn
+                    
+                w_mk_sum = np.zeros(nt)
+                w_mk_0_sum = np.zeros(n)                
+                res_mm_sq = np.zeros(nt)
+                res_mm_0_sq = np.zeros(n)                
+                sum_tau_jn = 0                 
+                
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    
+                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / (1 - mubeta_jn_mat[mm,-1])
+                    
+                    mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 1e-6)
+                
+                    res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type] *  (1 - mubeta_jn_mat[mm,-1]) )**2
+                    res_mm_0_sq += w_mk_0[idx_type,:] * (ytilde_0 - mu_0_jn[idx_type])**2
+                    w_mk_sum += w_mk[idx_type,:]
+                    w_mk_0_sum += w_mk_0[idx_type,:]
+                    
+                    tau_jn[idx_type] = max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  tau_bound)
+                    
+                    sum_tau_jn+=tau_jn[idx_type]
+                
+                for kk in range(k):
+                    idx_type = mm * k + kk
+                    tau_jn[idx_type] = tau_jn[idx_type] / sum_tau_jn
+
+                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 1e-6)  )
+                sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
+
+                sigma_0_jn[mm] = np.sqrt(( np.sum(res_mm_0_sq) ) / max(np.sum(w_mk_0_sum), 1e-6)  )
+                sigma_0_jn[mm] = max(sigma_0_jn[mm], epsilon * sigma_0[mm])
+           
+                
+            mubeta_jn = mubeta_jn_mat.T.flatten()
+            mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
+            # update alpha
+            for j in range(m):
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
+            
+            total_alpha = np.sum(alpha_jn)
+            for j in range(m):
+                alpha_jn[j] = alpha_jn[j] / total_alpha
+             
+            # update gamma
+            if p > 0:
+                ztilde = np.zeros((nt, p), dtype=np.float64) 
+                ztilde_0 = np.zeros((n, p), dtype=np.float64) 
+                zz = np.zeros((p, p), dtype=np.float64) 
+                ze = np.zeros((p, 1), dtype=np.float64) 
+                
+                zz_0 = np.zeros((p, p), dtype=np.float64) 
+                ze_0 = np.zeros((p, 1), dtype=np.float64) 
+                for j in range(m):
+                    wtilde = w[j, :]
+                    w_j = np.zeros(nt)
+                    for i in range(n):
+                        w_j[i * (t - 1) : (i + 1) * (t - 1)] = wtilde[i]
+                    
+                    for ii in range(p):
+                        ztilde[:, ii] = w_j * (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1])
+                        ztilde_0[:, ii] = wtilde * z_0[:, ii]
+                        
+                    zz += ztilde.T @ (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1]) / (sigma_jn[j]**2)
+                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2, 1e-6)
+                    
+                    zz_0 += ztilde_0.T @ z_0 / (sigma_0_jn[j]**2)
+                    ze_0 += ztilde_0.T @( y_0 - x1_0 @ mubeta_0_jn_mat[j,:] - mu_mk_0_weighted[j]) / max(sigma_0_jn[j]**2, 1e-6)
+                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
+                gamma_0_jn = solve_linear_system_safe(zz_0,ze_0).flatten()
+                
+        penloglikset[jn] = penloglik
+        loglikset[jn] = ll
+        post[:, jn] = w.T.flatten()
+        alpha_draw[:, jn] = alpha_jn
+        mubeta_draw[:, jn] = mubeta_jn_mat[:,:q1].T.flatten()
+        sigma_draw[:, jn] = sigma_jn
+        mu_draw[:,jn] = mu_jn
+        mu_0_draw[:,jn] = mu_0_jn
+        tau_draw[:,jn] = tau_jn
+        mubeta_0_draw[:, jn] = mubeta_0_jn_mat[:,:(q+1)].T.flatten()
+        sigma_0_draw[:, jn] = sigma_0_jn
+        
+        if p > 0:
+            gamma_draw[:, jn] = gamma_jn
+            gamma_0_draw[:, jn] = gamma_0_jn
+    
+    return(alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 @njit
 def EM_optimization_AR1_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05):
@@ -2332,6 +2745,221 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
     return(alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, penloglikset, loglikset, post)
 
 # %%
+
+@njit
+def regpanelmixPMLE(y,x,z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
+    
+    t,n = y.shape
+    nt = n * t
+    y_c = y.T.flatten()
+    
+    # y.reshape((n,t)).T - data_lr[0][0] # check equivalence
+    # Handle x
+    
+    x1 = np.hstack((np.ones((nt, 1)), x))
+    xz = np.hstack((x1, z))
+    q1 = q + 1
+    
+    out_coef = solve_least_squares(xz, y_c)  # Replace np.linalg.lstsq
+    residuals = y_c - xz @ out_coef
+    stdR = np.std(residuals)
+    npar = m - 1 + (q1 + 1) * m + p
+    # ninits_short = ninits * 10 * (q1 + p) * m
+    ninits_short = ninits * 10 
+        
+    # First draw random start point
+    gamma_hat = out_coef[q1:(q1 + p)]
+    mubeta_hat = out_coef[:q1]
+    if p > 0:
+        # Perform least squares regression with both x and z
+        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short)) 
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+    else:
+        # Perform least squares regression with x only
+        gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
+
+    # Initialize alpha
+    alpha_draw = generate_random_uniform(0, 1, (m, ninits_short))
+    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
+
+    mubeta_draw = np.zeros((q1 * m, ninits_short))
+    y_mean = y_c - x @ mubeta_hat[1:]
+    for mm in range(m):
+        lb = compute_quantile(y_mean, mm/(m))
+        ub = compute_quantile(y_mean, (mm+1)/(m))
+        
+        mubeta_draw[mm, :] = np.random.uniform(lb, ub, size=ninits_short)
+        for qq in range(1, q1):
+            mubeta_draw[qq * m + mm, :] = mubeta_hat[qq] * np.random.uniform(-2, 2, size=ninits_short)
+    
+    an = 1 / n    
+    sigma_0 = np.full(m, stdR)
+
+    # Initialize sigma
+    sigma_draw = generate_random_uniform(0.01, 1, (m, ninits_short)) * stdR
+    
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit_short, tol=tol_short,alpha_bound=alpha_bound)
+
+    components = np.argsort(penloglikset)[::-1][:ninits]
+    alpha_draw = alpha_draw[:,components]
+    mubeta_draw = mubeta_draw[:,components]
+    sigma_draw = sigma_draw[:,components]
+    gamma_draw = gamma_draw[:,components]
+    
+    
+    alpha_draw,mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=maxit, tol=tol_long, alpha_bound=alpha_bound)
+    
+    index = np.argmax(penloglikset)
+    alpha_hat = alpha_draw[:,index]
+    mubeta_hat = mubeta_draw[:,index]
+    sigma_hat = sigma_draw[:,index]
+    gamma_hat = gamma_draw[:,index]
+    post = post[:, index]
+    penloglik = penloglikset[index]
+    loglik = loglikset[index]
+    aic = -2 * loglik + 2 * npar
+    bic = -2 * loglik + np.log(n) * npar
+    
+    # Create a Numba-compatible dictionary to store results
+    result_dict = Dict.empty(
+        key_type=types.unicode_type,  # Keys are strings
+        value_type=types.float64[:, :],  # Values are 2D arrays
+    )
+    
+    result_dict['penloglik'] = np.array([[penloglik]])
+    result_dict['loglik'] = np.array([[loglik]])
+    result_dict['aic'] = np.array([[aic]])
+    result_dict['bic'] = np.array([[bic]])
+    
+    result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+    result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+    result_dict['mubeta_hat'] = mubeta_hat[np.newaxis,:]
+    result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
+    
+    return result_dict
+
+
+
+@njit
+def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50, alpha_bound=0.05, tau_bound=0.05):    # Extract the generated data
+    t,n = y.shape
+    nt = n * t
+    y_c = y.T.flatten()
+    
+    x1 = np.hstack((np.ones((nt, 1)), x))
+    xz = np.hstack((x1, z))
+    q1 = q + 1
+    
+    if p > 0:
+        xz = np.hstack((x1, z))
+    else:
+        xz = x1 
+        
+    out_coef = solve_least_squares(xz, y_c)  # Replace np.linalg.lstsq
+    residuals = y_c - xz @ out_coef
+    stdR = np.std(residuals)
+    npar = m - 1 + (q + 2 * k - 1) * m + p 
+    # ninits_short = ninits * 10 * (q1 + p) * m
+    ninits_short = ninits * 10 
+    # -----
+    estim_init = regpanelmixPMLE(y, x, z, p, q, m, alpha_bound=alpha_bound)
+    alpha_hat  = estim_init['alpha_hat'][0]
+    mubeta_hat = estim_init['mubeta_hat'][0]
+    mubeta_hat = np.ascontiguousarray(mubeta_hat)
+    mubeta_hat_mat = mubeta_hat.reshape((q+1,m)).T
+    mu_hat = mubeta_hat_mat[:,0]
+    sigma_hat  = estim_init['sigma_hat'][0]
+    gamma_hat  = estim_init['gamma_hat'][0]
+    # -----
+
+    if p > 0:
+        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short))
+        for pp in range(p):
+            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
+       
+    else:
+        # Perform least squares regression with x only
+        gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
+        
+    # Initialize alpha
+    alpha_draw = (alpha_hat +  generate_random_uniform(0, 0.1, (m, ninits_short)).T).T
+    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
+
+    mk = m * k 
+    mu_draw = np.zeros((m * k, ninits_short))
+    tau_draw = np.zeros((m * k, ninits_short))
+    for mm in range(m):
+        tau_draw_m = generate_random_uniform(0, 1, (k, ninits_short))
+        tau_draw_m = (tau_draw_m / np.sum(tau_draw_m, axis=0))
+        tau_draw[(mm * k):((mm +1) * k),:] = tau_draw_m
+        
+        quantile_cutoff = np.linspace(0, 1, k+1)
+        for kk in range(k):
+            idx_type = mm * k + kk 
+            mu_draw[( idx_type), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
+    
+    mubeta_draw = np.zeros((q1 * m, ninits_short))
+    
+    for mm in range(m):
+        mubeta_draw[mm, :] = 0 #leave mu blank for mubeta draw    
+        if q > 0:
+            for j in range(q):
+                mubeta_draw[ m*(j+1)+mm , :] = mubeta_hat_mat[mm,j+1] * np.random.uniform(0.9, 1.1, size=ninits_short)
+                
+    sigma_draw = (generate_random_uniform(0.9, 1.1, (m, ninits_short)).T * sigma_hat).T
+    
+    an = 1 / n    
+    sigma_0 = np.full(m, stdR)
+    
+    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound)
+
+    components = np.argsort(penloglikset)[::-1][:ninits]
+    alpha_draw = alpha_draw[:,components]
+    mu_draw = mu_draw[:,components]
+    mubeta_draw = mubeta_draw[:,components]
+    sigma_draw = sigma_draw[:,components]
+    gamma_draw = gamma_draw[:,components]
+    tau_draw = tau_draw[:,components]
+    
+    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol, alpha_bound=alpha_bound, tau_bound=tau_bound)
+    
+    index = np.argmax(penloglikset)
+    alpha_hat = alpha_draw[:,index]
+    tau_hat = tau_draw[:,index]
+    mu_hat = mu_draw[:,index]
+    
+    mubeta_mat =  np.ascontiguousarray(mubeta_draw[:,index]).reshape((q1,m)).T
+    beta_hat = mubeta_mat[:,1:(q+1)]
+    
+    sigma_hat = sigma_draw[:,index]
+    gamma_hat = gamma_draw[:,index]
+    post = post[:, index]
+    penloglik = penloglikset[index]
+    loglik = loglikset[index]
+    aic = -2 * loglik + 2 * npar
+    bic = -2 * loglik + np.log(n) * npar
+    
+    # ----
+    # Create a Numba-compatible dictionary to store results
+    result_dict = Dict.empty(
+        key_type=types.unicode_type,  # Keys are strings
+        value_type=types.float64[:, :],  # Values are 2D arrays
+    )
+    result_dict['penloglik'] = np.array([[penloglik]])
+    result_dict['loglik'] = np.array([[loglik]])
+    result_dict['aic'] = np.array([[aic]])
+    result_dict['bic'] = np.array([[bic]])
+    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
+    result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
+    result_dict['tau_hat']  = tau_hat[np.newaxis,:]
+    result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
+    result_dict['mu_hat'] = mu_hat[np.newaxis,:]
+    result_dict['beta_hat'] = beta_hat    
+    result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
+    return result_dict
+
 
 @njit
 def regpanelmixAR1PMLE(y, x, z, p, q, m, ninits=10, tol_long=1e-6, maxit=2000, tol_short=1e-2, maxit_short=200, alpha_bound=0.05): 
@@ -2876,319 +3504,7 @@ def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_lo
 
 # %%
 
-@njit
-def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.1, alpha_bound = 0.05, tau_bound = 0.05):
-    
-    nt = n * (t-1)
-    mk = int(m*k)
-    ninits = alpha_draw.shape[1]
-    # Handle x
-    q1 = 2 * q + 2
-    # Initialize variables    
-    w = np.zeros((m, n * (t-1)))
-    post = np.zeros((m * n, ninits))
-    penloglikset = np.zeros(ninits)
-    loglikset = np.zeros(ninits)
-    
-    x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:,np.newaxis]))
-    z1 = np.hstack((z_c, z_l))
-    
-    x1_0 = xz_0[:, :(q+1)]
-    z_0 = xz_0[:, (q+1):]
-    for jn in prange(ninits):
-        
-        alpha_jn = alpha_draw[:, jn]
-        tau_jn = tau_draw[:, jn]
-        
-        mu_jn = mu_draw[:, jn]
-        mu_0_jn = mu_0_draw[:, jn]
-        
-        
-        sigma_jn = sigma_draw[:, jn]
-        sigma_0_jn = sigma_0_draw[:, jn]
-        
-        gamma_jn = gamma_draw[:, jn]  # Likely float64
-        gamma_0_jn = gamma_0_draw[:, jn]  # Likely float64
-        
-        
-        mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
-        mubeta_0_jn = np.ascontiguousarray(mubeta_0_draw[:, jn])
-        
-        mubeta_0_jn_mat = mubeta_0_jn.reshape((q+1,m)).T             
-        mubeta_jn_mat = mubeta_jn.reshape((q1,m)).T
-        
-        oldpenloglik = -np.inf
-        emit = 0
-        diff = 1.0
-        sing = 0
-        
-        for iter_ii in range(maxit):
-            
-            r = np.zeros((mk, nt))
-            r_0 = np.zeros((mk, n))
-            for mm in range(m):
-                for kk in range(k):
-                    
-                    res =  y_c - x1 @ mubeta_jn_mat[mm] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] - mu_jn[mm*k + kk] * ( 1 - mubeta_jn_mat[mm,-1]) 
-                    res_0 = y_0 - x1_0 @ mubeta_0_jn_mat[mm] - z_0 @ gamma_0_jn - mu_0_jn[mm*k + kk]
-                    r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
-                    r_0[mm*k + kk] = log_likelihood_array(res_0, 0.0, sigma_0_jn[mm])
-            
-            l_m = np.zeros((m,n))  # Same shape as `r`
-            w_mk = np.zeros((mk,nt))    # Weights
-            w_mk_0 = np.zeros((mk,n))    # Weights
-            ll = 0.0
-            
-            
-            for mm in range(m):
-                r_m = r[ mm*k: (mm+1)*k, :]
-                r_m_0 = r_0[ mm*k: (mm+1)*k, :]
-                tau_m = tau_jn[ mm*k: (mm+1)*k] 
-                minr = max_along_axis_0(r_m)
-                minr_0 = max_along_axis_0(r_m_0)
-                 
-                w_m = np.zeros((k,nt))    # Weights
-                l_m_k = np.zeros((k,nt))  # Same shape as `r`
-                
-                w_m_0 = np.zeros((k,n))    # Weights
-                l_m_k_0 = np.zeros((k,n))  # Same shape as `r`
-                                            
-                for i in range(nt):
-                    for kk in range(k):
-                        l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
-                
-                for i in range(n):
-                    for kk in range(k):
-                        l_m_k_0[kk,i] = tau_m[kk] * np.exp( r_m_0[kk,i] - minr_0[i] )
-                        
-                sum_l_m_k = np.zeros(nt)   # Sum along axis 0
-                for i in range(nt):
-                    for kk in range(k):
-                        sum_l_m_k[i] += l_m_k[kk, i]
-                
-                sum_l_m_k_0 = np.zeros(n)   # Sum along axis 0
-                for i in range(n):
-                    for kk in range(k):
-                        sum_l_m_k_0[i] += l_m_k_0[kk, i]
-                
-                for i in range(nt):
-                    for kk in range(k):
-                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
-                
-                for i in range(n):
-                    for kk in range(k):
-                        w_m_0[kk, i] = l_m_k_0[kk, i] / max(sum_l_m_k_0[i], 1e-6)
-                
-                w_mk[mm*k: (mm+1)*k, :] = w_m
-                w_mk_0[mm*k: (mm+1)*k, :] = w_m_0
-                
-                # compute l_m 
-                for nn in range(n):
-                    sum_l_m_k_nn = 0.0
-                    sum_l_m_k_nn += np.log(sum_l_m_k_0[nn]) + minr_0[nn]
-                    for tt in range(t-1):
-                        idx = nn * (t-1) + tt  # Compute the flattened index
-                        sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
-                    l_m[mm,nn] = sum_l_m_k_nn
-            
-            # construct 
-            sum_l_m = np.zeros(n)   # Sum along axis 0
-            l_m_weighted = np.zeros((m,n))
-            w = np.zeros((m, n))
-            min_l_m = max_along_axis_0(l_m)
-            for i in range(n):
-                for mm in range(m):
-                    l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
-                    sum_l_m[i] += l_m_weighted[mm, i]
-                        
-            # update weight
-            # Compute w = l_j / sum_l_j
-            for i in range(n):
-                for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 0.01)
-                    w_mk[mm*k: (mm+1)*k, i*(t-1): (i+1)*(t-1)] = w_mk[mm*k: (mm+1)*k, i*(t-1):(i+1)*(t-1)] * w[mm, i]
-                    w_mk_0[mm*k: (mm+1)*k, i] = w_mk_0[mm*k: (mm+1)*k, i] * w[mm, i]
-                    
-            for i in range(n):
-                ll += np.log(sum_l_m[i]) + min_l_m[i]
-            
-            penloglik = ll + np.log(2.0)
-            
-            # for j in range(m):
-            #     s0j = sigma_0[j] / sigma_jn[j]
-            #     penloglik += -an * (s0j**2 - 2.0 * np.log(s0j) - 1.0)
-                
-            diff = penloglik - oldpenloglik
-            oldpenloglik = penloglik
-            emit += 1
-            
-            if abs(diff) < tol:
-                break
-            
-            mu_mk_weighted = np.zeros((m, nt))
-            mu_mk_0_weighted = np.zeros((m, n))
-                
-            # 
-            # Update parameters
-            for mm in range(m):
-                alpha_jn[mm] = np.mean(w[mm, :])
-                # First estimate beta, rho (mm-specific)
-                wtilde = w[mm, :].T
-                # estimate param
-                
-                w_mk_sum = np.zeros(nt)
-                w_mk_0_sum = np.zeros(n)
-                
-                # First compute mu_mk_weighted
-                
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
-                    mu_mk_0_weighted[mm] += w_mk_0[idx_type] * mu_0_jn[idx_type]
-                    w_mk_sum += w_mk[idx_type]
-                    w_mk_0_sum += w_mk_0[idx_type]
-                    
-                w_mk_sum[w_mk_sum < 1e-12] = 1e-12
-                w_mk_0_sum[w_mk_0_sum < 1e-12] = 1e-12
-                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
-                mu_mk_0_weighted[mm] = mu_mk_0_weighted[mm] / w_mk_0_sum
-                
-                # Step 1: estimate beta given rho 
-                
-                rho_estim = mubeta_jn_mat[mm, -1]
-                y_tmp = y_c - rho_estim * y_l - mu_mk_weighted[mm] * (1 - rho_estim) - z_c @ gamma_jn + z_l @ gamma_jn * rho_estim
-                x_tmp = ( x_c - rho_estim * x_l) 
-                
-                w_m = np.zeros(nt)
-                for i in range(n):
-                    w_m[i * (t-1) : (i + 1) * (t-1)] = wtilde[i]
-                
-                x_tmp_w = np.zeros(x_tmp.shape)
-                for ii in range(x_tmp.shape[1]):
-                    x_tmp_w[:, ii] = w_m * x_tmp[:, ii]
-                
-                mubeta_estim = solve_linear_system_safe(x_tmp_w.T @ x_tmp, x_tmp_w.T @ y_tmp)
-                
-                # # Step 2: estimate rho given beta
-                y_tmp = y_c - mu_mk_weighted[mm] - x_c @ mubeta_estim - z_c @ gamma_jn
-                x_tmp = y_l - mu_mk_weighted[mm] - x_l @ mubeta_estim - z_l @ gamma_jn
-                if np.abs(np.sum(w_m)) < 1e-6:
-                    w_m[w_m < 1e-12] = 1e-12
-                # np.sum(y_tmp * w_m) / np.sum(x_tmp * w_m)                
-                rho_estim = np.sum(y_tmp * x_tmp * w_m) / np.sum(x_tmp * x_tmp * w_m)
-                rho_estim = min(0.99, max(0.01, rho_estim))
-                
-                # end mubeta and rho update
-                mubeta_jn_mat[mm,1:(q+1)] = mubeta_estim[:(q)]
-                mubeta_jn_mat[mm,(q+1):(2*q+1)] = - mubeta_estim[:(q)] * rho_estim
-                mubeta_jn_mat[mm,-1] = rho_estim
-                
-                # estimate param_0 for initial period
-                
-                # Estimate mu: mk-specific
-                ytilde = y_c - x1[:,1:] @ mubeta_jn_mat[mm,1:] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[mm,-1] 
-                if q > 0:
-                    xtilde_0 = np.zeros((n,q))
-                    for ii in range(q):
-                        xtilde_0[:, ii] = wtilde * x1_0[:, (ii+1)]
-                    
-                    coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0[:, 1:], xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn - mu_mk_0_weighted[mm]) )
-                    
-                    mubeta_0_jn_mat[mm,1:(q+1)] = coef_0_jn[:(q)]
-                    
-                    ytilde_0 = y_0 - z_0 @ gamma_0_jn  - x1_0[:, 1:] @ coef_0_jn
-                    
-                else:
-                    ytilde_0 = y_0 - z_0 @ gamma_0_jn
-                    
-                w_mk_sum = np.zeros(nt)
-                w_mk_0_sum = np.zeros(n)                
-                res_mm_sq = np.zeros(nt)
-                res_mm_0_sq = np.zeros(n)                
-                sum_tau_jn = 0                 
-                
-                
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    
-                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / (1 - mubeta_jn_mat[mm,-1])
-                    
-                    mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 1e-6)
-                
-                    res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type] *  (1 - mubeta_jn_mat[mm,-1]) )**2
-                    res_mm_0_sq += w_mk_0[idx_type,:] * (ytilde_0 - mu_0_jn[idx_type])**2
-                    w_mk_sum += w_mk[idx_type,:]
-                    w_mk_0_sum += w_mk_0[idx_type,:]
-                    
-                    tau_jn[idx_type] = max(np.mean(np.concatenate((w_mk[idx_type,:], w_mk_0[idx_type,:]))),  tau_bound)
-                    
-                    sum_tau_jn+=tau_jn[idx_type]
-                
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / sum_tau_jn
 
-                sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 1e-6)  )
-                sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
-
-                sigma_0_jn[mm] = np.sqrt(( np.sum(res_mm_0_sq) ) / max(np.sum(w_mk_0_sum), 1e-6)  )
-                sigma_0_jn[mm] = max(sigma_0_jn[mm], epsilon * sigma_0[mm])
-           
-                
-            mubeta_jn = mubeta_jn_mat.T.flatten()
-            mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
-            # update alpha
-            for j in range(m):
-                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
-            
-            total_alpha = np.sum(alpha_jn)
-            for j in range(m):
-                alpha_jn[j] = alpha_jn[j] / total_alpha
-             
-            # update gamma
-            if p > 0:
-                ztilde = np.zeros((nt, p), dtype=np.float64) 
-                ztilde_0 = np.zeros((n, p), dtype=np.float64) 
-                zz = np.zeros((p, p), dtype=np.float64) 
-                ze = np.zeros((p, 1), dtype=np.float64) 
-                
-                zz_0 = np.zeros((p, p), dtype=np.float64) 
-                ze_0 = np.zeros((p, 1), dtype=np.float64) 
-                for j in range(m):
-                    wtilde = w[j, :]
-                    w_j = np.zeros(nt)
-                    for i in range(n):
-                        w_j[i * (t - 1) : (i + 1) * (t - 1)] = wtilde[i]
-                    
-                    for ii in range(p):
-                        ztilde[:, ii] = w_j * (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1])
-                        ztilde_0[:, ii] = wtilde * z_0[:, ii]
-                        
-                    zz += ztilde.T @ (z_c[:, ii] - z_l[:, ii] * mubeta_jn_mat[j,-1]) / (sigma_jn[j]**2)
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2, 1e-6)
-                    
-                    zz_0 += ztilde_0.T @ z_0 / (sigma_0_jn[j]**2)
-                    ze_0 += ztilde_0.T @( y_0 - x1_0 @ mubeta_0_jn_mat[j,:] - mu_mk_0_weighted[j]) / max(sigma_0_jn[j]**2, 1e-6)
-                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
-                gamma_0_jn = solve_linear_system_safe(zz_0,ze_0).flatten()
-                
-        penloglikset[jn] = penloglik
-        loglikset[jn] = ll
-        post[:, jn] = w.T.flatten()
-        alpha_draw[:, jn] = alpha_jn
-        mubeta_draw[:, jn] = mubeta_jn_mat[:,:q1].T.flatten()
-        sigma_draw[:, jn] = sigma_jn
-        mu_draw[:,jn] = mu_jn
-        mu_0_draw[:,jn] = mu_0_jn
-        tau_draw[:,jn] = tau_jn
-        mubeta_0_draw[:, jn] = mubeta_0_jn_mat[:,:(q+1)].T.flatten()
-        sigma_0_draw[:, jn] = sigma_0_jn
-        
-        if p > 0:
-            gamma_draw[:, jn] = gamma_jn
-            gamma_0_draw[:, jn] = gamma_0_jn
-    
-    return(alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 # %%  
 @njit
@@ -3393,320 +3709,6 @@ def regpanelmixAR1mixturePMLE(y, x, z, p, q, m, k, ninits=10, tol_long=1e-6, max
         
     return result_dict 
 # %%
-@njit
-def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=1000, tol= 1e-8, epsilon = 1e-6, alpha_bound=0.05, tau_bound=0.05):
-    
-    nt = len(y_c)
-    n = nt // t
-    mk = int(m*k)
-    ninits = alpha_draw.shape[1]
-    x1 = np.hstack((np.ones((nt, 1)), x))
-    q1 = q + 1
-    
-    post = np.zeros((m * n, ninits))
-    penloglikset = np.zeros(ninits)
-    loglikset = np.zeros(ninits)
-              
-    for jn in prange(ninits):            
-        alpha_jn = alpha_draw[:, jn]
-        tau_jn   = tau_draw[:, jn]
-        mu_jn = mu_draw[:, jn]
-        mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
-        sigma_jn = sigma_draw[:, jn]
-        gamma_jn = gamma_draw[:, jn]  # Likely float64
-        mubeta_jn_mat = mubeta_jn.reshape((q+1,m)).T
-        
-        oldpenloglik = -np.inf
-        diff = 1.0
-        
-        for iter_ii in range(maxit):
-            
-            ll = 0
-            
-            if p > 0:
-                ytilde = y_c - np.dot(z, gamma_jn)
-            else:
-                ytilde = y_c
-            
-            r = np.zeros((mk, nt))
-            for mm in range(m):
-                for kk in range(k):     
-                    res = ytilde - x1 @ mubeta_jn_mat[mm] - mu_jn[mm*k + kk]
-                    r[mm*k + kk] = log_likelihood_array(res, 0.0, sigma_jn[mm])
-            
-            l_m = np.zeros((m,n))  # Same shape as `r`
-            w_mk = np.zeros((mk,nt))    # Weights
-                
-            for mm in range(m):
-                r_m = r[ mm*k: (mm+1)*k, :]
-                tau_m = tau_jn[ mm*k: (mm+1)*k] 
-                minr = max_along_axis_0(r_m)
-                 
-                w_m = np.zeros((k,nt))    # Weights
-                l_m_k = np.zeros((k,nt))  # Same shape as `r`
-                
-                                            
-                for i in range(nt):
-                    for kk in range(k):
-                        l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
-                        
-                sum_l_m_k = np.zeros(nt)   # Sum along axis 0
-                for i in range(nt):
-                    for kk in range(k):
-                        sum_l_m_k[i] += l_m_k[kk, i]
-                
-                
-                for i in range(nt):
-                    for kk in range(k):
-                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
-                                
-                w_mk[mm*k: (mm+1)*k, :] = w_m
-                
-                # compute l_m 
-                for nn in range(n):
-                    sum_l_m_k_nn = 0.0
-                    for tt in range(t):
-                        idx = nn * (t) + tt  # Compute the flattened index
-                        sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
-                    l_m[mm,nn] = sum_l_m_k_nn
-            
-            # construct 
-            sum_l_m = np.zeros(n)   # Sum along axis 0
-            l_m_weighted = np.zeros((m,n))
-            w = np.zeros((m, n))
-            min_l_m = max_along_axis_0(l_m)
-            for i in range(n):
-                for mm in range(m):
-                    l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
-                    sum_l_m[i] += l_m_weighted[mm, i]
-                        
-            # update weight
-            # Compute w = l_j / sum_l_j
-            for i in range(n):
-                for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
-                    w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
-                    
-            for i in range(n):
-                ll += np.log(sum_l_m[i]) + min_l_m[i]
-            
-            penloglik = ll + np.log(2.0) 
-            
-            diff = penloglik - oldpenloglik
-            oldpenloglik = penloglik
-            
-            if abs(diff) < tol:
-                break
-            
-            # Update parameters
-            mu_mk_weighted = np.zeros((m, nt))
-            for mm in range(m):
-                alpha_jn[mm] = np.mean(w[mm, :])
-                
-                # First estimate beta, rho (mm-specific)
-                wtilde = w[mm, :].T
-                # estimate param
-                w_m = np.zeros(nt)
-                for i in range(n):
-                    w_m[i * (t) : (i + 1) * (t)] = wtilde[i]
-                xtilde = np.zeros((nt,q1-1)) # remove the constant term
-                for ii in range(1, x1.shape[1]):
-                    xtilde[:, (ii-1)] = w_m * x1[:, ii]
-                
-                w_mk_sum = np.zeros(nt)
-                               
-                mu_mk_weighted[mm] = np.zeros(nt)
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    mu_mk_weighted[mm] += w_mk[idx_type] * mu_jn[idx_type]
-                    w_mk_sum += w_mk[idx_type]
-                w_mk_sum[w_mk_sum < 1e-6] = 1e-6
-                mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
-                
-                coef_jn = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ (y_c - mu_mk_weighted[mm] - z @ gamma_jn ) )
-                
-                
-                # Estimate mu: mk-specific
-                ytilde = y_c - x1[:,1:] @ coef_jn - z @ gamma_jn
-                mubeta_jn_mat[mm,1:q1] = coef_jn[:q1-1]
-                    
-                res_mm_sq = np.zeros(nt)
-                
-                sum_tau_jn = 0 
-                
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    mu_jn[idx_type] = np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6)
-                
-                    res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type])**2
-                    
-                    tau_jn[idx_type] = max(np.mean(w_mk[idx_type,:]), tau_bound)
-                    sum_tau_jn+=tau_jn[idx_type]
-                
-                for kk in range(k):
-                    idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)
-
-                sigma_jn[mm] = np.sqrt( np.sum(res_mm_sq) / np.sum(w_mk_sum)  )
-                sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
-
-            mubeta_jn = mubeta_jn_mat.T.flatten()
-            # update alpha
-            for j in range(m):
-                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
-            
-            total_alpha = np.sum(alpha_jn)
-            for j in range(m):
-                alpha_jn[j] = alpha_jn[j] / total_alpha
-            
-            # update gamma
-            if p > 0:
-                ztilde = np.zeros((nt, p), dtype=np.float64) 
-                zz = np.zeros((p, p), dtype=np.float64) 
-                ze = np.zeros((p, 1), dtype=np.float64) 
-                for j in range(m):
-                    wtilde = w[j, :]
-                    w_j = np.zeros(nt)
-                    for i in range(n):
-                        w_j[i * (t) : (i + 1) * (t )] = wtilde[i]
-                    for ii in range(p):
-                        ztilde[:, ii] = w_j * z[:, ii]
-                         
-                    zz += ztilde.T @ (z) / (sigma_jn[j]**2)
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:] - mu_mk_weighted[j]) / max(sigma_jn[j]**2,1e-6)
-                gamma_jn = solve_linear_system_safe(zz,ze).flatten()
-                
-        # print(iter_ii)
-        penloglikset[jn] = penloglik
-        loglikset[jn] = ll
-        post[:, jn] = w.T.flatten()
-        alpha_draw[:, jn] = alpha_jn
-        mu_draw[:, jn] = mu_jn
-        mubeta_draw[:, jn] = mubeta_jn_mat.T.flatten()
-        sigma_draw[:, jn] = sigma_jn
-        tau_draw[:, jn] = tau_jn
-        gamma_draw[:, jn] = gamma_jn
-    
-    return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
-
-
-@njit
-def regpanelmixmixturePMLE(y, x, z, p, q, m, k, ninits=2, tol=1e-6, maxit=2000, tol_short=1e-2, maxit_short=50, alpha_bound=0.05, tau_bound=0.05):    # Extract the generated data
-    t,n = y.shape
-    nt = n * t
-    y_c = y.T.flatten()
-    
-    x1 = np.hstack((np.ones((nt, 1)), x))
-    xz = np.hstack((x1, z))
-    q1 = q + 1
-    
-    if p > 0:
-        xz = np.hstack((x1, z))
-    else:
-        xz = x1 
-        
-    out_coef = solve_least_squares(xz, y_c)  # Replace np.linalg.lstsq
-    residuals = y_c - xz @ out_coef
-    stdR = np.std(residuals)
-    npar = m - 1 + (q + 2 * k - 1) * m + p 
-    # ninits_short = ninits * 10 * (q1 + p) * m
-    ninits_short = ninits * 10 
-    # -----
-    estim_init = regpanelmixPMLE(y, x, z, p, q, m, alpha_bound=alpha_bound)
-    alpha_hat  = estim_init['alpha_hat'][0]
-    mubeta_hat = estim_init['mubeta_hat'][0]
-    mubeta_hat = np.ascontiguousarray(mubeta_hat)
-    mubeta_hat_mat = mubeta_hat.reshape((q+1,m)).T
-    mu_hat = mubeta_hat_mat[:,0]
-    sigma_hat  = estim_init['sigma_hat'][0]
-    gamma_hat  = estim_init['gamma_hat'][0]
-    # -----
-
-    if p > 0:
-        gamma_draw = generate_random_uniform(0.5, 1.5, (p, ninits_short))
-        for pp in range(p):
-            gamma_draw[:,pp] = gamma_draw[:,pp] * gamma_hat[pp]
-       
-    else:
-        # Perform least squares regression with x only
-        gamma_draw = np.zeros((0,ninits_short), dtype=np.float64)
-        
-    # Initialize alpha
-    alpha_draw = (alpha_hat +  generate_random_uniform(0, 0.1, (m, ninits_short)).T).T
-    alpha_draw = (alpha_draw / np.sum(alpha_draw, axis=0))
-
-    mk = m * k 
-    mu_draw = np.zeros((m * k, ninits_short))
-    tau_draw = np.zeros((m * k, ninits_short))
-    for mm in range(m):
-        tau_draw_m = generate_random_uniform(0, 1, (k, ninits_short))
-        tau_draw_m = (tau_draw_m / np.sum(tau_draw_m, axis=0))
-        tau_draw[(mm * k):((mm +1) * k),:] = tau_draw_m
-        
-        quantile_cutoff = np.linspace(0, 1, k+1)
-        for kk in range(k):
-            idx_type = mm * k + kk 
-            mu_draw[( idx_type), :] = mu_hat[mm] + np.random.uniform(quantile_cutoff[kk], quantile_cutoff[kk+1], size=ninits_short) * np.abs(mu_hat[mm])
-    
-    mubeta_draw = np.zeros((q1 * m, ninits_short))
-    
-    for mm in range(m):
-        mubeta_draw[mm, :] = 0 #leave mu blank for mubeta draw    
-        if q > 0:
-            for j in range(q):
-                mubeta_draw[ m*(j+1)+mm , :] = mubeta_hat_mat[mm,j+1] * np.random.uniform(0.9, 1.1, size=ninits_short)
-                
-    sigma_draw = (generate_random_uniform(0.9, 1.1, (m, ninits_short)).T * sigma_hat).T
-    
-    an = 1 / n    
-    sigma_0 = np.full(m, stdR)
-    
-    alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an, maxit=maxit_short, tol=tol_short, alpha_bound=alpha_bound, tau_bound=tau_bound)
-
-    components = np.argsort(penloglikset)[::-1][:ninits]
-    alpha_draw = alpha_draw[:,components]
-    mu_draw = mu_draw[:,components]
-    mubeta_draw = mubeta_draw[:,components]
-    sigma_draw = sigma_draw[:,components]
-    gamma_draw = gamma_draw[:,components]
-    tau_draw = tau_draw[:,components]
-    
-    alpha_draw,tau_draw, mu_draw, mubeta_draw ,sigma_draw,gamma_draw,penloglikset, loglikset, post = EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw, sigma_draw, gamma_draw, m, k, t, an,  maxit=maxit, tol=tol, alpha_bound=alpha_bound, tau_bound=tau_bound)
-    
-    index = np.argmax(penloglikset)
-    alpha_hat = alpha_draw[:,index]
-    tau_hat = tau_draw[:,index]
-    mu_hat = mu_draw[:,index]
-    
-    mubeta_mat =  np.ascontiguousarray(mubeta_draw[:,index]).reshape((q1,m)).T
-    beta_hat = mubeta_mat[:,1:(q+1)]
-    
-    sigma_hat = sigma_draw[:,index]
-    gamma_hat = gamma_draw[:,index]
-    post = post[:, index]
-    penloglik = penloglikset[index]
-    loglik = loglikset[index]
-    aic = -2 * loglik + 2 * npar
-    bic = -2 * loglik + np.log(n) * npar
-    
-    # ----
-    # Create a Numba-compatible dictionary to store results
-    result_dict = Dict.empty(
-        key_type=types.unicode_type,  # Keys are strings
-        value_type=types.float64[:, :],  # Values are 2D arrays
-    )
-    result_dict['penloglik'] = np.array([[penloglik]])
-    result_dict['loglik'] = np.array([[loglik]])
-    result_dict['aic'] = np.array([[aic]])
-    result_dict['bic'] = np.array([[bic]])
-    result_dict['post'] = np.ascontiguousarray(post).reshape((n,m))
-    result_dict['alpha_hat']  = alpha_hat[np.newaxis,:]
-    result_dict['tau_hat']  = tau_hat[np.newaxis,:]
-    result_dict['sigma_hat']  = sigma_hat[np.newaxis,:]
-    result_dict['mu_hat'] = mu_hat[np.newaxis,:]
-    result_dict['beta_hat'] = beta_hat    
-    result_dict['gamma_hat'] = gamma_hat[np.newaxis,:]
-    return result_dict
 
 # %%
 

@@ -1,4 +1,4 @@
-Numba is using 22 threads.
+Numba is using 14 threads.
 ['empirical_test.py', 'ar1_kmshare_mixture', '5', 'ciiu', 'mL_share']
 Simulation Start
 Model: ar1_kmshare_mixture
