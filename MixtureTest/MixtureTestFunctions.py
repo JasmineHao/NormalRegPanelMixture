@@ -1428,7 +1428,7 @@ def compute_residual_normal_reg(m, n, t, sigma_jn, res):
 
 # %%
 @njit
-def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.1, alpha_bound = 0.05):
+def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_draw, gamma_draw, m, t, an, maxit=2000, tol=1e-8, tau = 0.5, epsilon=0.01, alpha_bound = 0.05):
     
     nt = len(y_c)
     n = nt // t
@@ -1768,7 +1768,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
 # %%
 
 @njit
-def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05):
+def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.01, alpha_bound = 0.05):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     # Handle x
@@ -1968,7 +1968,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
 
 
 @njit
-def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.001, alpha_bound = 0.05, tau_bound = 0.05):
+def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p, q, sigma_0, alpha_draw, tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, m, k, n, t, an, maxit=2000, tol=1e-8, epsilon=0.01, alpha_bound = 0.05, tau_bound = 0.05):
     
     nt = n * (t-1)
     mk = int(m*k)
@@ -2280,7 +2280,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
     return(alpha_draw,tau_draw, mu_draw, mubeta_draw,sigma_draw,gamma_draw,mu_0_draw, mubeta_0_draw,sigma_0_draw,gamma_0_draw, penloglikset, loglikset ,post)
 
 @njit
-def EM_optimization_AR1_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.05, alpha_bound = 0.05):
+def EM_optimization_AR1_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.01, alpha_bound = 0.05):
     nt = n * (t-1)
     ninits = alpha_draw.shape[1]
     # Handle x
@@ -3348,7 +3348,7 @@ def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_lo
     npar = m - 1 + (q1) * m + 2 * p 
     npar_0 =  (q + 1) * m + p 
     
-    ninits_short = ninits * 5 * (q1 + p) * m
+    ninits_short = ninits * 5 * (q + p) * m
     
     # First draw random start point
     if p > 0:
@@ -3961,133 +3961,7 @@ def LRTestMixtureParallel(Data, N, T, M, K, p, q, nrep, BB = 199, alpha_bound=0.
         
     return(result_lr_each)
 
-# %%
-# For sequential test
-# %%
 
-@njit
-def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
-    weights_equal = np.full(N, 1 / N)
-    
-    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
-        
-    # Initialize results
-    rk = np.zeros(T)
-    lambda_c_list = List()
-    omega_c = List()
-    Sigma_P_list = List()
-    P_k_list = List()
-    
-    # Loop through T periods to compute statistics
-    for k in range(T):
-        # Extract P_k and Sigma_P_k from the data_P_W object
-        P_k = data_P_W["P_k_list"][k]
-        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
-        
-        # Compute KP statistics for the k-th triplet
-        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
-        
-        # Store results
-        rk[k] = stat_KP["rk_c"][0,0]
-        lambda_c_list.append(stat_KP["lambda_c"])
-        omega_c.append(stat_KP["Omega_q"])
-        Sigma_P_list.append(Sigma_P_k)
-        P_k_list.append(P_k)
-    # Initialize result matrix
-    rk_b = np.zeros((BB, T))
-    
-    # Smoothed Nonparametric Bootstrap
-    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
-    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
-    ru /= row_sums
-    
-    for i in prange(BB):
-        # Calculate bootstrapped P and Sigma_P matrices
-        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
-        
-        for k in range(T):
-            P_k = data_P_W_b['P_k_list'][k]
-            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
-            # Compute KP statistics for the k-th triplet
-            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
-            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
-    # Compute max and mean values for rk and rk_b
-    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
-    rk_b_max_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
-
-    
-    # Store results
-
-    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
-    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
-    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
-    return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
-
-
-# %%
-@njit(parallel=False) 
-def NonParTest(y, N, T, n_grid, n_bins, BB, r_test):
-    weights_equal = np.full(N, 1 / N)
-    
-    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
-        
-    # Initialize results
-    rk = np.zeros(T)
-    lambda_c_list = List()
-    omega_c = List()
-    Sigma_P_list = List()
-    P_k_list = List()
-    
-    # Loop through T periods to compute statistics
-    for k in range(T):
-        # Extract P_k and Sigma_P_k from the data_P_W object
-        P_k = data_P_W["P_k_list"][k]
-        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
-        
-        # Compute KP statistics for the k-th triplet
-        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
-        
-        # Store results
-        rk[k] = stat_KP["rk_c"][0,0]
-        lambda_c_list.append(stat_KP["lambda_c"])
-        omega_c.append(stat_KP["Omega_q"])
-        Sigma_P_list.append(Sigma_P_k)
-        P_k_list.append(P_k)
-    # Initialize result matrix
-    rk_b = np.zeros((BB, T))
-    
-    # Smoothed Nonparametric Bootstrap
-    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
-    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
-    ru /= row_sums
-    
-    for i in prange(BB):
-        # Calculate bootstrapped P and Sigma_P matrices
-        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
-        
-        for k in range(T):
-            P_k = data_P_W_b['P_k_list'][k]
-            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
-            # Compute KP statistics for the k-th triplet
-            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
-            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
-    # Compute max and mean values for rk and rk_b
-    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
-    lr_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
-    lr_90 = compute_quantile(rk_b_max, 0.90)  # 95th quantile of rk_b_max
-    lr_99 = compute_quantile(rk_b_max, 0.99)  # 95th quantile of rk_b_max
-    lr_stat = rk.max()      
-    aic = 0
-    bic = 0                   
-    
-    # Store results
-
-    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
-    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
-    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
-    # return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
-    return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
-   
 # %%
 
 @njit(parallel=False) 
@@ -4506,8 +4380,8 @@ def LRTestAR1NormalNoConstraint(y, x, z, p, q, m, N, T, bootstrap = True, BB= 19
 
 @njit(parallel=False)
 def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05):
-    out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound)
-    out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound)
+    out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound,ninits=2)
+    out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound,ninits=2)
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
         
@@ -4528,7 +4402,7 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     penloglik_h0 = out_h0['penloglik'][0,0]
     penloglik_h1 = out_h1['penloglik'][0,0]
     
-    penloglik_h0 = out_h0['penloglik'][0,0]
+
     aic = out_h0['aic'][0,0]
     bic = out_h0['bic'][0,0]
     penloglik_h1 = out_h1['penloglik'][0,0]
@@ -4579,6 +4453,129 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
 # %%
 
+@njit
+def NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test):
+    weights_equal = np.full(N, 1 / N)
+    
+    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
+        
+    # Initialize results
+    rk = np.zeros(T)
+    lambda_c_list = List()
+    omega_c = List()
+    Sigma_P_list = List()
+    P_k_list = List()
+    
+    # Loop through T periods to compute statistics
+    for k in range(T):
+        # Extract P_k and Sigma_P_k from the data_P_W object
+        P_k = data_P_W["P_k_list"][k]
+        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
+        
+        # Compute KP statistics for the k-th triplet
+        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+        
+        # Store results
+        rk[k] = stat_KP["rk_c"][0,0]
+        lambda_c_list.append(stat_KP["lambda_c"])
+        omega_c.append(stat_KP["Omega_q"])
+        Sigma_P_list.append(Sigma_P_k)
+        P_k_list.append(P_k)
+    # Initialize result matrix
+    rk_b = np.zeros((BB, T))
+    
+    # Smoothed Nonparametric Bootstrap
+    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
+    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
+    ru /= row_sums
+    
+    for i in prange(BB):
+        # Calculate bootstrapped P and Sigma_P matrices
+        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
+        
+        for k in range(T):
+            P_k = data_P_W_b['P_k_list'][k]
+            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
+            # Compute KP statistics for the k-th triplet
+            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
+    # Compute max and mean values for rk and rk_b
+    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
+    rk_b_max_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
+
+    
+    # Store results
+
+    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
+    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
+    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
+    return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
+
+
+# %%
+@njit(parallel=False) 
+def NonParTest(y, N, T, n_grid, n_bins, BB, r_test):
+    weights_equal = np.full(N, 1 / N)
+    
+    data_P_W = calculate_P_matrix(y, weights_equal, n_grid=n_grid, n_bins=n_bins)
+        
+    # Initialize results
+    rk = np.zeros(T)
+    lambda_c_list = List()
+    omega_c = List()
+    Sigma_P_list = List()
+    P_k_list = List()
+    
+    # Loop through T periods to compute statistics
+    for k in range(T):
+        # Extract P_k and Sigma_P_k from the data_P_W object
+        P_k = data_P_W["P_k_list"][k]
+        Sigma_P_k = data_P_W["Sigma_P_k_list"][k]
+        
+        # Compute KP statistics for the k-th triplet
+        stat_KP = construct_stat_KP(P_k, Sigma_P_k, r_test, N)
+        
+        # Store results
+        rk[k] = stat_KP["rk_c"][0,0]
+        lambda_c_list.append(stat_KP["lambda_c"])
+        omega_c.append(stat_KP["Omega_q"])
+        Sigma_P_list.append(Sigma_P_k)
+        P_k_list.append(P_k)
+    # Initialize result matrix
+    rk_b = np.zeros((BB, T))
+    
+    # Smoothed Nonparametric Bootstrap
+    ru = np.random.exponential(scale=1, size=(BB, N))  # Exponential random variables
+    row_sums = ru.sum(axis=1).reshape(-1, 1)  # Reshape to keep dimensions
+    ru /= row_sums
+    
+    for i in prange(BB):
+        # Calculate bootstrapped P and Sigma_P matrices
+        data_P_W_b = calculate_P_matrix(y, ru[i, :], n_grid=n_grid, n_bins=n_bins)
+        
+        for k in range(T):
+            P_k = data_P_W_b['P_k_list'][k]
+            Sigma_P_k = data_P_W_b['Sigma_P_k_list'][k]
+            # Compute KP statistics for the k-th triplet
+            rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, lambda_c_list[k])['rk_c'][0,0]
+            # rk_b[i, k] = construct_stat_KP(P_k, Sigma_P_k, r_test, N, 0)['rk_c'][0,0]
+    # Compute max and mean values for rk and rk_b
+    rk_b_max = max_along_axis_1(rk_b)  # Maximum of rk_b along axis 1
+    lr_95 = compute_quantile(rk_b_max, 0.95)  # 95th quantile of rk_b_max
+    lr_90 = compute_quantile(rk_b_max, 0.90)  # 95th quantile of rk_b_max
+    lr_99 = compute_quantile(rk_b_max, 0.99)  # 95th quantile of rk_b_max
+    lr_stat = rk.max()      
+    aic = 0
+    bic = 0                   
+    
+    # Store results
+
+    rk_mean = np.mean(rk)  # Mean of rk (Numba supports this)
+    rk_b_mean = mean_along_axis_1(rk_b)  # Mean of rk_b along axis 1
+    rk_b_mean_95 = compute_quantile(rk_b_mean, 0.95)  # 95th quantile of 
+    # return np.array([(rk.max() > rk_b_max_95), 1 * (rk_mean > rk_b_mean_95)])
+    return np.array([lr_stat, lr_90, lr_95, lr_99, aic, bic])
+   
 @njit(parallel=True)  # Numba JIT compilation with parallelization
 def parallel_processing_empirical_test_stationary(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05):
     # Initialize result tables
