@@ -3348,7 +3348,7 @@ def regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, ninits=10, tol_lo
     npar = m - 1 + (q1) * m + 2 * p 
     npar_0 =  (q + 1) * m + p 
     
-    ninits_short = ninits * 5 * (q + p) * m
+    ninits_short = ninits * 5 * (q + p + 1) * m
     
     # First draw random start point
     if p > 0:
