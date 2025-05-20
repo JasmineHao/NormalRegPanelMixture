@@ -4013,7 +4013,7 @@ def LRTestNormal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=False
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data(alpha_hat, mu_hat, sigma_hat, gamma_hat, beta_hat, N, T, m, p, q, spline=spline) for _ in prange(BB)]
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
         lr_stat_bb = np.zeros(BB, dtype=np.float64)
@@ -4097,7 +4097,7 @@ def LRTestMixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=F
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_mixture(alpha_hat, mu_hat, beta_hat, sigma_hat, tau_hat, gamma_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -4191,7 +4191,7 @@ def LRTestAR1Mixture(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, splin
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture(alpha_hat, tau_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, spline=spline) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -4276,7 +4276,7 @@ def LRTestAR1Normal(y, x, z, p, q, m, N, T, bootstrap = True, BB= 199, spline=Fa
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1(alpha_hat, rho_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -4346,7 +4346,7 @@ def LRTestAR1NormalNoConstraint(y, x, z, p, q, m, N, T, bootstrap = True, BB= 19
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_noconstraint(alpha_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1_noconstraint(alpha_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, p, q) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)
@@ -4421,7 +4421,7 @@ def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB
     
     if bootstrap:
         # Generate data for bootstrap
-        Data = [generate_data_ar1_mixture_noconstraint(alpha_hat, tau_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q, z_input=z, x_input=x) for _ in prange(BB)]
+        Data = [generate_data_ar1_mixture_noconstraint(alpha_hat, tau_hat, mu_hat, sigma_hat, beta_hat, gamma_hat, mu_0_hat, sigma_0_hat, beta_0_hat, gamma_0_hat, N, T, m, k, p, q) for _ in prange(BB)]
         
         
         # Preallocate lr_stat as a 1D array (Numba-compatible)

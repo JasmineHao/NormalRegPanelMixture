@@ -18,8 +18,11 @@ python -u empirical_test.py ar1_kmshare 5  ciiu mY_share > output_empirical_ar1_
 python -u empirical_test.py ar1_kmshare_mixture 5  ciiu mY_share > output_empirical_ar1_kmshare_mixture.log 2>&1 & 
 
 # Labor augmenting technology
-python -u empirical_test.py ar1_kmshare 5  ciiu mL_share > output_empirical_ar1_kmshare.log 2>&1 &
-python -u empirical_test.py ar1_kmshare_mixture 5  ciiu mL_share > output_empirical_ar1_kmshare_mixture.log 2>&1 & 
+python -u empirical_test.py ar1_plain 5  no_ciiu mL_share > output_empirical_ar1_l.log 2>&1 &
+python -u empirical_test.py ar1_plain_mixture 5  no_ciiu mL_share > output_empirical_ar1_mixture_l.log 2>&1 & 
+
+python -u empirical_test.py ar1_kmshare 5  ciiu mL_share > output_empirical_ar1_kmshare_l.log 2>&1 &
+python -u empirical_test.py ar1_kmshare_mixture 5  ciiu mL_share > output_empirical_ar1_kmshare_mixture_l.log 2>&1 & 
 
 
 # python -u empirical_test.py ar1_k_mixture_3 3  ciiu mY_share > output_empirical_ar1_k_mixture_3.log 2>&1 & 
