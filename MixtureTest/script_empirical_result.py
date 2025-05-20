@@ -66,6 +66,7 @@ for csv_file in csv_files:
 result_output = dataframes_cl.set_index('model')
 result_output = result_output.replace(-1,'10+')
 
+
 # %%
 # Read each Statistics CSV file into a DataFrame and store them in a list
 dataframes_jp_stats = pd.DataFrame()

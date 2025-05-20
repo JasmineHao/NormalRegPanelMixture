@@ -48,3 +48,14 @@ chile Fabricated metal products 625.9107658863068
 93
 Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 1, Time Taken: 133.80 seconds, LR Stat: 146.9353
 Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 2, Time Taken: 392.15 seconds, LR Stat: 69.0548
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 3, Time Taken: 1077.15 seconds, LR Stat: 17.5242
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 4, Time Taken: 5.27 seconds, LR Stat: 15.6631
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 5, Time Taken: 8.41 seconds, LR Stat: 6.5778
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 6, Time Taken: 11.71 seconds, LR Stat: 29.2953
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 7, Time Taken: 15.01 seconds, LR Stat: 3.8340
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 8, Time Taken: 17.71 seconds, LR Stat: -4.4069
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 9, Time Taken: 21.15 seconds, LR Stat: -1.4429
+Country: chile, Industry: Textiles, Model: ar1_plain_mixture, M: 10, Time Taken: 25.88 seconds, LR Stat: 7.9460
+chile Textiles 1708.2650952339172
+['Chile', 'Textiles', 'Ar1_plain_mixture', np.int64(5), np.int64(3), 3, 3, 3]
+------------------------------
