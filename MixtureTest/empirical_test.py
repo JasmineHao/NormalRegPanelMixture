@@ -186,7 +186,6 @@ for COUNTRY in COUNTRY_list:
     for (each_code, ind_count) in zip(ind_code, range(len(ind_code))):
         # %%
         start_time = time.time()
-
         # Initialize arrays for storing results
         lr_df = np.zeros(10, dtype=object)
         lr_df_99 = np.zeros(10, dtype=object)

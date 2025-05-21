@@ -1,10 +1,10 @@
 Numba is using 14 threads.
-['empirical_test.py', 'ar1_kmshare_mixture', '5', 'ciiu', 'mL_share']
+['empirical_test.py', 'ar1_kmshare_mixture', '5', 'ciiu', 'mY_share']
 Simulation Start
 Model: ar1_kmshare_mixture
 T: 5
 Include CIIU: True
-Dependent Variable: mL_share
+Dependent Variable: mY_share
 Food products
 NT=2195,N=439
 [ 0.026  0.602  4.878  7.61   4.034 12.834]

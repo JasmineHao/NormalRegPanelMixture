@@ -1,10 +1,10 @@
 Numba is using 14 threads.
-['empirical_test.py', 'ar1_plain', '5', 'no_ciiu', 'mY_share']
+['empirical_test.py', 'ar1_plain', '5', 'no_ciiu', 'mL_share']
 Simulation Start
 Model: ar1_plain
 T: 5
 Include CIIU: False
-Dependent Variable: mY_share
+Dependent Variable: mL_share
 Food products
 NT=2195,N=439
 [ 0.026  0.602  4.878  7.61   4.034 12.834]
@@ -18,44 +18,43 @@ NT=465,N=93
 [ 0.209  0.563  4.314  8.417  3.932 12.947]
 [0.265 0.215 5.288 2.163 1.164 1.448]
 439
-Country: chile, Industry: Food products, Model: ar1_plain, M: 1, Time Taken: 178.38 seconds, LR Stat: 1306.2478
-Country: chile, Industry: Food products, Model: ar1_plain, M: 2, Time Taken: 310.40 seconds, LR Stat: 163.5232
-Country: chile, Industry: Food products, Model: ar1_plain, M: 3, Time Taken: 792.42 seconds, LR Stat: 75.6051
-Country: chile, Industry: Food products, Model: ar1_plain, M: 4, Time Taken: 1503.67 seconds, LR Stat: 72.1582
-Country: chile, Industry: Food products, Model: ar1_plain, M: 5, Time Taken: 2858.17 seconds, LR Stat: 44.9175
-Country: chile, Industry: Food products, Model: ar1_plain, M: 6, Time Taken: 5129.33 seconds, LR Stat: 32.3654
-Country: chile, Industry: Food products, Model: ar1_plain, M: 7, Time Taken: 7552.98 seconds, LR Stat: 18.3792
-Country: chile, Industry: Food products, Model: ar1_plain, M: 8, Time Taken: 10956.78 seconds, LR Stat: 16.6619
-Country: chile, Industry: Food products, Model: ar1_plain, M: 9, Time Taken: 14078.06 seconds, LR Stat: 14.3485
-Country: chile, Industry: Food products, Model: ar1_plain, M: 10, Time Taken: 19023.80 seconds, LR Stat: 17.1228
-chile Food products 62384.020688056946
-['Chile', 'Food products', 'Ar1_plain', 10, np.int64(7), -1, -1, -1]
+Country: chile, Industry: Food products, Model: ar1_plain, M: 1, Time Taken: 352.13 seconds, LR Stat: 1345.2576CCountry: chile, Industry: Food products, Model: ar1_plain, M: 2, Time Taken: 354.57 seconds, LR Stat: 201.4965
+ountry: chile, Industry: Food products, Model: ar1_plain, M: 3, Time Taken: 269.15 seconds, LR Stat: 64.3292
+Country: chile, Industry: Food products, Model: ar1_plain, M: 4, Time Taken: 2.56 seconds, LR Stat: 23.9542
+Country: chile, Industry: Food products, Model: ar1_plain, M: 5, Time Taken: 4.37 seconds, LR Stat: 88.7925
+Country: chile, Industry: Food products, Model: ar1_plain, M: 6, Time Taken: 6.78 seconds, LR Stat: -54.1024
+Country: chile, Industry: Food products, Model: ar1_plain, M: 7, Time Taken: 9.72 seconds, LR Stat: -24.8746
+Country: chile, Industry: Food products, Model: ar1_plain, M: 8, Time Taken: 13.53 seconds, LR Stat: -29.1599
+Country: chile, Industry: Food products, Model: ar1_plain, M: 9, Time Taken: 18.29 seconds, LR Stat: 26.2940
+Country: chile, Industry: Food products, Model: ar1_plain, M: 10, Time Taken: 23.57 seconds, LR Stat: -20.8732
+chile Food products 704.3907001018524
+['Chile', 'Food products', 'Ar1_plain', np.int64(6), np.int64(4), 3, 3, 3]
 ------------------------------
 103
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 1, Time Taken: 26.17 seconds, LR Stat: 93.8613
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 2, Time Taken: 77.00 seconds, LR Stat: 20.3777
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 3, Time Taken: 192.68 seconds, LR Stat: 16.0053
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 4, Time Taken: 380.71 seconds, LR Stat: 9.6130
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 5, Time Taken: 3.02 seconds, LR Stat: 10.1199
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 6, Time Taken: 4.39 seconds, LR Stat: 12.8678
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 7, Time Taken: 6.37 seconds, LR Stat: 8.4362
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 8, Time Taken: 9.84 seconds, LR Stat: 11.2033
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 9, Time Taken: 13.93 seconds, LR Stat: 13.3936
-Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 10, Time Taken: 17.58 seconds, LR Stat: 9.8456
-chile Fabricated metal products 731.7042667865753
-['Chile', 'Fabricated metal products', 'Ar1_plain', 10, np.int64(3), 4, 4, 4]
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 1, Time Taken: 13.97 seconds, LR Stat: 73.5312
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 2, Time Taken: 44.66 seconds, LR Stat: 14.8467
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 3, Time Taken: 0.48 seconds, LR Stat: -1.3613
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 4, Time Taken: 0.96 seconds, LR Stat: 1.6581
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 5, Time Taken: 1.52 seconds, LR Stat: 10.0655
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 6, Time Taken: 2.38 seconds, LR Stat: 7.3780
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 7, Time Taken: 3.31 seconds, LR Stat: 17.4210
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 8, Time Taken: 4.61 seconds, LR Stat: -4.2544
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 9, Time Taken: 5.92 seconds, LR Stat: -2.4708
+Country: chile, Industry: Fabricated metal products, Model: ar1_plain, M: 10, Time Taken: 7.80 seconds, LR Stat: -5.1839
+chile Fabricated metal products 85.6794593334198
+['Chile', 'Fabricated metal products', 'Ar1_plain', np.int64(3), np.int64(2), 2, 2, 2]
 ------------------------------
 93
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 1, Time Taken: 22.68 seconds, LR Stat: 251.8270
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 2, Time Taken: 58.57 seconds, LR Stat: 40.4770
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 3, Time Taken: 129.75 seconds, LR Stat: 33.7600
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 4, Time Taken: 269.65 seconds, LR Stat: 29.8893
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 5, Time Taken: 484.91 seconds, LR Stat: 21.0085
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 6, Time Taken: 764.51 seconds, LR Stat: 10.8941
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 7, Time Taken: 6.27 seconds, LR Stat: 13.2375
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 8, Time Taken: 8.83 seconds, LR Stat: 15.2278
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 9, Time Taken: 11.94 seconds, LR Stat: 12.2757
-Country: chile, Industry: Textiles, Model: ar1_plain, M: 10, Time Taken: 15.57 seconds, LR Stat: 11.9352
-chile Textiles 1772.6853241920471
-['Chile', 'Textiles', 'Ar1_plain', 10, np.int64(6), 6, 6, 6]
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 1, Time Taken: 12.37 seconds, LR Stat: 143.1963
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 2, Time Taken: 22.10 seconds, LR Stat: 29.6386
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 3, Time Taken: 55.98 seconds, LR Stat: 13.7260
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 4, Time Taken: 0.57 seconds, LR Stat: 3.1745
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 5, Time Taken: 1.26 seconds, LR Stat: 7.3985
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 6, Time Taken: 1.67 seconds, LR Stat: 4.2128
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 7, Time Taken: 2.42 seconds, LR Stat: 10.1619
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 8, Time Taken: 4.10 seconds, LR Stat: -1.9280
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 9, Time Taken: 5.65 seconds, LR Stat: 12.0438
+Country: chile, Industry: Textiles, Model: ar1_plain, M: 10, Time Taken: 6.11 seconds, LR Stat: -5.0017
+chile Textiles 112.24313116073608
+['Chile', 'Textiles', 'Ar1_plain', np.int64(4), np.int64(2), 3, 3, 3]
 ------------------------------

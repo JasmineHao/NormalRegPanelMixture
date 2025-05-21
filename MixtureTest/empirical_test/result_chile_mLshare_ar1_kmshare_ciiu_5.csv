@@ -3,6 +3,6 @@ Industry,,Fabricated metal products,Food products,Textiles
 ,Model,,,
 AIC,Ar1_kmshare,4,3,4
 BIC,Ar1_kmshare,2,3,2
-LR,Ar1_kmshare,2,3,2
-LR 90,Ar1_kmshare,2,3,2
-LR 99,Ar1_kmshare,2,3,2
+LR,Ar1_kmshare,2,3,3
+LR 90,Ar1_kmshare,2,3,3
+LR 99,Ar1_kmshare,2,3,3
