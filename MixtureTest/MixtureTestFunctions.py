@@ -1557,10 +1557,9 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
                         w_j[i * t : (i + 1) * t] = wtilde[i]
                     for ii in range(p):
                         ztilde[:, ii] = w_j * z[:, ii]
-        if np.isnan(penloglik) or np.isinf(penloglik):
-            raise ValueError("penloglik contains NaN or Inf values.")
-        penloglikset[jn] = penloglik
-                    ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
+                if np.isnan(penloglik) or np.isinf(penloglik):
+                    raise ValueError("penloglik contains NaN or Inf values.")
+                ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
         
         penloglikset[jn] = penloglik
