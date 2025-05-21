@@ -4773,8 +4773,7 @@ def count_frequency(arr, M_max):
         numpy.ndarray: An array of frequencies for values from 1 to M_max.
     """
     # Convert the array to integers (if not already)
-    arr = arr.astype(int)
-    
+    arr = np.where(arr < 0, M_max, arr).astype(int)
     # Use np.bincount with minlength to ensure range 1 to M_max is covered
     counts = np.bincount(arr, minlength=M_max + 1)[1:M_max + 1]
     return counts
