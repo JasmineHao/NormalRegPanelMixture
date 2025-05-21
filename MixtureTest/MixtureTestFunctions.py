@@ -1460,8 +1460,6 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         diff = 1.0
         if np.any(np.isnan(alpha_draw)) or np.any(np.isinf(alpha_draw)):
             raise ValueError("alpha_draw contains NaN or Inf values.")
-        if np.any(np.isnan(tau_draw)) or np.any(np.isinf(tau_draw)):
-            raise ValueError("tau_draw contains NaN or Inf values.")
         
         for iter_ii in range(maxit):
             

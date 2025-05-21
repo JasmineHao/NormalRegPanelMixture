@@ -28,10 +28,11 @@ COUNTRY_list = ['chile']
 
 # %%
 print(sys.argv)
-y_indicator = 'mL_share'
 y_indicator = 'mY_share'
-include_ciiu = False
-T = 3 
+y_indicator = 'mL_share'
+include_ciiu = True
+T = 5
+MODEL = "plain_mixture"
     
 if len(sys.argv) < 2:
     MODEL = "plain_mixture"
