@@ -1373,7 +1373,7 @@ def log_likelihood_array(y, mu, sigma):
     """
     # Precompute constants
     constant = -0.5 * np.log(2 * np.pi)
-    variance = sigma ** 2
+    variance = max(sigma ** 2, 1e-10)  # Avoid division by zero
 
     # Initialize result array
     log_likelihoods = np.empty(len(y))
@@ -1461,7 +1461,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         if np.any(np.isnan(alpha_draw)) or np.any(np.isinf(alpha_draw)):
             raise ValueError("alpha_draw contains NaN or Inf values.")
         
-        for iter_ii in range(maxit):
+        for iter_ii in range(maxit):  # iter_ii is used as a loop counter
             
             if p > 0:
                 ytilde = y_c - np.dot(z, gamma_jn)
@@ -2017,7 +2017,7 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
         oldpenloglik = -np.inf
         emit = 0
         diff = 1.0
-        sing = 0
+        sing = 0  # Initialize but currently unused; consider removing if unnecessary
         
         for iter_ii in range(maxit):
             
@@ -2293,7 +2293,7 @@ def EM_optimization_AR1_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0
     # Handle x
     q1 = 2 * (q + 1)
     # Initialize variables    
-    l_j = np.zeros(m)
+    l_j = np.zeros(m)  # Initialize but currently unused; consider removing if unnecessary
     w = np.zeros((m, n * (t-1)))
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
@@ -2480,7 +2480,6 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
     # Handle x
     q1 = 2 * (q + 1)
     # Initialize variables    
-    l_j = np.zeros(m)
     w = np.zeros((m, n * (t-1)))
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
@@ -2512,7 +2511,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
         oldpenloglik = -np.inf
         emit = 0
         diff = 1.0
-        sing = 0
+        
         
         for iter_ii in range(maxit):           
             r = np.zeros((mk, nt))
@@ -2545,9 +2544,9 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                                             
                 for i in range(nt):
                     for kk in range(k):
-                        tau_m[kk] = min(max(tau_m[kk], 1e-6), 1e6)  # Bound tau_m
+                        tau_m[kk] = min(max(tau_m[kk], 1e-6), 1e6)
                         l_m_k[kk, i] = tau_m[kk] * np.exp(r_m[kk, i] - minr[i])
-                        l_m_k[kk, i] = min(l_m_k[kk, i], 1e6)  # Bound l_m_k
+                        
                 for i in range(n):
                     for kk in range(k):
                         l_m_k_0[kk,i] = tau_m[kk] * np.exp( r_m_0[kk,i] - minr_0[i] )
@@ -2561,18 +2560,16 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 for i in range(n):
                     for kk in range(k):
                         sum_l_m_k_0[i] += l_m_k_0[kk, i]
+                for i in range(n):
+                    for kk in range(k):
+                        w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
+                        w_m_0[kk, i] = l_m_k_0[kk, i] / max(sum_l_m_k_0[i], 1e-6)
                 
-                        w_m[kk, i] = l_m_k[kk, i] / (sum_l_m_k[i] if sum_l_m_k[i] > 0 else 1e-6)
-                    for kk in range(k):
-                        w_m[kk, i] = l_m_k[kk, i] / min(max(sum_l_m_k[i], 1e-6),1e6)
-                        w_m_0[kk, i] = l_m_k_0[kk, i] / min(max(sum_l_m_k_0[i], 1e-6),1e6)
-                    for kk in range(k):
-                        w_m_0[kk, i] = l_m_k_0[kk, i] / min(max(sum_l_m_k_0[i], 1e-6),1e6)
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 w_mk_0[mm*k: (mm+1)*k, :] = w_m_0
-             # compute l_m 
+                # compute l_m 
                 for nn in range(n):
-                    sum_l_m_k_nn = 0.0
+                    sum_l_m_k_nn = 0
                     sum_l_m_k_nn += np.log(sum_l_m_k_0[nn]) + minr_0[nn]
                     for tt in range(t-1):
                         idx = nn * (t-1) + tt  # Compute the flattened index
@@ -2588,12 +2585,10 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 for mm in range(m):
                     l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
                     sum_l_m[i] += l_m_weighted[mm, i]
-                        
-            # update weight
-            # Compute w = l_j / sum_l_j
-                    w[mm, i] = l_m_weighted[mm, i] / (sum_l_m[i] if sum_l_m[i] > 0 else 1e-6)
+            
+            for i in range(n):   
                 for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
+                    w[mm, i] = l_m_weighted[mm, i] / max(sum_l_m[i], 1e-6)
                     w_mk[mm*k: (mm+1)*k, i*(t-1): (i+1)*(t-1)] = w_mk[mm*k: (mm+1)*k, i*(t-1):(i+1)*(t-1)] * w[mm, i]
                     w_mk_0[mm*k: (mm+1)*k, i] = w_mk_0[mm*k: (mm+1)*k, i] * w[mm, i]
                     
@@ -2631,8 +2626,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                     w_mk_sum += w_mk[idx_type]
                     w_mk_0_sum += w_mk_0[idx_type]
                     
-                w_mk_sum[w_mk_sum < 1e-6] = 1e-6
-                w_mk_0_sum[w_mk_0_sum < 1e-6] = 1e-6
+                w_mk_sum[w_mk_sum < 1e-3] = 1e-3
+                w_mk_0_sum[w_mk_0_sum < 1e-3] = 1e-3
                 mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
                 mu_mk_0_weighted[mm] = mu_mk_0_weighted[mm] / w_mk_0_sum
                 
@@ -2648,16 +2643,14 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 
                 mubeta_estim = solve_linear_system_safe(xtilde.T @ x1[:,1:], xtilde.T @ y_tmp)
                 mubeta_jn_mat[mm,1:] = mubeta_estim
-
                 
-
                 # estimate mubeta_0 for initial period
                 xtilde_0 = np.zeros((n, x1_0.shape[1]-1))
                 for ii in range(x1_0.shape[1]-1):
                     xtilde_0[:, ii] = wtilde * x1_0[:, ii+1]
 
                 coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0[:,1:], xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn - mu_mk_0_weighted[mm]))
-
+                
                 mubeta_0_jn_mat[mm,1:(q+1)] = coef_0_jn
 
                 ytilde = y_c - x1[:,1:] @ mubeta_jn_mat[mm,1:] - z1 @ gamma_jn               
@@ -2671,7 +2664,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 
                 for kk in range(k):
                     denominator = max(np.mean(w_mk[idx_type, :]), 1e-6)
-                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type, :]) / denominator) / (1 - mubeta_jn_mat[mm, -1])
+                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type, :]) / max(denominator, 1e-6)) / max(1 - mubeta_jn_mat[mm, -1], 1e-6)
                     
                     mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / max(1 - mubeta_jn_mat[mm,-1], 1e-6)
                     
@@ -2689,7 +2682,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 sum_tau_jn = max(sum_tau_jn, 1e-6)
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)  # Prevent division by zero
+                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)
 
                 sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 1e-6)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
@@ -2705,7 +2698,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
 
             total_alpha = np.sum(alpha_jn)
             for mm in range(m):
-                alpha_jn[mm] = alpha_jn[mm] / max(total_alpha, 1e-6)  # Prevent division by zero
+                alpha_jn[mm] = alpha_jn[mm] / max(total_alpha, 1e-6)  # Ensure no division by zero
 
             # update gamma
             if p > 0:
@@ -2727,10 +2720,10 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                     for ii in range(p):
                         ztilde_0[:, ii] = wtilde * z_0[:, ii]
                         
-                    zz += ztilde.T @ (z1) / max(sigma_jn[mm]**2, 1e-6)  # Prevent division by zero
+                    zz += ztilde.T @ (z1) / max(sigma_jn[mm]**2, 1e-6)
                     ze += (ztilde.T @ (y_c - x1 @ mubeta_jn_mat[mm,:] - mu_mk_weighted[mm]).reshape(-1, 1)) / max(sigma_jn[mm]**2, 1e-6)
                     
-                    zz_0 += ztilde_0.T @ z_0 / max(sigma_0_jn[mm]**2, 1e-6)  # Prevent division by zero
+                    zz_0 += ztilde_0.T @ z_0 / max(sigma_0_jn[mm]**2, 1e-6)
                     ze_0 += (ztilde_0.T @ (y_0 - x1_0 @ mubeta_0_jn_mat[mm,:] - mu_mk_0_weighted[mm])).reshape((-1, 1)) / max(sigma_0_jn[mm]**2, 1e-6)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
                 gamma_0_jn = solve_linear_system_safe(zz_0,ze_0).flatten()
