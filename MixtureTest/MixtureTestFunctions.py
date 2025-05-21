@@ -1458,6 +1458,10 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
         oldpenloglik = -np.inf
         emit = 0
         diff = 1.0
+        if np.any(np.isnan(alpha_draw)) or np.any(np.isinf(alpha_draw)):
+            raise ValueError("alpha_draw contains NaN or Inf values.")
+        if np.any(np.isnan(tau_draw)) or np.any(np.isinf(tau_draw)):
+            raise ValueError("tau_draw contains NaN or Inf values.")
         
         for iter_ii in range(maxit):
             
@@ -1553,7 +1557,9 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
                         w_j[i * t : (i + 1) * t] = wtilde[i]
                     for ii in range(p):
                         ztilde[:, ii] = w_j * z[:, ii]
-                    zz += ztilde.T @ z / (sigma_jn[j]**2)
+        if np.isnan(penloglik) or np.isinf(penloglik):
+            raise ValueError("penloglik contains NaN or Inf values.")
+        penloglikset[jn] = penloglik
                     ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
         
@@ -1662,7 +1668,9 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 for mm in range(m):
                     w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
                     w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
-                    
+            diff = penloglik - oldpenloglik
+            if np.isnan(diff) or np.isinf(diff):
+                raise ValueError("diff contains NaN or Inf values.")
             for i in range(n):
                 ll += np.log(sum_l_m[i]) + min_l_m[i]
             
@@ -1766,7 +1774,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
     return(alpha_draw,tau_draw,mu_draw, mubeta_draw,sigma_draw,gamma_draw,penloglikset, loglikset ,post)
 
 # %%
-
+    l_j = np.zeros(m)  # Initialize but currently unused; consider removing if unnecessary
 @njit
 def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigma_0, alpha_draw,  mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, m, n, t, an, maxit=2000, tol=1e-8, epsilon=0.01, alpha_bound = 0.05):
     nt = n * (t-1)
@@ -1796,7 +1804,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
         
         mubeta_0_jn = np.ascontiguousarray(mubeta_0_draw[:, jn])
         sigma_0_jn = sigma_0_draw[:, jn]
-        gamma_0_jn = gamma_0_draw[:, jn]  # Likely float64
+        sing = 0  # Initialize but currently unused; consider removing if unnecessary
         
         mubeta_0_jn_mat = mubeta_0_jn.reshape((q+1,m)).T             
         mubeta_jn_mat = mubeta_jn.reshape((q1,m)).T
