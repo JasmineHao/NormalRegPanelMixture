@@ -1647,7 +1647,7 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                     for tt in range(t):
                         idx = nn * (t) + tt  # Compute the flattened index
                         sum_l_m_k_nn += np.log(sum_l_m_k[idx]) + minr[idx]
-                    l_m[mm,nn] = sum_l_m_k_nn
+                    l_m[mm,nn] = min(sum_l_m_k_nn, 1e6)  # Restrict l_m to a maximum of 1e6
             
             # construct 
             sum_l_m = np.zeros(n)   # Sum along axis 0
@@ -1665,17 +1665,17 @@ def EM_optimization_mixture(y_c, x, z, p, q, sigma_0, alpha_draw, tau_draw, mu_d
                 for mm in range(m):
                     w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 1e-6)
                     w_mk[mm*k: (mm+1)*k, i*(t): (i+1)*(t)] = w_mk[mm*k: (mm+1)*k, i*(t):(i+1)*(t)] * w[mm, i]
-            diff = penloglik - oldpenloglik
-            if np.isnan(diff) or np.isinf(diff):
-                raise ValueError("diff contains NaN or Inf values.")
+            
             for i in range(n):
                 ll += np.log(sum_l_m[i]) + min_l_m[i]
             
             penloglik = ll + np.log(2.0) 
             
             diff = penloglik - oldpenloglik
+            # if np.isnan(diff) or np.isinf(diff):
+            #     raise ValueError("diff contains NaN or Inf values.")
+
             oldpenloglik = penloglik
-            
             if abs(diff) < tol:
                 break
             

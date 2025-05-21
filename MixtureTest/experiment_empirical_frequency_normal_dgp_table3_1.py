@@ -39,6 +39,7 @@ if __name__ == "__main__":
     M_max = 6
     nrep = 100
     BB = 199
+    BB = 1
 
     out_dgp = regpanelmixPMLE(y, x, z, p=p, q=q, m=M)
     alpha  = out_dgp['alpha_hat'][0]
@@ -96,3 +97,5 @@ if __name__ == "__main__":
 
         filename = f"test_empirical_dgp_normal_M3_alpha{alpha_bound}_tau{tau_bound}_eps{epsilon}.csv"
         result_freq_table.to_csv(filename)
+
+# %%
