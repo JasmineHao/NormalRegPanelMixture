@@ -14,7 +14,7 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 
 
-# %%
+
 T = 3
 k = 2
 ind_code = [311, 381, 321]
@@ -68,7 +68,7 @@ for (each_code, m) in zip(ind_code, M_list):
     output_path = f"figure/empirical_error_kmshare_ciiu_{INDNAME}.png"
     plot_mixture_distribution(estimate_params, T, values_type, np.linspace(y.min(), y.max(), 51), tau_hat, mu_hat, sigma_hat, m, k, colors, INDNAME, np.linspace(y.min() - 1, y.max() + 1, 1000), output_path)
 
-    # %%
+    
     # Plot Model Parameter Estimates
     # ---------------------------------
     
@@ -80,56 +80,96 @@ for (each_code, m) in zip(ind_code, M_list):
             elif model_type == 'ar1_mixture':
                 params_dict, params_array = get_params_ar1_mixture(model_output)
             mubar = (params_dict['tau'].reshape((m, k)) * params_dict['mu'].reshape((m, k))).sum(axis=1)
-
-            # Bootstrap to compute standard error of mubar and alpha
-            bootstrap_samples = 100  # Number of bootstrap samples
-            mubar_bootstrap = []
-            alpha_bootstrap = []
-            T,N = y.shape
-            for _ in range(bootstrap_samples):
-                # Resample data with replacement
-                indices = np.random.choice(N, size=N, replace=True)
-                y_bootstrap = y[:, indices]
-                x_bootstrap = np.zeros(x.shape)
-                for qq in range(x.shape[1]):
-                    x[:,qq] = (x[:,qq].reshape((N,T)).T[:,indices]).T.flatten()
-                z_bootstrap = np.zeros(z.shape)
-                for pp in range(z.shape[1]):
-                    z[:,pp] = (z[:,pp].reshape((N,T)).T[:,indices]).T.flatten()
-
-                # Refit the model on the bootstrap sample
-                model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
-                if model_type == 'stationary_mixture':
-                    params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
-                elif model_type == 'ar1_mixture':
-                    params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
-
-                # Compute mubar for the bootstrap sample
-                mubar_bootstrap_sample = (params_dict_bootstrap['tau'].reshape((m, k)) * params_dict_bootstrap['mu'].reshape((m, k))).sum(axis=1)
-                mubar_bootstrap.append(mubar_bootstrap_sample)
-
-                # Compute alpha for the bootstrap sample
-                alpha_bootstrap_sample = params_dict_bootstrap['tau']
-                alpha_bootstrap.append(alpha_bootstrap_sample)
-
-            # Compute standard error of mubar
-            mubar_bootstrap = np.array(mubar_bootstrap)
-            mubar_se = mubar_bootstrap.std(axis=0)
-
-            # Compute standard error of alpha
-            alpha_bootstrap = np.array(alpha_bootstrap)
-            alpha_se = alpha_bootstrap.std(axis=0)
-
         else:
             model_output = model_function(y, x, z, p, q, m)
         params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(
-            model_output, data=[y, x, z], model_type=model_type
-        )
-        if model_type in ['stationary_mixture', 'ar1_mixture']:
-            params_dict['mubar'] = mubar
+            model_output, data=[y, x, z], model_type=model_type)
+        
+        # Bootstrap to compute standard error of mubar and alpha
+        bootstrap_samples = 100  # Number of bootstrap samples
+        mubar_bootstrap = []
+        alpha_bootstrap = []
+        mu_bootstrap = []
+        beta_bootstrap = []
+        gamma_bootstrap = []
+        sigma_bootstrap = []
+        rho_bootstrap = []
+        tau_bootstrap = []
+        T, N = y.shape
+        for _ in range(bootstrap_samples):
+            # Resample data with replacement
+            indices = np.random.choice(N, size=N, replace=True)
+            y_bootstrap = y[:, indices]
+            x_bootstrap = np.zeros(x.shape)
+            for qq in range(x.shape[1]):
+                x_bootstrap[:, qq] = (x[:, qq].reshape((N, T)).T[:, indices]).T.flatten()
+            z_bootstrap = np.zeros(z.shape)
+            for pp in range(z.shape[1]):
+                z_bootstrap[:, pp] = (z[:, pp].reshape((N, T)).T[:, indices]).T.flatten()
+
+            # Refit the model on the bootstrap sample
+            model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
+            if model_type == 'stationary_mixture':
+                params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
+            elif model_type == 'ar1_mixture':
+                params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
+            elif model_type == 'stationary_normal':
+                params_dict_bootstrap, _ = get_params_stationary_normal(model_output_bootstrap)
+            elif model_type == 'ar1_normal':
+                params_dict_bootstrap, _ = get_params_ar1_normal(model_output_bootstrap)
             
-            standard_errors_dict['mubar'] = mubar_se
-            standard_errors_dict['alpha'] = alpha_se
+            # Compute mubar for the bootstrap sample
+            alpha_bootstrap_sample = params_dict_bootstrap['alpha']
+            alpha_bootstrap.append(alpha_bootstrap_sample)
+
+            mu_bootstrap_sample = params_dict_bootstrap['mu']
+            mu_bootstrap.append(mu_bootstrap_sample)
+
+            beta_bootstrap_sample = params_dict_bootstrap.get('beta', None)
+            if beta_bootstrap_sample is not None:
+                beta_bootstrap.append(beta_bootstrap_sample)
+
+            gamma_bootstrap_sample = params_dict_bootstrap.get('gamma', None)
+            if gamma_bootstrap_sample is not None:
+                gamma_bootstrap.append(gamma_bootstrap_sample)
+
+            sigma_bootstrap_sample = params_dict_bootstrap['sigma']
+            sigma_bootstrap.append(sigma_bootstrap_sample)
+
+            rho_bootstrap_sample = params_dict_bootstrap.get('rho', None)
+            if rho_bootstrap_sample is not None:
+                rho_bootstrap.append(rho_bootstrap_sample)
+
+            tau_bootstrap_sample = params_dict_bootstrap.get('tau', None)
+            if tau_bootstrap_sample is not None:
+                tau_bootstrap.append(tau_bootstrap_sample)
+                mubar_bootstrap_sample = (params_dict_bootstrap['tau'].reshape((m, k)) * params_dict_bootstrap['mu'].reshape((m, k))).sum(axis=1)
+                mubar_bootstrap.append(mubar_bootstrap_sample)
+                
+        # Compute standard error of mubar
+
+        mubar_se = np.array(mubar_bootstrap).std(axis=0)
+        # Compute standard error of alpha
+        alpha_se = np.array(alpha_bootstrap).std(axis=0)
+        if 'mubar' in locals():
+            params_dict['mubar'] = mubar
+        
+        mu_se = np.array(mu_bootstrap).std(axis=0)
+        beta_se = np.array(beta_bootstrap).std(axis=0) if beta_bootstrap else None
+        gamma_se = np.array(gamma_bootstrap).std(axis=0) if gamma_bootstrap else None
+        sigma_se = np.array(sigma_bootstrap).std(axis=0)
+        rho_se = np.array(rho_bootstrap).std(axis=0) if rho_bootstrap else None
+        tau_se = np.array(tau_bootstrap).std(axis=0) if tau_bootstrap else None
+        # Store standard errors in the dictionary
+        standard_errors_dict = {}
+        standard_errors_dict['mu'] = mu_se
+        standard_errors_dict['beta'] = beta_se
+        standard_errors_dict['gamma'] = gamma_se
+        standard_errors_dict['sigma'] = sigma_se
+        standard_errors_dict['rho'] = rho_se
+        standard_errors_dict['tau'] = tau_se
+        standard_errors_dict['mubar'] = mubar_se
+        standard_errors_dict['alpha'] = alpha_se
 
         estimate_parameters.append({
             'Industry': INDNAME,
@@ -250,7 +290,8 @@ def process_estimated_parameters(estimate_parameters):
         mubars.append(np.round(param['params'].get('mubar', 0.0), 4))
         alphas_se.append(np.round(param['standard errors'].get('alpha', 0.0), 4))
         mus_se.append(np.round(param['standard errors'].get('mu', 0.0), 4))
-        rhos_se.append(np.round(param['standard errors'].get('rho', 0.0), 4))
+        rho_se_value = param['standard errors'].get('rho', 0.0)
+        rhos_se.append(np.round(rho_se_value if rho_se_value is not None else 0.0, 4))
         betas_se.append(np.round(param['standard errors'].get('beta', 0.0), 4))
         sigmas_se.append(np.round(param['standard errors'].get('sigma', 0.0), 4))
         mubars_se.append(np.round(param['standard errors'].get('mubar', 0.0), 4))
@@ -275,7 +316,7 @@ def process_estimated_parameters(estimate_parameters):
     })
 
     # Save the table to a CSV file
-    output_path = "estimated_parameters_table_m3.csv"
+    output_path = "estimated_parameters_table_bootstrap_m3.csv"
     df.to_csv(output_path, index=False)
     print(f"Estimated parameters table saved to {output_path}")
 
@@ -353,7 +394,7 @@ def restore_estimated_parameters_from_table(csv_path):
 
 
 # %%
-estimate_parameters_restored = restore_estimated_parameters_from_table("estimated_parameters_table_m2.csv")
+estimate_parameters_restored = restore_estimated_parameters_from_table("estimated_parameters_table_bootstrap_m3.csv")
 estimate_parameters_restored = [
     entry for entry in estimate_parameters_restored 
     if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
@@ -371,7 +412,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         sanitized_specification = specification.replace(" ", "_").lower()
 
         # Plot alpha
-        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m2.png'
+        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m3.png'
         plot_parameter_across_industries(
             'alpha', filtered_entries, ylabel=r"$\hat{\alpha}$", 
             title=f'Alpha Across Industries ({model_type}, {specification})', 
@@ -380,7 +421,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         print(output_path_alpha)
 
         # Plot mu
-        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m2.png'
+        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m3.png'
         plot_parameter_across_industries(
             'mu', filtered_entries, ylabel=r"$\hat{\mu}$",
             title=f'Mu Across Industries ({model_type}, {specification})', 
@@ -389,7 +430,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         print(output_path_mu)
 
         # Plot sigma
-        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m2.png'
+        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m3.png'
         plot_parameter_across_industries(
             'sigma', filtered_entries, ylabel=r"$\hat{\sigma}$", 
             title=f'Sigma Across Industries ({model_type}, {specification})', 
@@ -400,7 +441,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         # Plot rho if it exists
         if ('rho' in filtered_entries[0]['params']):
             if np.all(filtered_entries[0]['params']['rho'] != np.array(0.)):
-                output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m2.png'
+                output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m3.png'
                 plot_parameter_across_industries(
                 'rho', filtered_entries, ylabel=r"$\hat{\rho}$", 
                 title=f'Rho Across Industries ({model_type}, {specification})', 
@@ -409,7 +450,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
                 print(output_path_rho)
             # Plot mubar if it exists
         if ('mubar' in filtered_entries[0]['params']) & (len(filtered_entries[0]['params']['mubar'].shape) > 0):
-            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m2.png'
+            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m3.png'
             plot_parameter_across_industries(
             'mubar', filtered_entries, ylabel='\hat{\mu}', 
             title=f'Mubar Across Industries ({model_type}, {specification})', 
@@ -420,7 +461,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         # Plot beta
         if 'beta' in filtered_entries[0]['params'] and len(filtered_entries[0]['params']['beta']) > 0:
             # Plot beta_k
-            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m2.png'
+            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m3.png'
             plot_parameter_across_industries(
             'beta_k', filtered_entries, ylabel=r"$\hat{\beta}_{\log K}$", 
             title=f'Beta K Across Industries ({model_type}, {specification})', 
@@ -429,7 +470,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
             print(output_path_beta_k)
 
             # Plot beta_im
-            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m2.png'
+            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m3.png'
             plot_parameter_across_industries(
             'beta_im', filtered_entries, ylabel=r"$\hat{\beta}_{import}$",  
             title=f'Beta Import Across Industries ({model_type}, {specification})', 
