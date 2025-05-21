@@ -39,7 +39,7 @@ if __name__ == "__main__":
     M_max = 6
     nrep = 100
     BB = 199
-    BB = 1
+    # BB = 1
 
     out_dgp = regpanelmixPMLE(y, x, z, p=p, q=q, m=M)
     alpha  = out_dgp['alpha_hat'][0]
