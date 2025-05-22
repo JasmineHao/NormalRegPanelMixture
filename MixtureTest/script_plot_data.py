@@ -13,7 +13,7 @@ import warnings
 import pandas as pd
 warnings.filterwarnings("ignore")
 
-
+# %%
 
 T = 3
 k = 2
@@ -394,7 +394,8 @@ def restore_estimated_parameters_from_table(csv_path):
 
 
 # %%
-estimate_parameters_restored = restore_estimated_parameters_from_table("estimated_parameters_table_bootstrap_m3.csv")
+estimate_parameters_restored = restore_estimated_parameters_from_table("estimated_parameters_table_m2.csv")
+
 estimate_parameters_restored = [
     entry for entry in estimate_parameters_restored 
     if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
@@ -412,7 +413,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         sanitized_specification = specification.replace(" ", "_").lower()
 
         # Plot alpha
-        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m3.png'
+        output_path_alpha = f'figure/{sanitized_specification}_alpha_across_industries_m2.png'
         plot_parameter_across_industries(
             'alpha', filtered_entries, ylabel=r"$\hat{\alpha}$", 
             title=f'Alpha Across Industries ({model_type}, {specification})', 
@@ -421,7 +422,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         print(output_path_alpha)
 
         # Plot mu
-        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m3.png'
+        output_path_mu = f'figure/{sanitized_specification}_mu_across_industries_m2.png'
         plot_parameter_across_industries(
             'mu', filtered_entries, ylabel=r"$\hat{\mu}$",
             title=f'Mu Across Industries ({model_type}, {specification})', 
@@ -430,7 +431,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         print(output_path_mu)
 
         # Plot sigma
-        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m3.png'
+        output_path_sigma = f'figure/{sanitized_specification}_sigma_across_industries_m2.png'
         plot_parameter_across_industries(
             'sigma', filtered_entries, ylabel=r"$\hat{\sigma}$", 
             title=f'Sigma Across Industries ({model_type}, {specification})', 
@@ -441,7 +442,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         # Plot rho if it exists
         if ('rho' in filtered_entries[0]['params']):
             if np.all(filtered_entries[0]['params']['rho'] != np.array(0.)):
-                output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m3.png'
+                output_path_rho = f'figure/{sanitized_specification}_rho_across_industries_m2.png'
                 plot_parameter_across_industries(
                 'rho', filtered_entries, ylabel=r"$\hat{\rho}$", 
                 title=f'Rho Across Industries ({model_type}, {specification})', 
@@ -450,9 +451,9 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
                 print(output_path_rho)
             # Plot mubar if it exists
         if ('mubar' in filtered_entries[0]['params']) & (len(filtered_entries[0]['params']['mubar'].shape) > 0):
-            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m3.png'
+            output_path_mubar = f'figure/{sanitized_specification}_mubar_across_industries_m2.png'
             plot_parameter_across_industries(
-            'mubar', filtered_entries, ylabel='\hat{\mu}', 
+            'mubar', filtered_entries, ylabel=r'$\hat{\mu}$', 
             title=f'Mubar Across Industries ({model_type}, {specification})', 
             output_path=output_path_mubar
             )
@@ -461,7 +462,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
         # Plot beta
         if 'beta' in filtered_entries[0]['params'] and len(filtered_entries[0]['params']['beta']) > 0:
             # Plot beta_k
-            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m3.png'
+            output_path_beta_k = f'figure/{sanitized_specification}_beta_k_across_industries_m2.png'
             plot_parameter_across_industries(
             'beta_k', filtered_entries, ylabel=r"$\hat{\beta}_{\log K}$", 
             title=f'Beta K Across Industries ({model_type}, {specification})', 
@@ -470,7 +471,7 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
             print(output_path_beta_k)
 
             # Plot beta_im
-            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m3.png'
+            output_path_beta_im = f'figure/{sanitized_specification}_beta_im_across_industries_m2.png'
             plot_parameter_across_industries(
             'beta_im', filtered_entries, ylabel=r"$\hat{\beta}_{import}$",  
             title=f'Beta Import Across Industries ({model_type}, {specification})', 
