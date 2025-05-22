@@ -93,7 +93,7 @@ if __name__ == "__main__":
     
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.1)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.05)
     
     end_time = time.time()
 

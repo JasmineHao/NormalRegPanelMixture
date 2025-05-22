@@ -52,7 +52,7 @@ if __name__ == "__main__":
     BB = 199
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixAR1mixturePMLE(y, x, z, p, q, m=M, k=K, alpha_bound=0.1, tau_bound=0.05)
+    out_dgp = regpanelmixAR1mixturePMLE(y, x, z, p, q, m=M, k=K, alpha_bound=0.05, tau_bound=0.05)
     
     alpha = out_dgp['alpha_hat'][0]
     tau = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M,K)    

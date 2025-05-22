@@ -1557,7 +1557,7 @@ def EM_optimization(y_c, x, z, p, q, sigma_0, alpha_draw, mubeta_draw, sigma_dra
                         ztilde[:, ii] = w_j * z[:, ii]
                 if np.isnan(penloglik) or np.isinf(penloglik):
                     raise ValueError("penloglik contains NaN or Inf values.")
-                ze += ztilde.T @( y_c - x1 @ mubeta_jn_mat[j,:]) / max(sigma_jn[j]**2,0.01)
+                ze += (ztilde.T @ (y_c - x1 @ mubeta_jn_mat[j,:]).reshape(-1, 1)) / max(sigma_jn[j]**2, 0.01)
                 gamma_jn = solve_linear_system_safe(zz,ze).flatten()
         
         penloglikset[jn] = penloglik
@@ -1781,14 +1781,14 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
     # Initialize variables    
     l_j = np.zeros(m)  # Initialize but currently unused; consider removing if unnecessary
     w = np.zeros((m, n * (t-1)))
+    emit = 0  # Initialize emit to 0
     post = np.zeros((m * n, ninits))
     penloglikset = np.zeros(ninits)
     loglikset = np.zeros(ninits)
 
     x1 = np.hstack((np.ones((nt, 1)), x_c, x_l, y_l[:, np.newaxis]))
     z1 = np.hstack((z_c, z_l))
-    if x1.shape[1] == 0 or z1.shape[1] == 0:
-        raise ValueError("Input arrays x_c, x_l, z_c, or z_l are empty.")
+    
     
     z_0 = xz_0[:, (q+1):]
     x1_0 = xz_0[:, :(q+1)]
@@ -1798,18 +1798,17 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
         mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
         gamma_jn = gamma_draw[:, jn]  # Likely float64
-        
         mubeta_0_jn = np.ascontiguousarray(mubeta_0_draw[:, jn])
         sigma_0_jn = sigma_0_draw[:, jn]
-        sing = 0  # Initialize but currently unused; consider removing if unnecessary
-        
+
+        gamma_0_jn = gamma_0_draw[:, jn]  # Likely float64
         mubeta_0_jn_mat = mubeta_0_jn.reshape((q+1,m)).T             
         mubeta_jn_mat = mubeta_jn.reshape((q1,m)).T
         
         oldpenloglik = -np.inf
         sing = 0  # Initialize but currently unused; consider removing if unnecessary
         diff = 1.0
-        sing = 0  # Initialize but currently unused; consider removing if unnecessary
+        
         
         for iter_ii in range(maxit):           
             r = np.zeros((m, nt))

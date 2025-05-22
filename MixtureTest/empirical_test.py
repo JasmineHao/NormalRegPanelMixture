@@ -330,16 +330,12 @@ for COUNTRY in COUNTRY_list:
                     
                 
                 case "ar1_plain":
-                    if y_indicator == 'mY_share':
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
-                    else:
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1NormalNoConstraint(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
+                    
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Normal(y, x_0, z, p, 0, m, N, T, bootstrap = bootstrap_k_cov, BB= BB)
                     
                 case "ar1_plain_mixture":
-                    if y_indicator == 'mY_share':
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
-                    else:
-                        [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1Mixture(y, x_0, z, p, 0, m, 2, N, T, bootstrap=bootstrap_k_cov, BB= BB)
+                    
                 
                 case "ar1_plain_mixture_3":
                     if y_indicator == 'mY_share':
