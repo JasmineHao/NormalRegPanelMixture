@@ -1,4 +1,4 @@
-Numba is using 10 threads.
+Numba is using 14 threads.
 ['empirical_test.py', 'ar1_kmshare_mixture', '5', 'ciiu', 'mL_share']
 Simulation Start
 Model: ar1_kmshare_mixture
@@ -18,10 +18,32 @@ NT=465,N=93
 [ 0.209  0.563  4.314  8.417  3.932 12.947]
 [0.265 0.215 5.288 2.163 1.164 1.448]
 439
-Traceback (most recent call last):
-  File "/workspace/NormalRegPanelMixture/MixtureTest/empirical_test.py", line 376, in <module>
-    [lr_stat_k, lr_90_k, lr_95_k, lr_99_k, aic_k, bic_k] = LRTestAR1MixtureNoConstraint(y, x_kmshare, z, p, 2, m, 2, N, T, bootstrap=bootstrap_k_cov, BB=BB)
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/workspace/NormalRegPanelMixture/MixtureTest/.venv/lib/python3.12/site-packages/numba/np/linalg.py", line 841, in _check_finite_matrix
-    raise np.linalg.LinAlgError(
-numpy.linalg.LinAlgError: Array must not contain infs or NaNs.
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 1, Time Taken: 2385.58 seconds, LR Stat: 1444.9306
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 2, Time Taken: 29.21 seconds, LR Stat: 2610.7975
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 3, Time Taken: 57.00 seconds, LR Stat: -2291.9625
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 4, Time Taken: 92.07 seconds, LR Stat: -28.8373
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 5, Time Taken: 137.26 seconds, LR Stat: 720.9832
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 6, Time Taken: 192.05 seconds, LR Stat: 188.1405
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 7, Time Taken: 252.66 seconds, LR Stat: -203.7771
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 8, Time Taken: 326.75 seconds, LR Stat: 102.2628
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 9, Time Taken: 405.18 seconds, LR Stat: -115.1758
+Country: chile, Industry: Food products, Model: ar1_kmshare_mixture, M: 10, Time Taken: 493.43 seconds, LR Stat: 139.1807
+chile Food products 4371.201293230057
+['Chile', 'Food products', 'Ar1_kmshare_mixture', np.int64(3), np.int64(3), 1, 1, 1]
+------------------------------
+103
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 1, Time Taken: 627.86 seconds, LR Stat: -7.9954
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 2, Time Taken: 6.52 seconds, LR Stat: 4.6287
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 3, Time Taken: 10.18 seconds, LR Stat: 5.5021
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 4, Time Taken: 17.17 seconds, LR Stat: 18.4386
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 5, Time Taken: 25.04 seconds, LR Stat: -1.6865
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 6, Time Taken: 33.06 seconds, LR Stat: 20.9455
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 7, Time Taken: 42.45 seconds, LR Stat: 10.3145
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 8, Time Taken: 54.62 seconds, LR Stat: 34.0951
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 9, Time Taken: 65.84 seconds, LR Stat: 28.4694
+Country: chile, Industry: Fabricated metal products, Model: ar1_kmshare_mixture, M: 10, Time Taken: 79.23 seconds, LR Stat: 41.8913
+chile Fabricated metal products 961.9838690757751
+['Chile', 'Fabricated metal products', 'Ar1_kmshare_mixture', np.int64(1), np.int64(1), 1, 1, 1]
+------------------------------
+93
+Country: chile, Industry: Textiles, Model: ar1_kmshare_mixture, M: 1, Time Taken: 658.28 seconds, LR Stat: 30881.6499
