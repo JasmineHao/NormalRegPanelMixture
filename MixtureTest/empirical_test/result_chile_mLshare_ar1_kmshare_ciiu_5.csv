@@ -1,8 +1,8 @@
 Country,,Chile,Chile,Chile
 Industry,,Fabricated metal products,Food products,Textiles
 ,Model,,,
-AIC,Ar1_kmshare,4,3,4
+AIC,Ar1_kmshare,5,3,4
 BIC,Ar1_kmshare,2,3,2
-LR,Ar1_kmshare,2,3,3
-LR 90,Ar1_kmshare,2,3,3
-LR 99,Ar1_kmshare,2,3,3
+LR,Ar1_kmshare,3,3,3
+LR 90,Ar1_kmshare,4,3,4
+LR 99,Ar1_kmshare,3,3,3
