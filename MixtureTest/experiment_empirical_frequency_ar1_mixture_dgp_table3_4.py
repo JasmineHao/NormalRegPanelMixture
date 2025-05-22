@@ -45,7 +45,8 @@ if __name__ == "__main__":
     K = 2
     p = 0
     q = 0
-    T, N = 5, 225 # Example dimensions
+    # T, N = 5, 225 # Example dimensions
+    T, N = y.shape
     # T, N = 3, 196  # Example dimensions
     M_max = 6
     nrep = 100
@@ -83,7 +84,7 @@ if __name__ == "__main__":
 
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.1)
+    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05)
     
     end_time = time.time()
 
@@ -111,6 +112,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3_T_5_tau0.05.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_mixture_M3_T_5.csv")
 
 # %%

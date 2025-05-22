@@ -48,8 +48,9 @@ if __name__ == "__main__":
     K = 2
     p = 0
     q = 0
-    T, N = 5, 225 # Example dimensions
+    # T, N = 5, 225 # Example dimensions
     # T, N = 3, 196  # Example dimensions
+    T, N = y.shape
     M_max = 6
     nrep = 100
     BB = 199
@@ -121,6 +122,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_T_5_tau0.1.csv")
+    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_T_5.csv")
 
 # %%
