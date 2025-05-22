@@ -1,0 +1,6 @@
+#!/bin/bash
+
+python experiment_empirical_frequency_normal_dgp_table3_1_appendix_check_industry.py
+python experiment_empirical_frequency_mixture_dgp_table3_2_appendix_check_industry.py
+python experiment_empirical_frequency_ar1_normal_dgp_table3_3.py
+python experiment_empirical_frequency_ar1_mixture_dgp_table3_4.py
