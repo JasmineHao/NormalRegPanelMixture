@@ -2489,7 +2489,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
     x1_0 = xz_0[:, :(q+1)]
     z_0 = xz_0[:, (q+1):]
     
-    for jn in prange(ninits):    
+    for jn in prange(ninits):
+        
         alpha_jn = alpha_draw[:, jn]    
         mubeta_jn = np.ascontiguousarray(mubeta_draw[:, jn])
         sigma_jn = sigma_draw[:, jn]
@@ -2511,7 +2512,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
         diff = 1.0
         
         
-        for iter_ii in range(maxit):           
+        for iter_ii in range(maxit):
+            
             r = np.zeros((mk, nt))
             r_0 = np.zeros((mk, n))
             for mm in range(m):
@@ -2542,9 +2544,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                                             
                 for i in range(nt):
                     for kk in range(k):
-                        tau_m[kk] = min(max(tau_m[kk], 1e-6), 1e6)
-                        l_m_k[kk, i] = tau_m[kk] * np.exp(r_m[kk, i] - minr[i])
-                        
+                        l_m_k[kk,i] = tau_m[kk] * np.exp( r_m[kk,i] - minr[i] )
+                
                 for i in range(n):
                     for kk in range(k):
                         l_m_k_0[kk,i] = tau_m[kk] * np.exp( r_m_0[kk,i] - minr_0[i] )
@@ -2558,13 +2559,18 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 for i in range(n):
                     for kk in range(k):
                         sum_l_m_k_0[i] += l_m_k_0[kk, i]
-                for i in range(n):
+                
+                for i in range(nt):
                     for kk in range(k):
                         w_m[kk, i] = l_m_k[kk, i] / max(sum_l_m_k[i], 1e-6)
+                
+                for i in range(n):
+                    for kk in range(k):
                         w_m_0[kk, i] = l_m_k_0[kk, i] / max(sum_l_m_k_0[i], 1e-6)
                 
                 w_mk[mm*k: (mm+1)*k, :] = w_m
                 w_mk_0[mm*k: (mm+1)*k, :] = w_m_0
+                
                 # compute l_m 
                 for nn in range(n):
                     sum_l_m_k_nn = 0
@@ -2584,9 +2590,9 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                     l_m_weighted[mm, i] = alpha_jn[mm] * np.exp(l_m[mm,i] - min_l_m[i])
                     sum_l_m[i] += l_m_weighted[mm, i]
             
-            for i in range(n):   
+            for i in range(n):
                 for mm in range(m):
-                    w[mm, i] = l_m_weighted[mm, i] / max(sum_l_m[i], 1e-6)
+                    w[mm, i] = l_m_weighted[mm, i] /  max(sum_l_m[i], 0.01)
                     w_mk[mm*k: (mm+1)*k, i*(t-1): (i+1)*(t-1)] = w_mk[mm*k: (mm+1)*k, i*(t-1):(i+1)*(t-1)] * w[mm, i]
                     w_mk_0[mm*k: (mm+1)*k, i] = w_mk_0[mm*k: (mm+1)*k, i] * w[mm, i]
                     
@@ -2624,8 +2630,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                     w_mk_sum += w_mk[idx_type]
                     w_mk_0_sum += w_mk_0[idx_type]
                     
-                w_mk_sum[w_mk_sum < 1e-3] = 1e-3
-                w_mk_0_sum[w_mk_0_sum < 1e-3] = 1e-3
+                w_mk_sum[w_mk_sum < 1e-12] = 1e-12
+                w_mk_0_sum[w_mk_0_sum < 1e-12] = 1e-12
                 mu_mk_weighted[mm] = mu_mk_weighted[mm] / w_mk_sum
                 mu_mk_0_weighted[mm] = mu_mk_0_weighted[mm] / w_mk_0_sum
                 
@@ -2661,10 +2667,9 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 sum_tau_jn = 0                 
                 
                 for kk in range(k):
-                    denominator = max(np.mean(w_mk[idx_type, :]), 1e-6)
-                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type, :]) / max(denominator, 1e-6)) / max(1 - mubeta_jn_mat[mm, -1], 1e-6)
+                    idx_type = mm * k + kk
                     
-                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / max(1 - mubeta_jn_mat[mm,-1], 1e-6)
+                    mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) 
                     
                     mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 1e-6)
                 
@@ -2680,7 +2685,7 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
                 sum_tau_jn = max(sum_tau_jn, 1e-6)
                 for kk in range(k):
                     idx_type = mm * k + kk
-                    tau_jn[idx_type] = tau_jn[idx_type] / max(sum_tau_jn, 1e-6)
+                    tau_jn[idx_type] = tau_jn[idx_type] / sum_tau_jn
 
                 sigma_jn[mm] = np.sqrt(( np.sum(res_mm_sq) ) / max(np.sum(w_mk_sum), 1e-6)  )
                 sigma_jn[mm] = max(sigma_jn[mm], epsilon * sigma_0[mm])
@@ -2691,12 +2696,13 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
             mubeta_jn = mubeta_jn_mat.T.flatten()
             mubeta_0_jn = mubeta_0_jn_mat.T.flatten()
 
-            for mm in range(m):
-                alpha_jn[mm] = max(alpha_bound, alpha_jn[mm])
-
+            for j in range(m):
+                alpha_jn[j] = max(alpha_bound, alpha_jn[j] )
+            
             total_alpha = np.sum(alpha_jn)
-            for mm in range(m):
-                alpha_jn[mm] = alpha_jn[mm] / max(total_alpha, 1e-6)  # Ensure no division by zero
+            for j in range(m):
+                alpha_jn[j] = alpha_jn[j] / total_alpha
+             # Ensure no division by zero
 
             # update gamma
             if p > 0:
@@ -2741,6 +2747,8 @@ def EM_optimization_AR1_mixture_noconstraint(y_c, xz, y_l, x_c, x_l, z_c, z_l, y
         if p > 0:
             gamma_draw[:, jn] = gamma_jn
             gamma_0_draw[:, jn] = gamma_0_jn
+    
+    
     return(alpha_draw, tau_draw, mubeta_draw, sigma_draw, gamma_draw, mubeta_0_draw, sigma_0_draw, gamma_0_draw, mu_draw, mu_0_draw, penloglikset, loglikset, post)
 
 # %%
@@ -4378,6 +4386,7 @@ def LRTestAR1NormalNoConstraint(y, x, z, p, q, m, N, T, bootstrap = True, BB= 19
 def LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, k, N, T, bootstrap = True, BB= 199, spline=False, alpha_bound=0.05):
     out_h0 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m, k, alpha_bound=alpha_bound,ninits=2)
     out_h1 = regpanelmixmixtureAR1NoConstraintPMLE(y, x, z, p, q, m+1, k, alpha_bound=alpha_bound,ninits=2)
+    
     alpha_hat  = out_h0['alpha_hat'][0]
     tau_hat  = np.ascontiguousarray(out_h0['tau_hat'][0]).reshape(m,k)
         
@@ -4728,6 +4737,80 @@ def parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p,
             lr_1_table, lr_5_table, lr_10_table,
             lr_1_table_mixture, lr_5_table_mixture, lr_10_table_mixture)
 
+
+# %%
+
+@njit(parallel=True)  # Numba JIT compilation with parallelization
+def parallel_processing_empirical_test_ar1_noconstraint(nrep, M_max, BB, Data, N, T, M, K, p, q, alpha_bound=0.05, tau_bound=0.05):
+    aic_table = np.zeros((nrep, M_max))
+    bic_table = np.zeros((nrep, M_max))
+    aic_table_mixture = np.zeros((nrep, M_max))
+    bic_table_mixture = np.zeros((nrep, M_max))
+
+    lr_estim_table = np.zeros((nrep, M_max))
+
+    rk_mean_table = np.zeros((nrep, M_max))
+    rk_max_table = np.zeros((nrep, M_max))
+
+    lr_1_table = np.zeros((nrep, M_max))
+    lr_5_table = np.zeros((nrep, M_max))
+    lr_10_table = np.zeros((nrep, M_max))
+
+    lr_1_table_mixture = np.zeros((nrep, M_max))
+    lr_5_table_mixture = np.zeros((nrep, M_max))
+    lr_10_table_mixture = np.zeros((nrep, M_max))
+
+    for ii in prange(nrep):
+        data = Data[ii]
+        y = data[0]
+        x = data[1]
+        z = data[2]
+        bootstrap_nocov = True
+        bootstrap_mixture = True
+
+        for mm in range(M_max):
+            m = mm + 1
+            n_grid = m + 1
+            r_test = m
+            n_bins = math.ceil((m + 1) ** (1 / (T - 1)))
+            rk_stat_each = NonParTestNoCovariates(y, N, T, n_grid, n_bins, BB, r_test)
+
+            # LR test for no-covariates model (no constraint)
+            lr_results_nocov = LRTestAR1NormalNoConstraint(y, x, z, p, q, m, N, T, bootstrap=bootstrap_nocov, BB=BB, alpha_bound=alpha_bound)
+            lr_stat_nocov, lr_90_nocov, lr_95_nocov, lr_99_nocov, aic_nocov, bic_nocov = lr_results_nocov
+
+            # LR test for mixture model (no constraint)
+            lr_results_mixture = LRTestAR1MixtureNoConstraint(y, x, z, p, q, m, 2, N, T, bootstrap=bootstrap_mixture, BB=BB, alpha_bound=alpha_bound)
+            lr_stat_mixture, lr_90_mixture, lr_95_mixture, lr_99_mixture, aic_mixture, bic_mixture = lr_results_mixture
+
+            rk_max_table[ii, mm] = rk_stat_each[0]
+            rk_mean_table[ii, mm] = rk_stat_each[1]
+
+            aic_table[ii, mm] = aic_nocov
+            bic_table[ii, mm] = bic_nocov
+            aic_table_mixture[ii, mm] = aic_mixture
+            bic_table_mixture[ii, mm] = bic_mixture
+
+            lr_estim_table[ii, mm] = lr_stat_nocov
+
+            lr_1_table[ii, mm] = lr_stat_nocov > lr_99_nocov
+            lr_5_table[ii, mm] = lr_stat_nocov > lr_95_nocov
+            lr_10_table[ii, mm] = lr_stat_nocov > lr_90_nocov
+
+            lr_1_table_mixture[ii, mm] = lr_stat_mixture > lr_99_mixture
+            lr_5_table_mixture[ii, mm] = lr_stat_mixture > lr_95_mixture
+            lr_10_table_mixture[ii, mm] = lr_stat_mixture > lr_90_mixture
+
+            if lr_stat_nocov < lr_90_nocov:
+                bootstrap_nocov = False
+            if lr_stat_mixture < lr_90_mixture:
+                bootstrap_mixture = False
+
+    return (aic_table, bic_table, aic_table_mixture, bic_table_mixture, lr_estim_table, rk_mean_table, rk_max_table,
+            lr_1_table, lr_5_table, lr_10_table,
+            lr_1_table_mixture, lr_5_table_mixture, lr_10_table_mixture)
+
+# %%
 # Function to find the model where AIC stops decreasing
 @njit
 def find_model_stop(aic_values):

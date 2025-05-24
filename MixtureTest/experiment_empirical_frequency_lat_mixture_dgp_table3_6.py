@@ -52,49 +52,48 @@ if __name__ == "__main__":
     # T, N = 3, 196  # Example dimensions
     T, N = y.shape
     M_max = 6
-    nrep = 100
-    BB = 199
+    nrep = 1
+    BB = 19
 
     # Obtain DGP parameters
-    out_dgp = regpanelmixAR1PMLE(y,x,z, p, q, m=M)
+    out_dgp = regpanelmixmixtureAR1NoConstraintPMLE(y,x,z, p, q, m=M,k = K, alpha_bound=0.05,ninits=2)
     
-    alpha = out_dgp['alpha_hat'][0]
+    alpha  = out_dgp['alpha_hat'][0]
+    tau  = np.ascontiguousarray(out_dgp['tau_hat'][0]).reshape(M, K)
+    mu = np.ascontiguousarray(out_dgp['mu_hat'][0]).reshape(M,K)
+    mu_0 = np.ascontiguousarray(out_dgp['mu_0_hat'][0]).reshape(M,K)
+    
     mubeta = out_dgp['mubeta_hat'][0]
-    mu = out_dgp['mu_hat'][0]
-    rho = out_dgp['rho_hat'][0]
-    sigma = out_dgp['sigma_hat'][0]
-    gamma = out_dgp['gamma_hat'][0]
+    mubeta = np.ascontiguousarray(mubeta)
+    mubeta_mat = mubeta.reshape(((q+2),M)).T
+    beta = mubeta_mat[:,1:]
+    
+    sigma  = out_dgp['sigma_hat'][0]
+    gamma  = out_dgp['gamma_hat'][0]
     
     mubeta_0 = out_dgp['mubeta_0_hat'][0]
-    
-    sigma_0 = out_dgp['sigma_0_hat'][0]
-    gamma_0 = out_dgp['gamma_0_hat'][0]
-    
-    
-    mubeta = np.ascontiguousarray(mubeta)
-    mubeta_mat = mubeta.reshape((q+1,M)).T
-    beta = mubeta_mat[:,1:]
-
-    mubeta_0 = np.ascontiguousarray(mubeta_0)
-    mubeta_0_mat = mubeta_0.reshape((q+1,M)).T
-    beta_0 = mubeta_0_mat[:,1:]
-    mu_0 = mubeta_0_mat[:,0]
+    mubeta_0_hat = np.ascontiguousarray(mubeta_0)
+    mubeta_0_hat_mat = mubeta_0_hat.reshape((q+1, M)).T
+    beta_0 = mubeta_0_hat_mat[:,1:]
+    sigma_0  = out_dgp['sigma_0_hat'][0]
+    gamma_0  = out_dgp['gamma_0_hat'][0]
     
     print("alpha:", alpha)
-    print("mubeta:", mubeta)
+    print("tau:", tau)
     print("mu:", mu)
-    print("rho:", rho)
     print("sigma:", sigma)
     print("gamma:", gamma)
+    print("mubeta:", mubeta)
+    print("mu_0:", mu_0)
     print("mubeta_0:", mubeta_0)
     print("sigma_0:", sigma_0)
     print("gamma_0:", gamma_0)
     
-    Data = [generate_data_ar1(alpha, rho, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0,  N, T, M, p, q) for _ in prange(nrep)]
+    Data = [generate_data_ar1_mixture_noconstraint(alpha, tau, mu, sigma, beta, gamma, mu_0, sigma_0, beta_0, gamma_0, N, T, M, K, p, q) for _ in prange(nrep)]
     
     # Timing and execution
     start_time = time.time()
-    results = parallel_processing_empirical_test_ar1(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.05)
+    results = parallel_processing_empirical_test_ar1_noconstraint(nrep, M_max, BB, Data, N, T, M, K, p, q, tau_bound=0.05)
     
     end_time = time.time()
 
@@ -122,6 +121,6 @@ if __name__ == "__main__":
     # Set row and column names
         
     # Save to CSV
-    result_freq_table.to_csv("test_empirical_dgp_ar1_normal_M3_T_5.csv")
+    result_freq_table.to_csv("test_empirical_dgp_lat_mixture.csv")
 
 # %%
