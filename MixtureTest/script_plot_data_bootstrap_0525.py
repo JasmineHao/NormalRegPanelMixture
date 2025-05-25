@@ -288,36 +288,40 @@ def restore_estimated_parameters_from_table(csv_path):
     estimate_parameters_restored = []
     for _, row in df.iterrows():
         # Convert string like '[0.143 0.857]' to numpy array
-        
+
+        # Prepare beta and rho for params and standard errors
+        if 'lat' in row['Model Type']:
+            tmp_beta = str_to_array(row['Beta']).reshape((3, figure_m)).T
+            beta_val = tmp_beta[:, :2]
+            rho_val = tmp_beta[:, 2]
+            tmp_beta_se = str_to_array(row['Beta SE']).reshape((3, figure_m)).T
+            beta_se_val = tmp_beta_se[:, :2]
+            rho_se_val = tmp_beta_se[:, 2]
+        else:
+            beta_val = str_to_2d_array(row['Beta'])
+            rho_val = str_to_array(row['Rho'])
+            beta_se_val = str_to_2d_array(row['Beta SE'])
+            rho_se_val = str_to_array(row['Rho SE'])
+
         entry = {
             'Industry': row['Industry'],
             'Specification': row['Specification'],
             'model type': row['Model Type'],
             'params': {
-                'alpha': str_to_array(row['Alpha']),
-                'mu': str_to_array(row['Mu']),
-                'rho': str_to_array(row['Rho']),
-                if 'lat' in row['Model Type']:
-                    tmp = str_to_array(row['Beta']).reshape((3,figure_m)).T
-                    'beta': tmp[:,:2],
-                    'rho': tmp[:,2]
-                else:
-                    'beta': str_to_2d_array(row['Beta']),
-                'sigma': str_to_array(row['Sigma']),
-                'mubar': str_to_array(row['Mubar']),
+            'alpha': str_to_array(row['Alpha']),
+            'mu': str_to_array(row['Mu']),
+            'rho': rho_val,
+            'beta': beta_val,
+            'sigma': str_to_array(row['Sigma']),
+            'mubar': str_to_array(row['Mubar']),
             },
             'standard errors': {
-                'alpha': str_to_array(row['Alpha SE']),
-                'mu': str_to_array(row['Mu SE']),
-                'rho': str_to_array(row['Rho SE']),
-                if 'lat' in row['Model Type']:
-                    tmp = str_to_array(row['Beta SE']).reshape((3,figure_m)).T
-                    'beta': tmp[:,:2],
-                    'rho': tmp[:,2]
-                else
-                    'beta': str_to_2d_array(row['Beta SE']),
-                'sigma': str_to_array(row['Sigma SE']),
-                'mubar': str_to_array(row['Mubar SE']),
+            'alpha': str_to_array(row['Alpha SE']),
+            'mu': str_to_array(row['Mu SE']),
+            'rho': rho_se_val,
+            'beta': beta_se_val,
+            'sigma': str_to_array(row['Sigma SE']),
+            'mubar': str_to_array(row['Mubar SE']),
             },
             'variable names': {}  # Not available in CSV, can be filled if needed
         }
