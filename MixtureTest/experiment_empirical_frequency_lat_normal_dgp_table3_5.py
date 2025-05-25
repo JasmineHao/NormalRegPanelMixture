@@ -52,8 +52,8 @@ if __name__ == "__main__":
     # T, N = 3, 196  # Example dimensions
     T, N = y.shape
     M_max = 6
-    nrep = 1
-    BB = 19
+    nrep = 100
+    BB = 199
 
     # Obtain DGP parameters
     out_dgp = regpanelmixAR1NoConstraintPMLE(y,x,z, p, q, m=M, alpha_bound=0.05,ninits=2)
