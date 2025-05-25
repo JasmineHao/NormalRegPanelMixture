@@ -28,7 +28,7 @@ result = pyreadr.read_r('ChileanClean.rds')  # Load the RDS file
 df = result[None]  # Extract the dataframe
 
 # Call the function
-processed_data = process_chilean_data(each_code=381, T=5)
+processed_data = process_chilean_data(each_code=381, T=5, y_indicator='mL_share')
 
 # Access the results
 y = processed_data['y']
