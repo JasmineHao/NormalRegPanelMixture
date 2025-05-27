@@ -1898,7 +1898,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 rho_estim = min(0.99, max(0.01, rho_estim))
                 # end mubeta and rho update
                 
-                mubeta_jn_mat[j,0] = mubeta_estim[0] * (1 - rho_estim)
+                mubeta_jn_mat[j,0] = min(2.0, max(-2.0, mubeta_estim[0] * (1 - rho_estim)))
                 mubeta_jn_mat[j,1:(q+1)] = mubeta_estim[1:(q+1)]
                 mubeta_jn_mat[j,(q+1):(2*q+1)] = - mubeta_estim[1:(q+1)] * rho_estim
                 mubeta_jn_mat[j,-1] = rho_estim
@@ -1912,7 +1912,7 @@ def EM_optimization_AR1(y_c, xz, y_l, x_c, x_l, z_c, z_l, y_0, xz_0, p, q,  sigm
                 coef_0_jn = solve_linear_system_safe(xtilde_0.T @ x1_0, xtilde_0.T @ (y_0 - z_0 @ gamma_0_jn))
                 
                 mubeta_0_jn_mat[j,:(q+1)] = coef_0_jn[:(q+1)]
-
+                mubeta_0_jn_mat[j,0] = min(2.0, max(-2.0, mubeta_0_jn_mat[j,0]))
                 
                 # print(coef_jn)
                 ssr_j = np.sum(w_j * (y_c - x1 @ mubeta_jn_mat[j] - z_c @ gamma_jn + z_l @ gamma_jn * mubeta_jn_mat[j,-1])**2)
@@ -2207,8 +2207,10 @@ def EM_optimization_AR1_mixture(y_c,  y_l, x_c, x_l, z_c, z_l,  xz, y_0, xz_0, p
                     idx_type = mm * k + kk
                     
                     mu_jn[idx_type] = (np.mean(ytilde * w_mk[idx_type,:]) / max(np.mean(w_mk[idx_type,:]), 1e-6) ) / (1 - mubeta_jn_mat[mm,-1])
+                    mu_jn[idx_type] = min(2.0, max(-2.0, mu_jn[idx_type]))
                     
                     mu_0_jn[idx_type] = np.mean(ytilde_0 * w_mk_0[idx_type,:]) / max(np.mean(w_mk_0[idx_type,:]), 1e-6)
+                    mu_0_jn[idx_type] = min(2.0, max(-2.0, mu_0_jn[idx_type]))
                 
                     res_mm_sq += w_mk[idx_type,:] * (ytilde - mu_jn[idx_type] *  (1 - mubeta_jn_mat[mm,-1]) )**2
                     res_mm_0_sq += w_mk_0[idx_type,:] * (ytilde_0 - mu_0_jn[idx_type])**2
@@ -6282,7 +6284,7 @@ def compute_standard_errors(model_output, data, model_type):
 # p = z.shape[1]
 
 # %%
-def process_model(model_function, y, x, z, p, q, m, k, model_type, specification, output_prefix, INDNAME):
+def process_model(model_function, y, x, z, p, q, m, k, model_type, specification, output_prefix, INDNAME, if_bootstrap=True):
         # if model_type in ['stationary_mixture', 'ar1_mixture']:
         #     model_output = model_function(y, x, z, p, q, m, k)
         #     if model_type == 'stationary_mixture':
@@ -6311,122 +6313,125 @@ def process_model(model_function, y, x, z, p, q, m, k, model_type, specification
             params_dict, _ = get_params_ar1_lat_mixture(model_output)
         elif model_type == 'ar1_lat_normal':
             params_dict, _ = get_params_ar1_lat_normal(model_output)
-        if 'tau' in params_dict:
-            # Compute sigma_bar as the square root of: Var(X) = sigma^2 + sum_i tau_i * (mu_i - mubar)^2
-            tau = params_dict['tau'].reshape((m, k))
-            mu = params_dict['mu'].reshape((m, k))
-            sigma = params_dict['sigma']
-            mubar = (tau * mu).sum(axis=1)
-            # For each component, compute the weighted variance
-            sigma_bar = np.sqrt(
-                (sigma ** 2) + (tau * (mu - mubar[:, None]) ** 2).sum(axis=1)
-            )
-            params_dict['mubar'] = mubar
-            params_dict['sigma'] = sigma_bar
-            
-        # Bootstrap to compute standard error of mubar and alpha
-        bootstrap_samples = 199  # Number of bootstrap samples
-        mubar_bootstrap = []
-        sigma_bar_bootstrap = []
-        alpha_bootstrap = []
-        mu_bootstrap = []
-        beta_bootstrap = []
-        gamma_bootstrap = []
-        sigma_bootstrap = []
-        rho_bootstrap = []
-        tau_bootstrap = []
         
-        T, N = y.shape
-        for _ in range(bootstrap_samples):
-            # Resample data with replacement
-            indices = np.random.choice(N, size=N, replace=True)
-            y_bootstrap = y[:, indices]
-            x_bootstrap = np.zeros(x.shape)
-            for qq in range(x.shape[1]):
-                x_bootstrap[:, qq] = (x[:, qq].reshape((N, T)).T[:, indices]).T.flatten()
-            z_bootstrap = np.zeros(z.shape)
-            for pp in range(z.shape[1]):
-                z_bootstrap[:, pp] = (z[:, pp].reshape((N, T)).T[:, indices]).T.flatten()
-
-            # Refit the model on the bootstrap sample
-            model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
-            if model_type == 'stationary_mixture':
-                params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
-            elif model_type == 'ar1_mixture':
-                params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
-            elif model_type == 'stationary_normal':
-                params_dict_bootstrap, _ = get_params_stationary_normal(model_output_bootstrap)
-            elif model_type == 'ar1_normal':
-                params_dict_bootstrap, _ = get_params_ar1_normal(model_output_bootstrap)
-            elif model_type == 'ar1_lat_mixture':
-                params_dict_bootstrap, _ = get_params_ar1_lat_mixture(model_output_bootstrap)
-            elif model_type == 'ar1_lat_normal':   
-                params_dict_bootstrap, _ = get_params_ar1_lat_normal(model_output_bootstrap)
-            
-            # Compute mubar for the bootstrap sample
-            alpha_bootstrap_sample = params_dict_bootstrap['alpha']
-            alpha_bootstrap.append(alpha_bootstrap_sample)
-
-            mu_bootstrap_sample = params_dict_bootstrap['mu']
-            mu_bootstrap.append(mu_bootstrap_sample)
-
-            beta_bootstrap_sample = params_dict_bootstrap.get('beta', None)
-            if beta_bootstrap_sample is not None:
-                beta_bootstrap.append(beta_bootstrap_sample)
-
-            gamma_bootstrap_sample = params_dict_bootstrap.get('gamma', None)
-            if gamma_bootstrap_sample is not None:
-                gamma_bootstrap.append(gamma_bootstrap_sample)
-
-            sigma_bootstrap_sample = params_dict_bootstrap['sigma']
-            sigma_bootstrap.append(sigma_bootstrap_sample)
-
-            rho_bootstrap_sample = params_dict_bootstrap.get('rho', None)
-            if rho_bootstrap_sample is not None:
-                rho_bootstrap.append(rho_bootstrap_sample)
-
-            tau_bootstrap_sample = params_dict_bootstrap.get('tau', None)
-            if tau_bootstrap_sample is not None:
-                tau_bootstrap.append(tau_bootstrap_sample)
-                tau = params_dict_bootstrap['tau'].reshape((m, k))
-                mu = params_dict_bootstrap['mu'].reshape((m, k))
-                sigma = params_dict_bootstrap['sigma']
-                mubar_bootstrap_sample = (tau * mu).sum(axis=1)
-                sigma_bar_bootstrap_sample = np.sqrt(
-                    (sigma ** 2) + (tau * (mu - mubar_bootstrap_sample[:, None]) ** 2).sum(axis=1)
+        if if_bootstrap:
+            if 'tau' in params_dict:
+                # Compute sigma_bar as the square root of: Var(X) = sigma^2 + sum_i tau_i * (mu_i - mubar)^2
+                tau = params_dict['tau'].reshape((m, k))
+                mu = params_dict['mu'].reshape((m, k))
+                sigma = params_dict['sigma']
+                mubar = (tau * mu).sum(axis=1)
+                # For each component, compute the weighted variance
+                sigma_bar = np.sqrt(
+                    (sigma ** 2) + (tau * (mu - mubar[:, None]) ** 2).sum(axis=1)
                 )
-                mubar_bootstrap.append(mubar_bootstrap_sample)
-                sigma_bar_bootstrap.append(sigma_bar_bootstrap_sample)
-        # Compute standard error of mubar
+                params_dict['mubar'] = mubar
+                params_dict['sigma'] = sigma_bar
+                
+            # Bootstrap to compute standard error of mubar and alpha
+            bootstrap_samples = 199  # Number of bootstrap samples
+            mubar_bootstrap = []
+            sigma_bar_bootstrap = []
+            alpha_bootstrap = []
+            mu_bootstrap = []
+            beta_bootstrap = []
+            gamma_bootstrap = []
+            sigma_bootstrap = []
+            rho_bootstrap = []
+            tau_bootstrap = []
+            
+            T, N = y.shape
+            for _ in range(bootstrap_samples):
+                # Resample data with replacement
+                indices = np.random.choice(N, size=N, replace=True)
+                y_bootstrap = y[:, indices]
+                x_bootstrap = np.zeros(x.shape)
+                for qq in range(x.shape[1]):
+                    x_bootstrap[:, qq] = (x[:, qq].reshape((N, T)).T[:, indices]).T.flatten()
+                z_bootstrap = np.zeros(z.shape)
+                for pp in range(z.shape[1]):
+                    z_bootstrap[:, pp] = (z[:, pp].reshape((N, T)).T[:, indices]).T.flatten()
 
-        mubar_se = np.array(mubar_bootstrap).std(axis=0)
-        sigma_bar_se = np.array(sigma_bar_bootstrap).std(axis=0) if 'sigma_bar_bootstrap' in locals() else None
-        # Compute standard error of alpha
-        alpha_se = np.array(alpha_bootstrap).std(axis=0)
-        if 'mubar' in locals():
-            params_dict['mubar'] = mubar
-        
-        mu_se = np.array(mu_bootstrap).std(axis=0)
-        beta_se = np.array(beta_bootstrap).std(axis=0) if beta_bootstrap else None
-        gamma_se = np.array(gamma_bootstrap).std(axis=0) if gamma_bootstrap else None
-        sigma_se = np.array(sigma_bootstrap).std(axis=0)
-        rho_se = np.array(rho_bootstrap).std(axis=0) if rho_bootstrap else None
-        tau_se = np.array(tau_bootstrap).std(axis=0) if tau_bootstrap else None
-        # Store standard errors in the dictionary
-        standard_errors_dict = {}
-        standard_errors_dict['mu'] = mu_se
-        standard_errors_dict['sigmabar'] = sigma_bar_se
-        standard_errors_dict['beta'] = beta_se
-        standard_errors_dict['gamma'] = gamma_se
-        if 'tau' in params_dict:
-            standard_errors_dict['sigma'] = sigma_bar_se 
+                # Refit the model on the bootstrap sample
+                model_output_bootstrap = model_function(y_bootstrap, x_bootstrap, z_bootstrap, p, q, m, k)
+                if model_type == 'stationary_mixture':
+                    params_dict_bootstrap, _ = get_params_stationary_mixture(model_output_bootstrap)
+                elif model_type == 'ar1_mixture':
+                    params_dict_bootstrap, _ = get_params_ar1_mixture(model_output_bootstrap)
+                elif model_type == 'stationary_normal':
+                    params_dict_bootstrap, _ = get_params_stationary_normal(model_output_bootstrap)
+                elif model_type == 'ar1_normal':
+                    params_dict_bootstrap, _ = get_params_ar1_normal(model_output_bootstrap)
+                elif model_type == 'ar1_lat_mixture':
+                    params_dict_bootstrap, _ = get_params_ar1_lat_mixture(model_output_bootstrap)
+                elif model_type == 'ar1_lat_normal':   
+                    params_dict_bootstrap, _ = get_params_ar1_lat_normal(model_output_bootstrap)
+                
+                # Compute mubar for the bootstrap sample
+                alpha_bootstrap_sample = params_dict_bootstrap['alpha']
+                alpha_bootstrap.append(alpha_bootstrap_sample)
+
+                mu_bootstrap_sample = params_dict_bootstrap['mu']
+                mu_bootstrap.append(mu_bootstrap_sample)
+
+                beta_bootstrap_sample = params_dict_bootstrap.get('beta', None)
+                if beta_bootstrap_sample is not None:
+                    beta_bootstrap.append(beta_bootstrap_sample)
+
+                gamma_bootstrap_sample = params_dict_bootstrap.get('gamma', None)
+                if gamma_bootstrap_sample is not None:
+                    gamma_bootstrap.append(gamma_bootstrap_sample)
+
+                sigma_bootstrap_sample = params_dict_bootstrap['sigma']
+                sigma_bootstrap.append(sigma_bootstrap_sample)
+
+                rho_bootstrap_sample = params_dict_bootstrap.get('rho', None)
+                if rho_bootstrap_sample is not None:
+                    rho_bootstrap.append(rho_bootstrap_sample)
+
+                tau_bootstrap_sample = params_dict_bootstrap.get('tau', None)
+                if tau_bootstrap_sample is not None:
+                    tau_bootstrap.append(tau_bootstrap_sample)
+                    tau = params_dict_bootstrap['tau'].reshape((m, k))
+                    mu = params_dict_bootstrap['mu'].reshape((m, k))
+                    sigma = params_dict_bootstrap['sigma']
+                    mubar_bootstrap_sample = (tau * mu).sum(axis=1)
+                    sigma_bar_bootstrap_sample = np.sqrt(
+                        (sigma ** 2) + (tau * (mu - mubar_bootstrap_sample[:, None]) ** 2).sum(axis=1)
+                    )
+                    mubar_bootstrap.append(mubar_bootstrap_sample)
+                    sigma_bar_bootstrap.append(sigma_bar_bootstrap_sample)
+            # Compute standard error of mubar
+
+            mubar_se = np.array(mubar_bootstrap).std(axis=0)
+            sigma_bar_se = np.array(sigma_bar_bootstrap).std(axis=0) if 'sigma_bar_bootstrap' in locals() else None
+            # Compute standard error of alpha
+            alpha_se = np.array(alpha_bootstrap).std(axis=0)
+            if 'mubar' in locals():
+                params_dict['mubar'] = mubar
+            
+            mu_se = np.array(mu_bootstrap).std(axis=0)
+            beta_se = np.array(beta_bootstrap).std(axis=0) if beta_bootstrap else None
+            gamma_se = np.array(gamma_bootstrap).std(axis=0) if gamma_bootstrap else None
+            sigma_se = np.array(sigma_bootstrap).std(axis=0)
+            rho_se = np.array(rho_bootstrap).std(axis=0) if rho_bootstrap else None
+            tau_se = np.array(tau_bootstrap).std(axis=0) if tau_bootstrap else None
+            # Store standard errors in the dictionary
+            standard_errors_dict = {}
+            standard_errors_dict['mu'] = mu_se
+            standard_errors_dict['sigmabar'] = sigma_bar_se
+            standard_errors_dict['beta'] = beta_se
+            standard_errors_dict['gamma'] = gamma_se
+            if 'tau' in params_dict:
+                standard_errors_dict['sigma'] = sigma_bar_se 
+            else:
+                standard_errors_dict['sigma'] = sigma_se
+            standard_errors_dict['rho'] = rho_se
+            standard_errors_dict['tau'] = tau_se
+            standard_errors_dict['mubar'] = mubar_se
+            standard_errors_dict['alpha'] = alpha_se
         else:
-            standard_errors_dict['sigma'] = sigma_se
-        standard_errors_dict['rho'] = rho_se
-        standard_errors_dict['tau'] = tau_se
-        standard_errors_dict['mubar'] = mubar_se
-        standard_errors_dict['alpha'] = alpha_se
-
+            params_dict, params_array, standard_errors, standard_errors_dict, variable_names = compute_standard_errors(model_output, data=[y, x, z], model_type=model_type)
         # Store variable names 
         return {
             'Industry': INDNAME,
@@ -6435,6 +6440,82 @@ def process_model(model_function, y, x, z, p, q, m, k, model_type, specification
             'params': params_dict,
             'standard errors': standard_errors_dict
         }
+
+# Restore estimated_parameters from the CSV table
+def str_to_array(s):
+    if pd.isnull(s):
+        return None
+    s = str(s).strip()
+    if s.startswith('[') and s.endswith(']'):
+        return np.fromstring(s[1:-1], sep=' ')
+    return np.array(eval(s))
+
+def str_to_2d_array(s):
+    """
+    Convert a string like '[[a b]\n [c d]]' to a numpy 2D array.
+    """
+    if pd.isnull(s):
+        return None
+    s = str(s).strip()
+    if s.startswith('[[') and s.endswith(']]'):
+        # Remove newlines and extra spaces
+        s_clean = s.replace('\n', ' ')
+        # Remove double brackets for np.fromstring
+        s_clean = s_clean.replace('[', '').replace(']', '')
+        arr = np.fromstring(s_clean, sep=' ')
+        # Infer shape: count rows by number of '[' in original string
+        n_rows = s.count('[') - 1
+        n_cols = int(len(arr) / n_rows) if n_rows > 0 else len(arr)
+        return arr.reshape((n_rows, n_cols))
+    return np.array(eval(s))
+
+
+def restore_estimated_parameters_from_table(csv_path):
+    # csv_path = f"estimated_parameters_table_bootstrap_m{figure_m}_0526.csv"
+    df = pd.read_csv(csv_path)
+    estimate_parameters_restored = []
+    for _, row in df.iterrows():
+        # Convert string like '[0.143 0.857]' to numpy array
+
+        # Prepare beta and rho for params and standard errors
+        if 'lat' in row['Model Type']:
+            tmp_beta = str_to_array(row['Beta']).reshape((3, figure_m)).T
+            beta_val = tmp_beta[:, :2]
+            rho_val = tmp_beta[:, 2]
+            tmp_beta_se = str_to_array(row['Beta SE']).reshape((3, figure_m)).T
+            beta_se_val = tmp_beta_se[:, :2]
+            rho_se_val = tmp_beta_se[:, 2]
+        else:
+            beta_val = str_to_2d_array(row['Beta'])
+            rho_val = str_to_array(row['Rho'])
+            beta_se_val = str_to_2d_array(row['Beta SE'])
+            rho_se_val = str_to_array(row['Rho SE'])
+
+        entry = {
+            'Industry': row['Industry'],
+            'Specification': row['Specification'],
+            'model type': row['Model Type'],
+            'params': {
+            'alpha': str_to_array(row['Alpha']),
+            'mu': str_to_array(row['Mu']),
+            'rho': rho_val,
+            'beta': beta_val,
+            'sigma': str_to_array(row['Sigma']),
+            'mubar': str_to_array(row['Mubar']),
+            },
+            'standard errors': {
+            'alpha': str_to_array(row['Alpha SE']),
+            'mu': str_to_array(row['Mu SE']),
+            'rho': rho_se_val,
+            'beta': beta_se_val,
+            'sigma': str_to_array(row['Sigma SE']),
+            'mubar': str_to_array(row['Mubar SE']),
+            },
+            'variable names': {}  # Not available in CSV, can be filled if needed
+        }
+        estimate_parameters_restored.append(entry)
+    return estimate_parameters_restored
+
 
 # %%
 # ----------------------------------------------------------

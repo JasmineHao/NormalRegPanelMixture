@@ -19,8 +19,9 @@ T = 3
 k = 2
 ind_code = [311, 381, 321]
 M_list = [5,4,5]
-figure_m = 3
-# M_list = [2,2,2]
+figure_m = 2
+if_bootstrap = True
+
 
 ind_code_dict = load_ind_code_dict()
 colors = load_colors()
@@ -32,7 +33,7 @@ estimate_parameters = []
 
 for (each_code, m) in zip(ind_code, M_list):
 
-    processed_data = process_chilean_data(each_code=each_code, T=3)
+    processed_data = process_chilean_data(each_code=each_code, T=3, y_indicator='mY_share')
     INDNAME = ind_code_dict[each_code]
     # Access the results
     y = processed_data['y']
@@ -111,32 +112,32 @@ for (each_code, m) in zip(ind_code, M_list):
     # ---------------------------------
     # Process stationary mixture model
     # process_model(
-    #     regpanelmixmixturePMLE, y, x_0, z_0, 0, 0, figure_m, k, 'stationary_mixture', 'Stationary Mixture', 'empirical_stat_mixture', INDNAME
+    #     regpanelmixmixturePMLE, y, x_0, z_0, 0, 0, figure_m, k, 'stationary_mixture', 'Stationary Mixture', 'empirical_stat_mixture', INDNAME, if_bootstrap=if_bootstrap
     # )
     # Stat Mixture with kmshare and ciiu
-    estimate_parameters.append(
-        process_model(
-            regpanelmixmixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
-            figure_m, k, 'stationary_mixture', 'Stationary Mixture kmshare ciiu',
-            'empirical_stat_mixture_kmshare_ciiu', INDNAME
-        )
-    )
+    # estimate_parameters.append(
+    #     process_model(
+    #         regpanelmixmixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
+    #         figure_m, k, 'stationary_mixture', 'Stationary Mixture kmshare ciiu',
+    #         'empirical_stat_mixture_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
+    #     )
+    # )
 
     # Stat Normal with kmshare and ciiu
-    estimate_parameters.append(
-        process_model(
-            regpanelmixPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
-            figure_m, k, 'stationary_normal', 'Stationary Normal kmshare ciiu',
-            'empirical_stat_normal_kmshare_ciiu', INDNAME
-        )
-    )
+    # estimate_parameters.append(
+    #     process_model(
+    #         regpanelmixPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
+    #         figure_m, k, 'stationary_normal', 'Stationary Normal kmshare ciiu',
+    #         'empirical_stat_normal_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
+    #     )
+    # )
 
     # AR1 Normal with kmshare and ciiu
     estimate_parameters.append(
         process_model(
             regpanelmixAR1PMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
             figure_m, k, 'ar1_normal', 'AR1 Normal kmshare ciiu',
-            'empirical_ar1_normal_kmshare_ciiu', INDNAME
+            'empirical_ar1_normal_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
         )
     )
 
@@ -145,25 +146,25 @@ for (each_code, m) in zip(ind_code, M_list):
         process_model(
             regpanelmixAR1mixturePMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
             figure_m, k, 'ar1_mixture', 'AR1 Mixture kmshare ciiu',
-            'empirical_ar1_mixture_kmshare_ciiu', INDNAME
+            'empirical_ar1_mixture_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
         )
     )
 
     # AR1 LAT models (normal and mixture) with kmshare and ciiu
-    processed_data = process_chilean_data(each_code=each_code, T=3, y_indicator='mL_share')
-    INDNAME = ind_code_dict[each_code]
-    y = processed_data['y']
-    x_0 = processed_data['x_0']
-    x_kmshare = processed_data['x_kmshare']
-    z = processed_data['z_ciiu'].astype(np.float64)
-    z_0 = np.zeros((z.shape[0], 0))
+    # processed_data = process_chilean_data(each_code=each_code, T=3, y_indicator='mL_share')
+    # INDNAME = ind_code_dict[each_code]
+    # y = processed_data['y']
+    # x_0 = processed_data['x_0']
+    # x_kmshare = processed_data['x_kmshare']
+    # z = processed_data['z_ciiu'].astype(np.float64)
+    # z_0 = np.zeros((z.shape[0], 0))
 
     # AR1 LAT Mixture
     # estimate_parameters.append(
     #     process_model(
     #         regpanelmixmixtureAR1NoConstraintPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
     #         figure_m, k, 'ar1_lat_mixture', 'AR1 LAT Mixture kmshare ciiu',
-    #         'empirical_ar1_lat_mixture_kmshare_ciiu', INDNAME
+    #         'empirical_ar1_lat_mixture_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
     #     )
     # )
 
@@ -172,7 +173,7 @@ for (each_code, m) in zip(ind_code, M_list):
     #     process_model(
     #         regpanelmixAR1NoConstraintPMLE, y, x_kmshare, z, z.shape[1], x_kmshare.shape[1],
     #         figure_m, k, 'ar1_lat_normal', 'AR1 LAT Normal kmshare ciiu',
-    #         'empirical_ar1_lat_normal_kmshare_ciiu', INDNAME
+    #         'empirical_ar1_lat_normal_kmshare_ciiu', INDNAME, if_bootstrap=if_bootstrap
     #     )
     # )
     
@@ -237,7 +238,10 @@ def process_estimated_parameters(estimate_parameters):
     })
 
     # Save the table to a CSV file
-    output_path = f"estimated_parameters_table_bootstrap_m{figure_m}_0524.csv"
+    if if_bootstrap:
+        output_path = f"estimated_parameters_table_bootstrap_m{figure_m}_0526.csv"
+    else:
+        output_path = f"estimated_parameters_table_m{figure_m}_0526.csv"
     df.to_csv(output_path, index=False)
     print(f"Estimated parameters table saved to {output_path}")
 
@@ -247,96 +251,25 @@ def process_estimated_parameters(estimate_parameters):
 estimated_parameters_table = process_estimated_parameters(estimate_parameters)
 
 # Filter out entries where Specification is 'AR1 Mixture kmshare ciiu' and Industry is 'Food products'
-estimate_parameters = [
-    entry for entry in estimate_parameters 
-    if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
-]
+# estimate_parameters = [
+#     entry for entry in estimate_parameters 
+#     if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
+# ]
 
 # %%
-# Restore estimated_parameters from the CSV table
-def str_to_array(s):
-    if pd.isnull(s):
-        return None
-    s = str(s).strip()
-    if s.startswith('[') and s.endswith(']'):
-        return np.fromstring(s[1:-1], sep=' ')
-    return np.array(eval(s))
-
-def str_to_2d_array(s):
-    """
-    Convert a string like '[[a b]\n [c d]]' to a numpy 2D array.
-    """
-    if pd.isnull(s):
-        return None
-    s = str(s).strip()
-    if s.startswith('[[') and s.endswith(']]'):
-        # Remove newlines and extra spaces
-        s_clean = s.replace('\n', ' ')
-        # Remove double brackets for np.fromstring
-        s_clean = s_clean.replace('[', '').replace(']', '')
-        arr = np.fromstring(s_clean, sep=' ')
-        # Infer shape: count rows by number of '[' in original string
-        n_rows = s.count('[') - 1
-        n_cols = int(len(arr) / n_rows) if n_rows > 0 else len(arr)
-        return arr.reshape((n_rows, n_cols))
-    return np.array(eval(s))
-
-
-def restore_estimated_parameters_from_table(csv_path):
-    # csv_path = f"estimated_parameters_table_bootstrap_m{figure_m}_0524.csv"
-    df = pd.read_csv(csv_path)
-    estimate_parameters_restored = []
-    for _, row in df.iterrows():
-        # Convert string like '[0.143 0.857]' to numpy array
-
-        # Prepare beta and rho for params and standard errors
-        if 'lat' in row['Model Type']:
-            tmp_beta = str_to_array(row['Beta']).reshape((3, figure_m)).T
-            beta_val = tmp_beta[:, :2]
-            rho_val = tmp_beta[:, 2]
-            tmp_beta_se = str_to_array(row['Beta SE']).reshape((3, figure_m)).T
-            beta_se_val = tmp_beta_se[:, :2]
-            rho_se_val = tmp_beta_se[:, 2]
-        else:
-            beta_val = str_to_2d_array(row['Beta'])
-            rho_val = str_to_array(row['Rho'])
-            beta_se_val = str_to_2d_array(row['Beta SE'])
-            rho_se_val = str_to_array(row['Rho SE'])
-
-        entry = {
-            'Industry': row['Industry'],
-            'Specification': row['Specification'],
-            'model type': row['Model Type'],
-            'params': {
-            'alpha': str_to_array(row['Alpha']),
-            'mu': str_to_array(row['Mu']),
-            'rho': rho_val,
-            'beta': beta_val,
-            'sigma': str_to_array(row['Sigma']),
-            'mubar': str_to_array(row['Mubar']),
-            },
-            'standard errors': {
-            'alpha': str_to_array(row['Alpha SE']),
-            'mu': str_to_array(row['Mu SE']),
-            'rho': rho_se_val,
-            'beta': beta_se_val,
-            'sigma': str_to_array(row['Sigma SE']),
-            'mubar': str_to_array(row['Mubar SE']),
-            },
-            'variable names': {}  # Not available in CSV, can be filled if needed
-        }
-        estimate_parameters_restored.append(entry)
-    return estimate_parameters_restored
-
 
 
 # %%
-estimate_parameters_restored = restore_estimated_parameters_from_table(f"estimated_parameters_table_bootstrap_m{figure_m}_0524.csv")
+if if_bootstrap:
+    output_path = f"estimated_parameters_table_bootstrap_m{figure_m}_0526.csv"
+else:
+    output_path = f"estimated_parameters_table_m{figure_m}_0526.csv"
+estimate_parameters_restored = restore_estimated_parameters_from_table(output_path)
 
-estimate_parameters_restored = [
-    entry for entry in estimate_parameters_restored 
-    if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
-]
+# estimate_parameters_restored = [
+#     entry for entry in estimate_parameters_restored 
+#     if not (entry['Specification'] == 'AR1 Mixture kmshare ciiu' and entry['Industry'] == 'Food products')
+# ]
 
 # Iterate over different model types
 for model_type in set([entry['model type'] for entry in estimate_parameters_restored]):
@@ -417,6 +350,6 @@ for model_type in set([entry['model type'] for entry in estimate_parameters_rest
             print(output_path_beta_im)
 
 # %%
-len(estimate_parameters)
+len(estimate_parameters_restored)
 # %%
 
